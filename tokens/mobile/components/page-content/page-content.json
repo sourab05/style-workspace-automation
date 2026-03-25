@@ -1,0 +1,31 @@
+{
+    "page": {
+        "meta": {
+             "mapping": {
+                "selector": {
+                    "mobile": ".app-page-content"
+                }
+        }
+    },  
+        "mapping": {
+            "content": {
+                "background": {
+                    "value": "{color.surface.variant.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of page content (the main content area of a page that displays below the navigation bar). This is the main background color that appears behind the page content.<br>CSS variable: --wm-page-content-background"
+                    }
+                },
+                "padding": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the internal spacing inside page content (the main content area of a page that displays below the navigation bar). This creates breathing room around the page content. When set to 0, there is no padding.<br>CSS variable: --wm-page-content-padding"
+                    }
+                }
+            }
+        }
+    }
+}   

@@ -1,0 +1,15 @@
+{
+  "radius": {
+    "base": { "value": "2px", "attributes": { "subtype": "radius" } },
+    "none": { "value": "0px", "attributes": { "subtype": "radius" } },
+    "xxs": { "value": "2px", "attributes": { "subtype": "radius" } },
+    "xs": { "value": "4px", "attributes": { "subtype": "radius" } },
+    "sm": { "value": "8px", "attributes": { "subtype": "radius" } },
+    "md": { "value": "12px", "attributes": { "subtype": "radius" } },
+    "lg": { "value": "16px", "attributes": { "subtype": "radius" } },
+    "xl": { "value": "28px", "attributes": { "subtype": "radius" } },
+    "xxl": { "value": "32px", "attributes": { "subtype": "radius" } },
+    "pill": { "value": "1000px", "attributes": { "subtype": "radius" } },
+    "circle": { "value": "1000px", "attributes": { "subtype": "radius" } }
+  }
+}

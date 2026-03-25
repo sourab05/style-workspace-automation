@@ -1,0 +1,578 @@
+{
+  "data-table": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-grid"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": " .table tbody tr:hover"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " .table tbody tr.active"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": " "
+            }
+          }
+        },
+        "condensed": {
+          "mapping": {
+            "selector": {
+              "web": ".table-condensed"
+            }
+          }
+        },
+        "striped-even": {
+          "mapping": {
+            "selector": {
+              "web": ".striped-even"
+            }
+          }
+        },
+        "striped-odd": {
+          "mapping": {
+            "selector": {
+              "web": ".striped-odd"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "border": {
+        "collapse": {
+          "value": "unset",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls how borders between data table cells are displayed. 'collapse' makes adjacent cell borders merge into a single line, 'separate' keeps borders separate with gaps, 'unset' uses the default browser behavior.<br>CSS variable: --wm-data-table-border-collapse"
+          }
+        },
+        "spacing": {
+          "value": "unset",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the space between data table cells when borders are separate. This creates gaps between table cells for better visual separation.<br>CSS variable: --wm-data-table-border-spacing"
+          }
+        }
+      },
+      "overlay": {
+        "background": {
+          "value": "{color.surface.container.lowest.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the loading overlay that appears over data tables while data is being loaded or processed. This creates a semi-transparent layer that covers the table content during loading states.<br>CSS variable: --wm-data-table-overlay-background"
+          }
+        },
+        "color": {
+          "value": "inherit",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of loading messages and indicators that appear in the data table overlay. 'inherit' uses the same color as the parent element, or you can specify a specific color value.<br>CSS variable: --wm-data-table-overlay-color"
+          }
+        },
+        "opacity": {
+          "value": "90%",
+          "type": "radius",
+          "attributes": {
+            "subtype": "opacity",
+            "description": "Controls the transparency of the loading overlay that appears over data tables. Values range from 0% (completely transparent) to 100% (completely opaque). 90% creates a semi-transparent overlay that dims the table content while still showing the loading indicator.<br>CSS variable: --wm-data-table-overlay-opacity"
+          }
+        }
+      },
+      "padding": {
+        "value": "{space.3.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside data table containers (the space between the table content and its borders). This creates breathing room around the entire table area.<br>CSS variable: --wm-data-table-padding"
+        }
+      },
+      "header": {
+        "row": {
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of data table header rows (the top row that contains column titles like 'Name', 'Date', 'Status'). This determines what color the column header text appears in.<br>CSS variable: --wm-data-table-header-row-color"
+            }
+          },
+          "background": {
+            "value": "{color.surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of data table header rows (the top row that contains column titles). This creates a distinct background color for the header to separate it from the data rows below.<br>CSS variable: --wm-data-table-header-row-background"
+            }
+          },
+          "font-size": {
+            "value": "{label.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls how large the text appears in data table header rows (the top row that contains column titles like 'Name', 'Date', 'Status'). This affects the size of the text that users see in the column headers.<br>CSS variable: --wm-data-table-header-row-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "{label.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the text appears in data table header rows (the top row that contains column titles). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-data-table-header-row-font-weight"
+            }
+          },
+          "font-family": {
+            "value": "{label.medium.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for data table header rows (the top row that contains column titles like 'Name', 'Date', 'Status'). This determines whether the header text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-data-table-header-row-font-family"
+            }
+          },
+          "line-height": {
+            "value": "{label.medium.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when data table header row text wraps to multiple lines. This ensures proper spacing for the header text displayed in the table.<br>CSS variable: --wm-data-table-header-row-line-height"
+            }
+          },
+          "letterspacing": {
+            "value": "{label.medium.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls the horizontal spacing between individual characters in data table header rows (the top row that contains column titles). This can help make the header text more readable and properly spaced.<br>CSS variable: --wm-data-table-header-row-letter-spacing"
+            }
+          }
+        },
+        "cell": {
+          "padding": {
+            "value": "{space.3.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside data table header cells (the space between the column title text and the cell borders). This creates breathing room around the header text.<br>CSS variable: --wm-data-table-header-cell-padding"
+            }
+          },
+          "border": {
+            "width": {
+              "value": "{border.width.0.value} {border.width.0.value} {border.width.base.value} {border.width.0.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of borders around data table header cells. The format is 'top right bottom left' - this setting creates a bottom border only to separate headers from data rows.<br>CSS variable: --wm-data-table-header-cell-border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Sets the visual style of borders around data table header cells. 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-data-table-header-cell-border-style"
+              }
+            },
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of borders around data table header cells. This determines what color the lines separating the header from the data rows appear in.<br>CSS variable: --wm-data-table-header-cell-border-color"
+              }
+            }
+          },
+          "text-overflow": {
+            "value": "ellipsis",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how long text in data table header cells is displayed when it doesn't fit. 'ellipsis' shows '...' at the end of long text, 'clip' cuts off the text abruptly, 'string' shows a custom string.<br>CSS variable: --wm-data-table-header-cell-text-overflow"
+            }
+          },
+          "overflow": {
+            "value": "hidden",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how content that exceeds the header cell boundaries is handled. 'hidden' hides overflowing content, 'visible' shows it outside the cell, 'scroll' adds scrollbars, 'auto' adds scrollbars only when needed.<br>CSS variable: --wm-data-table-header-cell-overflow"
+            }
+          },
+          "position": {
+            "value": "relative",
+            "type": "radius",
+            "attributes": {
+              "subtype": "space",
+              "description": "Sets the positioning method for data table header cells. 'relative' positions cells relative to their normal position, 'absolute' positions them relative to the table, 'sticky' makes them stick when scrolling.<br>CSS variable: --wm-data-table-header-cell-position"
+            }
+          },
+          "display": {
+            "value": "ruby",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how data table header cells are displayed. 'ruby' is a special display type for table cells, 'table-cell' is the standard table cell display, 'block' makes them behave like block elements.<br>CSS variable: --wm-data-table-header-cell-display"
+            }
+          },
+          "white-space": {
+            "value": "normal",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how whitespace and line breaks are handled in data table header cells. 'normal' wraps text normally, 'nowrap' prevents text wrapping, 'pre' preserves all whitespace and line breaks.<br>CSS variable: --wm-data-table-header-cell-white-space"
+            }
+          },
+          "word-break": {
+            "value": "auto-phrase",
+            "type": "radius",
+            "attributes": {
+              "description": "Controls how long words are broken and wrapped in data table header cells. 'auto-phrase' automatically breaks words at appropriate points to prevent overflow, 'break-all' breaks words at any character, 'break-word' breaks words only when necessary.<br>CSS variable: --wm-data-table-header-cell-word-break"
+            }
+          }
+        }
+      },
+      "body": {
+        "row": {
+          "background-odd": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of odd-numbered data table rows (1st, 3rd, 5th rows, etc.). This creates alternating row colors to improve readability by making it easier to follow data across columns.<br>CSS variable: --wm-data-table-body-row-background-odd"
+            }
+          },
+          "background-even": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of even-numbered data table rows (2nd, 4th, 6th rows, etc.). This creates alternating row colors to improve readability by making it easier to follow data across columns.<br>CSS variable: --wm-data-table-body-row-background-even"
+            }
+          },
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of data table body rows (the rows that contain the actual data, not the header). This determines what color the data text appears in.<br>CSS variable: --wm-data-table-body-row-color"
+            }
+          },
+          "font-size": {
+            "value": "{label.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls how large the text appears in data table body rows (the rows that contain the actual data, not the header). This affects the size of the text that users see in the data cells.<br>CSS variable: --wm-data-table-body-row-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "{label.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the text appears in data table body rows (the rows that contain the actual data, not the header). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-data-table-body-row-font-weight"
+            }
+          },
+          "font-family": {
+            "value": "{label.medium.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for data table body rows (the rows that contain the actual data, not the header). This determines whether the data text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-data-table-body-row-font-family"
+            }
+          },
+          "line-height": {
+            "value": "{label.medium.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when data table body row text wraps to multiple lines. This ensures proper spacing for the data text displayed in the table cells.<br>CSS variable: --wm-data-table-body-row-line-height"
+            }
+          },
+          "letter-spacing": {
+            "value": "{label.medium.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls the horizontal spacing between individual characters in data table body rows (the rows that contain the actual data, not the header). This can help make the data text more readable and properly spaced.<br>CSS variable: --wm-data-table-body-row-letter-spacing"
+            }
+          }
+        },
+        "cell": {
+          "padding": {
+            "value": "{space.3.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside data table body cells (the space between the data content and the cell borders). This creates breathing room around the data text.<br>CSS variable: --wm-data-table-body-cell-padding"
+            }
+          },
+          "border": {
+            "width": {
+              "value": "{border.width.0.value} {border.width.0.value} {border.width.base.value} {border.width.0.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of borders around data table body cells. The format is 'top right bottom left' - this setting creates a bottom border only to separate rows.<br>CSS variable: --wm-data-table-body-cell-border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Sets the visual style of borders around data table body cells. 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-data-table-body-cell-border-style"
+              }
+            },
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of borders around data table body cells. This determines what color the lines separating the data rows appear in.<br>CSS variable: --wm-data-table-body-cell-border-color"
+              }
+            },
+            "radius": {
+              "value": "{radius.md.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of data table body cells. This makes the cell corners slightly rounded for a softer appearance.<br>CSS variable: --wm-data-table-body-cell-border-radius"
+              }
+            }
+          },
+          "text-overflow": {
+            "value": "ellipsis",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how long text in data table body cells is displayed when it doesn't fit. 'ellipsis' shows '...' at the end of long text, 'clip' cuts off the text abruptly, 'string' shows a custom string.<br>CSS variable: --wm-data-table-body-cell-text-overflow"
+            }
+          },
+          "overflow": {
+            "value": "hidden",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how content that exceeds the data table body cell boundaries is handled. 'hidden' hides overflowing content, 'visible' shows it outside the cell, 'scroll' adds scrollbars, 'auto' adds scrollbars only when needed.<br>CSS variable: --wm-data-table-body-cell-overflow"
+            }
+          },
+          "vertical-align": {
+            "value": "middle",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how content is vertically positioned within data table body cells. 'middle' centers content vertically, 'top' aligns to the top, 'bottom' aligns to the bottom, 'baseline' aligns to the text baseline.<br>CSS variable: --wm-data-table-body-cell-vertical-align"
+            }
+          }
+        },
+        "action": {
+          "display": {
+            "value": "inline-flex",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls how action buttons in data table rows are displayed. 'inline-flex' arranges buttons in a horizontal line with flexible spacing, 'block' stacks them vertically, 'none' hides them completely.<br>CSS variable: --wm-data-table-body-action-display"
+            }
+          },
+          "padding": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside action buttons in data table rows (the space between the button content and its borders). This creates breathing room around the button icons and text.<br>CSS variable: --wm-data-table-body-action-padding"
+            }
+          },
+          "margin": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the external spacing around action buttons in data table rows (the space between the button and other elements). This creates separation between buttons and other table content.<br>CSS variable: --wm-data-table-body-action-margin"
+            }
+          },
+          "icon-size": {
+            "value": "{h5.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how large the icons appear in action buttons within data table rows. This affects the size of edit, delete, and other action icons that users can click.<br>CSS variable: --wm-data-table-body-action-icon-size"
+            }
+          }
+        }
+      },
+      "sort": {
+        "icon": {
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how large the sort icons appear in data table headers (the up/down arrow symbols that indicate sortable columns). This affects the size of the arrows users see when columns can be sorted.<br>CSS variable: --wm-data-table-sort-icon-size"
+            }
+          },
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of sort icons in data table headers (the up/down arrow symbols that indicate sortable columns). This determines what color the sort arrows appear in.<br>CSS variable: --wm-data-table-sort-icon-color"
+            }
+          }
+        }
+      },
+      "layout": {
+        "value": "fixed",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how data table columns are sized and arranged. 'fixed' makes columns maintain consistent widths, 'auto' lets columns size themselves based on content. Fixed layout provides more predictable table appearance.<br>CSS variable: --wm-data-table-layout"
+        }
+      },
+      "states": {
+        "hover": {
+          "body": {
+            "row": {
+              "background-even": {
+                "value": "{color.surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "background-odd": {
+                "value": "{color.surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "body": {
+            "row": {
+              "background-even": {
+                "value": "{color.surface.container.lowest.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "background-odd": {
+                "value": "{color.surface.container.lowest.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "header": {
+            "cell": {
+              "padding": {
+                "value": "{space.3.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            }
+          },
+          "body": {
+            "cell": {
+              "padding": {
+                "value": "{space.3.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            }
+          }
+        }
+      },
+      "condensed": {
+        "mapping": {
+          "header": {
+            "cell": {
+              "padding": {
+                "value": "{space.1.value} {space.2.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            }
+          },
+          "body": {
+            "cell": {
+              "padding": {
+                "value": "{space.1.value} {space.2.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            }
+          }
+        }
+      },
+      "striped-even": {
+        "mapping": {
+          "body": {
+            "row": {
+              "background": {
+                "even": {
+                  "value": "{color.surface.container.lowest.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "striped-odd": {
+        "mapping": {
+          "body": {
+            "row": {
+              "background": {
+                "odd": {
+                  "value": "{color.surface.container.lowest.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

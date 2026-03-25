@@ -1,0 +1,77 @@
+{
+  "radius": {
+    "base": { "value": "2px", "attributes": { "subtype": "radius" } },
+    "none": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "0",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "xxs": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "1",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "xs": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "2",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "sm": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "4",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "md": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "6",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "lg": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "8",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "xl": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "14",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "xxl": {
+      "value": "{radius.base.value}",
+      "attributes": {
+        "multiple": "16",
+        "derivedFrom": "radius.base",
+        "subtype": "radius"
+      }
+    },
+    "pill": {
+      "value": "1000px",
+      "attributes": { "subtype": "radius" }
+    },
+    "circle": {
+      "value": "50%",
+      "attributes": { "subtype": "radius" }
+    }
+  }
+}

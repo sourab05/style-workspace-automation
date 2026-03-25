@@ -1,0 +1,180 @@
+{
+  "card": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-card"
+        }
+      },
+      "appearances": {}
+    },
+    "mapping": {
+      "header": {
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets the internal spacing inside the card header. This creates breathing room around the header content.<br>CSS variable: --wm-card-header-padding"
+          }
+        },
+        "width": {
+          "value": "100%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of the card header. This determines how wide the header appears.<br>CSS variable: --wm-card-header-width"
+          }
+        },
+        "background-color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the card header. This is the background color that appears behind the header content.<br>CSS variable: --wm-card-header-background-color"
+          }
+        }
+      },
+      "border": {
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border thickness of the card component. This determines how thick the border around the card appears.<br>CSS variable: --wm-card-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the border style of the card component. Acceptable values: solid, dashed, dotted, double, groove, ridge, inset, outset, none.<br>CSS variable: --wm-card-border-style"
+          }
+        },
+        "color": {
+          "value": "{color.outline.variant.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of the card component. This determines what color the border around the card appears in.<br>CSS variable: --wm-card-border-color"
+          }
+        },
+        "radius": {
+          "value": "6px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius for rounded corners of the card component. This makes the card appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-card-border-radius"
+          }
+        }
+      },
+      "shadow": {
+          "value": "none",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around the card component. This creates a subtle elevation effect that makes the card appear to float above the background.<br>CSS variable: --wm-card-shadow"
+          }
+      },
+      "background": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of the card component. This is the main background color that appears behind all card content.<br>CSS variable: --wm-card-background"
+        }
+      },
+      "padding": {
+        "value": "0px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Sets the internal spacing inside the card component. This creates breathing room around the card content.<br>CSS variable: --wm-card-padding"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "space"
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius"
+            },
+            "color": {
+              "value": "{color.outline.variant.value}",
+              "type": "color"
+            },
+            "radius": {
+              "value": "{radius.md.value}",
+              "type": "radius"
+            }
+          },
+          "background": {
+            "value": "transparent",
+            "type": "color"
+          },
+          "shadow": {
+            "value": "none",
+            "type": "radius"
+          }
+        }
+      },
+      "filled": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "space"
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius"
+            },
+            "color": {
+              "value": "{color.outline.variant.value}",
+              "type": "color"
+            },
+            "radius": {
+              "value": "{radius.md.value}",
+              "type": "radius"
+            }
+          },
+          "background": {
+            "value": "{color.surface.bright.@.value}",
+            "type": "color"
+          },
+          "shadow": {
+            "value": "none",
+            "type": "radius"
+          }
+        },
+        "variantGroups": {}
+      },
+      "elevated": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0px",
+              "type": "space"
+            }
+          },
+          "shadow": {
+            "value": "{elevation.shadow.1.value}",
+            "type": "radius"
+          },
+          "background": {
+            "value": "{color.surface.container.lowest.@.value}",
+            "type": "color"
+          }
+        },
+        "variantGroups": {}
+      }
+    }
+  }
+}

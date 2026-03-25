@@ -1,0 +1,30 @@
+{
+  "border": {
+    "style": {
+      "base": {
+        "value": "{border.style.solid.value}",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "solid": {
+        "value": "solid",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "dotted": {
+        "value": "dotted",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "dashed": {
+        "value": "dashed",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      }
+    }
+  }
+}

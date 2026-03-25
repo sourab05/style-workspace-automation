@@ -1,0 +1,57 @@
+{
+  "margin": {
+    "base": { "value": "4px", "attributes": { "subtype": "margin" } },
+    "0": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "0", "subtype": "margin" }
+    },
+    "1": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "1", "subtype": "margin" }
+    },
+    "2": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "2", "subtype": "margin" }
+    },
+    "3": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "3", "subtype": "margin" }
+    },
+    "4": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "4", "subtype": "margin" }
+    },
+    "5": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "5", "subtype": "margin" }
+    },
+    "6": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "6", "subtype": "margin" }
+    },
+    "7": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "7", "subtype": "margin" }
+    },
+    "8": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "8", "subtype": "margin" }
+    },
+    "9": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "9", "subtype": "margin" }
+    },
+    "10": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "10", "subtype": "margin" }
+    },
+    "11": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "11", "subtype": "margin" }
+    },
+    "12": {
+      "value": "{margin.base.value}",
+      "attributes": { "multiple": "12", "subtype": "margin" }
+    }
+  }
+}

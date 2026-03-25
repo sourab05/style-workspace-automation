@@ -1,0 +1,360 @@
+{
+  "message": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-message"
+        }
+      },
+      "appearances": {
+        "filled": {
+          "variantGroups": {
+            "status": {
+              "success": {
+                "selector": {
+                  "mobile": ".alert-success"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".alert-info"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".alert-warning"
+                }
+              },
+              "error": {
+                "selector": {
+                  "mobile": ".alert-error"
+                }
+              },
+              "loading": {
+                "selector": {
+                  "mobile": ".alert-loading"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "container": {
+        "border": {
+          "radius": {
+            "value": "6px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of message containers (alert boxes that display notifications, warnings, or information). This makes the message containers appear with rounded corners for a softer appearance.<br>CSS variable: --wm-message-container-border-radius"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around message containers. This determines how thick the outline appears around the message container. Acceptable units: px.<br>CSS variable: --wm-message-container-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around message containers. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-message-container-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around message containers. This determines the color of the outline that defines the message container.<br>CSS variable: --wm-message-container-border-color"
+            }
+          }
+        },
+        "background": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of message containers (alert boxes that display notifications, warnings, or information). This is the main background color that appears behind the message content.<br>CSS variable: --wm-message-container-background"
+          }
+        },
+        "padding": {
+          "top": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top padding (vertical spacing) inside message containers. This creates breathing room above the message content. Acceptable units: px.<br>CSS variable: --wm-message-container-padding-top"
+            }
+          },
+          "bottom": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) inside message containers. This creates breathing room below the message content. Acceptable units: px.<br>CSS variable: --wm-message-container-padding-bottom"
+            }
+          },
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) inside message containers. This creates breathing room on the left side of the message content. Acceptable units: px.<br>CSS variable: --wm-message-container-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding (horizontal spacing) inside message containers. This creates breathing room on the right side of the message content. Acceptable units: px.<br>CSS variable: --wm-message-container-padding-right"
+            }
+          }
+        }
+      },
+      "text-wrapper": {
+        "padding": {
+          "left": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) inside the message text wrapper (the container that holds the message text). This creates breathing room on the left side of the text content. Acceptable units: px.<br>CSS variable: --wm-message-text-wrapper-padding-left"
+            }
+          }
+        }
+      },
+      "color": {
+        "value": "{color.on-primary.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of message content (the main text that appears in message containers). This determines what color the message text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-message-color"
+        }
+      },
+      "title": {
+        "font": {
+          "size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of message title text (the heading text that appears at the top of message containers). This affects how large the title text appears.<br>CSS variable: --wm-message-title-font-size"
+            }
+          },
+          "weight": {
+            "value": "{font.weight.700.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold message title text appears. When set to 700, the title text appears bold to emphasize the message heading.<br>CSS variable: --wm-message-title-font-weight"
+            }
+          }
+        },
+        "padding": {
+          "bottom": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) below message titles. This creates spacing between the title and the message text content. Acceptable units: px.<br>CSS variable: --wm-message-title-padding-bottom"
+            }
+          }
+        }
+      },
+      "text": {
+        "size": {
+          "value": "{body.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of message text (the main content text that appears in message containers). This affects how large the message text appears.<br>CSS variable: --wm-message-text-size"
+          }
+        }
+      },
+      "icon": {
+        "size": {
+          "value": "20px",
+          "type": "font",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of message icons (icons that appear alongside message content to indicate the message type). This affects how large the icons appear. Acceptable units: px.<br>CSS variable: --wm-message-icon-size"
+          }
+        }
+      },
+      "close-btn": {
+        "padding": {
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) inside the message close button. This creates breathing room on the left side of the close button. Acceptable units: px.<br>CSS variable: --wm-message-close-btn-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding (horizontal spacing) inside the message close button. This creates breathing room on the right side of the close button. Acceptable units: px.<br>CSS variable: --wm-message-close-btn-padding-right"
+            }
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "6px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of the message close button. This makes the close button appear with rounded corners for a softer appearance.<br>CSS variable: --wm-message-close-btn-border-radius"
+            }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around the message close button. When transparent, no border is visible. When filled with a color, the close button has a visible outline.<br>CSS variable: --wm-message-close-btn-border-color"
+            }
+          }
+        },
+        "icon": {
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of the close button icon (the X or close symbol that appears in the message close button). This affects how large the close icon appears.<br>CSS variable: --wm-message-close-btn-icon-size"
+            }
+          }
+        },
+        "background": {
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the message close button. When transparent, only the close icon is visible. When filled with a color, the close button appears with a colored background.<br>CSS variable: --wm-message-close-btn-background-color"
+            }
+          }
+        },
+        "ripple":{
+          "color":{
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the ripple effect that appears when the message close button is pressed or tapped. When transparent, no ripple effect is visible. When filled with a color, a ripple animation appears on interaction.<br>CSS variable: --wm-message-close-btn-ripple-color"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "variantGroups": {
+          "status": {
+            "success": {
+              "container": {
+                "background": {
+                  "value": "{color.success.@.value}",
+                  "type": "color"
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.success.@.value}",
+                    "type": "color"
+                  }
+                }
+              },
+              "color": {
+                "value": "{color.on-success.@.value}",
+                "type": "color"
+              }
+            },
+            "info": {
+              "container": {
+                "background": {
+                  "value": "{color.info.@.value}",
+                  "type": "color"
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.info.@.value}",
+                    "type": "color"
+                  }
+                }
+              },
+              "color": {
+                "value": "{color.on-info.@.value}",
+                "type": "color"
+              }
+            },
+            "warning": {
+              "container": {
+                "background": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color"
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.warning.@.value}",
+                    "type": "color"
+                  }
+                }
+              },
+              "color": {
+                "value": "{color.on-warning.@.value}",
+                "type": "color"
+              }
+            },
+            "error": {
+              "container": {
+                "background": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.error.@.value}",
+                    "type": "color"
+                  }
+                }
+              },
+              "color": {
+                "value": "{color.on-error.@.value}",
+                "type": "color"
+              }
+            },
+            "loading": {
+              "container": {
+                "background": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color"
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color"
+                  }
+                }
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

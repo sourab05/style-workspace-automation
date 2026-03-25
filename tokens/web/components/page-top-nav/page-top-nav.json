@@ -1,0 +1,83 @@
+{
+  "top": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-nav"
+        }
+      }
+    },
+    "mapping": {
+      "height": {
+        "value": "62px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the overall height of the top navigation bar (the horizontal header at the top of the page). Acceptable units: px, em, rem, vh.<br>CSS variable: --wm-top-height"
+        }
+      },
+      "background": {
+        "value": "{color.surface.container.low.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of the top navigation bar (the horizontal header at the top of the page).<br>CSS variable: --wm-top-background"
+        }
+      },
+      "box": {
+        "shadow": {
+          "value": "none",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow of the top navigation bar to create depth and separation from page content. Use subtle shadows for a refined look.<br>CSS variable: --wm-top-box-shadow"
+          }
+        }
+      },
+      "z": {
+        "index": {
+          "value": "3",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the stacking order (z-index) of the top navigation bar relative to other elements. Higher values keep the bar above overlapping content.<br>CSS variable: --wm-top-z-index"
+          }
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.outline.variant.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of the top navigation bar. Commonly used for a bottom divider line.<br>CSS variable: --wm-top-border-color"
+          }
+        },
+        "style": {
+          "value": "solid",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the border style of the top navigation bar. Allowed values: solid, dashed, dotted, none.<br>CSS variable: --wm-top-border-style"
+          }
+        },
+        "radius": {
+          "value": "{radius.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls corner rounding of the top navigation bar. Use higher values for rounded corners.<br>CSS variable: --wm-top-border-radius"
+          }
+        },
+        "width": {
+          "value": "0px 0px 1px 0px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the border thickness of the top navigation bar in the order: top right bottom left. The default adds only a bottom divider line.<br>CSS variable: --wm-top-border-width"
+          }
+        }
+      }
+    }
+  }
+}

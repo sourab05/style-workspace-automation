@@ -1,0 +1,236 @@
+{
+  "nav": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".nav.app-nav"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": " .app-nav-item:has(:hover)"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " .app-nav-item:has(:active), .app-nav-item.active"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": " .app-nav-item:has(:focus)"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of navigation components (menus and navigation bars that help users move around the application). This is the main background color that appears behind the navigation items.<br>CSS variable: --wm-nav-background"
+        }
+      },
+      "margin": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the external spacing around the navigation component (space outside the nav container). This separates the navigation from surrounding content.<br>CSS variable: --wm-nav-margin"
+        }
+      },
+      "padding": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside navigation components (the space between the navigation content and its borders). This creates breathing room around the navigation items.<br>CSS variable: --wm-nav-padding"
+        }
+      },
+      "border": {
+        "radius": {
+          "value": "{radius.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of navigation items (individual menu options and links). This makes the navigation items appear with rounded corners for a softer appearance.<br>CSS variable: --wm-nav-item-radius"
+          }
+        },
+        "width": {
+          "value": "{border.width.0.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border thickness of the navigation container. Higher values create thicker borders.<br>CSS variable: --wm-nav-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the border style of the navigation container. Allowed values: solid, dashed, dotted, none.<br>CSS variable: --wm-nav-border-style"
+          }
+        },
+        "color": {
+          "value": "{color.inherit.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of the navigation container. Use a color that contrasts the background for visibility.<br>CSS variable: --wm-nav-border-color"
+          }
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow of the navigation container to create depth. Use to lift the nav above the page background.<br>CSS variable: --wm-nav-shadow"
+        }
+      },
+      "item": {
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of individual navigation items (links/menu options).<br>CSS variable: --wm-nav-item-background"
+          }
+        },
+        "margin": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the external spacing around each navigation item (space between adjacent items).<br>CSS variable: --wm-nav-item-margin"
+          }
+        },
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside each navigation item (space around the text/icon inside the item).<br>CSS variable: --wm-nav-item-padding"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of each navigation item. Use higher values for rounded chips/pills.<br>CSS variable: --wm-nav-item-border-radius"
+            }
+          },
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border thickness of each navigation item.<br>CSS variable: --wm-nav-item-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of each navigation item. Allowed values: solid, dashed, dotted, none.<br>CSS variable: --wm-nav-item-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.inherit.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of each navigation item.<br>CSS variable: --wm-nav-item-border-color"
+            }
+          }
+        },
+        "shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow of navigation items to add depth and focus.<br>CSS variable: --wm-nav-item-shadow"
+          }
+        },
+        "caret": {
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of the caret indicator shown on items that open a submenu (the small triangle/arrow).<br>CSS variable: --wm-nav-item-caret-size"
+            }
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "item": {
+            "background": {
+              "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.outline.variant.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "hover": {
+          "item": {
+            "background": {
+              "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.outline.variant.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "item": {
+            "background": {
+              "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.outline.variant.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

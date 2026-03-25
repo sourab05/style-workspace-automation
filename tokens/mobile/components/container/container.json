@@ -1,0 +1,197 @@
+{
+  "container": {
+    "meta": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-default-container"
+            }
+          }
+        },
+        "outlined": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-outlined-container"
+            }
+          }
+        },
+        "elevated": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-elevated-container"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "border": {
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+            "attributes": {
+                "subtype": "border-style",
+                "description": "Controls the style of the outline around container elements (boxes that hold content). 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots. The default container border styles will not change in Studio. They are dotted for user-experience reasons, so we are not going to modify them. The changes can be seen in the preview. For the outlined and elevated styles, the changes are visible both in Studio and in the preview.<br>CSS variable: --wm-container-border-style"
+            }
+        },
+        "width": {
+          "value": "{border.width.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the border around container elements. When set to 0, there's no visible border. Higher values create thicker borders around the container.<br>CSS variable: --wm-container-border-width"
+          }
+        },
+        "color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the border around container elements. This creates a colored border around the container to define its boundaries.<br>CSS variable: --wm-container-border-color"
+          }
+        },
+        "radius": {
+          "value": "{radius.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of the container elements. When set to 'none', containers have sharp corners. Higher values create more rounded corners for a softer appearance.<br>CSS variable: --wm-container-border-radius"
+          }
+        }
+      },
+      "background": {
+        "color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of container elements (boxes that hold content). This is the main background color that appears behind all container content.<br>CSS variable: --wm-container-background-color"
+          }
+        }
+      },
+      "box-shadow": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around container elements. This creates a subtle shadow that makes the container appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-container-box-shadow"
+        }
+      },
+      "opacity": {
+        "value": "1",
+        "type": "radius",
+        "attributes": {
+          "subtype": "opacity",
+          "description": "Controls the overall transparency of container elements. When set to 1, the container is fully opaque. Lower values make it more transparent.<br>CSS variable: --wm-container-opacity"
+        }
+      },
+      "padding": {
+        "top": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the top padding (vertical spacing) inside container elements. This creates breathing room above the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-top"
+          }
+        },
+        "bottom": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the bottom padding (vertical spacing) inside container elements. This creates breathing room below the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-bottom"
+          }
+        },
+        "left": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the left padding (horizontal spacing) inside container elements. This creates breathing room on the left side of the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-left"
+          }
+        },
+        "right": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the right padding (horizontal spacing) inside container elements. This creates breathing room on the right side of the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-right"
+          }
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "border": {
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "border"
+            },
+            "width": {
+              "value": "{border.width.0.value}",
+              "type": "space"
+            },
+            "color": {
+              "value": "transparent",
+              "type": "color"
+            },
+            "radius": {
+              "value": "{radius.none.value}",
+              "type": "radius"
+            }
+          }
+        }
+      },
+      "outlined": {
+        "mapping": {
+          "border": {
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "border"
+            },
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "border"
+            },
+            "color": {
+              "value": "{color.outline.variant.value}",
+              "type": "color"
+            },
+            "radius": {
+              "value": "1px",
+              "type": "radius"
+            }
+          }
+        }
+      },
+      "elevated": {
+        "mapping": {
+          "box-shadow": {
+            "value": "{elevation.shadow.1.value}",
+            "type": "radius"
+          },
+          "border": {
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "border"
+            },
+            "color": {
+              "value": "transparent",
+              "type": "color"
+            },
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "border"
+            },
+            "radius": {
+              "value": "{radius.sm.value}",
+              "type": "radius"
+            }
+          }
+        }
+      }
+    }
+  }
+}

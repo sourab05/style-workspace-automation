@@ -1,0 +1,121 @@
+
+{
+  "fileupload": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-fileupload"
+        }
+      }
+    },
+    "mapping": {
+      "border": {
+        "color": {
+          "value": "{color.black.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of file upload area (the container where users can drag and drop or select files). This determines the color of the outline that defines the file upload area.<br>CSS variable: --wm-fileupload-border-color"
+          }
+        },
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border width of file upload area. This creates the outline that defines the file upload area shape.<br>CSS variable: --wm-fileupload-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.solid.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the border style of file upload area. Acceptable values: solid, dashed, dotted, none.<br>CSS variable: --wm-fileupload-border-style"
+          }
+        },
+        "radius": {
+          "value": "{radius.xxl.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius of file upload area. This makes the file upload area appear with rounded corners for a softer appearance.<br>CSS variable: --wm-fileupload-border-radius"
+          }
+        }
+      },
+      "background": {
+        "value": "{color.surface.container.low.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of file upload area (the container where users can drag and drop or select files). This is the main background color that appears behind the file upload interface.<br>CSS variable: --wm-fileupload-background"
+        }
+      },
+      "text": {
+        "font": {
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of file upload text (the text that appears in the file upload area, such as 'Choose file' or 'Drag and drop files here'). This affects how large the text appears.<br>CSS variable: --wm-fileupload-text-font-size"
+            }
+          },
+          "weight": {
+            "value": "{font.weight.400.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight of file upload text. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-fileupload-text-font-weight"
+            }
+          }
+        },
+        "align": {
+          "value": "center",
+          "type": "text",
+          "attributes": {
+            "subtype": "text-align",
+            "description": "Controls the text alignment of file upload text. Acceptable values: left, center, right, justify.<br>CSS variable: --wm-fileupload-text-align"
+          }
+        },
+        "color": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of file upload area (the text that appears in the file upload interface). This determines what color the text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-fileupload-text-color"
+          }
+        }
+      },
+      "icon": {
+        "font": {
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of file upload icons (icons that appear in the file upload area, such as upload or file icons). This affects how large the icons appear.<br>CSS variable: --wm-fileupload-icon-font-size"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of file upload icons (icons that appear in the file upload area). This determines what color the icons appear in, typically matching the primary theme color for visual consistency.<br>CSS variable: --wm-fileupload-icon-color"
+          }
+        }
+      },
+      "ripple-color": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the ripple effect color that appears when users interact with the file upload area (tap or click). This creates a visual feedback animation to indicate user interaction. When transparent, no ripple effect is visible.<br>CSS variable: --wm-fileupload-ripple-color"
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

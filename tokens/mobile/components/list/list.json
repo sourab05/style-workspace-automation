@@ -1,0 +1,182 @@
+{
+  "list": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-list"
+        }
+      }
+    },
+    "mapping": {
+      "heading": {
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside list headings (section titles at the top of lists). This creates breathing room around the heading content. Acceptable units: px.<br>CSS variable: --wm-list-heading-padding"
+          }
+        },
+        "margin-bottom": {
+          "value": "6px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the bottom margin (vertical spacing) of list headings (section titles at the top of lists). This creates spacing below the heading, separating it from the list items. Acceptable units: px.<br>CSS variable: --wm-list-heading-margin-bottom"
+          }
+        },
+        "background-color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of list headings (section titles at the top of lists). When transparent, only the heading text is visible. When filled with a color, the heading appears with a colored background.<br>CSS variable: --wm-list-heading-background-color"
+          }
+        }
+      },
+      "title": {
+        "line-height": {
+          "value": "{body.large.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when list title text wraps to multiple lines. This ensures proper spacing for the title text displayed in list items.<br>CSS variable: --wm-list-title-line-height"
+          }
+        },
+        "font-size": {
+          "value": "{body.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of list title text (the primary text that appears in each list item). This affects how large the title text appears.<br>CSS variable: --wm-list-title-font-size"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of list titles (the primary text that appears in each list item). This determines what color the title text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-list-title-color"
+          }
+        },
+        "font-family": {
+          "value": "{font.family.plain.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for list title text (the primary text that appears in each list item). This determines whether the title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-list-title-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{body.large.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold list title text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-list-title-font-weight"
+          }
+        }
+      },
+      "sub-heading": {
+        "font-size": {
+          "value": "{body.medium.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of list sub-heading text (secondary text that appears below the title in each list item). This affects how large the sub-heading text appears.<br>CSS variable: --wm-list-sub-heading-font-size"
+          }
+        },
+        "line-height": {
+          "value": "{body.medium.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when list sub-heading text wraps to multiple lines. This ensures proper spacing for the sub-heading text displayed in list items.<br>CSS variable: --wm-list-sub-heading-line-height"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of list sub-headings (secondary text that appears below the title in each list item). This determines what color the sub-heading text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-list-sub-heading-color"
+          }
+        },
+        "font-family": {
+          "value": "{font.family.plain.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for list sub-heading text (secondary text that appears below the title in each list item). This determines whether the sub-heading text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-list-sub-heading-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{body.medium.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold list sub-heading text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-list-sub-heading-font-weight"
+          }
+        }
+      },
+      "item": {
+        "border": {
+          "radius": {
+            "value": "6px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of list items (individual entries in a list). This makes the list items appear with rounded corners for a softer appearance.<br>CSS variable: --wm-list-item-border-radius"
+            }
+          }
+        },
+        "padding": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside list items (the space between the list item content and its borders). This creates breathing room around each list item content.<br>CSS variable: --wm-list-item-padding"
+          }
+        },
+        "min-height": {
+          "value": "56px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of list items (individual entries in a list that users can interact with). This ensures each list item is always tall enough to be visible and properly displayed. Acceptable units: px, em, rem.<br>CSS variable: --wm-list-item-min-height"
+          }
+        },
+        "header": {
+          "background-color": {
+            "value": "{color.surface.container.lowest.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of list item headers (section titles that group related list items). This is the main background color that appears behind the header text.<br>CSS variable: --wm-list-item-header-background-color"
+            }
+          }
+        }
+      },
+      "select": {
+        "icon": {
+          "font-size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of selection icons in lists (checkmarks or other icons that indicate selected list items). This affects how large the selection icons appear.<br>CSS variable: --wm-list-select-icon-font-size"
+            }
+          },
+          "color": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of selection icons in lists (checkmarks or other icons that indicate selected list items). This determines what color the selection icons appear in, typically matching the primary theme color.<br>CSS variable: --wm-list-select-icon-color"
+            }
+          }
+        }
+      },
+      "appearances": {}
+    }
+  }
+}

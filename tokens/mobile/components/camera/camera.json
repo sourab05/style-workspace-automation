@@ -1,0 +1,73 @@
+{
+    "camera": {
+        "mapping": {
+            "background": {
+                "value": "{color.white.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of the camera component. This is the main background color that appears behind all camera content.<br>CSS variable: --wm-camera-background"
+                }
+            },
+            "color": {
+                "value": "#151420",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the text and icon color of the camera component. This determines what color the text and icons appear in.<br>CSS variable: --wm-camera-color"
+                }
+            },
+            "border": {
+                "color": {
+                    "value": "#ccc",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the border color of the camera component. This determines what color the border around the camera appears in.<br>CSS variable: --wm-camera-border-color"
+                    }
+                },
+                "width": {
+                    "value": "{border.width.1.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the border thickness of the camera component. This determines how thick the border around the camera appears.<br>CSS variable: --wm-camera-border-width"
+                    }
+                },
+                "radius": {
+                    "value": "20px",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius for rounded corners of the camera component. This makes the camera appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-camera-border-radius"
+                    }
+                }
+            },
+            "min-height": {
+                "value": "30px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the minimum height of the camera component. This determines the minimum vertical space the camera occupies.<br>CSS variable: --wm-camera-min-height"
+                }
+            },
+            "min-width": {
+                "value": "40px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the minimum width of the camera component. This determines the minimum horizontal space the camera occupies.<br>CSS variable: --wm-camera-min-width"
+                }
+            },
+            "padding": {
+                "value": "0",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Sets the internal spacing inside the camera component. This creates breathing room around the camera content.<br>CSS variable: --wm-camera-padding"
+                }
+            }
+        },
+        "appearances": {}
+    }
+}

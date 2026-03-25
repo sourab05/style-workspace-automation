@@ -1,0 +1,323 @@
+{
+    "tabbar": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-tabbar"
+                },
+                "states": {
+                    "active": {
+                        "selector": {
+                            "mobile": "-active-item, .app-tabbar-active-icon, .app-tabbar-active-label "
+                        }
+                    }
+                }
+            }
+        },
+        "mapping": {
+            "height": {
+                "value": "80px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the height of tabbar components (navigation bars with tabs at the bottom of the screen). This determines the vertical size of the tabbar. Acceptable units: px.<br>CSS variable: --wm-tabbar-height"
+                }
+            },
+            "box-shadow": {
+                "value": "{elevation.shadow.1.value}",
+                "type": "radius",
+                "attributes": {
+                    "subtype": "elevation",
+                    "description": "Controls the box shadow (elevation) of tabbar components. This determines the shadow depth and visual elevation of the tabbar above the content.<br>CSS variable: --wm-tabbar-box-shadow"
+                }
+            },
+            "menu": {
+                "background": {
+                    "value": "{color.surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of tabbar menus (the container that holds tab items). This determines what color the background of the tabbar menu appears in.<br>CSS variable: --wm-tabbar-menu-background"
+                    }
+                },
+                "height": {
+                    "value": "100%",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the height of tabbar menus. This determines the vertical size of the menu container. Acceptable units: %, px.<br>CSS variable: --wm-tabbar-menu-height"
+                    }
+                }
+            },
+            "more-menu": {
+                "width": {
+                    "value": "100%",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the width of tabbar more menus (overflow menus that appear when there are too many tabs). This determines how wide the more menu appears relative to its container. Acceptable units: %, px.<br>CSS variable: --wm-tabbar-more-menu-width"
+                    }
+                },
+                "background": {
+                    "value": "{color.surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of tabbar more menus. This determines what color the background of the more menu appears in.<br>CSS variable: --wm-tabbar-more-menu-background"
+                    }
+                },
+                "box-shadow": {
+                    "value": "{elevation.shadow.1.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "elevation",
+                        "description": "Controls the box shadow (elevation) of tabbar more menus. This determines the shadow depth and visual elevation of the more menu above the content.<br>CSS variable: --wm-tabbar-more-menu-box-shadow"
+                    }
+                }
+            },
+            "more-menu-row": {
+                "width": {
+                    "value": "100%",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the width of tabbar more menu rows (individual rows in the more menu). This determines how wide each row appears relative to its container. Acceptable units: %, px.<br>CSS variable: --wm-tabbar-more-menu-row-width"
+                    }
+                },
+                "padding": {
+                    "top": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top padding (vertical spacing) of tabbar more menu rows. This creates breathing room at the top of each row. Acceptable units: px.<br>CSS variable: --wm-tabbar-more-menu-row-padding-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom padding (vertical spacing) of tabbar more menu rows. This creates breathing room at the bottom of each row. Acceptable units: px.<br>CSS variable: --wm-tabbar-more-menu-row-padding-bottom"
+                        }
+                    }
+                }
+            },
+            "item": {
+                "min": {
+                    "height": {
+                        "value": "{space.8.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the minimum height of tabbar items (individual tabs in the tabbar). This determines the minimum vertical size of tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-min-height"
+                        }
+                    },
+                    "width": {
+                        "value": "{spacer.7.value}",
+                        "type": "spacer",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the minimum width of tabbar items. This determines the minimum horizontal size of tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-min-width"
+                        }
+                    }
+                },
+                "margin": {
+                    "bottom": {
+                        "value": "{space.4.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom margin (vertical spacing) of tabbar items. This creates spacing below tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-margin-bottom"
+                        }
+                    }
+                },
+                "border": {
+                    "radius": {
+                        "value": "0px",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Controls the border radius (rounded corners) of tabbar items. This determines how rounded the corners of tab items appear. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-border-radius"
+                        }
+                    }
+                },
+                "background": {
+                    "color": {
+                        "value": "transparent",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of tabbar items. This determines what color the background of tab items appears in.<br>CSS variable: --wm-tabbar-item-background-color"
+                        }
+                    }
+                },
+                "opacity": {
+                    "value": "1",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "opacity",
+                        "description": "Controls the transparency of tabbar items. When set to 1, items are fully opaque. Lower values make items more transparent, higher values make them more opaque.<br>CSS variable: --wm-tabbar-item-opacity"
+                    }
+                }
+            },
+            "icon": {
+                "size": {
+                    "value": "{space.6.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of tabbar icons (icons that appear in tab items). This affects how large the icons appear. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-size"
+                    }
+                },
+                "color": {
+                    "value": "{color.on-surface.variant.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of tabbar icons. This determines what color the icons appear in.<br>CSS variable: --wm-tabbar-icon-color"
+                    }
+                },
+                "padding": {
+                    "right": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the right padding (horizontal spacing) of tabbar icons. This creates breathing room on the right side of icons. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-padding-right"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom padding (vertical spacing) of tabbar icons. This creates breathing room at the bottom of icons. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-padding-bottom"
+                        }
+                    }
+                },
+                "border-bottom-color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the bottom border color of tabbar icons. This determines what color the bottom border of icons appears in, typically matching the primary theme color.<br>CSS variable: --wm-tabbar-icon-border-bottom-color"
+                    }
+                }
+            },
+            "text": {
+                "font": {
+                    "size": {
+                        "value": "{label.medium.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls the font size of tabbar text (labels that appear in tab items). This affects how large the text appears. Acceptable units: px.<br>CSS variable: --wm-tabbar-text-font-size"
+                        }
+                    },
+                    "family": {
+                        "value": "{label.large.font-family.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-family",
+                            "description": "Sets the font family of tabbar text. This determines which font is used for the text in tab items.<br>CSS variable: --wm-tabbar-text-font-family"
+                        }
+                    },
+                    "weight": {
+                        "value": "{font.weight.400.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-weight",
+                            "description": "Controls the font weight (boldness) of tabbar text. This affects how bold the text appears in tab items.<br>CSS variable: --wm-tabbar-text-font-weight"
+                        }
+                    }
+                },
+                "color": {
+                    "value": "{color.on-surface.variant.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of tabbar labels. This determines what color the text in tab items appears in.<br>CSS variable: --wm-tabbar-text-color"
+                    }
+                },
+                "margin": {
+                    "top": {
+                        "value": "{space.rule.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top margin (vertical spacing) of tabbar text. This creates spacing above the text. Acceptable units: px.<br>CSS variable: --wm-tabbar-text-margin-top"
+                        }
+                    }
+                }
+            },
+            "states": {
+                "active": {
+                    "item": {
+                        "border": {
+                            "radius": {
+                                "value": "50px",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "radius",
+                                    "description": "Controls the border radius (rounded corners) of active tabbar items. This determines how rounded the corners of active tab items appear. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-border-radius (active state)"
+                                }
+                            }
+                        },
+                        "background": {
+                            "color": {
+                                "value": "{color.primary.container.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of active tabbar items (tabs that are currently selected). This determines what color the background appears in for active items, typically matching the primary container theme color.<br>CSS variable: --wm-tabbar-item-background-color (active state)"
+                                }
+                            }
+                        },
+                        "margin": {
+                            "bottom": {
+                                "value": "-2",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls the bottom margin (vertical spacing) of active tabbar items. This creates spacing below active tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-margin-bottom (active state)"
+                                }
+                            }
+                        }
+                    },
+                    "icon": {
+                        "color": {
+                            "value": "{color.primary.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the color of active tabbar icons. This determines what color the icons appear in for active tabs, typically matching the primary theme color.<br>CSS variable: --wm-tabbar-icon-color (active state)"
+                            }
+                        }
+                    },
+                    "text": {
+                        "font": {
+                            "weight": {
+                                "value": "{font.weight.700.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "font-weight",
+                                    "description": "Controls the font weight (boldness) of active tabbar text. This affects how bold the text appears in active tab items.<br>CSS variable: --wm-tabbar-text-font-weight (active state)"
+                                }
+                            }
+                        },
+                        "color": {
+                            "value": "{color.on-surface.variant.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the text color of active tabbar labels. This determines what color the text appears in for active tabs.<br>CSS variable: --wm-tabbar-text-color (active state)"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "appearences": {}
+    }
+}

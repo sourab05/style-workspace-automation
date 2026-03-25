@@ -1,0 +1,90 @@
+{
+  "header": {
+    "meta": {},
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of page headers (the top sections of web pages that contain logos, navigation, and search). This is the main background color that appears behind the header content.<br>CSS variable: --wm-header-background"
+        }
+      },
+      "color": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of page headers (the top sections of web pages that contain logos, navigation, and search). This determines what color the header text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-header-color"
+        }
+      },
+      "height": {
+        "value": "82px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how tall page headers appear (the top sections of web pages that contain logos, navigation, and search). This determines the vertical size of the header area.<br>CSS variable: --wm-header-height"
+        }
+      },
+      "z-index": {
+        "value": "2",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the stacking order of page headers (the top sections of web pages that contain logos, navigation, and search). Higher values make the header appear above other elements, ensuring it's visible on top of all other content.<br>CSS variable: --wm-header-z-index"
+        }
+      },
+      "padding": {
+        "value": "{space.2.value} {space.4.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside page headers (the top sections of web pages that contain logos, navigation, and search). This creates breathing room around the header content.<br>CSS variable: --wm-header-padding"
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.outline.variant.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of page headers (the top sections of web pages that contain logos, navigation, and search). This creates the outline that defines the header boundaries.<br>CSS variable: --wm-header-border-color"
+          }
+        },
+        "style": {
+          "value": "solid",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the border style of page headers (the top sections of web pages that contain logos, navigation, and search). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, and 'none' removes the border.<br>CSS variable: --wm-header-border-style"
+          }
+        },
+        "width": {
+          "value": "0px 0px 1px 0px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border width of page headers (the top sections of web pages that contain logos, navigation, and search). This determines how thick the header border appears.<br>CSS variable: --wm-header-border-width"
+          }
+        },
+        "radius": {
+          "value": "{radius.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of page headers (the top sections of web pages that contain logos, navigation, and search). This makes the header appear with rounded corners for a softer appearance.<br>CSS variable: --wm-header-border-radius"
+          }
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around page headers (the top sections of web pages that contain logos, navigation, and search). This creates a subtle shadow that makes the header appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-header-shadow"
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

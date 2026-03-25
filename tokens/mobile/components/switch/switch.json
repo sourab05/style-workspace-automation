@@ -1,0 +1,178 @@
+{
+  "switch": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-switch"
+        },
+        "states": {
+          "selected": {
+            "selector": {
+              "mobile": "-btn-selected"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "mobile": "-disabled"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "button": {
+        "background": {
+          "color": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of switch buttons. When set to 'none', the buttons have no background color, making them transparent.<br>CSS variable: --wm-switch-button-background-color"
+            }
+          }
+        },
+        "font": {
+          "size": {
+            "value": "{label.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of switch button text. This affects how large the text appears on switch buttons. Acceptable units: px.<br>CSS variable: --wm-switch-button-font-size"
+            }
+          },
+          "family": {
+            "value": "{font.family.brand.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of switch button text. This determines which font is used for the text on switch buttons.<br>CSS variable: --wm-switch-button-font-family"
+            }
+          },
+          "weight": {
+            "value": "{font.weight.500.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight (boldness) of switch button text. This affects how bold the text appears on switch buttons.<br>CSS variable: --wm-switch-button-font-weight"
+            }
+          }
+        },
+        "height": {
+          "value": "{space.10.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how tall switch buttons appear (segmented control buttons that allow users to toggle between different options). This determines the vertical size of each switch button.<br>CSS variable: --wm-switch-button-height"
+          }
+        },
+        "color": {
+          "value": "{color.outline.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of switch buttons (the color of text content within the buttons). This should contrast well with the background for readability.<br>CSS variable: --wm-switch-button-color"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around switch buttons. This determines the color of the outline that defines the button shape in its default/unselected state.<br>CSS variable: --wm-switch-button-border-color"
+            }
+          },
+          "width": {
+            "value": "1px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around switch buttons. This creates the outline that defines the button shape and makes it visible to users.<br>CSS variable: --wm-switch-button-border-width"
+            }
+          },
+          "radius": {
+            "value": "{radius.lg.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of switch buttons. When set to a large radius value, the buttons appear with rounded corners, creating a softer, more modern appearance.<br>CSS variable: --wm-switch-button-border-radius"
+            }
+          }
+        },
+        "padding": {
+          "left": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside switch buttons (the space between the button content and its border). This creates breathing room around the button text and icons on the left side.<br>CSS variable: --wm-switch-button-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside switch buttons (the space between the button content and its border). This creates breathing room around the button text and icons on the right side.<br>CSS variable: --wm-switch-button-padding-right"
+            }
+          }
+        },
+        "ripple": {
+          "color": {
+            "value": "rgba(255, 255, 255, 0.08)",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the ripple effect that appears when users interact with switch buttons. This creates visual feedback to show that the button is interactive and responsive to user actions, typically appearing as a subtle overlay when the button is pressed.<br>CSS variable: --wm-switch-button-ripple-color"
+            }
+          }
+        }
+      },
+      "states": {
+        "selected": {
+          "button": {
+            "background": {
+              "color": {
+                "value": "{color.secondary.fixed.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of selected switch buttons. When a button is selected, it uses this background color to visually distinguish it from unselected buttons, typically using a secondary container color to indicate the active state.<br>CSS variable: --wm-switch-button-background-color (selected state)"
+                }
+              }
+            },
+            "color": {
+              "value": "{color.on-secondary.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of selected switch buttons. This ensures the text remains readable against the selected button's background, typically using a color that contrasts well with the secondary container background.<br>CSS variable: --wm-switch-button-color (selected state)"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.outline.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the border color of selected switch buttons. This maintains the border outline even when the button is selected, helping to maintain visual consistency with the overall switch component design.<br>CSS variable: --wm-switch-button-border-color (selected state)"
+                }
+              }
+            }
+          }
+        },
+        "disabled": {
+          "opacity": {
+            "value": "0.6",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of disabled switch buttons. When set to 0.6, disabled switches appear faded to indicate they are not interactive. Lower values make them more transparent, higher values make them more opaque.<br>CSS variable: --wm-switch-opacity"
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

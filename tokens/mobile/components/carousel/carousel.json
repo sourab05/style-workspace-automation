@@ -1,0 +1,285 @@
+{
+  "carousel": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-carousel"
+        },
+        "states": {
+          "active": {
+            "selector": {
+              "mobile": "-active-dot"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "ripple": {
+        "color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the ripple effect color that appears when users interact with the carousel (tap or click). This creates a visual feedback animation to indicate user interaction. When transparent, no ripple effect is visible.<br>CSS variable: --wm-carousel-ripple-color"
+          }
+        }
+      },
+      "slide": {
+        "width": {
+          "value": "100%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of individual carousel slides (the content panels that display images, text, or other content). When set to 100%, each slide takes up the full width of the carousel container. Acceptable units: %, px, em, rem.<br>CSS variable: --wm-carousel-slide-width"
+          }
+        },
+        "padding": {
+          "horizontal": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the horizontal padding (left and right spacing) inside carousel slides. This creates breathing room on the sides of the slide content, preventing content from touching the edges. Acceptable units: px.<br>CSS variable: --wm-carousel-slide-padding-horizontal"
+            }
+          }
+        }
+      },
+      "navigation-arrows": {
+        "height": {
+          "value": "{space.12.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of carousel navigation arrow buttons (left/right arrows that allow users to manually navigate between slides). Larger values make the arrows more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-navigation-arrows-height"
+          }
+        },
+        "width": {
+          "value": "{space.12.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of carousel navigation arrow buttons (left/right arrows that allow users to manually navigate between slides). Larger values make the arrows more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-navigation-arrows-width"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "48px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of carousel navigation arrow buttons. When set to 48px, the arrows appear as perfect circles. Other values create rounded rectangles.<br>CSS variable: --wm-carousel-navigation-arrows-border-radius"
+            }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of carousel navigation arrow buttons. When transparent, no border is visible. When filled with a color, the arrows have a visible outline.<br>CSS variable: --wm-carousel-navigation-arrows-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around carousel navigation arrow buttons. This creates the outline effect around each arrow button.<br>CSS variable: --wm-carousel-navigation-arrows-border-width"
+            }
+          }
+        },
+        "margin-left": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the left margin (horizontal spacing) of carousel navigation arrow buttons. This creates space between the arrows and adjacent elements, affecting the overall layout and positioning.<br>CSS variable: --wm-carousel-navigation-arrows-margin-left"
+          }
+        },
+        "font-size": {
+          "value": "{space.8.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of carousel navigation arrow icons (the arrow symbols inside the buttons). Larger values make the arrows more prominent and easier to see. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-navigation-arrows-font-size"
+          }
+        },
+        "color": {
+          "value": "{color.primary.container.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of carousel navigation arrow icons (the arrow symbols inside the buttons). This determines what color the arrow icons appear in, typically matching the primary theme color for visual consistency.<br>CSS variable: --wm-carousel-navigation-arrows-color"
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of carousel navigation arrow buttons. When transparent, only the arrow icon is visible. When filled with a color, the buttons appear with a solid background.<br>CSS variable: --wm-carousel-navigation-arrows-background"
+          }
+        },
+        "ripple": {
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the ripple effect color that appears when users tap carousel navigation arrow buttons. This creates a visual feedback animation to indicate user interaction. When transparent, no ripple effect is visible.<br>CSS variable: --wm-carousel-navigation-arrows-ripple-color"
+            }
+          }
+        }
+      },
+      "dots": {
+        "wrapper": {
+          "padding": {
+            "top": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the top padding (vertical spacing) inside the carousel dots container (the wrapper that holds all the navigation dots). This creates breathing room above the dots. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-dots-wrapper-padding-top"
+              }
+            },
+            "bottom": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the bottom padding (vertical spacing) inside the carousel dots container (the wrapper that holds all the navigation dots). This creates breathing room below the dots. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-dots-wrapper-padding-bottom"
+              }
+            }
+          },
+          "background": {
+            "color": {
+              "value": "transparent",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of the carousel dots container (the wrapper that holds all the navigation dots). When transparent, only the dots are visible. When filled with a color, the container appears with a colored background.<br>CSS variable: --wm-carousel-dots-wrapper-background-color"
+              }
+            }
+          },
+          "opacity": {
+            "value": "1px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the overall transparency of the carousel dots container (the wrapper that holds all the navigation dots). When set to 1, the container is fully opaque. Lower values make it more transparent.<br>CSS variable: --wm-carousel-dots-wrapper-opacity"
+            }
+          }
+        },
+        "width": {
+          "value": "10px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of carousel indicators (the small dots at the bottom that show which slide is active). These dots help users navigate between different slides in the carousel. Larger values make the dots more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-width"
+          }
+        },
+        "height": {
+          "value": "10px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of carousel indicators (the small dots at the bottom that show which slide is active). These dots help users navigate between different slides in the carousel. Larger values make the dots more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-height"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.primary.container.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of carousel indicators (the navigation dots). These dots help users navigate between different slides in the carousel. This determines what color the border around each dot appears in.<br>CSS variable: --wm-carousel-dots-border-color"
+            }
+          },
+          "radius": {
+            "value": "5px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of carousel indicators (the navigation dots). When set to 5px, the indicators appear as rounded dots. Other values create different levels of rounding. When set to circle, the indicators appear as perfect round dots.<br>CSS variable: --wm-carousel-dots-border-radius"
+            }
+          },
+          "width":{
+          "value": "{border.width.base.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the border around carousel indicators (the navigation dots). This creates the outline effect around each navigation dot.<br>CSS variable: --wm-carousel-dots-border-width"
+          }
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of carousel indicators (the navigation dots). When transparent, only the border is visible. When filled, the dot appears solid.<br>CSS variable: --wm-carousel-dots-background"
+          }
+        },
+        "margin": {
+          "left": {
+            "value": "{radius.xxs.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the horizontal spacing between individual carousel indicators (navigation dots). This creates visual separation between each dot so users can easily distinguish between them.<br>CSS variable: --wm-carousel-dots-margin-left"
+            }
+          },
+          "right": {
+            "value": "{radius.xxs.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the horizontal spacing between individual carousel indicators (navigation dots). This creates visual separation between each dot so users can easily distinguish between them.<br>CSS variable: --wm-carousel-dots-margin-right"
+            }
+          }
+        },
+        "opacity": {
+          "value": "0.6px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "opacity",
+            "description": "Controls the transparency of inactive carousel indicators (navigation dots). When set to 0.6, the dots appear semi-transparent to indicate they are not the currently active slide. This creates a visual hierarchy that helps users understand their current position.<br>CSS variable: --wm-carousel-dots-opacity"
+          }
+        }
+      },
+      "skeleton": {
+        "width": {
+          "value": "100%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of the carousel skeleton loader (the placeholder animation that appears while carousel content is loading). When set to 100%, the skeleton takes up the full width of the carousel container. Acceptable units: %, px.<br>CSS variable: --wm-carousel-skeleton-width"
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "dots": {
+            "background": {
+              "value": "{color.primary.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of the currently active carousel indicator (the dot representing the slide that is currently being displayed). This creates visual feedback to show users which slide they are viewing.<br>CSS variable: --wm-carousel-active-dots-background"
+              }
+            },
+            "opacity": {
+              "value": "1px",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity",
+                "description": "Controls the transparency of the active carousel indicator. When set to 1, the active dot is fully opaque, making it stand out from inactive dots. This creates a visual hierarchy that helps users understand their current position.<br>CSS variable: --wm-carousel-active-dots-opacity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "toast": {
+    "container": {
+      "width": {
+        "value": "344px",
+        "type": "space"
+      },
+      "shadow": {
+        "value": "{elevation.shadow.3.value}",
+        "type": "radius"
+      },
+      "border": {
+        "radius": {
+          "value": "{radius.xs.value}",
+          "type": "radius"
+        },
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "space"
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius"
+        },
+        "color": {
+          "value": "{color.info.@.value}",
+          "type": "color"
+        }
+      },
+      "padding": {
+        "block":{
+          "value": "{space.4.value}",
+          "type": "space"
+        },
+        "inline":{
+          "value": "{space.3.value}",
+          "type": "space"
+        }
+      },
+      "gap": {
+        "value": "{space.1.value}",
+        "type": "space"
+      },
+      "background": {
+        "value": "{color.info.@.value}",
+        "type": "color"
+      },
+      "color": {
+        "value": "{color.on-info.@.value}",
+        "type": "color"
+      },
+      "success": {
+        "background": {
+          "value": "{color.success.@.value}",
+          "type": "color"
+        },
+        "color": {
+          "value": "{color.on-success.@.value}",
+          "type": "color"
+        },
+        "border": {
+          "color": {
+            "value": "{color.success.@.value}",
+            "type": "color"
+          }
+        }
+      },
+      "info": {
+        "background": {
+          "value": "{color.info.@.value}",
+          "type": "color"
+        },
+        "color": {
+          "value": "{color.on-info.@.value}",
+          "type": "color"
+        },
+        "border": {
+          "color": {
+            "value": "{color.info.@.value}",
+            "type": "color"
+          }
+        }
+      },
+      "warning": {
+        "background": {
+          "value": "{color.warning.@.value}",
+          "type": "color"
+        },
+        "color": {
+          "value": "{color.on-warning.@.value}",
+          "type": "color"
+        },
+        "border": {
+          "color": {
+            "value": "{color.warning.@.value}",
+            "type": "color"
+          }
+        }
+      },
+      "error": {
+        "background": {
+          "value": "{color.error.@.value}",
+          "type": "color"
+        },
+        "color": {
+          "value": "{color.on-error.@.value}",
+          "type": "color"
+        },
+        "border": {
+          "color": {
+            "value": "{color.error.@.value}",
+            "type": "color"
+          }
+        }
+      }
+    },
+    "title": {
+      "font-family": {
+        "value": "{label.large.font-family.value}",
+        "type": "font"
+      },
+      "font-weight": {
+        "value": "{label.large.font-weight.value}",
+        "type": "font"
+      },
+      "font-size": {
+        "value": "{label.large.font-size.value}",
+        "type": "font"
+      },
+      "line-height": {
+        "value": "{label.large.line-height.value}",
+        "type": "font"
+      },
+      "letter-spacing": {
+        "value": "{label.large.letter-spacing.value}",
+        "type": "font"
+      }
+    },
+    "message": {
+      "font-family": {
+        "value": "{label.large.font-family.value}",
+        "type": "font"
+      },
+      "font-weight": {
+        "value": "{label.large.font-weight.value}",
+        "type": "font"
+      },
+      "font-size": {
+        "value": "{label.large.font-size.value}",
+        "type": "font"
+      },
+      "line-height": {
+        "value": "{label.large.line-height.value}",
+        "type": "font"
+      },
+      "letter-spacing": {
+        "value": "{label.large.letter-spacing.value}",
+        "type": "font"
+      }
+    },
+    "icon": {
+      "size":{
+        "value": "{icon.size.md.value}",
+        "type": "radius"
+      }
+    },
+    "position": {
+      "top": {
+        "value": "{space.3.value}",
+        "type": "space"
+      },
+      "left": {
+        "value": "{space.3.value}",
+        "type": "space"
+      },
+      "right": {
+        "value": "{space.3.value}",
+        "type": "space"
+      },
+      "bottom": {
+        "value": "{space.3.value}",
+        "type": "space"
+      }
+    }
+  }
+}

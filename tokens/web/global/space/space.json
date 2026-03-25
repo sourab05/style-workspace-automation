@@ -1,0 +1,125 @@
+{
+  "space": {
+    "rule": {
+      "value": "4px",
+      "attributes": { "comment": "4px", "subtype": "space" }
+    },
+    "0": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "comment": "0px",
+        "multiple": "0",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "1": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "1",
+        "comment": "4px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "2": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "2",
+        "comment": "8px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "3": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "3",
+        "comment": "12px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "4": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "4",
+        "comment": "16px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "5": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "5",
+        "comment": "20px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "6": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "6",
+        "comment": "24px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "7": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "7",
+        "comment": "28px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "8": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "8",
+        "comment": "32px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "9": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "9",
+        "comment": "36px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "10": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "10",
+        "comment": "40px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "11": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "11",
+        "comment": "44px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    },
+    "12": {
+      "value": "{space.rule.value}",
+      "attributes": {
+        "multiple": "12",
+        "comment": "48px",
+        "derivedFrom": "space.rule",
+        "subtype": "space"
+      }
+    }
+  }
+}

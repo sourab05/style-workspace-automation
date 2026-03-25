@@ -1,0 +1,38 @@
+{
+  "scroll": {
+    "bar": {
+      "width": {
+        "value": "6px",
+        "type": "space"
+      },
+      "height": {
+        "value": "6px",
+        "type": "space"
+      },
+      "track": {
+        "bg": {
+          "value": "{color.surface.@.value}",
+          "type": "color"
+        },
+        "radius": {
+          "value": "6px",
+          "type": "space"
+        }
+      },
+      "thumb": {
+        "bg": {
+          "value": "{color.surface.container.high.@.value}",
+          "type": "color"
+        },
+        "radius": {
+          "value": "6px",
+          "type": "space"
+        },
+        "hover": {
+          "value": "{color.surface.container.highest.@.value}",
+          "type": "color"
+        }
+      }
+    }
+  }
+}

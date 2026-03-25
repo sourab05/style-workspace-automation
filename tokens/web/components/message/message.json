@@ -1,0 +1,312 @@
+{
+  "message": {
+    "meta": {
+      "appearances": {
+        "filled": {
+          "mapping": {
+            "selector": {
+              "web": ".app-message",
+              "mobile": ".app-message"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "success": {
+                "selector": {
+                  "mobile": ".alert-success",
+                  "web": ".alert-success"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".alert-info",
+                  "web": ".alert-info"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".alert-warning",
+                  "web": ".alert-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".alert-danger",
+                  "web": ".alert-danger"
+                }
+              },
+              "loading": {
+                "selector": {
+                  "mobile": ".alert-loading",
+                  "web": ".alert-loading"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "container": {
+        "shadow": {
+          "value": "{elevation.shadow.3.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around message containers (notification boxes that show alerts, warnings, or success messages). This creates a subtle shadow that makes the message appear to float above the background.<br>CSS variable: --wm-message-container-shadow"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.xs.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of message containers (notification boxes). This makes the message appear with rounded corners instead of sharp edges for a softer appearance.<br>CSS variable: --wm-message-container-border-radius"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the outline around message containers (notification boxes). This creates a colored border around the message to define its boundaries.<br>CSS variable: --wm-message-container-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the outline around message containers. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots, 'none' removes the border.<br>CSS variable: --wm-message-container-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the outline around message containers (notification boxes). This creates a colored border around the message to define its boundaries.<br>CSS variable: --wm-message-container-border-color"
+            }
+          }
+        },
+        "padding": {
+          "value": "{space.3.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside message containers (the space between the message content and the container border). This creates breathing room around the message text and icons.<br>CSS variable: --wm-message-container-padding"
+          }
+        },
+        "gap": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between elements within message containers (like between icons and text, or between text and close buttons). This creates visual separation between different parts of the message.<br>CSS variable: --wm-message-container-gap"
+          }
+        },
+        "background": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of message containers (notification boxes). This is the main background color that appears behind the message content.<br>CSS variable: --wm-message-container-background"
+          }
+        },
+        "color": {
+          "value": "{color.on-primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of message containers (the color of the message text). This should contrast well with the background color for readability.<br>CSS variable: --wm-message-container-color"
+          }
+        }
+      },
+      "font-family": {
+        "value": "{label.large.font-family.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Sets the typeface (font style) for message text. This determines whether the message text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-message-font-family"
+        }
+      },
+      "font-weight": {
+        "value": "{label.large.font-weight.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-weight",
+          "description": "Controls how thick or bold message text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-message-font-weight"
+        }
+      },
+      "font-size": {
+        "value": "{label.large.font-size.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-size",
+          "description": "Controls how large message text appears. Larger values make the message more prominent and easier to read, while smaller values make it more subtle.<br>CSS variable: --wm-message-font-size"
+        }
+      },
+      "line-height": {
+        "value": "{label.large.line-height.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "line-height",
+          "description": "Controls the vertical spacing between lines when message text wraps to multiple lines. Higher values create more space between lines for better readability.<br>CSS variable: --wm-message-line-height"
+        }
+      },
+      "letter-spacing": {
+        "value": "{label.large.letter-spacing.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "letter-spacing",
+          "description": "Controls the horizontal spacing between individual letters in message text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-message-letter-spacing"
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "success": {
+              "container": {
+                "background": {
+                  "value": "{color.success.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.on-success.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.success.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "info": {
+              "container": {
+                "background": {
+                  "value": "{color.info.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.on-info.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.info.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "warning": {
+              "container": {
+                "background": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.on-warning.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.warning.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "danger": {
+              "container": {
+                "background": {
+                  "value": "{color.error.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.on-error.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.error.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "loading": {
+              "container": {
+                "background": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.on-primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

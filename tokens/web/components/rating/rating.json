@@ -1,0 +1,116 @@
+{
+  "rating": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-ratings .ratings-wrapper .rating-style"
+        },
+        "states": {
+          "active": {
+            "selector": {
+              "web": " label:hover, label:hover ~ label,  label.active"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "web": ".disabled"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "gap": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the spacing between rating components (star rating systems where users can rate items with 1-5 stars). This creates visual separation between different rating elements.<br>CSS variable: --wm-rating-gap"
+        }
+      },
+      "cursor": {
+        "value": "pointer",
+        "type": "radius",
+        "attributes": {
+          "subtype": "cursor",
+          "description": "Controls the mouse cursor style when hovering over rating components. 'pointer' shows a hand cursor indicating the rating is clickable, 'default' shows an arrow cursor, and 'not-allowed' shows a blocked cursor for disabled ratings.<br>CSS variable: --wm-rating-cursor"
+        }
+      },
+      "icon": {
+        "gap": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between individual rating icons (the stars in a star rating system). This creates visual separation between each star so users can easily distinguish between them.<br>CSS variable: --wm-rating-icon-gap"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of rating icons (the stars in a star rating system). This determines what color the stars appear in when they are not selected or active.<br>CSS variable: --wm-rating-icon-color"
+          }
+        },
+        "opacity": {
+          "value": "0.38",
+          "type": "radius",
+          "attributes": {
+            "subtype": "opacity",
+            "description": "Controls the transparency of rating icons (the stars in a star rating system). Lower values make the stars more transparent, higher values make them more opaque.<br>CSS variable: --wm-rating-icon-opacity"
+          }
+        },
+        "size": {
+          "value": "{icon.size.@.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls how large rating icons appear (the stars in a star rating system). Larger values make the stars more prominent, smaller values make them more subtle.<br>CSS variable: --wm-rating-icon-size"
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "icon": {
+            "opacity": {
+              "value": "1",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity",
+                "description": "Controls the transparency of active rating icons (the stars that are selected or hovered over). When set to 1, the stars are fully opaque and clearly visible.<br>CSS variable: --wm-rating-active-icon-opacity"
+              }
+            },
+            "color": {
+              "value": "{color.warning.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of active rating icons (the stars that are selected or hovered over). This is typically a bright color like yellow or orange to indicate the selected rating.<br>CSS variable: --wm-rating-active-icon-color"
+              }
+            }
+          }
+        },
+        "disabled": {
+          "cursor": {
+            "value": "default",
+            "type": "radius",
+            "attributes": {
+              "subtype": "cursor",
+              "description": "Controls the mouse cursor style for disabled rating components. 'default' shows an arrow cursor indicating the rating cannot be clicked, 'not-allowed' shows a blocked cursor.<br>CSS variable: --wm-rating-disabled-cursor"
+            }
+          },
+          "opacity": {
+            "value": "1",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of disabled rating components. When set to 1, the rating appears fully opaque but non-interactive.<br>CSS variable: --wm-rating-disabled-opacity"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

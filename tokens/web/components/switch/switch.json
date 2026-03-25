@@ -1,0 +1,241 @@
+{
+  "switch": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-switch"
+        },
+        "states": {
+          "selected": {
+            "selector": {
+              "web": " > .btn-group > .btn.selected"
+            }
+          },
+          "hover": {
+            "selector": {
+              "web": " > .btn-group > .btn:hover"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": " > .btn-group > .btn:focus"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " > .btn-group > .btn::active"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "btn": {
+        "height": {
+          "@": {
+            "value": "40px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how tall switch buttons appear (segmented control buttons that allow users to toggle between different options). This determines the vertical size of each switch button.<br>CSS variable: --wm-switch-btn-height"
+            }
+          }
+        },
+        "padding": {
+          "value": "{space.1.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside switch buttons (the space between the button content and its border). This creates breathing room around the button text and icons.<br>CSS variable: --wm-switch-btn-padding"
+          }
+        },
+        "border": {
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around switch buttons. This creates the outline that defines the button shape and makes it visible to users.<br>CSS variable: --wm-switch-btn-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around switch buttons. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots, 'none' removes the border.<br>CSS variable: --wm-switch-btn-border-style"
+            }
+          },
+          "color": {
+            "@": {
+              "value": "{color.outline.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of the border around switch buttons. This determines the color of the outline that defines the button shape in its default/unselected state.<br>CSS variable: --wm-switch-btn-border-color"
+              }
+            }
+          }
+        },
+        "radius": {
+          "value": "{radius.pill.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of switch buttons. When set to 'pill', the buttons appear with fully rounded ends, creating a pill-shaped appearance.<br>CSS variable: --wm-switch-btn-radius"
+          }
+        },
+        "icon": {
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls how large icons appear in switch buttons (symbols that represent different switch options). This affects the size of any icons used within the switch buttons.<br>CSS variable: --wm-switch-btn-icon-size"
+            }
+          }
+        },
+        "background": {
+          "@": {
+            "value": "none",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of switch buttons. When set to 'none', the buttons have no background color, making them transparent.<br>CSS variable: --wm-switch-btn-background"
+            }
+          }
+        },
+        "color": {
+          "@": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of switch buttons (the color of text content within the buttons). This should contrast well with the background for readability.<br>CSS variable: --wm-switch-btn-color"
+            }
+          }
+        },
+        "text-decoration": {
+          "value": "none",
+          "type": "radius",
+          "attributes": {
+            "subtype": "text-decoration",
+            "description": "Controls the text decoration of switch buttons. 'none' removes any decorative lines, 'underline' adds a line under the text, 'overline' adds a line above the text, 'line-through' adds a line through the middle of the text.<br>CSS variable: --wm-switch-btn-text-decoration"
+          }
+        },
+        "state": {
+          "layer": {
+            "color": {
+              "@": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of the state layer that appears when users hover, focus, or interact with switch buttons. This creates visual feedback to show that the button is interactive and responsive to user actions.<br>CSS variable: --wm-switch-btn-state-layer-color"
+                }
+              }
+            },
+            "opacity": {
+              "value": "0",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the transparency of the state layer that appears during user interactions (hover, focus, active). When set to 0, the state layer is invisible. Higher values make the interaction feedback more visible.<br>CSS variable: --wm-switch-btn-state-layer-opacity"
+              }
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "btn": {
+            "state": {
+              "layer": {
+                "opacity": {
+                  "value": "{opacity.hover.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "btn": {
+            "state": {
+              "layer": {
+                "opacity": {
+                  "value": "{opacity.focus.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "btn": {
+            "state": {
+              "layer": {
+                "opacity": {
+                  "value": "{opacity.active.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "selected": {
+          "btn": {
+            "background": {
+              "@": {
+                "value": "{color.secondary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "color": {
+              "@": {
+                "value": "{color.on-secondary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "border": {
+              "color": {
+                "@": {
+                  "value": "{color.outline.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "state": {
+              "layer": {
+                "color": {
+                  "@": {
+                    "value": "{color.on-secondary.container.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

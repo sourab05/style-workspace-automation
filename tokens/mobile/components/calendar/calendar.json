@@ -1,0 +1,339 @@
+{
+  "calendar": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-calendar"
+        }
+      }
+    },
+    "mapping": {
+      "view": {
+        "shadow": {
+          "value": "{elevation.shadow.1.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around the calendar view. This creates a subtle elevation effect that makes the calendar appear to float above the background.<br>CSS variable: --wm-calendar-view-shadow"
+          }
+        },
+        "border": {
+          "@": {
+            "value": "{color.border.translucent.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of the calendar view. This determines what color the border around the calendar appears in.<br>CSS variable: --wm-calendar-view-border"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the border style of the calendar view. Acceptable values: solid, dashed, dotted, double, groove, ridge, inset, outset, none.<br>CSS variable: --wm-calendar-view-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border thickness of the calendar view. This determines how thick the border around the calendar appears.<br>CSS variable: --wm-calendar-view-border-width"
+            }
+          }
+        },
+        "radius": {
+          "value": "{radius.md.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius for rounded corners of the calendar view. This makes the calendar appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-calendar-view-radius"
+          }
+        }
+      },
+      "fc": {
+        "button": {
+          "bg-color": {
+            "value": "#2c3e50",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of buttons in the calendar component. This determines what color appears behind the button content.<br>CSS variable: --wm-calendar-fc-button-bg-color"
+            }
+          },
+          "border-color": {
+            "value": "#2C3E50",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of buttons in the calendar component. This determines what color the border around buttons appears in.<br>CSS variable: --wm-calendar-fc-button-border-color"
+            }
+          }
+        },
+        "header": {
+          "vertical-padding": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Sets the vertical padding (top and bottom) of the calendar header. This creates spacing above and below the header content.<br>CSS variable: --wm-calendar-fc-header-vertical-padding"
+            }
+          },
+          "horizontal-padding": {
+            "value": "{space.5.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Sets the horizontal padding (left and right) of the calendar header. This creates spacing on the sides of the header content.<br>CSS variable: --wm-calendar-fc-header-horizontal-padding"
+            }
+          },
+          "text-font-weight": {
+            "value": "{font.weight.700.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the thickness/boldness of the text in the calendar header. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-calendar-fc-header-text-font-weight"
+            }
+          }
+        },
+        "events-gap": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets spacing between events in the calendar. This creates visual separation between different calendar events.<br>CSS variable: --wm-calendar-fc-events-gap"
+          }
+        },
+        "event": {
+          "background": {
+            "value": "{color.primary.fixed.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of calendar events. This determines what color appears behind event content.<br>CSS variable: --wm-calendar-fc-event-background"
+            }
+          },
+          "color": {
+            "value": "{color.surface.tint.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of calendar events. This determines what color the event text appears in.<br>CSS variable: --wm-calendar-fc-event-color"
+            }
+          },
+          "today": {
+            "background": {
+              "value": "{color.success.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color for today's date in the calendar. This determines what color appears behind today's date.<br>CSS variable: --wm-calendar-fc-event-today-background"
+              }
+            },
+            "color": {
+              "value": "{color.success.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color for today's date in the calendar. This determines what color today's date text appears in.<br>CSS variable: --wm-calendar-fc-event-today-color"
+              }
+            },
+            "dot": {
+              "value": "{color.success.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of the dot indicator for today's date in the calendar. This determines what color the dot appears in.<br>CSS variable: --wm-calendar-fc-event-today-dot"
+              }
+            }
+          }
+        },
+        "anchor-color": {
+          "value": "#aaaaaa",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of anchor links in the calendar component. This determines what color calendar navigation links appear in.<br>CSS variable: --wm-calendar-fc-anchor-color"
+          }
+        }
+      },
+      "width": {
+        "value": "100%",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the width of the calendar component. This determines how wide the calendar appears on the screen.<br>CSS variable: --wm-calendar-width"
+        }
+      },
+      "min-height": {
+        "value": "456px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the minimum height of the calendar component. This determines the minimum vertical space the calendar occupies.<br>CSS variable: --wm-calendar-min-height"
+        }
+      },
+      "min-width": {
+        "value": "360px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the minimum width of the calendar component. This determines the minimum horizontal space the calendar occupies.<br>CSS variable: --wm-calendar-min-width"
+        }
+      },
+      "header": {
+        "background-color": {
+          "value": "{color.white.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the calendar header. This is the background color that appears behind the header content.<br>CSS variable: --wm-calendar-header-background-color"
+          }
+        },
+        "border": {
+          "bottom-width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the bottom border thickness of the calendar header. This determines how thick the border at the bottom of the header appears.<br>CSS variable: --wm-calendar-header-border-bottom-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the border style of the calendar header. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-calendar-header-border-style"
+            }
+          }
+        }
+      },
+      "weekday": {
+        "border": {
+          "bottom-width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the bottom border thickness of weekday labels in the calendar. This determines how thick the border at the bottom of weekday labels appears.<br>CSS variable: --wm-calendar-weekday-border-bottom-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the border style of weekday labels in the calendar. Acceptable values: solid, dashed, dotted, double, groove, ridge, inset, outset, none.<br>CSS variable: --wm-calendar-weekday-border-style"
+            }
+          }
+        },
+        "padding": {
+          "value": "{radius.xxs.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets the padding of weekday labels in the calendar. This creates spacing around the weekday text.<br>CSS variable: --wm-calendar-weekday-padding"
+          }
+        },
+        "text": {
+          "font-family": {
+            "value": "{font.family.plain.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for weekday text in the calendar. This determines whether the weekday text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-calendar-weekday-text-font-family"
+            }
+          },
+          "font-size": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the weekday text in the calendar. This affects how large the weekday labels appear.<br>CSS variable: --wm-calendar-weekday-text-font-size"
+            }
+          }
+        }
+      },
+      "day-border-color": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the border color of calendar day cells. This determines what color the border around each day appears in.<br>CSS variable: --wm-calendar-day-border-color"
+        }
+      },
+      "not-day-of-month": {
+        "color": {
+          "value": "#666666",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color for days that are not in the current month. This determines what color these days appear in.<br>CSS variable: --wm-calendar-not-day-of-month-color"
+          }
+        },
+        "font-weight": {
+          "value": "normal",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls the thickness/boldness of text for days that are not in the current month. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-calendar-not-day-of-month-font-weight"
+          }
+        }
+      },
+      "event-day1": {
+        "color1": {
+          "value": "rgb(117, 150, 255)",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the first color variant for event days in the calendar. This determines what color appears for the first event indicator.<br>CSS variable: --wm-calendar-event-day1-color1"
+          }
+        },
+        "color2": {
+          "value": "rgb(168, 201, 255)",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the second color variant for event days in the calendar. This determines what color appears for the second event indicator.<br>CSS variable: --wm-calendar-event-day1-color2"
+          }
+        },
+        "color3": {
+          "value": "rgb(194, 203, 248)",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the third color variant for event days in the calendar. This determines what color appears for the third event indicator.<br>CSS variable: --wm-calendar-event-day1-color3"
+          }
+        }
+      },
+      "prev-month-btn-color": {
+        "value": "#aaaaaa",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the color of the previous month button in the calendar. This determines what color the navigation button appears in.<br>CSS variable: --wm-calendar-prev-month-btn-color"
+        }
+      },
+      "header-skeleton": {
+        "width": {
+          "value": "100%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of the calendar header skeleton (loading state). This determines how wide the skeleton loader appears.<br>CSS variable: --wm-calendar-header-skeleton-width"
+          }
+        },
+        "margin-bottom": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the bottom margin of the calendar header skeleton. This creates spacing below the skeleton loader.<br>CSS variable: --wm-calendar-header-skeleton-margin-bottom"
+          }
+        }
+      }
+    }
+  }
+}

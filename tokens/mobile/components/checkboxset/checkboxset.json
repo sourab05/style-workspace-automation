@@ -1,0 +1,344 @@
+{
+  "checkboxset": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-checkboxset"
+        },
+        "states": {
+          "checked": {
+            "selector": {
+              "mobile": "-checkicon, .app-checkboxset-selected-label"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "mobile": "-disabled"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "height": {
+        "value": "{space.6.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the height of individual checkbox boxes (the square input elements) in a checkbox set (a group of related checkboxes like 'Select all', 'Option 1', 'Option 2'). This determines how tall each checkbox appears visually. Acceptable units: px.<br>CSS variable: --wm-checkboxset-height"
+        }
+      },
+      "width": {
+        "value": "{space.6.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the width of individual checkbox boxes (the square input elements) in a checkbox set (a group of related checkboxes like 'Select all', 'Option 1', 'Option 2'). This determines how wide each checkbox appears visually. Acceptable units: px.<br>CSS variable: --wm-checkboxset-width"
+        }
+      },
+      "label": {
+        "font": {
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the checkbox label text (the descriptive text that appears next to each checkbox in the set). This text explains what each checkbox option represents, such as 'Option 1', 'Option 2', etc.<br>CSS variable: --wm-checkboxset-label-font-size"
+            }
+          },
+          "family": {
+            "value": "{body.large.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family (typeface) for the checkbox label text in a checkbox set. This determines the visual style of the text that describes what each checkbox option represents.<br>CSS variable: --wm-checkboxset-label-font-family"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.variant.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the checkbox labels (the descriptive text that appears next to each checkbox in the set). This determines what color the label text appears in.<br>CSS variable: --wm-checkboxset-label-color"
+          }
+        },
+        "margin": {
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the horizontal spacing between the checkbox box (the square input element) and the label text in a checkbox set. This creates visual separation so users can easily distinguish between the clickable checkbox and its descriptive text.<br>CSS variable: --wm-checkboxset-label-margin-left"
+            }
+          }
+        }
+      },
+      "background": {
+        "color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of individual checkbox boxes (the square input elements) in a checkbox set. When transparent, only the border is visible. When filled with a color, the checkbox appears solid. This affects the visual appearance of the unchecked state.<br>CSS variable: --wm-checkboxset-background-color"
+          }
+        }
+      },
+      "icon": {
+        "size": {
+          "value": "{icon.size.@.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of the checkmark icon (the ✓ symbol) that appears inside checkboxes in a checkbox set when they're checked. This icon is typically smaller than the checkbox box itself to fit nicely inside. Acceptable units: px.<br>CSS variable: --wm-checkboxset-icon-size"
+          }
+        },
+        "color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the checkmark icon (the ✓ symbol) that appears inside checkboxes in a checkbox set when they're checked. This is typically a contrasting color to ensure the checkmark is clearly visible against the checkbox background.<br>CSS variable: --wm-checkboxset-icon-color"
+          }
+        }
+      },
+      "border": {
+        "width": {
+          "value": "2",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the border around individual checkbox boxes (the square input elements) in a checkbox set. This creates the outline that defines each checkbox shape and makes it visible to users.<br>CSS variable: --wm-checkboxset-border-width"
+          }
+        },
+        "radius": {
+          "value": "{radius.xxs.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of individual checkbox boxes (the square input elements) in a checkbox set. Small values create slightly rounded corners, while larger values make the checkbox more rounded or even circular.<br>CSS variable: --wm-checkboxset-border-radius"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.variant.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the border around individual checkbox boxes (the square input elements) in a checkbox set. This determines the color of the outline that defines each checkbox shape in its default/unchecked state.<br>CSS variable: --wm-checkboxset-border-color"
+          }
+        }
+      },
+      "title": {
+        "background": {
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the checkbox set title area (the header section that appears above the checkbox options). When transparent, only the title text is visible. When filled with a color, the title area appears with a colored background.<br>CSS variable: --wm-checkboxset-title-background-color"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.variant.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the checkbox set title (the header text that appears above the checkbox options). This determines what color the title text appears in.<br>CSS variable: --wm-checkboxset-title-color"
+          }
+        },
+        "font": {
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the checkbox set title text (the header text that appears above the checkbox options). This affects how large the title text appears.<br>CSS variable: --wm-checkboxset-title-font-size"
+            }
+          },
+          "family": {
+            "value": "{body.large.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family (typeface) for the checkbox set title text (the header text that appears above the checkbox options). This determines the visual style of the title text.<br>CSS variable: --wm-checkboxset-title-font-family"
+            }
+          }
+        },
+        "padding": {
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding of the checkbox set title area (the header section that appears above the checkbox options). This creates spacing on the left side of the title text.<br>CSS variable: --wm-checkboxset-title-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding of the checkbox set title area (the header section that appears above the checkbox options). This creates spacing on the right side of the title text.<br>CSS variable: --wm-checkboxset-title-padding-right"
+            }
+          }
+        }
+      },
+      "item": {
+        "margin": {
+          "right": {
+            "value": "-20",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right margin of individual checkbox options in a checkbox set (a group of related checkboxes like 'Select all', 'Option 1', 'Option 2'). This creates spacing to the right of each checkbox option.<br>CSS variable: --wm-checkboxset-item-margin-right"
+            }
+          },
+          "left": {
+            "value": "{space.5.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left margin of individual checkbox options in a checkbox set (a group of related checkboxes like 'Select all', 'Option 1', 'Option 2'). This creates spacing to the left of each checkbox option.<br>CSS variable: --wm-checkboxset-item-margin-left"
+            }
+          },
+          "top": {
+            "value": "{space.5.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top margin of individual checkbox options in a checkbox set (a group of related checkboxes like 'Select all', 'Option 1', 'Option 2'). This creates spacing above each checkbox option.<br>CSS variable: --wm-checkboxset-item-margin-top"
+            }
+          },
+          "bottom": {
+            "value": "{space.5.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom margin of individual checkbox options in a checkbox set (a group of related checkboxes like 'Select all', 'Option 1', 'Option 2'). This creates spacing below each checkbox option.<br>CSS variable: --wm-checkboxset-item-margin-bottom"
+            }
+          }
+        }
+      },
+      "states": {
+        "checked": {
+          "background": {
+            "color": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of individual checkbox boxes when they're checked in a checkbox set. This fills the checkbox with a color to visually indicate that the option has been selected.<br>CSS variable: --wm-checkboxset-checked-background-color"
+              }
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the border color of individual checkbox boxes when they're checked in a checkbox set. This changes the outline color to match the checked state, creating a cohesive visual appearance.<br>CSS variable: --wm-checkboxset-checked-border-color"
+              }
+            }
+          },
+          "icon": {
+            "color": {
+              "value": "{color.on-primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of the checkmark icon (✓) when checkboxes are checked in a checkbox set. This ensures the checkmark is clearly visible against the colored background of the checked checkbox.<br>CSS variable: --wm-checkboxset-checked-icon-color"
+              }
+            }
+          },
+          "label": {
+            "font": {
+              "size": {
+                "value": "{body.large.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size",
+                  "description": "Controls the size of the checkbox label text when checkboxes are checked in a checkbox set. This text explains what each checkbox option represents, such as 'Option 1', 'Option 2', etc.<br>CSS variable: --wm-checkboxset-checked-label-font-size"
+                }
+              },
+              "family": {
+                "value": "{body.large.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family",
+                  "description": "Sets the font family (typeface) for the checkbox label text when checkboxes are checked in a checkbox set. This determines the visual style of the text that describes what each checkbox option represents.<br>CSS variable: --wm-checkboxset-checked-label-font-family"
+                }
+              },
+              "margin": {
+                "left": {
+                  "value": "{space.2.value}",
+                  "type": "space",
+                  "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the horizontal spacing between the checkbox box (the square input element) and the label text when checkboxes are checked in a checkbox set. This creates visual separation so users can easily distinguish between the clickable checkbox and its descriptive text.<br>CSS variable: --wm-checkboxset-checked-label-margin-left"
+                  }
+                }
+              }
+            },
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of the checkbox labels when checkboxes are checked in a checkbox set. This determines what color the label text appears in when a checkbox is selected.<br>CSS variable: --wm-checkboxset-checked-label-color"
+              }
+            }
+          }
+        },
+        "disabled": {
+          "opacity": {
+            "value": "0.6",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the overall transparency of checkboxes in a checkbox set when they are disabled. When set to 0.6, the checkboxes appear semi-transparent to indicate they cannot be interacted with.<br>CSS variable: --wm-checkboxset-disabled-opacity"
+            }
+          },
+          "border": {
+            "width": {
+              "value": "2px",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of the border around individual checkbox boxes when they are disabled in a checkbox set. This creates the outline that defines each checkbox shape.<br>CSS variable: --wm-checkboxset-disabled-border-width"
+              }
+            },
+            "radius": {
+              "value": "{radius.xxs.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of individual checkbox boxes when they are disabled in a checkbox set. Small values create slightly rounded corners, while larger values make the checkbox more rounded or even circular.<br>CSS variable: --wm-checkboxset-disabled-border-radius"
+              }
+            },
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of the border around individual checkbox boxes when they are disabled in a checkbox set. This determines the color of the outline that defines each checkbox shape in its disabled state.<br>CSS variable: --wm-checkboxset-disabled-border-color"
+              }
+            }
+          },
+          "label": {
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of the checkbox labels when checkboxes are disabled in a checkbox set. This determines what color the label text appears in when checkboxes are disabled.<br>CSS variable: --wm-checkboxset-disabled-label-color"
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

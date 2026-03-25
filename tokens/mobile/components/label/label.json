@@ -1,0 +1,496 @@
+{
+  "label": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-label"
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-label"
+            }
+          },
+          "variantGroups": {
+            "size": {
+              "h1": {
+                "selector": {
+                  "mobile": ".h1"
+                }
+              },
+              "h2": {
+                "selector": {
+                  "mobile": ".h2"
+                }
+              },
+              "h3": {
+                "selector": {
+                  "mobile": ".h3"
+                }
+              },
+              "h4": {
+                "selector": {
+                  "mobile": ".h4"
+                }
+              },
+              "h5": {
+                "selector": {
+                  "mobile": ".h5"
+                }
+              },
+              "h6": {
+                "selector": {
+                  "mobile": ".h6"
+                }
+              },
+              "p": {
+                "selector": {
+                  "mobile": ".p"
+                }
+              },
+              "media-heading": {
+                "selector": {
+                  "mobile": ".media-heading"
+                }
+              }
+            }
+          }
+        },
+        "text": {
+          "mapping": {
+            "selector": {
+              "mobile": ".text"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "primary": {
+                "selector": {
+                  "mobile": ".text-primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "mobile": ".text-secondary"
+                }
+              },
+              "success": {
+                "selector": {
+                  "mobile": ".text-success"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".text-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".text-danger"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".text-info"
+                }
+              },
+              "muted": {
+                "selector": {
+                  "mobile": ".text-muted"
+                }
+              }
+            }
+          }
+        },
+        "label": {
+          "mapping": {
+            "selector": {
+              "mobile": ".label"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "primary": {
+                "selector": {
+                  "mobile": ".label-primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "mobile": ".label-secondary"
+                }
+              },
+              "success": {
+                "selector": {
+                  "mobile": ".label-success"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".label-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".label-danger"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".label-info"
+                }
+              },
+              "muted": {
+                "selector": {
+                  "mobile": ".label-muted"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "color": {
+        "value": "{color.on-surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of labels (text elements that describe or identify other content). This determines what color the label text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-label-color"
+        }
+      },
+      "margin": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the outer spacing around labels (the space between the label and surrounding elements). This creates breathing room around label text.<br>CSS variable: --wm-label-margin"
+        }
+      },
+      "asterisk": {
+        "color": {
+          "value": "{color.error.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the asterisk symbol (*) that appears in required field labels. This determines what color the asterisk appears in, typically red to indicate required fields.<br>CSS variable: --wm-label-asterisk-color"
+          }
+        }
+      },
+      "padding": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside labels (the space between the label text and its border). This creates breathing room around the label content.<br>CSS variable: --wm-label-padding"
+        }
+      },
+      "font-size": {
+        "value": "{body.large.font-size.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-size",
+          "description": "Controls how large label text appears (text that describes or identifies other content). Larger values make labels more prominent, smaller values make them more subtle.<br>CSS variable: --wm-label-font-size"
+        }
+      },
+      "font-weight": {
+        "value": "{body.medium.font-weight.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-weight",
+          "description": "Controls how thick or bold label text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-label-font-weight"
+        }
+      },
+      "font-family": {
+        "value": "{body.medium.font-family.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Sets the typeface (font style) for label text. This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-label-font-family"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "variantGroups": {
+          "size": {
+            "h1": {
+              "font-size": {
+                "value": "{h1.font-size.value}",
+                "type": "font"
+              },
+              "font-weight": {
+                "value": "{h1.font-weight.value}",
+                "type": "font"
+              },
+              "font-family": {
+                "value": "{h1.font-family.value}",
+                "type": "font"
+              }
+            },
+            "h2": {
+              "font-size": {
+                "value": "{h2.font-size.value}",
+                "type": "font"
+              },
+              "font-weight": {
+                "value": "{h2.font-weight.value}",
+                "type": "font"
+              },
+              "font-family": {
+                "value": "{h2.font-family.value}",
+                "type": "font"
+              }
+            },
+            "h3": {
+              "font-size": {
+                "value": "{h3.font-size.value}",
+                "type": "font"
+              },
+              "font-weight": {
+                "value": "{h3.font-weight.value}",
+                "type": "font"
+              },
+              "font-family": {
+                "value": "{h3.font-family.value}",
+                "type": "font"
+              }
+            },
+            "h4": {
+              "font-size": {
+                "value": "{h4.font-size.value}",
+                "type": "font"
+              },
+              "font-weight": {
+                "value": "{h4.font-weight.value}",
+                "type": "font"
+              },
+              "font-family": {
+                "value": "{h4.font-family.value}",
+                "type": "font"
+              }
+            },
+            "h5": {
+              "font-size": {
+                "value": "{h5.font-size.value}",
+                "type": "font"
+              },
+              "font-weight": {
+                "value": "{h5.font-weight.value}",
+                "type": "font"
+              },
+              "font-family": {
+                "value": "{h5.font-family.value}",
+                "type": "font"
+              }
+            },
+            "h6": {
+              "font-size": {
+                "value": "{h6.font-size.value}",
+                "type": "font"
+              },
+              "font-weight": {
+                "value": "{h6.font-weight.value}",
+                "type": "font"
+              },
+              "font-family": {
+                "value": "{h6.font-family.value}",
+                "type": "font"
+              }
+            },
+            "p": {
+              "font-size": {
+                "value": "{body.small.font-size.value}",
+                "type": "font"
+              }
+            },
+            "media-heading": {
+              "font-size": {
+                "value": "{body.large.font-size.value}",
+                "type": "font"
+              }
+            }
+          }
+        }
+      },
+      "text": {
+        "variantGroups": {
+          "status": {
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              }
+            },
+            "success": {
+              "color": {
+                "value": "{color.success.@.value}",
+                "type": "color"
+              }
+            },
+            "warning": {
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color"
+              }
+            },
+            "danger": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              }
+            },
+            "info": {
+              "color": {
+                "value": "{color.info.@.value}",
+                "type": "color"
+              }
+            },
+            "muted": {
+              "color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color"
+              }
+            }
+          }
+        }
+      },
+      "label": {
+        "mapping": {
+          "padding": {
+            "left": {
+              "value": "{space.8.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the left padding (horizontal spacing) inside label badges (colored label containers). This creates breathing room on the left side of the label content. Acceptable units: px.<br>CSS variable: --wm-label-padding-left"
+              }
+            },
+            "right": {
+              "value": "{space.8.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the right padding (horizontal spacing) inside label badges (colored label containers). This creates breathing room on the right side of the label content. Acceptable units: px.<br>CSS variable: --wm-label-padding-right"
+              }
+            },
+            "top": {
+              "value": "{space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the top padding (vertical spacing) inside label badges (colored label containers). This creates breathing room above the label content. Acceptable units: px.<br>CSS variable: --wm-label-padding-top"
+              }
+            },
+            "bottom": {
+              "value": "{space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the bottom padding (vertical spacing) inside label badges (colored label containers). This creates breathing room below the label content. Acceptable units: px.<br>CSS variable: --wm-label-padding-bottom"
+              }
+            }
+          },
+          "font-weight": {
+            "value": "{font.weight.700.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold label badge text appears. When set to 700, the label text appears bold to emphasize the label badge.<br>CSS variable: --wm-label-font-weight"
+            }
+          },
+          "border-radius": {
+            "value": "6px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of label badges (colored label containers). This makes the label badges appear with rounded corners for a softer appearance.<br>CSS variable: --wm-label-border-radius"
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "primary": {
+              "background-color": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color"
+              }
+            },
+            "secondary": {
+              "background-color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color"
+              }
+            },
+            "success": {
+              "background-color": {
+                "value": "{color.success.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-success.@.value}",
+                "type": "color"
+              }
+            },
+            "warning": {
+              "background-color": {
+                "value": "{color.warning.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-warning.@.value}",
+                "type": "color"
+              }
+            },
+            "danger": {
+              "background-color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-error.@.value}",
+                "type": "color"
+              }
+            },
+            "info": {
+              "background-color": {
+                "value": "{color.info.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-info.@.value}",
+                "type": "color"
+              }
+            },
+            "muted": {
+              "background-color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.surface.variant.@.value}",
+                "type": "color"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "space": {
+    "rule": { "value": "4px", "attributes": { "subtype": "space" } },
+    "0": { "value": "0px", "attributes": { "subtype": "space" } },
+    "1": { "value": "4px", "attributes": { "subtype": "space" } },
+    "2": { "value": "8px", "attributes": { "subtype": "space" } },
+    "3": { "value": "12px", "attributes": { "subtype": "space" } },
+    "4": { "value": "16px", "attributes": { "subtype": "space" } },
+    "5": { "value": "20px", "attributes": { "subtype": "space" } },
+    "6": { "value": "24px", "attributes": { "subtype": "space" } },
+    "7": { "value": "28px", "attributes": { "subtype": "space" } },
+    "8": { "value": "32px", "attributes": { "subtype": "space" } },
+    "9": { "value": "36px", "attributes": { "subtype": "space" } },
+    "10": { "value": "40px", "attributes": { "subtype": "space" } },
+    "11": { "value": "44px", "attributes": { "subtype": "space" } },
+    "12": { "value": "48px", "attributes": { "subtype": "space" } }
+  }
+}

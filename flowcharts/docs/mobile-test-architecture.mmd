@@ -1,0 +1,53 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px'}}}%%
+flowchart TB
+    subgraph setup ["SETUP -- Runs once before all tests"]
+        BuildBaseline["<b>Build Baseline App</b><br/>No tokens applied"]
+        GenerateBatch["<b>Create Batch Payload</b><br/>All tokens combined"]
+        ApplyBatch["<b>Apply All Tokens</b><br/>Send via Studio API"]
+        BuildActual["<b>Build Actual App</b><br/>With tokens applied"]
+        Upload["<b>Upload Both Apps</b><br/>To BrowserStack"]
+    end
+
+    subgraph execution ["TEST LOOP -- Repeats for each widget variant"]
+        LoadCSV["<b>Load Test Data</b><br/>Read CSV mapping file"]
+        LoadPayload["<b>Load Payload</b><br/>Get expected token values"]
+        SwitchBaseline["<b>Open Baseline App</b><br/>Switch to no-token app"]
+        CaptureBaseline["<b>Take Before Screenshot</b><br/>Baseline image"]
+        SwitchActual["<b>Open Actual App</b><br/>Switch to token app"]
+        CaptureActual["<b>Take After Screenshot</b><br/>Actual image"]
+        CompareScreenshots["<b>Compare Screenshots</b><br/>Pixel-by-pixel diff"]
+        ExtractStyles["<b>Read Styles</b><br/>Get RN style values"]
+        ValidateValues["<b>Check Values</b><br/>Actual vs Expected"]
+    end
+
+    subgraph reports ["REPORTS -- Generated after all tests"]
+        Allure["<b>Allure Report</b><br/>Interactive test report"]
+        StyleJSON["<b>Style JSON</b><br/>Raw style data"]
+        DiffImages["<b>Diff Images</b><br/>Visual difference PNGs"]
+    end
+
+    BuildBaseline -->|"baseline built"| GenerateBatch -->|"payload ready"| ApplyBatch
+    ApplyBatch -->|"tokens applied"| BuildActual -->|"actual built"| Upload
+
+    Upload -->|"apps uploaded"| LoadCSV --> LoadPayload
+
+    LoadPayload --> SwitchBaseline -->|"opened"| CaptureBaseline
+    CaptureBaseline --> SwitchActual -->|"opened"| CaptureActual
+
+    CaptureActual -->|"visual check"| CompareScreenshots --> DiffImages
+    CaptureActual -->|"style check"| ExtractStyles --> ValidateValues
+
+    ValidateValues -->|"results"| Allure
+    ValidateValues -->|"raw data"| StyleJSON
+
+    classDef setupStyle fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef execStyle fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef reportStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class BuildBaseline,GenerateBatch,ApplyBatch,BuildActual,Upload setupStyle
+    class LoadCSV,LoadPayload,SwitchBaseline,CaptureBaseline,SwitchActual,CaptureActual,CompareScreenshots,ExtractStyles,ValidateValues execStyle
+    class Allure,StyleJSON,DiffImages reportStyle
+
+    style setup fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style execution fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style reports fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20

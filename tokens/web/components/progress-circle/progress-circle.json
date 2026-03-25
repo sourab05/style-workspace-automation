@@ -1,0 +1,217 @@
+{
+  "progress-circle": {
+    "meta": {
+      "appearances": {
+        "filled": {
+          "mapping": {
+            "selector": {
+              "web": ".app-progress.circle"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "default": {
+                "selector": {
+                  "web": ".progress-circle-default"
+                }
+              },
+              "success": {
+                "selector": {
+                  "web": ".progress-circle-success"
+                }
+              },
+              "info": {
+                "selector": {
+                  "web": ".progress-circle-info"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "web": ".progress-circle-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "web": ".progress-circle-danger"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "stroke": {
+        "inactive": {
+          "value": "{color.primary.container.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of circular progress indicators (the unfilled portion of the circle that shows remaining progress). This is the color of the circle track that shows how much progress is left.<br>CSS variable: --wm-progress-circle-stroke-inactive"
+          }
+        },
+        "active": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the fill color of circular progress indicators (the filled portion of the circle that shows completed progress). This is the color that shows how much progress has been made.<br>CSS variable: --wm-progress-circle-stroke-active"
+          }
+        }
+      },
+      "label": {
+        "color": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of circular progress indicator labels (the percentage or text that appears in the center of the circle). This should contrast well with the progress circle colors for readability.<br>CSS variable: --wm-progress-circle-label-color"
+          }
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "variantGroups": {
+          "status": {
+            "default": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.primary.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "active": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "label": {
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            },
+            "success": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.success.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "active": {
+                  "value": "{color.success.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "label": {
+                "color": {
+                  "value": "{color.success.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            },
+            "info": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.info.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "active": {
+                  "value": "{color.info.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "label": {
+                "color": {
+                  "value": "{color.info.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            },
+            "warning": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.warning.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "active": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "label": {
+                "color": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            },
+            "danger": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.error.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "active": {
+                  "value": "{color.error.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "label": {
+                "color": {
+                  "value": "{color.error.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

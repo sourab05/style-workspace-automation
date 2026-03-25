@@ -1,0 +1,24 @@
+<!-- AUTO-GENERATED FILE. Do not edit manually. -->
+
+# Token Reference Table
+
+This table lists all tokens for this component:
+
+| Token | Description |
+|-------|------------|
+| gap | Controls the horizontal spacing between the radio button (the circular input element) and its label text. This creates visual separation so users can easily distinguish between the clickable radio button and its descriptive text.<br>CSS variable: --wm-radiobutton-gap |
+| label.font-size | Controls how large the radio button label text appears (the descriptive text that appears next to the radio button). This affects the size of the text that explains what the radio option represents.<br>CSS variable: --wm-radiobutton-label-font-size |
+| label.font-family | Sets the typeface (font style) for radio button label text. This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-radiobutton-label-font-family |
+| label.font-weight | Controls how thick or bold the radio button label text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-radiobutton-label-font-weight |
+| label.line-height | Controls the vertical spacing between lines when radio button label text wraps to multiple lines. This is important when the label text is long and needs to wrap.<br>CSS variable: --wm-radiobutton-label-line-height |
+| label.letter-spacing | Controls the horizontal spacing between individual letters in radio button label text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-radiobutton-label-letter-spacing |
+| label.color.@ | Sets the text color of radio button labels (the descriptive text that appears next to the radio button). This should contrast well with the background for readability.<br>CSS variable: --wm-radiobutton-label-color |
+| size | Controls the width and height of radio buttons (the circular input elements that users click to select options). This determines how large the actual radio button appears visually.<br>CSS variable: --wm-radiobutton-size |
+| indicator.size | Controls the size of the radio button indicator (the small dot that appears inside the radio button when it's selected). This dot is typically smaller than the radio button itself to fit nicely inside.<br>CSS variable: --wm-radiobutton-indicator-size |
+| border.width | Controls the thickness of the border around radio buttons (the circular input elements). This creates the outline that defines the radio button shape and makes it visible to users.<br>CSS variable: --wm-radiobutton-border-width |
+| border.color | Sets the color of the border around radio buttons (the circular input elements). This determines the color of the outline that defines the radio button shape in its default/unselected state.<br>CSS variable: --wm-radiobutton-border-color |
+| state.layer.size | Controls the size of the invisible clickable area around radio buttons (the state layer). This area is larger than the visible radio button, making it easier for users to click and interact with the radio button.<br>CSS variable: --wm-radiobutton-state-layer-size |
+| state.layer.color | Sets the color of the state layer that appears when users hover, focus, or interact with radio buttons. This creates visual feedback to show that the radio button is interactive and responsive to user actions.<br>CSS variable: --wm-radiobutton-state-layer-color |
+| state.layer.opacity | Controls the transparency of the state layer that appears during user interactions (hover, focus, active). When set to 0, the state layer is invisible. Higher values make the interaction feedback more visible.<br>CSS variable: --wm-radiobutton-state-layer-opacity |
+| set.item.column.gap | Controls the vertical spacing between radio button options when they are arranged in columns (stacked vertically). This creates visual separation between each radio option in a vertical list.<br>CSS variable: --wm-radiobutton-set-item-column-gap |
+| set.item.row.gap | Controls the horizontal spacing between radio button options when they are arranged in rows (side by side horizontally). This creates visual separation between each radio option in a horizontal list.<br>CSS variable: --wm-radiobutton-set-item-row-gap |

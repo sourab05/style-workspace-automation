@@ -1,0 +1,373 @@
+{
+  "card": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-card"
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".app-card.card-default"
+            }
+          }
+        },
+        "filled": {
+          "mapping": {
+            "selector": {
+              "web": ".app-card.card-filled"
+            }
+          }
+        },
+        "elevated": {
+          "mapping": {
+            "selector": {
+              "web": ".app-card.card-elevated"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "border": {
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border width of cards.<br>CSS variable: --wm-card-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the border style of cards. Acceptable values: solid, dashed, dotted, none.<br>CSS variable: --wm-card-border-style"
+          }
+        },
+        "color": {
+          "value": "{color.outline.variant.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of cards.<br>CSS variable: --wm-card-border-color"
+          }
+        },
+        "radius": {
+          "value": "{radius.md.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius of cards.<br>CSS variable: --wm-card-border-radius"
+          }
+        }
+      },
+      "list": {
+        "gap": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls spacing between card list items.<br>CSS variable: --wm-card-list-gap"
+          }
+        }
+      },
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of cards.<br>CSS variable: --wm-card-background"
+        }
+      },
+      "shadow": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the box shadow of cards.<br>CSS variable: --wm-card-shadow"
+        }
+      },
+      "state": {
+        "layer": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of card state layers.<br>CSS variable: --wm-card-state-layer-color"
+            }
+          },
+          "opacity": {
+            "value": "0",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the opacity of card state layers.<br>CSS variable: --wm-card-state-layer-opacity"
+            }
+          }
+        }
+      },
+      "body": {
+        "padding": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls padding of card body content.<br>CSS variable: --wm-card-body-padding"
+          }
+        }
+      },
+      "footer": {
+        "padding": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls padding of card footer content.<br>CSS variable: --wm-card-footer-padding"
+          }
+        },
+        "border": {
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border width of card footers.<br>CSS variable: --wm-card-footer-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of card footers. Acceptable values: solid, dashed, dotted, none.<br>CSS variable: --wm-card-footer-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.variant.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of card footers.<br>CSS variable: --wm-card-footer-border-color"
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.hover.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          },
+          "shadow": {
+            "value": "{elevation.shadow.1.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        },
+        "focus": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.focus.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          },
+          "shadow": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        },
+        "active": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.active.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          },
+          "shadow": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style"
+              }
+            },
+            "color": {
+              "value": "{color.outline.variant.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "radius": {
+              "value": "{radius.md.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius"
+              }
+            }
+          }
+        }
+      },
+      "filled": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            }
+          },
+          "background": {
+            "@": {
+              "value": "{color.surface.bright.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          },
+          "shadow": {
+            "@": {
+              "value": "none",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation"
+              }
+            }
+          },
+          "states": {
+            "hover": {
+              "shadow": {
+                "value": "{elevation.shadow.1.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "elevation"
+                }
+              }
+            },
+            "focus": {
+              "shadow": {
+                "value": "{elevation.shadow.1.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "elevation"
+                }
+              }
+            },
+            "active": {
+              "shadow": {
+                "value": "{elevation.shadow.1.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "elevation"
+                }
+              }
+            }
+          }
+        },
+        "variantGroups": {}
+      },
+      "elevated": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            }
+          },
+          "shadow": {
+            "@": {
+              "value": "{elevation.shadow.1.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation"
+              }
+            }
+          },
+          "states": {
+            "hover": {
+              "shadow": {
+                "value": "{elevation.shadow.2.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "elevation"
+                }
+              }
+            },
+            "focus": {
+              "shadow": {
+                "value": "{elevation.shadow.1.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "elevation"
+                }
+              }
+            },
+            "active": {
+              "shadow": {
+                "value": "{elevation.shadow.1.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "elevation"
+                }
+              }
+            }
+          }
+        },
+        "variantGroups": {}
+      }
+    }
+  }
+}

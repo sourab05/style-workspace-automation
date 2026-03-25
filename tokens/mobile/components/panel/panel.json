@@ -1,0 +1,458 @@
+{
+  "panel": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-panel"
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-panel.panel-default"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "default": {
+                "selector": {
+                  "mobile": ".panel-default"
+                }
+              },
+              "primary": {
+                "selector": {
+                  "mobile": ".panel-primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "mobile": ".panel-secondary.root"
+                }
+              },
+              "tertiary": {
+                "selector": {
+                  "mobile": ".panel-tertiary"
+                }
+              },
+              "success": {
+                "selector": {
+                  "mobile": ".panel-success"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".panel-info"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".panel-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".panel-danger"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of panels (containers that group related content with headers and footers). This is the main background color that appears behind the panel content.<br>CSS variable: --wm-panel-background"
+        }
+      },
+      "radius": {
+        "value": "{radius.xs.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of panels. This makes the panels appear with rounded corners for a softer appearance.<br>CSS variable: --wm-panel-radius"
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.1.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around panels. This creates a subtle shadow that makes the panel appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-panel-shadow"
+        }
+      },
+      "border":{
+        "color":{
+          "value":"{color.transparent.@.value}",
+          "type":"color",
+          "attributes":{
+            "subtype":"color",
+            "description":"Controls the border color of the panel.<br>CSS variable: --wm-panel-border-color"
+          }
+        },
+        "width":{
+          "value":"{border.width.base.value}",
+          "type":"border",
+          "attributes":{
+            "subtype":"border",
+            "description":"Controls the border width of the panel.<br>CSS variable: --wm-panel-border-width"
+          }
+        }
+      },
+      "heading": {
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between panel heading elements (the gap between the heading text and adjacent elements like icons). This creates breathing room around the heading. Acceptable units: px.<br>CSS variable: --wm-panel-heading-gap"
+          }
+        },
+        "padding": {
+          "block": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the vertical padding (top and bottom spacing) inside panel headings. This creates breathing room above and below the heading content. Acceptable units: px.<br>CSS variable: --wm-panel-heading-padding-block"
+            }
+          },
+          "inline": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the horizontal padding (left and right spacing) inside panel headings. This creates breathing room on the left and right sides of the heading content. Acceptable units: px.<br>CSS variable: --wm-panel-heading-padding-inline"
+            }
+          }
+        },
+        "font-family": {
+          "value": "{h4.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for panel heading text. This determines whether the heading text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-panel-heading-font-family"
+          }
+        },
+        "font-size": {
+          "value": "{h4.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of panel heading text (the title text that appears at the top of panels). This affects how large the heading text appears.<br>CSS variable: --wm-panel-heading-font-size"
+          }
+        },
+        "font-weight": {
+          "value": "{h4.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold panel heading text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-panel-heading-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{h4.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when panel heading text wraps to multiple lines. This ensures proper spacing for the heading text.<br>CSS variable: --wm-panel-heading-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{h4.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual letters in panel heading text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-panel-heading-letter-spacing"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of panel headings (the title text that appears at the top of panels). This determines what color the heading text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-panel-heading-color"
+          }
+        },
+        "background": {
+          "value": "{color.surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of panel headings (the header section at the top of panels). This is the main background color that appears behind the heading content.<br>CSS variable: --wm-panel-heading-background"
+          }
+        }
+      },
+      "description": {
+        "font-family": {
+          "value": "{body.medium.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for panel description text (secondary text that appears below the heading). This determines whether the description text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-panel-description-font-family"
+          }
+        },
+        "font-size": {
+          "value": "{body.medium.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of panel description text (secondary text that appears below the heading). This affects how large the description text appears.<br>CSS variable: --wm-panel-description-font-size"
+          }
+        },
+        "font-weight": {
+          "value": "{body.medium.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold panel description text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-panel-description-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{body.medium.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when panel description text wraps to multiple lines. This ensures proper spacing for the description text.<br>CSS variable: --wm-panel-description-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{body.medium.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual letters in panel description text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-panel-description-letter-spacing"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.variant.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of panel descriptions (secondary text that appears below the heading). This determines what color the description text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-panel-description-color"
+          }
+        }
+      },
+      "actions": {
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between action buttons in panels (the gap between action buttons in the panel). This creates breathing room between buttons. Acceptable units: px.<br>CSS variable: --wm-panel-actions-gap"
+          }
+        }
+      },
+      "content": {
+        "padding": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside panel content sections (the main content area of the panel). This creates breathing room around the panel content. Acceptable units: px.<br>CSS variable: --wm-panel-content-padding"
+          }
+        }
+      },
+      "footer": {
+        "background": {
+          "value": "{color.surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Controls the background color of the panel footer.<br>CSS variable: --wm-panel-footer-background"
+          }
+        },
+        "padding": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-padding"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.outline.variant.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border at the top of panel footers. This determines the color of the separator line between the footer and the panel content.<br>CSS variable: --wm-panel-footer-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border at the top of panel footers. This determines how thick the separator line appears between the footer and the panel content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border at the top of panel footers. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-panel-footer-border-style"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "variantGroups": {
+          "status": {
+            "default": {
+              "heading": {
+                "background": {
+                  "value": "{color.surface.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.on-surface.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.on-surface.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "primary": {
+              "heading": {
+                "background": {
+                  "value": "{color.primary.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "secondary": {
+              "heading": {
+                "background": {
+                  "value": "{color.secondary.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "heading": {
+                "background": {
+                  "value": "{color.tertiary.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.tertiary.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.tertiary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "success": {
+              "heading": {
+                "background": {
+                  "value": "{color.success.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.success.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.success.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "info": {
+              "heading": {
+                "background": {
+                  "value": "{color.info.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.info.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.info.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "warning": {
+              "heading": {
+                "background": {
+                  "value": "{color.warning.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "danger": {
+              "heading": {
+                "background": {
+                  "value": "{color.error.container.@.value}",
+                  "type": "color"
+                },
+                "color": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                }
+              },
+              "description": {
+                "color": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

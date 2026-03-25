@@ -1,0 +1,598 @@
+{
+  "wizard": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-wizard"
+        },
+        "states": {
+          "current": {
+            "selector": {
+              "mobile": "-active-step, .app-wizard-active-step-counter"
+            }
+          },
+          "active": {
+            "selector": {
+              "mobile": "-done-step"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-wizard"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background-color": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of wizard components (multi-step forms that guide users through a process like account setup, checkout, or configuration). This is the main background color that appears behind the entire wizard container.<br>CSS variable: --wm-wizard-background-color"
+        }
+      },
+      "border-radius": {
+        "value": "{radius.xs.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of wizard components (multi-step forms that guide users through a process). This makes the wizard container corners slightly rounded for a softer appearance.<br>CSS variable: --wm-wizard-border-radius"
+        }
+      },
+      "box-shadow": {
+        "value": "{elevation.shadow.1.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around wizard components (multi-step forms that guide users through a process). This creates a subtle shadow that makes the wizard appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-wizard-box-shadow"
+        }
+      },
+      "padding-top": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-top"
+        }
+      },
+      "padding-bottom": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-bottom"
+        }
+      },
+      "padding-left": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-left"
+        }
+      },
+      "padding-right": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-right"
+        }
+      },
+      "gap": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the spacing between wizard step elements (the space between step indicators, titles, and descriptions within each step). This creates visual separation between different parts of each step.<br>CSS variable: --wm-wizard-gap"
+        }
+      },
+      "heading": {
+        "background-color": {
+          "value": "{color.surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of wizard headings (the top section that contains the step navigation and progress indicators). This creates a distinct background color for the wizard header area.<br>CSS variable: --wm-wizard-heading-background-color"
+          }
+        },
+        "radius": {
+          "value": "{radius.xs.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of wizard headings (the top section that contains the step navigation). This makes the wizard header corners slightly rounded for a softer appearance.<br>CSS variable: --wm-wizard-heading-radius"
+          }
+        },
+        "padding-top": {
+          "value": "{space.7.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-top"
+          }
+        },
+        "padding-bottom": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-bottom"
+          }
+        },
+        "padding-left": {
+          "value": "{space.7.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-left"
+          }
+        },
+        "padding-right": {
+          "value": "{space.7.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-right"
+          }
+        }
+      },
+      "body": {
+        "height": {
+          "value": "50vh",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of wizard body content (the main area where users fill out forms and see step content). This ensures the wizard body is always tall enough to display content properly. Acceptable units: px, em, rem, vh.<br>CSS variable: --wm-wizard-body-height"
+          }
+        },
+        "padding-top": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside wizard body content (the main area where users fill out forms and see step content). This creates breathing room around the wizard body content.<br>CSS variable: --wm-wizard-body-padding-top"
+          }
+        }
+      },
+      "step": {
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between wizard step elements (the space between step indicators, titles, and descriptions within each step). This creates visual separation between different parts of each step.<br>CSS variable: --wm-wizard-step-gap"
+          }
+        },
+        "title": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of wizard step titles (the main text labels for each step like 'Personal Information', 'Payment Details', 'Confirmation'). This determines what color the step title text appears in.<br>CSS variable: --wm-wizard-step-title-color"
+            }
+          },
+          "font-family": {
+            "value": "{label.large.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for wizard step titles (the main text labels for each step like 'Personal Information', 'Payment Details', 'Confirmation'). This determines whether the step title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-title-font-family"
+            }
+          },
+          "font-weight": {
+            "value": "{font.weight.400.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold wizard step titles appear (the main text labels for each step). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-title-font-weight"
+            }
+          },
+          "font-size": {
+            "value": "{label.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls how large wizard step titles appear (the main text labels for each step like 'Personal Information', 'Payment Details', 'Confirmation'). This affects the size of the text that users see for each step.<br>CSS variable: --wm-wizard-step-title-font-size"
+            }
+          },
+          "line-height": {
+            "value": "{label.large.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when wizard step titles wrap to multiple lines. This ensures proper spacing for the step title text displayed in the wizard navigation.<br>CSS variable: --wm-wizard-step-title-line-height"
+            }
+          },
+          "letter-spacing": {
+            "value": "{label.large.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls the horizontal spacing between individual characters in wizard step titles (the main text labels for each step). This can help make the step title text more readable and properly spaced.<br>CSS variable: --wm-wizard-step-title-letter-spacing"
+            }
+          }
+        },
+        "description": {
+          "color": {
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of wizard step descriptions (the smaller text that provides additional details about each step like 'Enter your personal details' or 'Review your information'). This determines what color the step description text appears in.<br>CSS variable: --wm-wizard-step-description-color"
+            }
+          },
+          "font-family": {
+            "value": "{label.medium.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for wizard step descriptions (the smaller text that provides additional details about each step). This determines whether the step description text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-description-font-family"
+            }
+          },
+          "font-weight": {
+            "value": "{font.weight.500.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold wizard step descriptions appear (the smaller text that provides additional details about each step). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-description-font-weight"
+            }
+          },
+          "font-size": {
+            "value": "{label.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls how large wizard step descriptions appear (the smaller text that provides additional details about each step). This affects the size of the description text that users see for each step.<br>CSS variable: --wm-wizard-step-description-font-size"
+            }
+          },
+          "line-height": {
+            "value": "{label.medium.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when wizard step descriptions wrap to multiple lines. This ensures proper spacing for the step description text displayed in the wizard navigation.<br>CSS variable: --wm-wizard-step-description-line-height"
+            }
+          },
+          "letter-spacing": {
+            "value": "{label.medium.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls the horizontal spacing between individual characters in wizard step descriptions (the smaller text that provides additional details about each step). This can help make the step description text more readable and properly spaced.<br>CSS variable: --wm-wizard-step-description-letter-spacing"
+            }
+          }
+        },
+        "indicator": {
+          "size": {
+            "value": "33px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the size of wizard step indicators (the circular or numbered badges that show the current step position). This determines how large the step indicator appears.<br>CSS variable: --wm-wizard-step-indicator-size"
+            }
+          },
+          "background-color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of wizard step indicators (the circular or numbered badges that show the current step position). When transparent, only the border is visible. When filled with a color, the indicator appears with a colored background.<br>CSS variable: --wm-wizard-step-indicator-background-color"
+            }
+          },
+          "border-width": {
+            "value": "{border.width.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around wizard step indicators (the circular or numbered badges that show the current step position). This creates the outline that defines the indicator shape.<br>CSS variable: --wm-wizard-step-indicator-border-width"
+            }
+          },
+          "border-style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around wizard step indicators (the circular or numbered badges that show the current step position). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-wizard-step-indicator-border-style"
+            }
+          },
+          "border-color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around wizard step indicators (the circular or numbered badges that show the current step position). This determines the color of the outline that defines the indicator shape.<br>CSS variable: --wm-wizard-step-indicator-border-color"
+            }
+          },
+          "border-radius": {
+            "value": "{radius.circle.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of wizard step indicators (the circular or numbered badges that show the current step position). When set to 'circle', the indicator appears as a perfect circle.<br>CSS variable: --wm-wizard-step-indicator-border-radius"
+            }
+          }
+        },
+        "count": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of wizard step count numbers (the numeric labels that appear inside step indicators like '1', '2', '3'). This determines what color the step number text appears in.<br>CSS variable: --wm-wizard-step-count-color"
+            }
+          },
+          "font-family": {
+            "value": "{label.large.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for wizard step count numbers (the numeric labels that appear inside step indicators). This determines whether the step number text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-count-font-family"
+            }
+          },
+          "font-size": {
+            "value": "{label.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls how large wizard step count numbers appear (the numeric labels that appear inside step indicators like '1', '2', '3'). This affects the size of the step number text.<br>CSS variable: --wm-wizard-step-count-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "{font.weight.400.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold wizard step count numbers appear (the numeric labels that appear inside step indicators). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-count-font-weight"
+            }
+          },
+          "line-height": {
+            "value": "{label.large.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when wizard step count numbers wrap to multiple lines. This ensures proper spacing for the step number text.<br>CSS variable: --wm-wizard-step-count-line-height"
+            }
+          }
+        },
+        "icon": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of wizard step icons (the icon symbols that appear inside step indicators to represent each step). This determines what color the step icons appear in.<br>CSS variable: --wm-wizard-step-icon-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of wizard step icons (the icon symbols that appear inside step indicators to represent each step). This determines how large the step icons appear.<br>CSS variable: --wm-wizard-step-icon-size"
+            }
+          }
+        },
+        "connector": {
+          "width": {
+            "value": "1px",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of wizard step connectors (the lines that connect one step indicator to the next, showing the progression through the wizard). This determines how thick the connecting lines appear.<br>CSS variable: --wm-wizard-step-connector-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of wizard step connectors (the lines that connect one step indicator to the next). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-wizard-step-connector-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.variant.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of wizard step connectors (the lines that connect one step indicator to the next, showing the progression through the wizard). This determines what color the connecting lines appear in.<br>CSS variable: --wm-wizard-step-connector-color"
+            }
+          }
+        }
+      },
+      "states": {
+        "current": {
+          "step": {
+            "indicator": {
+              "background-color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of wizard step indicators when they are in the current/active state (the step the user is currently on). This is the color that appears when the step is the active one.<br>CSS variable: --wm-wizard-step-indicator-background-color (current state)"
+                }
+              },
+              "border-color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of the border around wizard step indicators when they are in the current/active state (the step the user is currently on). This determines the color of the outline when the step is active.<br>CSS variable: --wm-wizard-step-indicator-border-color (current state)"
+                }
+              }
+            },
+            "count": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the text color of wizard step count numbers when they are in the current/active state (the step the user is currently on). This determines what color the step number text appears in when the step is active.<br>CSS variable: --wm-wizard-step-count-color (current state)"
+                }
+              }
+            },
+            "icon": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of wizard step icons when they are in the current/active state (the step the user is currently on). This determines what color the step icons appear in when the step is active.<br>CSS variable: --wm-wizard-step-icon-color (current state)"
+                }
+              }
+            },
+            "title": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the text color of wizard step titles when they are in the current/active state (the step the user is currently on). This determines what color the step title text appears in when the step is active.<br>CSS variable: --wm-wizard-step-title-color (current state)"
+                }
+              },
+              "font-family": {
+                "value": "{label.large.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family",
+                  "description": "Sets the typeface (font style) for wizard step titles when they are in the current/active state (the step the user is currently on). This determines whether the step title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-title-font-family (current state)"
+                }
+              },
+              "font-weight": {
+                "value": "{font.weight.600.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight",
+                  "description": "Controls how thick or bold wizard step titles appear when they are in the current/active state (the step the user is currently on). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-title-font-weight (current state)"
+                }
+              },
+              "font-size": {
+                "value": "{label.large.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size",
+                  "description": "Controls how large wizard step titles appear when they are in the current/active state (the step the user is currently on). This affects the size of the text that users see for the active step.<br>CSS variable: --wm-wizard-step-title-font-size (current state)"
+                }
+              },
+              "line-height": {
+                "value": "{label.large.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height",
+                  "description": "Controls the vertical spacing between lines when wizard step titles wrap to multiple lines in the current/active state. This ensures proper spacing for the step title text displayed in the wizard navigation.<br>CSS variable: --wm-wizard-step-title-line-height (current state)"
+                }
+              },
+              "letter-spacing": {
+                "value": "{label.large.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing",
+                  "description": "Controls the horizontal spacing between individual characters in wizard step titles when they are in the current/active state (the step the user is currently on). This can help make the step title text more readable and properly spaced.<br>CSS variable: --wm-wizard-step-title-letter-spacing (current state)"
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "step": {
+            "indicator": {
+              "background-color": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of wizard step indicators when they are in the active/completed state (steps that have been successfully completed). This is the color that appears when the step is done.<br>CSS variable: --wm-wizard-step-indicator-background-color (active state)"
+                }
+              },
+              "border-color": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of the border around wizard step indicators when they are in the active/completed state (steps that have been successfully completed). This determines the color of the outline when the step is done.<br>CSS variable: --wm-wizard-step-indicator-border-color (active state)"
+                }
+              }
+            },
+            "count": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the text color of wizard step count numbers when they are in the active/completed state (steps that have been successfully completed). This determines what color the step number text appears in when the step is done.<br>CSS variable: --wm-wizard-step-count-color (active state)"
+                }
+              }
+            },
+            "icon": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of wizard step icons when they are in the active/completed state (steps that have been successfully completed). This determines what color the step icons appear in when the step is done.<br>CSS variable: --wm-wizard-step-icon-color (active state)"
+                }
+              }
+            },
+            "title": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the text color of wizard step titles when they are in the active/completed state (steps that have been successfully completed). This determines what color the step title text appears in when the step is done.<br>CSS variable: --wm-wizard-step-title-color (active state)"
+                }
+              },
+              "font-family": {
+                "value": "{label.large.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family",
+                  "description": "Sets the typeface (font style) for wizard step titles when they are in the active/completed state (steps that have been successfully completed). This determines whether the step title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-title-font-family (active state)"
+                }
+              },
+              "font-weight": {
+                "value": "{font.weight.600.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight",
+                  "description": "Controls how thick or bold wizard step titles appear when they are in the active/completed state (steps that have been successfully completed). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-title-font-weight (active state)"
+                }
+              },
+              "font-size": {
+                "value": "{label.large.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size",
+                  "description": "Controls how large wizard step titles appear when they are in the active/completed state (steps that have been successfully completed). This affects the size of the text that users see for completed steps.<br>CSS variable: --wm-wizard-step-title-font-size (active state)"
+                }
+              },
+              "line-height": {
+                "value": "{label.large.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height",
+                  "description": "Controls the vertical spacing between lines when wizard step titles wrap to multiple lines in the active/completed state. This ensures proper spacing for the step title text displayed in the wizard navigation.<br>CSS variable: --wm-wizard-step-title-line-height (active state)"
+                }
+              },
+              "letter-spacing": {
+                "value": "{label.large.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing",
+                  "description": "Controls the horizontal spacing between individual characters in wizard step titles when they are in the active/completed state (steps that have been successfully completed). This can help make the step title text more readable and properly spaced.<br>CSS variable: --wm-wizard-step-title-letter-spacing (active state)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

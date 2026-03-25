@@ -1,0 +1,369 @@
+{
+  "form": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-form"
+        }
+      },
+      "appearances": {}
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.outline.variant.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of form wrapper components (containers that wrap form elements with header, body, and footer sections). This is the main background color that appears behind the entire form wrapper.<br>CSS variable: --wm-form-background"
+        }
+      },
+      "padding": {
+        "value": "{space.3.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside form wrapper components (the space between the form wrapper content and its borders). This creates breathing room around the entire form wrapper container.<br>CSS variable: --wm-form-padding"
+        }
+      },
+      "margin": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the external spacing around form wrapper components (the space outside the form wrapper borders). This creates visual separation between the form wrapper and other elements on the page.<br>CSS variable: --wm-form-margin"
+        }
+      },
+      "border": {
+        "radius": {
+          "value": "{radius.sm.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of form wrapper components (containers that wrap form elements). This makes the form wrapper corners slightly rounded for a softer appearance.<br>CSS variable: --wm-form-border-radius"
+          }
+        },
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of borders around form wrapper components (containers that wrap form elements). This determines how thick the border lines appear around the form wrapper.<br>CSS variable: --wm-form-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the visual style of borders around form wrapper components (containers that wrap form elements). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-form-border-style"
+          }
+        },
+        "color": {
+          "@": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around form wrapper components (containers that wrap form elements). When transparent, borders are not visible. When filled with a color, the border appears with the specified color.<br>CSS variable: --wm-form-border-color"
+            }
+          }
+        }
+      },
+      "header": {
+        "padding": {
+          "vertical": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal vertical spacing inside form wrapper headers (the top section that contains the form title and subtitle). This creates breathing room around the header content.<br>CSS variable: --wm-form-header-padding-vertical"
+            }
+          },
+          "horizontal": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal horizontal spacing inside form wrapper headers (the top section that contains the form title and subtitle). This creates breathing room around the header content.<br>CSS variable: --wm-form-header-padding-horizontal"
+            }
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around form wrapper headers (the top section that contains the form title and subtitle). When transparent, borders are not visible. When filled with a color, the border appears with the specified color.<br>CSS variable: --wm-form-header-border-color"
+            }
+          },
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of form wrapper headers (the top section that contains the form title and subtitle). This makes the header corners slightly rounded for a softer appearance.<br>CSS variable: --wm-form-header-border-radius"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of borders around form wrapper headers (the top section that contains the form title and subtitle). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-form-header-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of borders around form wrapper headers (the top section that contains the form title and subtitle). This determines how thick the border lines appear around the header.<br>CSS variable: --wm-form-header-border-width"
+            }
+          }
+        },
+        "title": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of form wrapper header titles (the main heading text that appears at the top of the form). This determines what color the title text appears in.<br>CSS variable: --wm-form-header-title-color"
+            }
+          },
+          "font": {
+            "size": {
+              "value": "{h4.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls how large form wrapper header titles appear (the main heading text that appears at the top of the form). This affects the size of the title text that users see.<br>CSS variable: --wm-form-header-title-font-size"
+              }
+            },
+            "weight": {
+              "value": "{font.weight.700.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls how thick or bold form wrapper header titles appear (the main heading text that appears at the top of the form). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-form-header-title-font-weight"
+              }
+            },
+            "family": {
+              "value": "{font.family.brand.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the typeface (font style) for form wrapper header titles (the main heading text that appears at the top of the form). This determines whether the title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-form-header-title-font-family"
+              }
+            }
+          },
+          "margin": {
+            "vertical": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the vertical spacing around form wrapper header titles (the space above and below the title text). This creates visual separation between the title and other header elements.<br>CSS variable: --wm-form-header-title-margin-vertical"
+              }
+            },
+            "horizontal": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the horizontal spacing around form wrapper header titles (the space to the left and right of the title text). This creates visual separation between the title and other header elements.<br>CSS variable: --wm-form-header-title-margin-horizontal"
+              }
+            }
+          }
+        },
+        "sub-title": {
+          "color": {
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of form wrapper header subtitles (the secondary heading text that appears below the main title). This determines what color the subtitle text appears in.<br>CSS variable: --wm-form-header-sub-title-color"
+            }
+          },
+          "font": {
+            "size": {
+              "value": "{h6.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls how large form wrapper header subtitles appear (the secondary heading text that appears below the main title). This affects the size of the subtitle text that users see.<br>CSS variable: --wm-form-header-sub-title-font-size"
+              }
+            },
+            "weight": {
+              "value": "{font.weight.500.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls how thick or bold form wrapper header subtitles appear (the secondary heading text that appears below the main title). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-form-header-sub-title-font-weight"
+              }
+            },
+            "family": {
+              "value": "{font.family.brand.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the typeface (font style) for form wrapper header subtitles (the secondary heading text that appears below the main title). This determines whether the subtitle text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-form-header-sub-title-font-family"
+              }
+            }
+          },
+          "margin": {
+            "vertical": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the vertical spacing around form wrapper header subtitles (the space above and below the subtitle text). This creates visual separation between the subtitle and other header elements.<br>CSS variable: --wm-form-header-sub-title-margin-vertical"
+              }
+            },
+            "horizontal": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the horizontal spacing around form wrapper header subtitles (the space to the left and right of the subtitle text). This creates visual separation between the subtitle and other header elements.<br>CSS variable: --wm-form-header-sub-title-margin-horizontal"
+              }
+            }
+          }
+        },
+        "background": {
+          "value": "{color.transparent.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of form wrapper headers (the top section that contains the form title and subtitle). When transparent, only the header content is visible. When filled with a color, the header appears with a colored background.<br>CSS variable: --wm-form-header-background"
+          }
+        }
+      },
+      "body": {
+        "background": {
+          "value": "{color.transparent.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of form wrapper body sections (the main content area where form fields are displayed). When transparent, only the body content is visible. When filled with a color, the body appears with a colored background.<br>CSS variable: --wm-form-body-background"
+          }
+        },
+        "padding": {
+          "vertical": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal vertical spacing inside form wrapper body sections (the main content area where form fields are displayed). This creates breathing room around the body content.<br>CSS variable: --wm-form-body-padding-vertical"
+            }
+          },
+          "horizontal": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal horizontal spacing inside form wrapper body sections (the main content area where form fields are displayed). This creates breathing room around the body content.<br>CSS variable: --wm-form-body-padding-horizontal"
+            }
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around form wrapper body sections (the main content area where form fields are displayed). When transparent, borders are not visible. When filled with a color, the border appears with the specified color.<br>CSS variable: --wm-form-body-border-color"
+            }
+          },
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of form wrapper body sections (the main content area where form fields are displayed). This makes the body corners slightly rounded for a softer appearance.<br>CSS variable: --wm-form-body-border-radius"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "style",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of borders around form wrapper body sections (the main content area where form fields are displayed). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-form-body-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of borders around form wrapper body sections (the main content area where form fields are displayed). This determines how thick the border lines appear around the body.<br>CSS variable: --wm-form-body-border-width"
+            }
+          }
+        }
+      },
+      "footer": {
+        "background": {
+          "value": "{color.transparent.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of form wrapper footer sections (the bottom section that typically contains action buttons like Submit or Cancel). When transparent, only the footer content is visible. When filled with a color, the footer appears with a colored background.<br>CSS variable: --wm-form-footer-background"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around form wrapper footer sections (the bottom section that typically contains action buttons). When transparent, borders are not visible. When filled with a color, the border appears with the specified color.<br>CSS variable: --wm-form-footer-border-color"
+            }
+          },
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of form wrapper footer sections (the bottom section that typically contains action buttons). This makes the footer corners slightly rounded for a softer appearance.<br>CSS variable: --wm-form-footer-border-radius"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of borders around form wrapper footer sections (the bottom section that typically contains action buttons). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-form-footer-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of borders around form wrapper footer sections (the bottom section that typically contains action buttons). This determines how thick the border lines appear around the footer.<br>CSS variable: --wm-form-footer-border-width"
+            }
+          }
+        },
+        "padding": {
+          "vertical": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal vertical spacing inside form wrapper footer sections (the bottom section that typically contains action buttons). This creates breathing room around the footer content.<br>CSS variable: --wm-form-footer-padding-vertical"
+            }
+          },
+          "horizontal": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal horizontal spacing inside form wrapper footer sections (the bottom section that typically contains action buttons). This creates breathing room around the footer content.<br>CSS variable: --wm-form-footer-padding-horizontal"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

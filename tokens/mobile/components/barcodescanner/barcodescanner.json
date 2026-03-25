@@ -1,0 +1,168 @@
+{
+    "barcodescanner": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-barcodescanner"
+                }
+            }
+        },
+        "mapping": {
+            "min": {
+                "height": {
+                    "value": "30px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the minimum height of the barcode scanner component. This determines the minimum vertical space the component occupies.<br>CSS variable: --wm-barcodescanner-min-height"
+                    }
+                },
+                "width": {
+                    "value": "{space.10.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the minimum width of the barcode scanner component. This determines the minimum horizontal space the component occupies.<br>CSS variable: --wm-barcodescanner-min-width"
+                    }
+                }
+            },
+            "text": {
+                "color": {
+                    "value": "{color.scrim.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of the barcode scanner component. This determines what color the text appears in.<br>CSS variable: --wm-barcodescanner-text-color"
+                    }
+                },
+                "font": {
+                    "size": {
+                        "value": "{body.medium.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls the size of the text in the barcode scanner component. This affects how large the text appears.<br>CSS variable: --wm-barcodescanner-text-font-size"
+                        }
+                    }
+                },
+                "padding": {
+                    "left": {
+                        "value": "{space.0.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the left padding of the text in the barcode scanner component. This creates spacing to the left of the text.<br>CSS variable: --wm-barcodescanner-text-padding-left"
+                        }
+                    }
+                }
+            },
+            "icon": {
+                "color": {
+                    "value": "{color.scrim.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of the icon in the barcode scanner component. This determines what color the icon appears in.<br>CSS variable: --wm-barcodescanner-icon-color"
+                    }
+                },
+                "font": {
+                    "size": {
+                        "value": "{space.5.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "icon-size",
+                            "description": "Controls the size of the icon in the barcode scanner component. This affects how large the icon appears.<br>CSS variable: --wm-barcodescanner-icon-font-size"
+                        }
+                    }
+                }
+            },
+            "background": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of the barcode scanner component. This is the main background color that appears behind all content.<br>CSS variable: --wm-barcodescanner-background"
+                }
+            },
+            "padding": {
+                "top": {
+                    "value": "10px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Sets the top padding of the barcode scanner component. This creates spacing at the top of the component.<br>CSS variable: --wm-barcodescanner-padding-top"
+                    }
+                },
+                "left": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Sets the left padding of the barcode scanner component. This creates spacing on the left side of the component.<br>CSS variable: --wm-barcodescanner-padding-left"
+                    }
+                },
+                "bottom": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Sets the bottom padding of the barcode scanner component. This creates spacing at the bottom of the component.<br>CSS variable: --wm-barcodescanner-padding-bottom"
+                    }
+                },
+                "right": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Sets the right padding of the barcode scanner component. This creates spacing on the right side of the component.<br>CSS variable: --wm-barcodescanner-padding-right"
+                    }
+                }
+            },
+            "border": {
+                "width": {
+                    "value": "{border.width.base.value}",
+                    "type": "border",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the border thickness of the barcode scanner component. This determines how thick the border around the component appears.<br>CSS variable: --wm-barcodescanner-border-width"
+                    }
+                },
+                "style": {
+                    "value": "{border.style.solid.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "border-style",
+                        "description": "Sets the border style of the barcode scanner component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-barcodescanner-border-style"
+                    }
+                },
+                "color": {
+                    "value": "{color.scrim.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the border color of the barcode scanner component. This determines what color the border around the component appears in.<br>CSS variable: --wm-barcodescanner-border-color"
+                    }
+                },
+                "radius": {
+                    "value": "{space.5.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius for rounded corners of the barcode scanner component. This makes the component appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-barcodescanner-border-radius"
+                    }
+                }
+            },
+            "ripple": {
+                "color": {
+                    "value": "transparent",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the ripple effect color for the barcode scanner component. This determines what color appears when the component is interacted with.<br>CSS variable: --wm-barcodescanner-ripple-color"
+                    }
+                }
+            }
+        },
+        "appearances": {}
+    }
+}

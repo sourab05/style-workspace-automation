@@ -1,0 +1,26 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px', 'actorBkg': '#E3F2FD', 'actorBorder': '#1565C0', 'actorTextColor': '#0D47A1', 'noteBkgColor': '#FFF3E0', 'noteBorderColor': '#E65100', 'noteTextColor': '#BF360C', 'signalColor': '#333', 'signalTextColor': '#333'}}}%%
+sequenceDiagram
+    participant Test as Test Script
+    participant Appium as Appium Server
+    participant App as Mobile App
+
+    rect rgb(232, 245, 233)
+    Note over Test,App: STEP 1 -- Type the style command
+    Test->>Appium: Find input field (ID: exinput_i)
+    Appium->>App: Locate the input field
+    Test->>Appium: Type the style command
+    Appium->>App: Enter command into input
+    end
+
+    rect rgb(227, 242, 253)
+    Note over Test,App: STEP 2 -- Read the result
+    Test->>Appium: Find output label (ID: label2_caption)
+    Appium->>App: Locate the output label
+    Appium-->>Test: Return style value as JSON
+    end
+
+    rect rgb(243, 229, 245)
+    Note over Test,App: STEP 3 -- Check the value
+    Test->>Test: Parse JSON and get the property
+    Test->>Test: Compare with expected token value
+    end

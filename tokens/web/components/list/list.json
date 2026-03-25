@@ -1,0 +1,198 @@
+{
+  "list": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-list, .app-livelist"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": " .app-list-item:hover, .app-list-item.hover"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": " .app-list-item:focus, .app-list-item.focus"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " .app-list-item:active, .app-list-item.active"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "web": " .app-list-item.disable-item"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of lists (containers that hold multiple list items in a vertical or horizontal arrangement). This is the main background color that appears behind the list container.<br>CSS variable: --wm-list-background"
+        }
+      },
+      "min-height": {
+        "value": "6rem",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the minimum height of lists (containers that hold multiple list items). This ensures the list is always tall enough to be visible and properly displayed, even when it has few items.<br>CSS variable: --wm-list-min-height"
+        }
+      },
+      "opacity": {
+        "value": "1",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the transparency of lists (containers that hold multiple list items). When set to 1, the list is fully opaque. Lower values make the list more transparent, higher values make it more opaque.<br>CSS variable: --wm-list-opacity"
+        }
+      },
+      "pointer-events": {
+        "value": "all",
+        "type": "radius",
+        "attributes": {
+          "subtype": "cursor",
+          "description": "Controls whether list items can receive mouse/touch interactions. 'all' makes list items fully interactive (clickable, hoverable), 'none' makes them ignore all mouse/touch events (like they're invisible to the mouse), and 'auto' lets the browser decide. This is useful for enabling/disabling list functionality.<br>CSS variable: --wm-list-pointer-events"
+        }
+      },
+      "state": {
+        "layer": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the state layer that appears when users hover, focus, or interact with list items. This creates visual feedback to show that the list item is interactive and responsive to user actions.<br>CSS variable: --wm-list-state-layer-color"
+            }
+          },
+          "opacity": {
+            "value": "0",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of the state layer that appears during user interactions with list items (hover, focus, active). When set to 0, the state layer is invisible. Higher values make the interaction feedback more visible.<br>CSS variable: --wm-list-state-layer-opacity"
+            }
+          }
+        }
+      },
+      "item": {
+        "background": {
+          "value": "{color.white.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of list items (individual entries in a list that users can interact with). This is the main background color that appears behind each list item content.<br>CSS variable: --wm-list-item-background"
+          }
+        },
+        "padding": {
+          "value": "{space.3.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside list items (the space between the list item content and its borders). This creates breathing room around each list item content.<br>CSS variable: --wm-list-item-padding"
+          }
+        },
+        "header": {
+          "padding": {
+            "value": "{space.3.value} {space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside list item headers (section titles that group related list items). This creates breathing room around the header text.<br>CSS variable: --wm-list-item-header-padding"
+            }
+          },
+          "background": {
+            "value": "{color.surface.container.lowest.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of list item headers (section titles that group related list items). This is the main background color that appears behind the header text.<br>CSS variable: --wm-list-item-header-background"
+            }
+          },
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of list item headers (section titles that group related list items). This determines what color the header text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-list-item-header-color"
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.hover.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.hover.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "item": {
+            "background": {
+              "value": "{color.secondary.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          },
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.active.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "disabled": {
+          "opacity": {
+            "value": "0.38",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity"
+            }
+          },
+          "pointer-events": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "cursor",
+              "description": "Disables mouse/touch interactions for disabled list items. When set to 'none', disabled list items ignore all mouse/touch events, making them completely non-interactive. This prevents users from clicking or hovering over disabled items.<br>CSS variable: --wm-list-pointer-events (disabled state)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

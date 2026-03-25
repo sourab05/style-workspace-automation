@@ -1,0 +1,91 @@
+flowchart TB
+
+    %% =====================
+    %% CI / CONTROL FLOW
+    %% =====================
+    A[Start Tests]
+    B[Choose execution mode]
+    C[Sequential execution]
+    D[Parallel execution]
+
+    A --> B
+    B --> C
+    B --> D
+
+    %% =====================
+    %% WEB TESTS
+    %% =====================
+    E1[Run Web tests]
+    E2[Load design tokens]
+    E3[Apply tokens to widgets]
+    E4[Open preview]
+    E5[Take screenshots]
+    E6[Check CSS values]
+    E7[Save Web test results]
+
+    C --> E1
+    D --> E1
+    E1 --> E2 --> E3 --> E4 --> E5 --> E6 --> E7
+
+    %% =====================
+    %% MOBILE BUILD
+    %% =====================
+    F1[Prepare Mobile build]
+    F2[Build Android APK and iOS IPA]
+    F3[Upload apps to BrowserStack]
+    F4[Take baseline screenshots]
+
+    C --> F1
+    D --> F1
+    F1 --> F2 --> F3 --> F4
+
+    %% =====================
+    %% APPLY TOKENS
+    %% =====================
+    G1[Apply design tokens]
+    G2[Rebuild apps with tokens]
+    G3[Upload updated apps]
+    G4[Take token screenshots]
+
+    F4 --> G1 --> G2 --> G3 --> G4
+
+    %% =====================
+    %% MOBILE TESTS
+    %% =====================
+    H1[Run Mobile tests]
+    H2[Launch app]
+    H3[Navigate to widget screen]
+    H4[Take screenshot]
+    H5[Compare with baseline]
+    H6[Validate styles and tokens]
+    H7[Save Mobile test results]
+
+    C --> H1
+    D --> H1
+    H1 --> H2 --> H3 --> H4 --> H5 --> H6 --> H7
+
+    %% =====================
+    %% REPORTING
+    %% =====================
+    R[Generate reports]
+    Z[Publish results<br/>HTML report, Allure, CI artifacts]
+
+    E7 --> R
+    H7 --> R
+    G4 --> R
+    R --> Z
+
+    %% =====================
+    %% STYLES
+    %% =====================
+    classDef control fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px,color:#0D47A1
+    classDef web fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px,color:#1B5E20
+    classDef mobile fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px,color:#E65100
+    classDef test fill:#F3E5F5,stroke:#6A1B9A,stroke-width:1px,color:#4A148C
+    classDef report fill:#ECEFF1,stroke:#37474F,stroke-width:1px,color:#263238
+
+    class A,B,C,D control
+    class E1,E2,E3,E4,E5,E6,E7 web
+    class F1,F2,F3,F4,G1,G2,G3,G4 mobile
+    class H1,H2,H3,H4,H5,H6,H7 test
+    class R,Z report

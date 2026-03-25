@@ -1,0 +1,22 @@
+{
+  "button-group": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-button-group",
+          "mobile": ".app-button-group"
+        }
+      }
+    },
+    "mapping": {
+      "radius": {
+        "value": "{radius.sm.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of button groups (connected buttons that appear as a single unit). This makes the outer corners of the button group rounded while keeping the inner buttons connected.<br>CSS variable: --wm-button-group-radius"
+        }
+      }
+    }
+  }
+}

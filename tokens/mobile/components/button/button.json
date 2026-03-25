@@ -1,0 +1,835 @@
+{
+  "btn": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-button",
+          "mobile": ".app-button"
+        },
+        "states": {
+          "disabled": {
+            "selector": {
+              "mobile": "-disabled",
+              "web": "[disabled]"
+            }
+          }
+        }
+      },
+      "appearances": {}
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button text and icons.<br>CSS variable: --wm-btn-background"
+        }
+      },
+      "color": {
+        "value": "{color.on-surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of buttons (clickable elements that users interact with to perform actions). This determines what color the button text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-btn-color"
+        }
+      },
+      "cursor": {
+        "value": "pointer",
+        "type": "radius",
+        "attributes": {
+          "subtype": "cursor",
+          "description": "Controls the mouse cursor appearance when hovering over buttons. 'pointer' shows a hand cursor indicating the button is clickable, 'default' shows an arrow cursor, and 'not-allowed' shows a blocked cursor for disabled buttons. This provides visual feedback to users about button interactivity.<br>CSS variable: --wm-btn-cursor"
+        }
+      },
+      "position": {
+        "@": {
+          "value": "relative",
+          "type": "space",
+          "attributes": {
+            "description": "Controls the positioning method for buttons. 'relative' positions the button relative to its normal position, 'absolute' positions it relative to its nearest positioned ancestor, 'fixed' positions it relative to the viewport, and 'static' uses the default flow.<br>CSS variable: --wm-btn-position"
+          }
+        },
+        "bottom": {
+          "value": "none",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the distance from the bottom edge when buttons are positioned absolutely or fixed. This determines how far from the bottom the button appears. Acceptable values: px, %.<br>CSS variable: --wm-btn-position-bottom"
+          }
+        },
+        "right": {
+          "value": "none",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the distance from the right edge when buttons are positioned absolutely or fixed. This determines how far from the right the button appears. Acceptable values: px, %.<br>CSS variable: --wm-btn-position-right"
+          }
+        }
+      },
+      "opacity": {
+        "value": "1",
+        "type": "radius",
+        "attributes": {
+          "subtype": "opacity",
+          "description": "Controls the transparency of the state layer (the invisible overlay that provides visual feedback during user interactions). When set to 0, the state layer is invisible. Higher values (0-1) make the interaction feedback more visible when users hover, focus, or click the button.<br>CSS variable: --wm-btn-state-layer-opacity"
+        }
+      },
+      "font-size": {
+        "value": "{label.large.font-size.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-size",
+          "description": "Controls how large the button text appears (the text content within clickable buttons). This affects the size of the button text that users see and interact with.<br>CSS variable: --wm-btn-font-size"
+        }
+      },
+      "font-family": {
+        "value": "{label.large.font-family.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Sets the typeface (font style) for button text (the text content within clickable buttons). This determines whether the button text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-btn-font-family"
+        }
+      },
+      "font-weight": {
+        "value": "{label.large.font-weight.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-weight",
+          "description": "Controls how thick or bold the button text appears (the text content within clickable buttons). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-btn-font-weight"
+        }
+      },
+      "line-height": {
+        "value": "{label.large.line-height.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "line-height",
+          "description": "Controls the vertical spacing between lines when button text wraps to multiple lines. This ensures proper spacing for the button text displayed in the button.<br>CSS variable: --wm-btn-line-height"
+        }
+      },
+      "letter-spacing": {
+        "value": "{label.large.letter-spacing.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "letter-spacing",
+          "description": "Controls the horizontal spacing between individual characters in button text (the text content within clickable buttons). This can help make the button text more readable and properly spaced.<br>CSS variable: --wm-btn-letter-spacing"
+        }
+      },
+      "text-transform": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "text-transform",
+          "description": "Controls text transformation for button text (the text content within clickable buttons). 'none' keeps the original case, 'uppercase' makes all text uppercase, 'lowercase' makes all text lowercase, and 'capitalize' capitalizes the first letter of each word.<br>CSS variable: --wm-btn-text-transform"
+        }
+      },
+      "border": {
+        "width": {
+          "value": "1px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border thickness.<br>CSS variable: --wm-btn-border-width"
+          }
+        },
+        "style": {
+          "value": "solid",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the border style. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-btn-border-style"
+          }
+        },
+        "color": {
+          "value": "{color.surface.container.highest.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color.<br>CSS variable: --wm-btn-border-color"
+          }
+        }
+      },
+      "radius": {
+        "value": "{radius.sm.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the border radius for rounded corners.<br>CSS variable: --wm-btn-radius"
+        }
+      },
+      "padding": {
+        "top": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets internal top spacing between content and border.<br>CSS variable: --wm-btn-padding-top"
+          }
+        },
+        "bottom": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets internal bottom spacing between content and border.<br>CSS variable: --wm-btn-padding-bottom"
+          }
+        },
+        "left": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets internal left spacing between content and border.<br>CSS variable: --wm-btn-padding-left"
+          }
+        },
+        "right": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets internal right spacing between content and border.<br>CSS variable: --wm-btn-padding-right"
+          }
+        }
+      },
+      "min-width": {
+        "value": "auto",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Sets the minimum width.<br>CSS variable: --wm-btn-min-width"
+        }
+      },
+      "height": {
+        "value": "40px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the height.<br>CSS variable: --wm-btn-height"
+        }
+      },
+      "gap": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Sets spacing between icon and text content.<br>CSS variable: --wm-btn-gap"
+        }
+      },
+      "shadow": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect.<br>CSS variable: --wm-btn-shadow"
+        }
+      },
+      "icon-size": {
+        "value": "{icon.size.md.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "icon-size",
+          "description": "Controls the size of icons.<br>CSS variable: --wm-btn-icon-size"
+        }
+      },
+      "ripple": {
+        "color": {
+          "value": "rgba(255, 255, 255, 0.08)",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the ripple effect that appears when users click or tap buttons (the visual feedback animation that spreads from the point of interaction). This determines what color the ripple animation appears in, typically a semi-transparent overlay.<br>CSS variable: --wm-btn-ripple-color"
+          }
+        }
+      },
+      "skeleton": {
+        "width": {
+          "value": "96px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of button skeleton loaders (placeholder elements that appear while button content is loading). This determines how wide the loading placeholder appears. Acceptable units: px, em, rem, %.<br>CSS variable: --wm-btn-skeleton-width"
+          }
+        },
+        "height": {
+          "value": "{space.12.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of button skeleton loaders (placeholder elements that appear while button content is loading). This determines how tall the loading placeholder appears. Acceptable units: px, em, rem.<br>CSS variable: --wm-btn-skeleton-height"
+          }
+        }
+      },
+      "states": {
+        "disabled": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of buttons when they are in the disabled state (when buttons are not interactive and users cannot click them). This determines what color the button text appears in when the button is disabled.<br>CSS variable: --wm-btn-color (disabled state)"
+            }
+          },
+          "background": {
+            "value": "{color.surface.container.highest.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of buttons when they are in the disabled state (when buttons are not interactive and users cannot click them). This is the background color that appears when the button is disabled.<br>CSS variable: --wm-btn-background (disabled state)"
+            }
+          },
+          "border-color": {
+            "value": "{color.surface.container.highest.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around buttons when they are in the disabled state (when buttons are not interactive and users cannot click them). This determines what color the border appears in when the button is disabled.<br>CSS variable: --wm-btn-border-color (disabled state)"
+            }
+          },
+          "opacity": {
+            "value": "0.38",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of buttons when they are in the disabled state (when buttons are not interactive and users cannot click them). A value of 0.38 makes the buttons appear dimmed to indicate they are disabled. Lower values make them more transparent.<br>CSS variable: --wm-btn-opacity (disabled state)"
+            }
+          },
+          "cursor": {
+            "value": "not-allowed",
+            "type": "radius",
+            "attributes": {
+              "subtype": "cursor",
+              "description": "Controls the mouse cursor appearance when hovering over disabled buttons (when buttons are not interactive and users cannot click them). 'not-allowed' shows a blocked cursor indicating the button cannot be clicked, providing visual feedback to users about the button's disabled state.<br>CSS variable: --wm-btn-cursor (disabled state)"
+            }
+          },
+          "shadow": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation",
+              "description": "Controls the drop shadow effect around buttons when they are in the disabled state (when buttons are not interactive and users cannot click them). 'none' removes shadows completely, making disabled buttons appear flat and less prominent.<br>CSS variable: --wm-btn-shadow (disabled state)"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "default": {
+              "background": {
+                "value": "{color.surface.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.surface.container.highest.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "primary": {
+              "background": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "secondary": {
+              "background": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "background": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-tertiary.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.tertiary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "success": {
+              "background": {
+                "value": "{color.success.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-success.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.success.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "info": {
+              "background": {
+                "value": "{color.info.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-info.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.info.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "warning": {
+              "background": {
+                "value": "{color.warning.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-warning.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "danger": {
+              "background": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-error.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                }
+              }
+            }
+          }
+        }
+      },
+      "outlined": {
+        "mapping": {
+          "background": {
+            "value": "transparent",
+            "type": "color"
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.surface.container.highest.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.tertiary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "success": {
+              "color": {
+                "value": "{color.success.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.success.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "info": {
+              "color": {
+                "value": "{color.info.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.info.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "warning": {
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "danger": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "error": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              },
+              "border": {
+                "color": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                }
+              }
+            }
+          }
+        }
+      },
+      "text": {
+        "mapping": {
+          "background": {
+            "value": "none",
+            "type": "color"
+          },
+          "border": {
+            "color": {
+              "value": "transparent",
+              "type": "color"
+            }
+          },
+          "padding": {
+            "top": {
+              "value": "{space.2.value}",
+              "type": "space"
+            },
+            "bottom": {
+              "value": "{space.2.value}",
+              "type": "space"
+            },
+            "left": {
+              "value": "{space.3.value}",
+              "type": "space"
+            },
+            "right": {
+              "value": "{space.3.value}",
+              "type": "space"
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color"
+              }
+            },
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              }
+            },
+            "tertiary": {
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color"
+              }
+            },
+            "success": {
+              "color": {
+                "value": "{color.success.@.value}",
+                "type": "color"
+              }
+            },
+            "info": {
+              "color": {
+                "value": "{color.info.@.value}",
+                "type": "color"
+              }
+            },
+            "warning": {
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color"
+              }
+            },
+            "danger": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              }
+            },
+            "error": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              }
+            }
+          }
+        }
+      },
+      "standard": {
+        "mapping": {
+          "background": {
+            "value": "none",
+            "type": "color"
+          },
+          "border": {
+            "color": {
+              "value": "transparent",
+              "type": "color"
+            }
+          },
+          "padding": {
+            "top": {
+              "value": "{space.2.value}",
+              "type": "space"
+            },
+            "bottom": {
+              "value": "{space.2.value}",
+              "type": "space"
+            },
+            "left": {
+              "value": "{space.3.value}",
+              "type": "space"
+            },
+            "right": {
+              "value": "{space.3.value}",
+              "type": "space"
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color"
+              }
+            },
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              }
+            },
+            "tertiary": {
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color"
+              }
+            },
+            "success": {
+              "color": {
+                "value": "{color.success.@.value}",
+                "type": "color"
+              }
+            },
+            "info": {
+              "color": {
+                "value": "{color.info.@.value}",
+                "type": "color"
+              }
+            },
+            "warning": {
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color"
+              }
+            },
+            "danger": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              }
+            },
+            "error": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color"
+              }
+            }
+          }
+        }
+      },
+      "icon": {
+        "mapping": {
+          "height": {
+            "value": "40px",
+            "type": "space"
+          },
+          "min-width": {
+            "value": "40px",
+            "type": "space"
+          },
+          "padding": {
+            "top": {
+              "value": "{space.0.value}",
+              "type": "space"
+            },
+            "bottom": {
+              "value": "{space.0.value}",
+              "type": "space"
+            },
+            "left": {
+              "value": "{space.0.value}",
+              "type": "space"
+            },
+            "right": {
+              "value": "{space.0.value}",
+              "type": "space"
+            }
+          },
+          "icon-size": {
+            "value": "{icon.size.md.value}",
+            "type": "space"
+          }
+        }
+      },
+      "elevated": {
+        "mapping": {
+          "shadow": {
+            "@": {
+              "value": "{elevation.shadow.1.value}",
+              "type": "radius"
+            }
+          }
+        }
+      },
+      "fab": {
+        "mapping": {
+          "position": {
+            "@": {
+              "value": "absolute",
+              "type": "space"
+            },
+            "bottom": {
+              "value": "10px",
+              "type": "space"
+            },
+            "right": {
+              "value": "10px",
+              "type": "space"
+            }
+          },
+          "height": {
+            "value": "56px",
+            "type": "space"
+          },
+          "min-width": {
+            "value": "56px",
+            "type": "space"
+          },
+          "border": {
+            "radius": {
+              "value": "16px",
+              "type": "radius"
+            }
+          },
+          "shadow": {
+            "@": {
+              "value": "{elevation.shadow.1.value}",
+              "type": "radius"
+            }
+          }
+        }
+      }
+    }
+  }
+}

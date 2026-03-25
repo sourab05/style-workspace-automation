@@ -1,0 +1,495 @@
+{
+  "chips": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-chips"
+        },
+        "states": {
+          "disabled": {
+            "selector": {
+              "mobile": "-disabled"
+            }
+          },
+          "active": {
+            "selector": {
+              "mobile": "-active-item, .app-chips-active-item-text"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "border": {
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border width of the main chips container (the wrapper that holds all chips and the input field). This creates the outline around the entire chips component.<br>CSS variable: --wm-chips-border-width"
+          }
+        }
+      },
+      "background-color": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of individual chip items (the small pill-shaped elements). This affects the background color that appears behind each chip, not the container.<br>CSS variable: --wm-chips-background-color"
+        }
+      },
+      "color": {
+        "value": "{color.on-surface.variant.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of individual chip items (the small pill-shaped elements). This affects the color of the text content inside each chip, not the container.<br>CSS variable: --wm-chips-color"
+        }
+      },
+      "opacity": {
+        "value": "1",
+        "type": "radius",
+        "attributes": {
+          "subtype": "opacity",
+          "description": "Controls the overall transparency of the chips component. When set to 1, the component is fully opaque. Lower values make the entire component more transparent.<br>CSS variable: --wm-chips-opacity"
+        }
+      },
+      "pointer-events": {
+        "value": "auto",
+        "type": "radius",
+        "attributes": {
+          "subtype": "pointer-events",
+          "description": "Controls whether the chips component can receive mouse/touch interactions. Acceptable values: all (fully interactive), none (not clickable), auto (browser default).<br>CSS variable: --wm-chips-pointer-events"
+        }
+      },
+      "shadow": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around the main chips container. This creates a subtle elevation effect that makes the chips component appear to float above the background.<br>CSS variable: --wm-chips-shadow"
+        }
+      },
+      "list": {
+        "gap": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal spacing between individual chip items (the small pill-shaped elements) within the chips container. This creates visual separation between each chip so users can easily distinguish between them.<br>CSS variable: --wm-chips-list-gap"
+          }
+        },
+        "padding-top": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) at the top of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-top"
+          }
+        },
+        "padding-bottom": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) at the bottom of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-bottom"
+          }
+        },
+        "padding-left": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) on the left side of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-left"
+          }
+        },
+        "padding-right": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) on the right side of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-right"
+          }
+        },
+        "background-color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the chips container (the wrapper that holds all chips and the input field). When set to 'transparent', the container has no background color, making it transparent.<br>CSS variable: --wm-chips-list-background-color"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around the chips container (the wrapper that holds all chips and the input field). This determines the color of the outline that defines the container shape.<br>CSS variable: --wm-chips-list-border-color"
+            }
+          },
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of the chips container (the wrapper that holds all chips and the input field). This makes the container appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-chips-list-border-radius"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "style",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of the chips container. Acceptable values: solid (continuous line), dashed (dotted line), dotted (small dots), none (no border).<br>CSS variable: --wm-chips-list-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around the chips container (the wrapper that holds all chips and the input field). This creates the outline that defines the container shape.<br>CSS variable: --wm-chips-list-border-width"
+            }
+          }
+        },
+        "place": {
+          "holder": {
+            "color": {
+              "value": "{color.outline.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of placeholder text in the input field where users type to add new chips. This determines what color the placeholder text appears in.<br>CSS variable: --wm-chips-list-place-holder-color"
+              }
+            }
+          }
+        },
+        "height": {
+          "value": "70px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of the chips container (the wrapper that holds all chips and the input field). This ensures the container has a consistent height even when empty or with few chips.<br>CSS variable: --wm-chips-list-height"
+          }
+        }
+      },
+      "input": {
+        "padding-top": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) at the top of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-top"
+          }
+        },
+        "padding-bottom": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) at the bottom of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-bottom"
+          }
+        },
+        "padding-left": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) on the left side of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-left"
+          }
+        },
+        "padding-right": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) on the right side of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-right"
+          }
+        }
+      },
+      "item": {
+        "height": {
+          "value": "32px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of individual chip items (the small pill-shaped elements). This determines how tall each chip appears visually. Acceptable units: px.<br>CSS variable: --wm-chips-item-height"
+          }
+        },
+        "padding-top": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) at the top of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-top"
+          }
+        },
+        "padding-bottom": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) at the bottom of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-bottom"
+          }
+        },
+        "padding-left": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) on the left side of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-left"
+          }
+        },
+        "padding-right": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) on the right side of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-right"
+          }
+        },
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between elements within individual chip items (like between text and icons, or between text and the remove button). This creates visual separation between different parts of each chip.<br>CSS variable: --wm-chips-item-gap"
+          }
+        },
+        "icon": {
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of icons that appear inside individual chip items (like remove buttons or action icons). This determines what color the icons appear in.<br>CSS variable: --wm-chips-item-icon-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of icons that appear inside individual chip items (like remove buttons or action icons). This affects how large the icons appear within each chip.<br>CSS variable: --wm-chips-item-icon-size"
+            }
+          },
+          "gap": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the spacing between icons and text content within individual chip items. This creates visual separation between the icon and text.<br>CSS variable: --wm-chips-item-icon-gap"
+            }
+          }
+        },
+        "border": {
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of individual chip items. Acceptable values: solid (continuous line), dashed (dotted line), dotted (small dots), none (no border).<br>CSS variable: --wm-chips-item-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around individual chip items (the small pill-shaped elements). This determines the color of the outline that defines each chip's shape.<br>CSS variable: --wm-chips-item-border-color"
+            }
+          },
+          "radius": {
+            "@": {
+              "value": "{radius.sm.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of individual chip items (the small pill-shaped elements). This makes each chip appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-chips-item-border-radius"
+              }
+            }
+          }
+        },
+        "font-family": {
+          "value": "{label.large.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the font family (typeface) for the text content inside individual chip items (the small pill-shaped elements). This determines the visual style of the text that appears within each chip.<br>CSS variable: --wm-chips-item-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{label.large.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls the thickness/boldness of the text content inside individual chip items. Acceptable values: normal, bold, 100-900. This affects how prominent the text appears within each chip.<br>CSS variable: --wm-chips-item-font-weight"
+          }
+        },
+        "font-size": {
+          "value": "{label.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of the text content inside individual chip items (the small pill-shaped elements). This determines how large the text appears within each chip.<br>CSS variable: --wm-chips-item-font-size"
+          }
+        },
+        "line-height": {
+          "value": "{label.large.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines of text inside individual chip items. This is important when chip text wraps to multiple lines, ensuring proper readability.<br>CSS variable: --wm-chips-item-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{label.large.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in the text content inside chip items. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-chips-item-letter-spacing"
+          }
+        },
+        "avatar": {
+          "size": {
+            "value": "{icon.size.@.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of user avatars that appear inside chip items (the small pill-shaped elements). This determines how large profile pictures or user images appear within each chip.<br>CSS variable: --wm-chips-item-avatar-size"
+            }
+          },
+          "radius": {
+            "value": "{radius.pill.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of user avatars inside chip items. When set to pill, avatars appear as perfect circles. Other values create rounded rectangles.<br>CSS variable: --wm-chips-item-avatar-radius"
+            }
+          }
+        }
+      },
+      "states": {
+        "disabled": {
+          "opacity": {
+            "value": "0.38",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the overall transparency of the chips component when it is disabled. When set to 0.38, the component appears semi-transparent to indicate it cannot be interacted with.<br>CSS variable: --wm-chips-disabled-opacity"
+            }
+          },
+          "pointer-events": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "pointer-events",
+              "description": "Prevents mouse/touch interactions with the chips component when it is disabled. When set to 'none', the component cannot receive any pointer events, making it non-interactive.<br>CSS variable: --wm-chips-disabled-pointer-events"
+            }
+          }
+        },
+        "active": {
+          "color": {
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of individual chip items when they are in an active/selected state. This determines what color the chip text appears in when a chip is active.<br>CSS variable: --wm-chips-active-color"
+            }
+          },
+          "background-color": {
+            "value": "{color.secondary.container.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of individual chip items when they are in an active/selected state. This determines what color appears behind chips when they are active.<br>CSS variable: --wm-chips-active-background-color"
+            }
+          },
+          "item": {
+            "border": {
+              "color": {
+                "value": "{color.secondary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of the border around individual chip items when they are in an active/selected state. This determines what color the border appears in when a chip is active.<br>CSS variable: --wm-chips-active-item-border-color"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "radius"
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "background-color": {
+                "value": "{color.surface.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color"
+              }
+            },
+            "primary": {
+              "background-color": {
+                "value": "{color.primary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color"
+              }
+            },
+            "secondary": {
+              "background-color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color"
+              }
+            },
+            "tertiary": {
+              "background-color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color"
+              },
+              "color": {
+                "value": "{color.on-tertiary.@.value}",
+                "type": "color"
+              }
+            }
+          }
+        }
+      },
+      "elevated": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "radius"
+            }
+          },
+          "shadow": {
+            "value": "{elevation.shadow.1.value}",
+            "type": "radius"
+          }
+        }
+      }
+    }
+  }
+}

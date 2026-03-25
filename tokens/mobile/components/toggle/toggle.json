@@ -1,0 +1,171 @@
+{
+  "toggle": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-toggle"
+        },
+        "states": {
+          "on": {
+            "selector": {
+              "mobile": "-on, .app-toggle-handle-on"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "mobile": "-disabled"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "width": {
+        "value": "52px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how wide toggle switches appear (on/off switches that users can flip to enable or disable features). This determines the horizontal size of the toggle switch track.<br>CSS variable: --wm-toggle-width"
+        }
+      },
+      "height": {
+        "value": "32px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how tall toggle switches appear (on/off switches that users can flip to enable or disable features). This determines the vertical size of the toggle switch track.<br>CSS variable: --wm-toggle-height"
+        }
+      },
+      "background": {
+        "color": {
+          "value": "{color.secondary.container.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of toggle switches (the track that the toggle handle slides along). This is the main background color of the toggle switch in its default/off state.<br>CSS variable: --wm-toggle-background-color"
+          }
+        }
+      },
+      "handle": {
+        "color": {
+          "value": "{color.on-secondary.fixed.variant.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of toggle handles (the circular element that slides along the toggle track). This determines what color the draggable part of the toggle appears in.<br>CSS variable: --wm-toggle-handle-color"
+          }
+        },
+        "width": {
+          "value": "16px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of toggle handles (the circular element that slides along the toggle track). This determines how wide the draggable part of the toggle appears.<br>CSS variable: --wm-toggle-handle-width"
+          }
+        },
+        "height": {
+          "value": "16px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of toggle handles (the circular element that slides along the toggle track). This determines how tall the draggable part of the toggle appears.<br>CSS variable: --wm-toggle-handle-height"
+          }
+        },
+        "radius": {
+          "value": "18px",
+          "type": "space",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of toggle handles (the circular element that slides along the toggle track). This makes the handle appear with rounded corners, creating a circular or pill-shaped appearance.<br>CSS variable: --wm-toggle-handle-radius"
+          }
+        },
+        "margin": {
+          "left": {
+            "value": "8px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left margin of toggle handles (the spacing from the left edge of the toggle track). This determines the initial position of the handle when the toggle is in the off state.<br>CSS variable: --wm-toggle-handle-margin-left"
+            }
+          },
+          "right": {
+            "value": "1px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right margin of toggle handles (the spacing from the right edge of the toggle track). This affects the positioning of the handle when the toggle is in the on state.<br>CSS variable: --wm-toggle-handle-margin-right"
+            }
+          }
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.outline.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the border around toggle switches. This determines the color of the outline that defines the toggle switch shape in its default/off state.<br>CSS variable: --wm-toggle-border-color"
+          }
+        },
+        "radius": {
+          "value": "18px",
+          "type": "space",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of toggle switches. When set to a high value, the toggle appears with fully rounded ends, creating a pill-shaped appearance.<br>CSS variable: --wm-toggle-border-radius"
+          }
+        },
+        "width": {
+          "value": "2px",
+          "type": "border",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the border around toggle switches. This creates the outline that defines the toggle switch shape and makes it visible to users.<br>CSS variable: --wm-toggle-border-width"
+          }
+        }
+      },
+      "opacity": {
+        "value": "1",
+        "type": "radius",
+        "attributes": {
+          "subtype": "opacity",
+          "description": "Controls the transparency of toggle switches. When set to 1, the toggle is fully opaque. Lower values make the toggle more transparent, higher values make it more opaque.<br>CSS variable: --wm-toggle-opacity"
+        }
+      },
+      "states": {
+        "on": {
+          "background": {
+            "color": {
+              "value": "{color.secondary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of toggle switches when they are in the on/checked state. This is the color that appears when the toggle is enabled.<br>CSS variable: --wm-toggle-background-color (on state)"
+              }
+            }
+          },
+          "handle": {
+            "color": {
+              "value": "{color.on-secondary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of toggle handles when the toggle is in the on/checked state. This determines what color the draggable part of the toggle appears in when enabled.<br>CSS variable: --wm-toggle-handle-color (on state)"
+              }
+            }
+          }
+        },
+        "disabled": {
+          "opacity": {
+            "value": "0.5",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of disabled toggle switches. When set to 0.5, disabled toggles appear faded to indicate they are not interactive. Lower values make them more transparent, higher values make them more opaque.<br>CSS variable: --wm-toggle-opacity (disabled state)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

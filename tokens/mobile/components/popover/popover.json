@@ -1,0 +1,303 @@
+{
+  "popover": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-popover"
+        }
+      }
+    },
+    "mapping": {
+      "position": {
+        "value": "absolute",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the positioning method of popovers (overlay menus that appear above other content). When set to 'absolute', the popover is positioned relative to its nearest positioned ancestor.<br>CSS variable: --wm-popover-position"
+        }
+      },
+      "left": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the left position offset of popovers (the distance from the left edge of the viewport or parent container). This determines how far from the left the popover appears. Acceptable units: px.<br>CSS variable: --wm-popover-left"
+        }
+      },
+      "bottom": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the bottom position offset of popovers (the distance from the bottom edge of the viewport or parent container). This determines how far from the bottom the popover appears. Acceptable units: px.<br>CSS variable: --wm-popover-bottom"
+        }
+      },
+      "width": {
+        "value": "100%",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the width of popovers. When set to 100%, the popover takes up the full width of its container. Acceptable units: %, px.<br>CSS variable: --wm-popover-width"
+        }
+      },
+      "min-height": {
+        "value": "240px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the minimum height of popover components (small overlay windows that appear when users hover or click on elements). This ensures the popover is always tall enough to be visible and properly displayed.<br>CSS variable: --wm-popover-min-height"
+        }
+      },
+      "elevation": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around popovers. This creates a subtle shadow that makes the popover appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-popover-elevation"
+        }
+      },
+      "padding-top": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the top padding (vertical spacing) inside popovers. This creates breathing room above the popover content. Acceptable units: px.<br>CSS variable: --wm-popover-padding-top"
+        }
+      },
+      "padding-left": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the left padding (horizontal spacing) inside popovers. This creates breathing room on the left side of the popover content. Acceptable units: px.<br>CSS variable: --wm-popover-padding-left"
+        }
+      },
+      "padding-right": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the right padding (horizontal spacing) inside popovers. This creates breathing room on the right side of the popover content. Acceptable units: px.<br>CSS variable: --wm-popover-padding-right"
+        }
+      },
+      "padding-bottom": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the bottom padding (vertical spacing) inside popovers. This creates breathing room below the popover content. Acceptable units: px.<br>CSS variable: --wm-popover-padding-bottom"
+        }
+      },
+      "background-color": {
+        "value": "{color.on-primary.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of popover components (small overlay windows that appear when users hover or click on elements). This is the main background color that appears behind the popover content.<br>CSS variable: --wm-popover-background-color"
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around popover components (small overlay windows that appear when users hover or click on elements). This creates a subtle shadow that makes the popover appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-popover-shadow"
+        }
+      },
+      "radius": {
+        "value": "{radius.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of popover components (small overlay windows that appear when users hover or click on elements). This makes the popover appear with rounded corners for a softer appearance.<br>CSS variable: --wm-popover-radius"
+        }
+      },
+      "border": {
+        "top": {
+          "left": {
+            "radius": {
+              "value": "{radius.xl.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of the top-left corner of popovers. This makes the popover appear with rounded corners on the top-left for a softer appearance.<br>CSS variable: --wm-popover-border-top-left-radius"
+              }
+            }
+          },
+          "right": {
+            "radius": {
+              "value": "{radius.xl.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of the top-right corner of popovers. This makes the popover appear with rounded corners on the top-right for a softer appearance.<br>CSS variable: --wm-popover-border-top-right-radius"
+              }
+            }
+          }
+        }
+      },
+      "header": {
+        "padding-top": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside popover headers (the top section of popover windows that contains the title). This creates breathing room around the popover header content.<br>CSS variable: --wm-popover-header-padding-top"
+          }
+        },
+        "padding-bottom": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside popover headers (the top section of popover windows that contains the title). This creates breathing room around the popover header content.<br>CSS variable: --wm-popover-header-padding-bottom"
+          }
+        },
+        "padding-left": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside popover headers (the top section of popover windows that contains the title). This creates breathing room around the popover header content.<br>CSS variable: --wm-popover-header-padding-left"
+          }
+        },
+        "padding-right": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside popover headers (the top section of popover windows that contains the title). This creates breathing room around the popover header content.<br>CSS variable: --wm-popover-header-padding-right"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of popover headers (the top section of popover windows that contains the title). This determines what color the header text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-popover-header-color"
+          }
+        },
+        "font-family": {
+          "value": "{h5.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for popover headers (the top section of popover windows that contains the title). This determines whether the header text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-popover-header-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{h5.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the popover headers appear (the top section of popover windows that contains the title). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-popover-header-font-weight"
+          }
+        },
+        "font-size": {
+          "value": "{h5.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large the popover headers appear (the top section of popover windows that contains the title). This affects the size of the header text that users see in the popover.<br>CSS variable: --wm-popover-header-font-size"
+          }
+        },
+        "line-height": {
+          "value": "{h5.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when popover headers wrap to multiple lines. This ensures proper spacing for the header text displayed in the popover.<br>CSS variable: --wm-popover-header-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{h5.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in popover headers. This can help make the header text more readable and properly spaced.<br>CSS variable: --wm-popover-header-letter-spacing"
+          }
+        },
+        "background-color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of popover header. This determines what color the title background appears in.<br>CSS variable: --wm-popover-header-background-color"
+          }
+        }
+      },
+      "link": {
+        "text": {
+          "color": {
+            "value": "{color.secondary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of popover caption. This determines what color the link text appears in.<br>CSS variable: --wm-popover-link-text-color"
+            }
+          }
+        },
+        "font-size": {
+          "value": "{body.medium.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of the text in popover caption. This affects how large the link text appears.<br>CSS variable: --wm-popover-link-font-size"
+          }
+        },
+        "font-family": {
+          "value": "{body.medium.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for popover caption text.<br>CSS variable: --wm-popover-link-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{body.medium.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the popover caption text appears.<br>CSS variable: --wm-popover-link-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{body.medium.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when popover caption text wraps to multiple lines.<br>CSS variable: --wm-popover-link-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{body.medium.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in popover caption text.<br>CSS variable: --wm-popover-link-letter-spacing"
+          }
+        },
+        "icon": {
+          "size": {
+            "value": "{icon.size.@.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of icons in popover links.<br>CSS variable: --wm-popover-link-icon-size"
+            }
+          },
+          "color": {
+            "@": {
+              "value": "{color.secondary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of icons in popover links.<br>CSS variable: --wm-popover-link-icon-color"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

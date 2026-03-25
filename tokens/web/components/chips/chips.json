@@ -1,0 +1,653 @@
+{
+  "chips": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-chips"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": ".app-chips:has(.app-chip-search .form-control:hover)"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": ".app-chips:has(.app-chips .app-chip-search .form-control:focus)"
+            }
+          },
+          "error": {
+            "selector": {
+              "web": ".app-chips:has(.app-chip-search .form-control.ng-touched.ng-invalid)"
+            }
+          },
+          "error-focus": {
+            "selector": {
+              "web": ".app-chips:has(.app-chip-search .form-control.ng-touched.ng-invalid:focus)"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "web": ".app-chips[disabled='true']"
+            }
+          },
+          "item-active": {
+            "selector": {
+              "web": ".app-chips .chip-item.active"
+            }
+          },
+          "chip-hover": {
+            "selector": {
+              "web": ".app-chips .app-chip:hover :before"
+            }
+          },
+          "chip-focus": {
+            "selector": {
+              "web": ".app-chips .app-chip:focus :before"
+            }
+          },
+          "chip-active": {
+            "selector": {
+              "web": ".app-chips .app-chip:active :before, .app-chip:active :hover :before, .app-chip:active :focus :before"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "filled": {
+          "mapping": {
+            "selector": {
+              "web": ".app-chips.filled"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "default": {
+                "selector": {
+                  "web": ".default"
+                }
+              },
+              "primary": {
+                "selector": {
+                  "web": ".primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "web": ".secondary"
+                }
+              },
+              "tertiary": {
+                "selector": {
+                  "web": ".tertiary"
+                }
+              }
+            }
+          }
+        },
+        "elevated": {
+          "mapping": {
+            "selector": {
+              "web": ".app-chips.elevated"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "border": {
+        "width": {
+          "value": "{form.mapping.control.border.width.@.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border width of the main chips container (the wrapper that holds all chips and the input field). This creates the outline around the entire chips component.<br>CSS variable: --wm-chips-border-width"
+          }
+        }
+      },
+      "background": {
+        "value": "none",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of the main chips container (the wrapper that holds all chips and the input field). When set to 'none', the container has no background color.<br>CSS variable: --wm-chips-background"
+        }
+      },
+      "color": {
+        "value": "{color.on-surface.variant.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of individual chip items (the small pill-shaped elements). This affects the color of the text content inside each chip, not the container.<br>CSS variable: --wm-chips-color"
+        }
+      },
+      "opacity": {
+        "value": "1",
+        "type": "radius",
+        "attributes": {
+          "subtype": "opacity",
+          "description": "Controls the overall transparency of the chips component. When set to 1, the component is fully opaque. Lower values make the entire component more transparent.<br>CSS variable: --wm-chips-opacity"
+        }
+      },
+      "cursor": {
+        "value": "pointer",
+        "type": "radius",
+        "attributes": {
+          "subtype": "cursor",
+          "description": "Controls the mouse cursor style when hovering over the chips component. Acceptable values: pointer (hand cursor), default (arrow), not-allowed (blocked cursor).<br>CSS variable: --wm-chips-cursor"
+        }
+      },
+      "pointer-events": {
+        "value": "all",
+        "type": "radius",
+        "attributes": {
+          "subtype": "pointer-events",
+          "description": "Controls whether the chips component can receive mouse/touch interactions. Acceptable values: all (fully interactive), none (not clickable), auto (browser default).<br>CSS variable: --wm-chips-pointer-events"
+        }
+      },
+      "shadow": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around the main chips container. This creates a subtle elevation effect that makes the chips component appear to float above the background.<br>CSS variable: --wm-chips-shadow"
+        }
+      },
+      "list": {
+        "gap": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal spacing between individual chip items (the small pill-shaped elements) within the chips container. This creates visual separation between each chip so users can easily distinguish between them.<br>CSS variable: --wm-chips-list-gap"
+          }
+        },
+        "icon": {
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of icons that appear within the chips container (like search icons or action icons). This affects icons that are part of the chips component interface, not icons inside individual chips.<br>CSS variable: --wm-chips-list-icon-size"
+            }
+          }
+        },
+        "padding": {
+          "value": "{form.mapping.control.padding.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) around the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding"
+          }
+        },
+        "background": {
+          "value": "none",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the chips container (the wrapper that holds all chips and the input field). When set to 'none', the container has no background color, making it transparent.<br>CSS variable: --wm-chips-list-background"
+          }
+        },
+        "border": {
+          "width": {
+            "value": "{form.mapping.control.border.width.@.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around the chips container (the wrapper that holds all chips and the input field). This creates the outline that defines the container shape.<br>CSS variable: --wm-chips-list-border-width"
+            }
+          },
+          "style": {
+            "value": "{form.mapping.control.border.style.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of the chips container. Acceptable values: solid (continuous line), dashed (dotted line), dotted (small dots), none (no border).<br>CSS variable: --wm-chips-list-border-style"
+            }
+          },
+          "color": {
+            "value": "{form.mapping.control.border.color.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around the chips container (the wrapper that holds all chips and the input field). This determines the color of the outline that defines the container shape.<br>CSS variable: --wm-chips-list-border-color"
+            }
+          },
+          "radius": {
+            "value": "{form.mapping.control.border.radius.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of the chips container (the wrapper that holds all chips and the input field). This makes the container appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-chips-list-border-radius"
+            }
+          }
+        },
+        "height": {
+          "value": "{form.mapping.control.height.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of the chips container (the wrapper that holds all chips and the input field). This ensures the container has a consistent height even when empty or with few chips.<br>CSS variable: --wm-chips-list-height"
+          }
+        }
+      },
+      "input": {
+        "padding": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) around the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding"
+          }
+        }
+      },
+      "item": {
+        "height": {
+          "value": "32px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of individual chip items (the small pill-shaped elements). This determines how tall each chip appears visually. Acceptable units: px, em, rem.<br>CSS variable: --wm-chips-item-height"
+          }
+        },
+        "padding": {
+          "value": "{space.1.value} {space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing (padding) around the content inside each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding"
+          }
+        },
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between elements within individual chip items (like between text and icons, or between text and the remove button). This creates visual separation between different parts of each chip.<br>CSS variable: --wm-chips-item-gap"
+          }
+        },
+        "border": {
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around individual chip items (the small pill-shaped elements). This creates the outline that defines each chip's shape.<br>CSS variable: --wm-chips-item-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of individual chip items. Acceptable values: solid (continuous line), dashed (dotted line), dotted (small dots), none (no border).<br>CSS variable: --wm-chips-item-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around individual chip items (the small pill-shaped elements). This determines the color of the outline that defines each chip's shape.<br>CSS variable: --wm-chips-item-border-color"
+            }
+          },
+          "radius": {
+            "@": {
+              "value": "{radius.sm.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of individual chip items (the small pill-shaped elements). This makes each chip appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-chips-item-border-radius"
+              }
+            },
+            "with": {
+              "icon": {
+                "value": "{radius.sm.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the corner rounding of chip items that contain icons. This creates a specific rounded appearance for chips with icon content.<br>CSS variable: --wm-chips-item-border-radius-with-icon"
+                }
+              },
+              "avatar": {
+                "value": "{radius.pill.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the corner rounding of chip items that contain user avatars. This creates a pill-shaped appearance for chips with avatar content.<br>CSS variable: --wm-chips-item-border-radius-with-avatar"
+                }
+              }
+            }
+          }
+        },
+        "font-family": {
+          "value": "{label.large.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the font family (typeface) for the text content inside individual chip items (the small pill-shaped elements). This determines the visual style of the text that appears within each chip.<br>CSS variable: --wm-chips-item-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{label.large.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls the thickness/boldness of the text content inside individual chip items. Acceptable values: normal, bold, 100-900. This affects how prominent the text appears within each chip.<br>CSS variable: --wm-chips-item-font-weight"
+          }
+        },
+        "font-size": {
+          "value": "{label.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of the text content inside individual chip items (the small pill-shaped elements). This determines how large the text appears within each chip.<br>CSS variable: --wm-chips-item-font-size"
+          }
+        },
+        "line-height": {
+          "value": "{label.large.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines of text inside individual chip items. This is important when chip text wraps to multiple lines, ensuring proper readability.<br>CSS variable: --wm-chips-item-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{label.large.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in the text content inside chip items. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-chips-item-letter-spacing"
+          }
+        },
+        "layer": {
+          "color": {
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the state layer that appears when users hover, focus, or interact with individual chip items. This creates visual feedback to show that chips are interactive and responsive to user actions.<br>CSS variable: --wm-chips-item-layer-color"
+            }
+          },
+          "opacity": {
+            "value": "0",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of the state layer that appears during user interactions with individual chip items (hover, focus, active). When set to 0, the state layer is invisible. Higher values make the interaction feedback more visible.<br>CSS variable: --wm-chips-item-layer-opacity"
+            }
+          }
+        },
+        "avatar": {
+          "size": {
+            "value": "{icon.size.@.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of user avatars that appear inside chip items (the small pill-shaped elements). This determines how large profile pictures or user images appear within each chip.<br>CSS variable: --wm-chips-item-avatar-size"
+            }
+          },
+          "radius": {
+            "value": "{radius.pill.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of user avatars inside chip items. When set to pill, avatars appear as perfect circles. Other values create rounded rectangles.<br>CSS variable: --wm-chips-item-avatar-radius"
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "list": {
+            "border": {
+              "color": {
+                "value": "{form.mapping.states.hover.control.border.color.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "list": {
+            "border": {
+              "color": {
+                "value": "{form.mapping.states.focus.control.border.color.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          },
+          "shadow": {
+            "value": "inset 0 0 0 ~\"calc({form.mapping.states.focus.control.border.width.value} - {form.mapping.control.border.width.@.value})\" {color.error.@.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        },
+        "error": {
+          "list": {
+            "border": {
+              "color": {
+                "value": "{form.mapping.states.error.control.border.color.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "error-focus": {
+          "shadow": {
+            "value": "inset 0 0 0 ~\"calc({form.mapping.states.focus.control.border.width.value} - {form.mapping.states.error.control.border.color.value})\" {form.mapping.states.error.control.border.color.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        },
+        "disabled": {
+          "opacity": {
+            "value": "0.38",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity"
+            }
+          },
+          "cursor": {
+            "value": "not-allowed",
+            "type": "radius",
+            "attributes": {
+              "subtype": "cursor"
+            }
+          },
+          "pointer-events": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "pointer-events"
+            }
+          }
+        },
+        "item-active": {
+          "item": {
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "background": {
+              "value": "{color.secondary.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.secondary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "chip-hover": {
+          "item": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.hover.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "chip-focus": {
+          "item": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.focus.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "chip-active": {
+          "item": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.active.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "background": {
+                "value": "{color.surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "primary": {
+              "background": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "secondary": {
+              "background": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "background": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      },
+      "elevated": {
+        "mapping": {
+          "border": {
+            "width": {
+              "value": "0",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation"
+              }
+            }
+          },
+          "box-shadow": {
+            "@": {
+              "value": "{elevation.shadow.1.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

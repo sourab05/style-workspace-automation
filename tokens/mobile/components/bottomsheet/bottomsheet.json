@@ -1,0 +1,184 @@
+{
+    "bottomsheet": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-bottomsheet"
+                }
+            }
+        },
+        "mapping": {
+            "backdrop": {
+                "background": {
+                    "value": "rgba(0,0,0,0.1)",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of the bottom sheet backdrop. This is the semi-transparent overlay that appears behind the bottom sheet when it is open.<br>CSS variable: --wm-bottomsheet-backdrop-background"
+                    }
+                }
+            },
+            "background": {
+                "value": "{color.surface.bright.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of the bottom sheet component. This is the main background color that appears behind all bottom sheet content.<br>CSS variable: --wm-bottomsheet-background"
+                }
+            },
+            "border": {
+                "radius":{
+                    "value": "{radius.lg.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius for rounded corners of the bottom sheet component. This makes the bottom sheet appear with rounded corners at the top.<br>CSS variable: --wm-bottomsheet-border-radius"
+                    }
+                },
+                "width":{
+                    "value": "1",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the border thickness of the bottom sheet component. This determines how thick the border around the bottom sheet appears.<br>CSS variable: --wm-bottomsheet-border-width"
+                    }
+                },
+                "color":{
+                    "value": "transparent",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the border color of the bottom sheet component. This determines what color the border around the bottom sheet appears in.<br>CSS variable: --wm-bottomsheet-border-color"
+                    }
+                }
+            },
+            "margin":{
+                "left":{
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the left margin of the bottom sheet component. This creates spacing on the left side of the bottom sheet.<br>CSS variable: --wm-bottomsheet-margin-left"
+                    }
+                },
+                "right":{
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the right margin of the bottom sheet component. This creates spacing on the right side of the bottom sheet.<br>CSS variable: --wm-bottomsheet-margin-right"
+                    }
+                }
+            },
+            "handle":{
+                "background":{
+                    "value": "{color.surface.bright.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of the bottom sheet drag handle. This is the background color that appears behind the drag handle area.<br>CSS variable: --wm-bottomsheet-handle-background"
+                    }
+                },
+                "icon": {
+                    "width": {
+                        "value": "{space.9.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the width of the drag handle icon in the bottom sheet. This determines how wide the drag handle icon appears.<br>CSS variable: --wm-bottomsheet-handle-icon-width"
+                        }
+                    },
+                    "height": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the height of the drag handle icon in the bottom sheet. This determines how tall the drag handle icon appears.<br>CSS variable: --wm-bottomsheet-handle-icon-height"
+                        }
+                    },
+                    "background": {
+                        "value": "{color.outline.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of the drag handle icon in the bottom sheet. This determines what color the drag handle icon appears in.<br>CSS variable: --wm-bottomsheet-handle-icon-background"
+                        }
+                    }
+                },
+                "padding":{
+                    "top":{
+                        "value": "{space.4.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the top padding of the bottom sheet drag handle. This creates spacing at the top of the drag handle area.<br>CSS variable: --wm-bottomsheet-handle-padding-top"
+                        }
+                    },
+                    "bottom":{
+                        "value": "{space.4.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the bottom padding of the bottom sheet drag handle. This creates spacing at the bottom of the drag handle area.<br>CSS variable: --wm-bottomsheet-handle-padding-bottom"
+                        }
+                    }
+                },
+                "border":{
+                    "width":{
+                        "value": "1",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-width",
+                            "description": "Controls the border thickness of the bottom sheet drag handle. This determines how thick the border around the drag handle appears.<br>CSS variable: --wm-bottomsheet-handle-border-width"
+                        }
+                    },
+                    "color":{
+                        "value": "transparent",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the border color of the bottom sheet drag handle. This determines what color the border around the drag handle appears in.<br>CSS variable: --wm-bottomsheet-handle-border-color"
+                        }
+                    }
+                }
+            },
+            "content": {
+                "padding": {
+                    "top": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the top padding of the bottom sheet content area. This creates spacing at the top of the content.<br>CSS variable: --wm-bottomsheet-content-padding-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.5.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the bottom padding of the bottom sheet content area. This creates spacing at the bottom of the content.<br>CSS variable: --wm-bottomsheet-content-padding-bottom"
+                        }
+                    },
+                    "left": {
+                        "value": "{space.5.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the left padding of the bottom sheet content area. This creates spacing on the left side of the content.<br>CSS variable: --wm-bottomsheet-content-padding-left"
+                        }
+                    },
+                    "right": {
+                        "value": "{space.5.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Sets the right padding of the bottom sheet content area. This creates spacing on the right side of the content.<br>CSS variable: --wm-bottomsheet-content-padding-right"
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}

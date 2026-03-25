@@ -1,0 +1,207 @@
+{
+  "container": {
+    "meta": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".app-container-default"
+            }
+          }
+        },
+        "outlined": {
+          "mapping": {
+            "selector": {
+              "web": ".app-outlined-container",
+              "mobile": ".app-outlined-container"
+            }
+          }
+        },
+        "elevated": {
+          "mapping": {
+            "selector": {
+              "web": ".app-elevated-container",
+              "mobile": ".app-elevated-container"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.transparent.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color"
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.border.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the outline around container elements (boxes that hold content). This creates a colored border around the container to define its boundaries.<br>CSS variable: --wm-container-border-color"
+          }
+        },
+        "width": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the outline around container elements. When set to 0, there's no visible border. Higher values create thicker borders around the container.<br>CSS variable: --wm-container-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the style of the outline around container elements. 'none' removes the border, 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-container-border-style"
+          }
+        },
+        "radius": {
+          "value": "{radius.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of container elements. When set to 'none', containers have sharp corners. Higher values create more rounded corners for a softer appearance.<br>CSS variable: --wm-container-border-radius"
+          }
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around container elements. This creates a subtle shadow that makes the container appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-container-shadow"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "border": {
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "width": {
+              "value": "{space.0.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style"
+              }
+            },
+            "radius": {
+              "value": "{radius.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius"
+              }
+            }
+          },
+          "shadow": {
+            "value": "{elevation.shadow.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        }
+      },
+      "outlined": {
+        "mapping": {
+          "border": {
+            "color": {
+              "value": "{color.outline.variant.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style"
+              }
+            },
+            "radius": {
+              "value": "{radius.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius"
+              }
+            }
+          },
+          "shadow": {
+            "value": "{elevation.shadow.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        }
+      },
+      "elevated": {
+        "mapping": {
+          "border": {
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "width": {
+              "value": "{space.0.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style"
+              }
+            },
+            "radius": {
+              "value": "{radius.sm.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius"
+              }
+            }
+          },
+          "shadow": {
+            "value": "{elevation.shadow.1.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          }
+        }
+      }
+    }
+  }
+}

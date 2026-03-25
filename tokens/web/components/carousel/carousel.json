@@ -1,0 +1,160 @@
+{
+  "carousel": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-carousel"
+        },
+        "states": {
+          "active": {
+            "selector": {
+              "web": " .carousel-indicators li.active"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "indicators": {
+        "border": {
+          "@": {
+            "value": "{color.primary.container.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of carousel indicators (the small dots at the bottom that show which slide is active). These dots help users navigate between different slides in the carousel.<br>CSS variable: --wm-carousel-indicators-border"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of carousel indicators. Acceptable values: solid, dashed, dotted, none. This affects the outline appearance of the navigation dots.<br>CSS variable: --wm-carousel-indicators-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around carousel indicators. This creates the outline effect around each navigation dot.<br>CSS variable: --wm-carousel-indicators-border-width"
+            }
+          }
+        },
+        "radius": {
+          "value": "{radius.circle.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of carousel indicators. When set to circle, the indicators appear as perfect round dots. Other values create rounded rectangles.<br>CSS variable: --wm-carousel-indicators-radius"
+          }
+        },
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of carousel indicators (the navigation dots). When transparent, only the border is visible. When filled, the dot appears solid.<br>CSS variable: --wm-carousel-indicators-background"
+          }
+        },
+        "size": {
+          "value": "10px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the diameter of carousel indicators (the navigation dots). Larger values make the dots more prominent and easier to click. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-indicators-size"
+          }
+        },
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal spacing between individual carousel indicators (navigation dots). This creates visual separation between each dot so users can easily distinguish between them.<br>CSS variable: --wm-carousel-indicators-gap"
+          }
+        },
+        "margin": {
+          "value": "1px",
+          "type": "space",
+          "attributes": {
+            "subtype": "margin",
+            "description": "Controls the outer margin around each carousel indicator. This creates additional space around each navigation dot, affecting the overall spacing and clickable area.<br>CSS variable: --wm-carousel-indicators-margin"
+          }
+        }
+      },
+      "control": {
+        "icon": {
+          "font": {
+            "size": {
+              "value": "48px",
+              "type": "space",
+              "attributes": {
+                "subtype": "icon-size",
+                "description": "Controls the size of carousel navigation arrow icons (left/right arrows that allow users to manually navigate between slides). Larger values make the arrows more prominent and easier to click. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-control-icon-font-size"
+              }
+            }
+          }
+        }
+      },
+      "caption": {
+        "padding": {
+          "top": {
+            "value": "20px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top padding (vertical spacing) inside the carousel caption area. This creates breathing room above the caption text that appears as an overlay on carousel slides. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-caption-padding-top"
+            }
+          },
+          "bottom": {
+            "value": "30px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) inside the carousel caption area. This creates breathing room below the caption text that appears as an overlay on carousel slides. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-caption-padding-bottom"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.white.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of carousel captions (the text overlay that appears on top of carousel slides). This is typically white or a light color to ensure good contrast against dark slide backgrounds.<br>CSS variable: --wm-carousel-caption-color"
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "indicators": {
+            "background": {
+              "value": "{color.primary.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of the currently active carousel indicator (the dot representing the slide that is currently being displayed). This creates visual feedback to show users which slide they are viewing.<br>CSS variable: --wm-carousel-indicators-background (active state)"
+              }
+            },
+            "size": {
+              "value": "~\"calc(10px * 1.2)\"",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the size of the active carousel indicator. The active dot is typically larger than inactive dots to emphasize which slide is currently being displayed. This creates a visual hierarchy that helps users understand their current position.<br>CSS variable: --wm-carousel-indicators-size (active state)"
+              }
+            },
+            "margin": {
+              "value": "0px",
+              "type": "space",
+              "attributes": {
+                "subtype": "margin",
+                "description": "Controls the outer margin around the active carousel indicator. When set to 0px, the active dot appears flush with other indicators. This affects the overall spacing and visual alignment of the navigation dots.<br>CSS variable: --wm-carousel-indicators-margin (active state)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

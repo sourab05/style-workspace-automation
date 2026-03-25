@@ -1,0 +1,231 @@
+{
+  "calendar": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-calendar"
+        }
+      }
+    },
+    "mapping": {
+      "view": {
+        "shadow": {
+          "value": "{elevation.shadow.1.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the shadow of the calendar view container.<br>CSS variable: --wm-calendar-view-shadow"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.border.translucent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of the calendar view.<br>CSS variable: --wm-calendar-view-border-color"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of the calendar view. Acceptable values: solid, dashed, dotted, none.<br>CSS variable: --wm-calendar-view-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border width of the calendar view.<br>CSS variable: --wm-calendar-view-border-width"
+            }
+          }
+        },
+        "radius": {
+          "value": "{radius.md.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius of the calendar view.<br>CSS variable: --wm-calendar-view-radius"
+          }
+        }
+      },
+      "fc": {
+        "header": {
+          "vertical": {
+            "padding": {
+              "value": "{space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls vertical padding of the calendar header.<br>CSS variable: --wm-calendar-fc-header-vertical-padding"
+              }
+            }
+          },
+          "horizontal": {
+            "padding": {
+              "value": "{space.5.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls horizontal padding of the calendar header.<br>CSS variable: --wm-calendar-fc-header-horizontal-padding"
+              }
+            }
+          },
+          "text": {
+            "font-weight": {
+              "value": "{font.weight.700.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight of calendar header text. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-calendar-fc-header-text-font-weight"
+              }
+            }
+          }
+        },
+        "time": {
+          "text": {
+            "font-weight": {
+              "value": "{font.weight.700.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight of calendar time text. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-calendar-fc-time-text-font-weight"
+              }
+            }
+          }
+        },
+        "events": {
+          "gap": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls spacing between calendar events.<br>CSS variable: --wm-calendar-fc-events-gap"
+            }
+          }
+        },
+        "daygrid": {
+          "event": {
+            "radius": {
+              "value": "{radius.xs.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of calendar day grid events.<br>CSS variable: --wm-calendar-fc-daygrid-event-radius"
+              }
+            }
+          }
+        },
+        "v": {
+          "event": {
+            "main": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the main color of calendar events.<br>CSS variable: --wm-calendar-fc-v-event-main-color"
+                }
+              }
+            }
+          }
+        },
+        "popover": {
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius of calendar popovers.<br>CSS variable: --wm-calendar-fc-popover-radius"
+            }
+          },
+          "heading": {
+            "padding": {
+              "value": "{space.2.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls padding of calendar popover headings.<br>CSS variable: --wm-calendar-fc-popover-heading-padding"
+              }
+            }
+          },
+          "title": {
+            "font-size": {
+              "value": "{body.medium.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of calendar popover titles.<br>CSS variable: --wm-calendar-fc-popover-title-font-size"
+              }
+            },
+            "font-weight": {
+              "value": "{font.weight.700.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight of calendar popover titles. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-calendar-fc-popover-title-font-weight"
+              }
+            },
+            "font-family": {
+              "value": "{body.medium.font-family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the font family of calendar popover titles.<br>CSS variable: --wm-calendar-fc-popover-title-font-family"
+              }
+            },
+            "line-height": {
+              "value": "{body.medium.line-height.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "line-height",
+                "description": "Controls the line height of calendar popover titles.<br>CSS variable: --wm-calendar-fc-popover-title-line-height"
+              }
+            }
+          }
+        },
+        "event": {
+          "background": {
+            "value": "{color.primary.fixed.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of calendar events.<br>CSS variable: --wm-calendar-fc-event-background"
+            }
+          },
+          "color": {
+            "value": "{color.surface.tint.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of calendar events.<br>CSS variable: --wm-calendar-fc-event-color"
+            }
+          },
+          "dot": {
+            "color": {
+              "value": "{color.surface.tint.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of calendar event dots.<br>CSS variable: --wm-calendar-fc-event-dot-color"
+              }
+            }
+          }
+        },
+        "anchor": {
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of calendar anchor elements.<br>CSS variable: --wm-calendar-fc-anchor-color"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,462 @@
+{
+  "modal": {
+    "meta": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".modal-dialog"
+            }
+          },
+          "variantGroups": {
+            "size": {
+              "xs": {
+                "selector": {
+                  "web": ".modal-xs"
+                }
+              },
+              "sm": {
+                "selector": {
+                  "web": ".modal-sm"
+                }
+              },
+              "md": {
+                "selector": {
+                  "web": ".modal-md"
+                }
+              },
+              "lg": {
+                "selector": {
+                  "web": ".modal-lg"
+                }
+              },
+              "xl": {
+                "selector": {
+                  "web": ".modal-xl"
+                }
+              },
+              "full-screen": {
+                "selector": {
+                  "web": ".modal-full-screen"
+                }
+              }
+            }
+          }
+        },
+        "sheet": {
+          "mapping": {
+            "selector": {
+              "web": ".modal-dialog.modal-sheet"
+            }
+          },
+          "variantGroups": {
+            "position": {
+              "top": {
+                "selector": {
+                  "web": ".sheet-position-top"
+                }
+              },
+              "right": {
+                "selector": {
+                  "web": ".sheet-position-right"
+                }
+              },
+              "bottom": {
+                "selector": {
+                  "web": ".sheet-position-bottom"
+                }
+              },
+              "left": {
+                "selector": {
+                  "web": ".sheet-position-left"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "align-items": {
+        "value": "center",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the vertical alignment of modal dialogs (pop-up windows that appear over the main content). 'center' positions the modal in the middle of the screen vertically, 'flex-start' positions it at the top, 'flex-end' positions it at the bottom, and 'stretch' makes it fill the full height.<br>CSS variable: --wm-modal-align-items"
+        }
+      },
+      "justify-content": {
+        "value": "center",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the horizontal alignment of modal dialogs (pop-up windows that appear over the main content). 'center' positions the modal in the middle of the screen horizontally, 'flex-start' positions it at the left, 'flex-end' positions it at the right, and 'space-between'/'space-around' distributes space around the modal.<br>CSS variable: --wm-modal-justify-content"
+        }
+      },
+      "margin": {
+        "value": "{space.6.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the margin around modal dialogs (pop-up windows that appear over the main content). This creates space between the modal and the edges of the screen, ensuring the modal doesn't touch the screen edges.<br>CSS variable: --wm-modal-margin"
+        }
+      },
+      "backdrop": {
+        "opacity": {
+          "value": "50%",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the transparency of the modal backdrop (the dark overlay that appears behind modal dialogs). This determines how much the background content is dimmed when a modal is open.<br>CSS variable: --wm-modal-backdrop-opacity"
+          }
+        },
+        "background": {
+          "value": "{color.scrim.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the modal backdrop (the dark overlay that appears behind modal dialogs). This is the color that dims the background content when a modal is open.<br>CSS variable: --wm-modal-backdrop-background"
+          }
+        },
+        "z-index": {
+          "value": "999",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the stacking order of the modal backdrop (the dark overlay that appears behind modal dialogs). Higher values make the backdrop appear above other elements, ensuring it covers the background content.<br>CSS variable: --wm-modal-backdrop-z-index"
+          }
+        }
+      },
+      "z-index": {
+        "value": "1000",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the stacking order of modal dialogs (pop-up windows that appear over the main content). Higher values make the modal appear above other elements, ensuring it's visible on top of all other content.<br>CSS variable: --wm-modal-z-index"
+        }
+      },
+      "width": {
+        "value": "600px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how wide modal dialogs appear (pop-up windows that appear over the main content). This determines the horizontal size of the modal window that users interact with.<br>CSS variable: --wm-modal-width"
+        }
+      },
+      "height": {
+        "value": "auto",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how tall modal dialogs appear (pop-up windows that appear over the main content). 'auto' lets the modal size itself based on its content, while specific values (px, %, em, rem, vh) set a fixed height.<br>CSS variable: --wm-modal-height"
+        }
+      },
+      "background": {
+        "value": "{color.surface.container.high.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of modal dialogs (pop-up windows that appear over the main content). This is the main background color that appears behind the modal content.<br>CSS variable: --wm-modal-background"
+        }
+      },
+      "radius": {
+        "value": "{radius.lg.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of modal dialogs (pop-up windows that appear over the main content). This makes the modal appear with rounded corners for a softer appearance.<br>CSS variable: --wm-modal-radius"
+        }
+      },
+      "header": {
+        "padding": {
+          "value": "{space.6.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside modal headers (the top section of modal dialogs that contains the title and close button). This creates breathing room around the header content.<br>CSS variable: --wm-modal-header-padding"
+          }
+        }
+      },
+      "title": {
+        "gap": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between title elements in modal dialogs (like the space between the title text and any icons). This creates visual separation between different parts of the modal title.<br>CSS variable: --wm-modal-title-gap"
+          }
+        },
+        "font-size": {
+          "value": "{h3.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large the modal titles appear (the main heading text in modal dialogs). This affects the size of the title text that users see in the modal header.<br>CSS variable: --wm-modal-title-font-size"
+          }
+        },
+        "font-family": {
+          "value": "{h3.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for modal titles (the main heading text in modal dialogs). This determines whether the title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-modal-title-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{h3.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the modal titles appear (the main heading text in modal dialogs). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-modal-title-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{h3.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when modal titles wrap to multiple lines. This ensures proper spacing for the title text displayed in the modal header.<br>CSS variable: --wm-modal-title-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{h3.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in modal titles. This can help make the title text more readable and properly spaced.<br>CSS variable: --wm-modal-title-letter-spacing"
+          }
+        }
+      },
+      "body": {
+        "padding": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside modal body content (the main content area of modal dialogs). This creates breathing room around the modal content.<br>CSS variable: --wm-modal-body-padding"
+          }
+        }
+      },
+      "footer": {
+        "padding": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside modal footers (the bottom section of modal dialogs that contains action buttons). This creates breathing room around the footer content.<br>CSS variable: --wm-modal-footer-padding"
+          }
+        },
+        "gap": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between footer elements in modal dialogs (like the space between action buttons). This creates visual separation between different footer elements.<br>CSS variable: --wm-modal-footer-gap"
+          }
+        }
+      },
+      "login": {
+        "dialog": {
+          "form": {
+            "body": {
+              "padding": {
+                "value": "{space.1.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space",
+                  "description": "Controls padding of login dialog form body.<br>CSS variable: --wm-modal-login-dialog-form-body-padding"
+                }
+              }
+            },
+            "elements": {
+              "gap": {
+                "value": "{space.2.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space",
+                  "description": "Controls spacing between login dialog form elements.<br>CSS variable: --wm-modal-login-dialog-form-elements-gap"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "variantGroups": {
+          "size": {
+            "xs": {
+              "width": {
+                "value": "440px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "sm": {
+              "width": {
+                "value": "600px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "md": {
+              "width": {
+                "value": "900px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "lg": {
+              "width": {
+                "value": "1200px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "xl": {
+              "width": {
+                "value": "1536px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "full-screen": {
+              "width": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "height": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "margin": {
+                "value": "{space.0.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "radius": {
+                "value": "{radius.none.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius"
+                }
+              }
+            }
+          }
+        }
+      },
+      "sheet": {
+        "mapping": {
+          "width": {
+            "value": "400px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          },
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius"
+            }
+          },
+          "margin": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          }
+        },
+        "variantGroups": {
+          "position": {
+            "top": {
+              "align-items": {
+                "value": "flex-start",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "width": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "right": {
+              "justify-content": {
+                "value": "flex-end",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "height": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "bottom": {
+              "align-items": {
+                "value": "flex-end",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "width": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            },
+            "left": {
+              "justify-content": {
+                "value": "flex-start",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "height": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

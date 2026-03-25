@@ -1,0 +1,734 @@
+{
+  "btn": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-button,button,.btn",
+          "mobile": ".app-button"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "mobile": ".hover,",
+              "web": ":hover,:hover::before,:hover::before,.hover::before,.hover::before"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": ":focus,:focus::before,:focus::before,.focus::before,.focus::before",
+              "mobile": ".focus"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": ":active,:active::before,:active::before,:active:focus::before,:active:focus::before,:active:hover::before,:active:hover::before,:active.focus::before,:active.focus::before",
+              "mobile": ".active"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "mobile": ".disabled",
+              "web": "[disabled]"
+            }
+          }
+        }
+      },
+      "appearances": {}
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button text and icons.<br>CSS variable: --wm-btn-background"
+        }
+      },
+      "color": {
+        "value": "{color.on-surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of buttons (clickable elements that users interact with to perform actions). This determines what color the button text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-btn-color"
+        }
+      },
+      "font-size": {
+        "value": "{label.large.font-size.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-size",
+          "description": "Controls how large the button text appears (the text content within clickable buttons). This affects the size of the button text that users see and interact with.<br>CSS variable: --wm-btn-font-size"
+        }
+      },
+      "font-family": {
+        "value": "{label.large.font-family.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Sets the typeface (font style) for button text (the text content within clickable buttons). This determines whether the button text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-btn-font-family"
+        }
+      },
+      "font-weight": {
+        "value": "{label.large.font-weight.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-weight",
+          "description": "Controls how thick or bold the button text appears (the text content within clickable buttons). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-btn-font-weight"
+        }
+      },
+      "line-height": {
+        "value": "{label.large.line-height.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "line-height",
+          "description": "Controls the vertical spacing between lines when button text wraps to multiple lines. This ensures proper spacing for the button text displayed in the button.<br>CSS variable: --wm-btn-line-height"
+        }
+      },
+      "letter-spacing": {
+        "value": "{label.large.letter-spacing.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "letter-spacing",
+          "description": "Controls the horizontal spacing between individual characters in button text (the text content within clickable buttons). This can help make the button text more readable and properly spaced.<br>CSS variable: --wm-btn-letter-spacing"
+        }
+      },
+      "text-transform": {
+        "value": "none",
+        "type": "radius",
+        "attributes": {
+          "subtype": "text-transform",
+          "description": "Controls text transformation for button text (the text content within clickable buttons). 'none' keeps the original case, 'uppercase' makes all text uppercase, 'lowercase' makes all text lowercase, and 'capitalize' capitalizes the first letter of each word.<br>CSS variable: --wm-btn-text-transform"
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.surface.container.highest.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color.<br>CSS variable: --wm-btn-border-color"
+          }
+        },
+        "width": {
+          "value": "1px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border thickness.<br>CSS variable: --wm-btn-border-width"
+          }
+        },
+        "style": {
+          "value": "solid",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the border style. Acceptable values: solid, dashed, dotted, double, groove, ridge, inset, outset, none.<br>CSS variable: --wm-btn-border-style"
+          }
+        }
+      },
+      "cursor": {
+        "value": "pointer",
+        "type": "radius",
+        "attributes": {
+          "subtype": "cursor",
+          "description": "Controls the mouse cursor appearance when hovering over buttons. 'pointer' shows a hand cursor indicating the button is clickable, 'default' shows an arrow cursor, and 'not-allowed' shows a blocked cursor for disabled buttons. This provides visual feedback to users about button interactivity.<br>CSS variable: --wm-btn-cursor"
+        }
+      },
+      "radius": {
+        "value": "{radius.sm.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the border radius for rounded corners.<br>CSS variable: --wm-btn-radius"
+        }
+      },
+      "padding": {
+        "value": "{space.0.value} {space.6.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Sets internal spacing between content and border.<br>CSS variable: --wm-btn-padding"
+        }
+      },
+      "min-width": {
+        "value": "auto",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Sets the minimum width.<br>CSS variable: --wm-btn-min-width"
+        }
+      },
+      "height": {
+        "value": "{space.10.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the height.<br>CSS variable: --wm-btn-height"
+        }
+      },
+      "gap": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Sets spacing between icon and text content.<br>CSS variable: --wm-btn-gap"
+        }
+      },
+      "shadow": {
+        "@": {
+          "value": "none",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect.<br>CSS variable: --wm-btn-shadow"
+          }
+        }
+      },
+      "icon-size": {
+        "value": "{icon.size.md.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "icon-size",
+          "description": "Controls the size of icons.<br>CSS variable: --wm-btn-icon-size"
+        }
+      },
+      "state": {
+        "layer": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the state layer (an invisible overlay that provides visual feedback during user interactions like hover, focus, and active states). This color appears when users interact with the button to show it's responsive.<br>CSS variable: --wm-btn-state-layer-color"
+            }
+          },
+          "opacity": {
+            "value": "0",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of the state layer (the invisible overlay that provides visual feedback during user interactions). When set to 0, the state layer is invisible. Higher values (0-1) make the interaction feedback more visible when users hover, focus, or click the button.<br>CSS variable: --wm-btn-state-layer-opacity"
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.hover.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.focus.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "state": {
+            "layer": {
+              "opacity": {
+                "value": "{opacity.active.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "opacity"
+                }
+              }
+            }
+          }
+        },
+        "disabled": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          },
+          "background": {
+            "value": "{color.surface.container.highest.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.surface.container.highest.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          },
+          "opacity": {
+            "value": "0.38",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of disabled buttons. When set to 0.38 (38% opacity), the button appears dimmed to indicate it's not interactive. This provides visual feedback that the button cannot be clicked.<br>CSS variable: --wm-btn-opacity (disabled state)"
+            }
+          },
+          "shadow": {
+            "@": {
+              "value": "none",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation",
+                "description": "Removes the drop shadow from disabled buttons. This creates a flat appearance that reinforces the disabled state visually.<br>CSS variable: --wm-btn-shadow (disabled state)"
+              }
+            }
+          },
+          "cursor": {
+            "value": "not-allowed",
+            "type": "radius",
+            "attributes": {
+              "description": "Sets the mouse cursor to 'not-allowed' (blocked cursor) when hovering over disabled buttons. This provides immediate visual feedback that the button cannot be clicked.<br>CSS variable: --wm-btn-cursor (disabled state)"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "default": {
+              "background": {
+                "value": "{color.surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.surface.container.highest.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "primary": {
+              "background": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "secondary": {
+              "background": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-secondary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "tertiary": {
+              "background": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.tertiary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-tertiary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "outlined": {
+        "mapping": {
+          "background": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.surface.container.highest.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.secondary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "tertiary": {
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "border": {
+                "color": {
+                  "value": "{color.tertiary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.tertiary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "text": {
+        "mapping": {
+          "background": {
+            "value": "none",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.transparent.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          },
+          "padding": {
+            "value": "{space.2.value} {space.3.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          }
+        },
+        "variantGroups": {
+          "status": {
+            "default": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.secondary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "tertiary": {
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.tertiary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "transparent": {
+        "mapping": {
+          "background": {
+            "value": "none",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "none",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          },
+          "state": {
+            "layer": {
+              "color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

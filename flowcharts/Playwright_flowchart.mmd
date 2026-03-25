@@ -1,0 +1,93 @@
+flowchart LR
+    %% ==================================================
+    %% GLOBAL SETTINGS & NODES
+    %% ==================================================
+    
+    %% Start / End Nodes (Stadium Shape)
+    W0([Start Playwright Tests])
+    W14([Web artifacts ready])
+
+    %% Standard Nodes
+    W1[Read token JSON files]
+    W2[Generate token matrix]
+    W12[Summarize web results]
+    W13[Generate HTML report]
+
+    %% Decision Nodes (Diamonds)
+    W3{For each\nvariant}
+    W11{More\nvariants?}
+
+    %% ==================================================
+    %% SUBGRAPH 1: BASELINE (Vertical)
+    %% ==================================================
+    subgraph BASE[Baseline Setup]
+        direction TB
+        WB0[Login to Studio]
+        WB1[Open Studio Canvas]
+        WB2[Capture Canvas baseline]
+        WB3[Open Runtime Preview]
+        WB4[Capture Runtime baseline]
+        
+        %% Connect internally
+        WB0 --> WB1 --> WB2 --> WB3 --> WB4
+    end
+
+    %% ==================================================
+    %% SUBGRAPH 2: EXECUTION (Vertical)
+    %% ==================================================
+    subgraph EXEC[Variant Execution]
+        direction TB
+        W4[Apply token]
+        W5[Trigger preview]
+        W6[Capture screenshot]
+        W7[Read computed CSS]
+        W8[Compare with baseline]
+        W9[Validate CSS rules]
+        W10[Record result]
+
+       %% Connect internally
+       W4 --> W5 --> W6 --> W7 --> W8 --> W9 --> W10
+    end
+
+    %% ==================================================
+    %% FLOW & CONNECTIONS
+    %% ==================================================
+    
+    %% 1. Pre-processing
+    W0 --> W1 --> W2
+    
+    %% 2. Enter Baseline Box (Link to first node)
+    W2 ----> WB0
+    
+    %% 3. Exit Baseline -> Enter Loop Start
+    WB4 ----> W3
+
+    %% 4. Enter Execution Box (Link to first node)
+    W3 --> W4
+
+    %% 5. Exit Execution Box -> Enter Loop Check
+    W10 --> W11
+
+    %% 6. The Loop (Backwards with curve)
+    W11 -- Yes ------> W3
+
+    %% 7. The Exit Path
+    W11 -- No ----> W12 --> W13 --> W14
+
+    %% ==================================================
+    %% ADVANCED STYLING
+    %% ==================================================
+    
+    %% 1. Define Palettes
+    classDef startEnd fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef proc fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px,color:#1B5E20
+    classDef decision fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px,color:#E65100
+    
+    %% 2. Apply Classes
+    class W0,W14 startEnd
+    class W3,W11 decision
+    class W1,W2,WB0,WB1,WB2,WB3,WB4,W4,W5,W6,W7,W8,W9,W10,W12,W13 proc
+
+    %% 3. Style Subgraph Containers (Light background + Dashed border)
+    style BASE fill:#FAFAFA,stroke:#9E9E9E,stroke-width:2px,stroke-dasharray: 5 5
+    style EXEC fill:#FAFAFA,stroke:#9E9E9E,stroke-width:2px,stroke-dasharray: 5 5

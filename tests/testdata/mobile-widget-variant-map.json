@@ -1,0 +1,50 @@
+{
+  "button": {
+    "page": "button",
+    "widgets": [
+      {
+        "studioWidgetName": "button1",
+        "variantName": "button-filled-primary-default",
+        "properties": [
+          {
+            "tokenType": "color",
+            "styleKey": "backgroundColor",
+            "tokenPropertyPath": ["color", "background"]
+          },
+          {
+            "tokenType": "color",
+            "styleKey": "color",
+            "tokenPropertyPath": ["color", "text"]
+          }
+        ]
+      }
+    ]
+  },
+  "accordian": {
+    "page": "accordian",
+    "widgets": [
+      {
+        "studioWidgetName": "accordian1",
+        "variantName": "accordian-standard-standard-default",
+        "properties": [
+          {
+            "tokenType": "color",
+            "styleKey": "backgroundColor",
+            "tokenPropertyPath": ["color", "background"]
+          }
+        ]
+      },
+      {
+        "studioWidgetName": "accordian2",
+        "variantName": "accordian-standard-standard-disabled",
+        "properties": [
+          {
+            "tokenType": "color",
+            "styleKey": "backgroundColor",
+            "tokenPropertyPath": ["color", "background"]
+          }
+        ]
+      }
+    ]
+  }
+}

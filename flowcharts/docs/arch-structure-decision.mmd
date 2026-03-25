@@ -1,0 +1,20 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px'}}}%%
+flowchart TD
+    Start["<b>Start</b><br/>Look at your widget"] --> Q1{"<b>Does the widget have</b><br/><b>variant groups?</b>"}
+
+    Q1 -->|"No"| Q2{"<b>Does it use a simple</b><br/><b>flat token mapping?</b>"}
+    Q1 -->|"Yes"| Q3{"<b>Does it mix root-level</b><br/><b>and appearance-level</b><br/><b>mappings?</b>"}
+
+    Q2 -->|"Yes"| DirectMapping["<b>direct-mapping</b><br/>Simplest structure.<br/>Tokens map directly<br/>to the widget."]
+    Q2 -->|"No"| AppMapping["<b>appearance-mapping</b><br/>Tokens are grouped<br/>by appearance<br/>(e.g. filled, outlined)."]
+
+    Q3 -->|"Yes"| HybridMapping["<b>hybrid-mapping</b><br/>Some tokens at root level,<br/>others nested under<br/>each appearance."]
+    Q3 -->|"No"| VariantGroups["<b>variant-groups</b><br/>Tokens are grouped<br/>by variant group<br/>(e.g. size, shape)."]
+
+    classDef startStyle fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef questionStyle fill:#FFF8E1,stroke:#F57F17,stroke-width:2px,color:#E65100
+    classDef answerStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class Start startStyle
+    class Q1,Q2,Q3 questionStyle
+    class DirectMapping,AppMapping,HybridMapping,VariantGroups answerStyle

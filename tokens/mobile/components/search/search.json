@@ -1,0 +1,414 @@
+{
+  "search": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": "app-search"
+        }
+      }
+    },
+    "mapping": {
+      "height": {
+        "value": "{space.12.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the height of search components (input fields that allow users to search for content). This determines the vertical size of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-height"
+        }
+      },
+      "border": {
+        "radius": {
+          "value": "{space.7.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius (rounded corners) of search components. This determines how rounded the corners of the search input field appear. Acceptable units: px.<br>CSS variable: --wm-search-border-radius"
+          }
+        },
+        "width": {
+          "value": "{border.width.1.value}",
+          "type": "border",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border width (thickness) of search components. This determines how thick the border around the search input field appears. Acceptable units: px.<br>CSS variable: --wm-search-border-width"
+          }
+        },
+        "color": {
+          "value": "{color.outline.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of search components. This determines what color the border around the search input field appears in.<br>CSS variable: --wm-search-border-color"
+          }
+        }
+      },
+      "text": {
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of search input text (the text that users type into the search field). This determines what color the search input text appears in.<br>CSS variable: --wm-search-text-color"
+          }
+        },
+        "background": {
+          "color": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of search input text fields. This determines what color the background of the search input field appears in.<br>CSS variable: --wm-search-text-background-color"
+            }
+          }
+        },
+        "font": {
+          "size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of search input text. This affects how large the text appears in the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-font-size"
+            }
+          },
+          "family": {
+            "value": "{body.medium.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of search input text. This determines which font is used for the text in the search input field.<br>CSS variable: --wm-search-text-font-family"
+            }
+          },
+          "weight": {
+            "value": "{body.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight (boldness) of search input text. This affects how bold the text appears in the search input field.<br>CSS variable: --wm-search-text-font-weight"
+            }
+          }
+        },
+        "padding": {
+          "top": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top padding (vertical spacing) of search input text. This creates breathing room at the top of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-top"
+            }
+          },
+          "bottom": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) of search input text. This creates breathing room at the bottom of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-bottom"
+            }
+          },
+          "left": {
+            "value": "{space.6.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) of search input text. This creates breathing room on the left side of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.3.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding (horizontal spacing) of search input text. This creates breathing room on the right side of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-right"
+            }
+          }
+        }
+      },
+      "dropdown": {
+        "width": {
+          "value": "90%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of search dropdown menu (autocomplete suggestions that appear below the search input). This determines how wide the dropdown appears relative to its container. Acceptable units: %, px.<br>CSS variable: --wm-search-dropdown-width"
+          }
+        },
+        "background": {
+          "color": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of search dropdown menus. This determines what color the background of the dropdown appears in.<br>CSS variable: --wm-search-dropdown-background-color"
+            }
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.md.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius (rounded corners) of search dropdown menus. This determines how rounded the corners of the dropdown appear. Acceptable units: px.<br>CSS variable: --wm-search-dropdown-border-radius"
+            }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of search dropdown menus. This determines what color the border around the dropdown appears in.<br>CSS variable: --wm-search-dropdown-border-color"
+            }
+          },
+          "width": {
+            "value": "0",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border width (thickness) of search dropdown menus. This determines how thick the border around the dropdown appears. Acceptable units: px.<br>CSS variable: --wm-search-dropdown-border-width"
+            }
+          }
+        }
+      },
+      "invalid": {
+        "color": {
+          "value": "{color.error.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of invalid search input fields (when validation fails). This determines what color the border appears in when the search input is in an invalid state, typically matching the error theme color.<br>CSS variable: --wm-search-invalid-color"
+          }
+        }
+      },
+      "btn": {
+        "background": {
+          "color": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of search button (the button that triggers the search action). This determines what color the background of the search button appears in.<br>CSS variable: --wm-search-btn-background-color"
+            }
+          }
+        },
+        "icon": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of search button icons (icons that appear on search buttons, such as search or clear icons). This determines what color the button icons appear in.<br>CSS variable: --wm-search-btn-icon-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.@.value}",
+            "type": "icon",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of search button icons. This affects how large the button icons appear. Acceptable units: px.<br>CSS variable: --wm-search-btn-icon-size"
+            }
+          }
+        },
+        "ripple": {
+          "color": {
+            "value": "rgba(255, 255, 255, 0.08)",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the ripple effect color of search buttons (the visual feedback when buttons are pressed). This determines what color the ripple effect appears in when the search button is clicked.<br>CSS variable: --wm-search-btn-ripple-color"
+            }
+          }
+        }
+      },
+      "placeholder": {
+        "text": {
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of placeholder text in search input fields (hint text that appears when the field is empty). This determines what color the placeholder text appears in.<br>CSS variable: --wm-search-placeholder-color"
+            }
+          }
+        }
+      },
+      "data-complete": {
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of search autocomplete items (suggestions that appear in the dropdown). This determines what color the background of autocomplete items appears in.<br>CSS variable: --wm-search-data-complete-background"
+          }
+        },
+        "padding": {
+          "top": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top padding (vertical spacing) of search autocomplete items. This creates breathing room at the top of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-top"
+            }
+          },
+          "bottom": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) of search autocomplete items. This creates breathing room at the bottom of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-bottom"
+            }
+          },
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) of search autocomplete items. This creates breathing room on the left side of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding (horizontal spacing) of search autocomplete items. This creates breathing room on the right side of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-right"
+            }
+          }
+        },
+        "text": {
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of search autocomplete items. This determines what color the text in autocomplete items appears in.<br>CSS variable: --wm-search-data-complete-text-color"
+            }
+          },
+          "font": {
+            "size": {
+              "value": "{body.small.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of search autocomplete item text. This affects how large the text appears in autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-text-font-size"
+              }
+            },
+            "family": {
+              "value": "{body.small.font-family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the font family of search autocomplete item text. This determines which font is used for the text in autocomplete items.<br>CSS variable: --wm-search-data-complete-text-font-family"
+              }
+            },
+            "weight": {
+              "value": "{body.small.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight (boldness) of search autocomplete item text. This affects how bold the text appears in autocomplete items.<br>CSS variable: --wm-search-data-complete-text-font-weight"
+              }
+            }
+          }
+        }
+      },
+      "item": {
+        "margin-bottom": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the bottom margin (vertical spacing) of search result items (individual items in the search results list). This creates spacing between search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-margin-bottom"
+          }
+        },
+        "padding": {
+          "top": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top padding (vertical spacing) of search result items. This creates breathing room at the top of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-top"
+            }
+          },
+          "bottom": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) of search result items. This creates breathing room at the bottom of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-bottom"
+            }
+          },
+          "left": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) of search result items. This creates breathing room on the left side of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-left"
+            }
+          },
+          "right": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding (horizontal spacing) of search result items. This creates breathing room on the right side of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-right"
+            }
+          }
+        },
+        "separator": {
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of separators between search result items (dividers that appear between items in the search results list). This determines what color the separators appear in.<br>CSS variable: --wm-search-item-separator-color"
+            }
+          },
+          "width": {
+            "value": "0",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the width (thickness) of separators between search result items. This determines how thick the separators appear. Acceptable units: px.<br>CSS variable: --wm-search-item-separator-width"
+            }
+          }
+        },
+        "text": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of search result items. This determines what color the text in search result items appears in.<br>CSS variable: --wm-search-item-text-color"
+            }
+          },
+          "font": {
+            "size": {
+              "value": "{body.medium.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of search result item text. This affects how large the text appears in search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-text-font-size"
+              }
+            },
+            "family": {
+              "value": "{body.medium.font-family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the font family of search result item text. This determines which font is used for the text in search result items.<br>CSS variable: --wm-search-item-text-font-family"
+              }
+            },
+            "weight": {
+              "value": "{body.medium.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight (boldness) of search result item text. This affects how bold the text appears in search result items.<br>CSS variable: --wm-search-item-text-font-weight"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "appearances": {}
+}

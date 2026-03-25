@@ -1,0 +1,116 @@
+{
+  "border": {
+    "width": {
+      "base": {
+        "value": "1px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "0": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "0",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "1": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "1",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "2": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "2",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "3": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "3",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "4": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "4",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "5": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "5",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "6": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "6",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "7": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "7",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "8": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "8",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "9": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "9",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "10": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "10",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "11": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "11",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      },
+      "12": {
+        "value": "{border.width.base.value}",
+        "attributes": {
+          "multiple": "12",
+          "derivedFrom": "border.width.base",
+          "subtype": "border-width"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "icon": {
+    "size": {
+      "@": { "value": "24px", "attributes": { "subtype": "icon-size" } },
+      "xs": { "value": "12px", "attributes": { "subtype": "icon-size" } },
+      "sm": { "value": "18px", "attributes": { "subtype": "icon-size" } },
+      "md": { "value": "24px", "attributes": { "subtype": "icon-size" } },
+      "lg": { "value": "30px", "attributes": { "subtype": "icon-size" } },
+      "2x": { "value": "36px", "attributes": { "subtype": "icon-size" } },
+      "3x": { "value": "42px", "attributes": { "subtype": "icon-size" } },
+      "4x": { "value": "48px", "attributes": { "subtype": "icon-size" } },
+      "5x": { "value": "54px", "attributes": { "subtype": "icon-size" } }
+    }
+  }
+}

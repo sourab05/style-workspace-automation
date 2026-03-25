@@ -1,0 +1,122 @@
+{
+  "badge": {
+    "background": {
+      "value": "{color.surface.variant.@.value}",
+      "type": "color"
+    },
+    "color": {
+      "value": "{color.on-surface.@.value}",
+      "type": "color"
+    },
+    "min-height": {
+      "value": "20px",
+      "type": "space"
+    },
+    "inline": {
+      "padding": {
+        "value": "6px",
+        "type": "space"
+      }
+    },
+    "block": {
+      "padding": {
+        "value": "{space.1.value}",
+        "type": "space"
+      }
+    },
+    "radius": {
+      "value": "{radius.lg.value}",
+      "type": "radius"
+    },
+    "font-family": {
+      "value": "{body.small.font-family.value}",
+      "type": "font"
+    },
+    "font-size": {
+      "value": "{body.small.font-size.value}",
+      "type": "font"
+    },
+    "font-weight": {
+      "value": "{font.weight.700.value}",
+      "type": "font"
+    },
+    "line-height": {
+      "value": "1",
+      "type": "font"
+    },
+    "letter-spacing": {
+      "value": "{body.small.letter-spacing.value}",
+      "type": "font"
+    },
+    "primary": {
+      "@": {
+        "value": "{color.primary.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.primary.container.@.value}",
+        "type": "color"
+      }
+    },
+    "info": {
+      "@": {
+        "value": "{color.info.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.info.container.@.value}",
+        "type": "color"
+      }
+    },
+    "success": {
+      "@": {
+        "value": "{color.success.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.success.container.@.value}",
+        "type": "color"
+      }
+    },
+    "warning": {
+      "@": {
+        "value": "{color.warning.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.warning.container.@.value}",
+        "type": "color"
+      }
+    },
+    "error": {
+      "@": {
+        "value": "{color.error.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.error.container.@.value}",
+        "type": "color"
+      }
+    },
+    "secondary": {
+      "@": {
+        "value": "{color.secondary.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.secondary.container.@.value}",
+        "type": "color"
+      }
+    },
+    "tertiary": {
+      "@": {
+        "value": "{color.tertiary.@.value}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.tertiary.container.@.value}",
+        "type": "color"
+      }
+    }
+  }
+}

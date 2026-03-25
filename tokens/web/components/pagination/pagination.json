@@ -1,0 +1,477 @@
+{
+  "pagination": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-datanavigator"
+        },
+        "states": {
+          "active": {
+            "selector": {
+              "web": " .pagination li.active a, .pager li a:active::before"
+            }
+          },
+          "hover": {
+            "selector": {
+              "web": " .pagination li a:hover, .pager li a:hover::before"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": " .pagination li a:focus, .pager li a:focus::before"
+            }
+          },
+          "disabled": {
+            "selector": {
+              "web": " .pagination .disabled a, .pager .previous.disabled a, .pager .next.disabled a"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "basic": {
+          "mapping": {
+            "selector": {
+              "web": ".app-datanavigator .pagination.basic"
+            }
+          }
+        },
+        "pager": {
+          "mapping": {
+            "selector": {
+              "web": ".app-datanavigator .pager"
+            }
+          }
+        },
+        "advanced": {
+          "mapping": {
+            "selector": {
+              "web": ".app-datanavigator .pagination.advanced"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "flex-direction": {
+        "value": "row",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the layout direction of pagination components (navigation controls that help users move between pages of content). 'row' arranges pagination items horizontally, 'column' arranges them vertically, 'row-reverse' reverses the horizontal order, and 'column-reverse' reverses the vertical order.<br>CSS variable: --wm-pagination-flex-direction"
+        }
+      },
+      "width": {
+        "value": "unset",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how wide pagination components appear (navigation controls that help users move between pages of content). 'unset' lets the pagination size itself based on its content, while specific values (px, %, em, rem, vw) set a fixed width.<br>CSS variable: --wm-pagination-width"
+        }
+      },
+      "item": {
+        "padding": {
+          "value": "{space.1.value} {space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside pagination items (individual page numbers and navigation buttons). This creates breathing room around each pagination element.<br>CSS variable: --wm-pagination-item-padding"
+          }
+        },
+        "gap": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between pagination items (individual page numbers and navigation buttons). This creates visual separation between each pagination element.<br>CSS variable: --wm-pagination-item-gap"
+          }
+        }
+      },
+      "page-link": {
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of pagination page links (clickable page numbers and navigation buttons). This determines what color the page link text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-pagination-page-link-color"
+          }
+        },
+        "height": {
+          "value": "32px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how tall pagination page links appear (clickable page numbers and navigation buttons). This determines the vertical size of each page link button.<br>CSS variable: --wm-pagination-page-link-height"
+          }
+        },
+        "width": {
+          "value": "32px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how wide pagination page links appear (clickable page numbers and navigation buttons). This determines the horizontal size of each page link button.<br>CSS variable: --wm-pagination-page-link-width"
+          }
+        },
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside pagination page links (clickable page numbers and navigation buttons). This creates breathing room around the page link content.<br>CSS variable: --wm-pagination-page-link-padding"
+          }
+        },
+        "radius": {
+          "value": "{radius.xs.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of pagination page links (clickable page numbers and navigation buttons). This makes the page links appear with rounded corners for a softer appearance.<br>CSS variable: --wm-pagination-page-link-radius"
+          }
+        },
+        "opacity": {
+          "value": "1",
+          "type": "radius",
+          "attributes": {
+            "subtype": "opacity",
+            "description": "Controls the transparency of pagination page links (clickable page numbers and navigation buttons). When set to 1, the page links are fully opaque. Lower values make the page links more transparent, higher values make them more opaque.<br>CSS variable: --wm-pagination-page-link-opacity"
+          }
+        },
+        "pointer-events": {
+          "value": "all",
+          "type": "space",
+          "attributes": {
+            "subtype": "cursor",
+            "description": "Controls whether pagination page links can receive mouse/touch interactions. 'all' makes page links fully interactive (clickable, hoverable), 'none' makes them ignore all mouse/touch events (like they're invisible to the mouse), and 'auto' lets the browser decide. This is useful for enabling/disabling pagination functionality.<br>CSS variable: --wm-pagination-page-link-pointer-events"
+          }
+        },
+        "cursor": {
+          "value": "pointer",
+          "type": "space",
+          "attributes": {
+            "subtype": "cursor",
+            "description": "Controls the mouse cursor appearance when hovering over pagination page links. 'pointer' shows a hand cursor indicating the link is clickable, 'default' shows an arrow cursor, and 'not-allowed' shows a blocked cursor for disabled links. This provides visual feedback to users about link interactivity.<br>CSS variable: --wm-pagination-page-link-cursor"
+          }
+        },
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of pagination page links (clickable page numbers and navigation buttons). This is the main background color that appears behind the page link content.<br>CSS variable: --wm-pagination-page-link-background"
+          }
+        },
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between elements within pagination page links (like the space between text and icons). This creates visual separation between different parts of each page link.<br>CSS variable: --wm-pagination-page-link-gap"
+          }
+        },
+        "icon-size": {
+          "value": "{icon.size.sm.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls how large icons appear in pagination page links (clickable page numbers and navigation buttons). This affects the size of any icons that appear within the page links.<br>CSS variable: --wm-pagination-page-link-icon-size"
+          }
+        },
+        "font-weight": {
+          "value": "{label.medium.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the pagination page links appear (clickable page numbers and navigation buttons). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-pagination-page-link-font-weight"
+          }
+        }
+      },
+      "nav-indicator": {
+        "previous": {
+          "color": {
+            "value": "{color.on-primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the 'Previous' navigation button in pagination components (the button that takes users to the previous page). This determines what color the 'Previous' button text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-pagination-nav-indicator-previous-color"
+            }
+          },
+          "background": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the 'Previous' navigation button in pagination components (the button that takes users to the previous page). This is the main background color that appears behind the 'Previous' button content.<br>CSS variable: --wm-pagination-nav-indicator-previous-background"
+            }
+          }
+        },
+        "next": {
+          "background": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the 'Next' navigation button in pagination components (the button that takes users to the next page). This is the main background color that appears behind the 'Next' button content.<br>CSS variable: --wm-pagination-nav-indicator-next-background"
+            }
+          },
+          "color": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the 'Next' navigation button in pagination components (the button that takes users to the next page). This determines what color the 'Next' button text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-pagination-nav-indicator-next-color"
+            }
+          }
+        }
+      },
+      "pagecount": {
+        "input": {
+          "height": {
+            "value": "32px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how tall pagination page count input fields appear (text boxes where users can type a specific page number to jump to). This determines the vertical size of the page number input field. Acceptable units: px, em, rem.<br>CSS variable: --wm-pagination-pagecount-input-height"
+            }
+          },
+          "width": {
+            "value": "48px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how wide pagination page count input fields appear (text boxes where users can type a specific page number to jump to). This determines the horizontal size of the page number input field. Acceptable units: px, em, rem.<br>CSS variable: --wm-pagination-pagecount-input-width"
+            }
+          },
+          "padding": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside pagination page count input fields (text boxes where users can type a specific page number to jump to). This creates breathing room around the text that users type in the input field.<br>CSS variable: --wm-pagination-pagecount-input-padding"
+            }
+          }
+        }
+      },
+      "horizontal": {
+        "page": {
+          "slider": {
+            "padding": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the internal spacing inside horizontal page sliders (navigation controls that allow users to scroll through pages horizontally). This creates breathing room around the slider content.<br>CSS variable: --wm-horizontal-page-slider-padding"
+              }
+            },
+            "gap": {
+              "value": "{space.1.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the spacing between elements in horizontal page sliders (navigation controls that allow users to scroll through pages horizontally). This creates visual separation between different parts of the slider.<br>CSS variable: --wm-horizontal-page-slider-gap"
+              }
+            },
+            "anchor": {
+              "width": {
+                "value": "32px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space",
+                  "description": "Controls how wide horizontal page slider anchors appear (clickable elements that users can click to navigate to specific pages). This determines the horizontal size of the slider anchor buttons. Acceptable units: px, em, rem.<br>CSS variable: --wm-horizontal-page-slider-anchor-width"
+                }
+              },
+              "icon-size": {
+                "value": "{icon.size.sm.value}",
+                "type": "icon-size",
+                "attributes": {
+                  "description": "Controls how large icons appear in horizontal page slider anchors (clickable elements that users can click to navigate to specific pages). This affects the size of any navigation icons that appear within the slider anchors.<br>CSS variable: --wm-horizontal-page-slider-anchor-icon-size"
+                }
+              }
+            }
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "page-link": {
+            "background": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "color": {
+              "value": "{color.on-primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "font-weight": {
+              "value": "{label.medium.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight"
+              }
+            },
+            "opacity": {
+              "value": "{opacity.active.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity"
+              }
+            }
+          }
+        },
+        "hover": {
+          "page-link": {
+            "background": {
+              "value": "{color.primary.container.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "opacity": {
+              "value": "{opacity.hover.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity"
+              }
+            }
+          }
+        },
+        "focus": {
+          "page-link": {
+            "opacity": {
+              "value": "{opacity.focus.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity"
+              }
+            }
+          }
+        },
+        "disabled": {
+          "page-link": {
+            "opacity": {
+              "value": ".38",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity"
+              }
+            },
+            "pointer-events": {
+              "value": "none",
+              "type": "space",
+              "attributes": {
+                "subtype": "cursor",
+                "description": "Disables mouse/touch interactions for disabled pagination page links. When set to 'none', disabled page links ignore all mouse/touch events, making them completely non-interactive. This prevents users from clicking or hovering over disabled pagination elements.<br>CSS variable: --wm-pagination-page-link-pointer-events (disabled state)"
+              }
+            },
+            "cursor": {
+              "value": "not-allowed",
+              "type": "space",
+              "attributes": {
+                "subtype": "cursor",
+                "description": "Sets the mouse cursor to 'not-allowed' (blocked cursor) when hovering over disabled pagination page links. This provides immediate visual feedback that the pagination element cannot be clicked.<br>CSS variable: --wm-pagination-page-link-cursor (disabled state)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "basic": {
+        "mapping": {
+          "item": {
+            "padding": {
+              "value": "unset",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            }
+          }
+        }
+      },
+      "pager": {
+        "mapping": {
+          "page-link": {
+            "elevation": {
+              "value": "0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation"
+              }
+            },
+            "radius": {
+              "value": "{radius.pill.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius"
+              }
+            },
+            "padding": {
+              "value": "{space.2.value} {space.6.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "width": {
+                "value": "{border.width.base.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "border-width"
+                }
+              },
+              "style": {
+                "value": "{border.style.base.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "border-style"
+                }
+              }
+            },
+            "min": {
+              "width": {
+                "value": "auto",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "height": {
+                "value": "32px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              }
+            }
+          }
+        }
+      },
+      "advanced": {
+        "mapping": {
+          "width": {
+            "value": "100%",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,263 @@
+{
+    "form-controls": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-input"
+                },
+                "states": {
+                    "focused": {
+                        "selector": {
+                            "mobile": "-focused"
+                        }
+                    },
+                    "disabled": {
+                        "selector": {
+                            "mobile": "-disabled"
+                        }
+                    }
+                },
+                "appearances": {}
+            }
+        },
+        "mapping": {
+            "opacity": {
+                "value": "1px",
+                "type": "radius",
+                "attributes": {
+                    "subtype": "opacity",
+                    "description": "Controls the transparency of form controls (input fields, text areas, select boxes, and other form elements where users enter data). A value of 1 means fully opaque (completely visible), while lower values make the form controls more transparent.<br>CSS variable: --wm-form-controls-opacity"
+                }
+            },
+            "min-height": {
+                "value": "48px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the minimum height of form controls (input fields, text areas, select boxes, and other form elements). This ensures form fields are always tall enough to be easily clickable and readable. Acceptable units: px, em, rem.<br>CSS variable: --wm-form-controls-min-height"
+                }
+            },
+            "padding": {
+                "vertical": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the internal vertical spacing inside form controls (the space between the form field content and its top/bottom borders). This creates breathing room around the text that users type in the form fields.<br>CSS variable: --wm-form-controls-padding-vertical"
+                    }
+                },
+                "horizontal": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the internal horizontal spacing inside form controls (the space between the form field content and its left/right borders). This creates breathing room around the text that users type in the form fields.<br>CSS variable: --wm-form-controls-padding-horizontal"
+                    }
+                }
+            },
+            "border": {
+                "color": {
+                    "value": "{color.outline.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of borders around form controls (input fields, text areas, select boxes, and other form elements). This determines what color the border lines appear in that outline the form fields.<br>CSS variable: --wm-form-controls-border-color"
+                    }
+                },
+                "radius": {
+                    "value": "{radius.sm.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the corner rounding of form controls (input fields, text areas, select boxes, and other form elements). This makes the form field corners slightly rounded for a softer appearance.<br>CSS variable: --wm-form-controls-border-radius"
+                    }
+                },
+                "style": {
+                    "value": "{border.style.base.value}",
+                    "type": "style",
+                    "attributes": {
+                        "subtype": "border-style",
+                        "description": "Sets the visual style of borders around form controls (input fields, text areas, select boxes, and other form elements). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-form-controls-border-style"
+                    }
+                },
+                "width": {
+                    "value": "{border.width.base.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the thickness of borders around form controls (input fields, text areas, select boxes, and other form elements). This determines how thick the border lines appear around the form fields.<br>CSS variable: --wm-form-controls-border-width"
+                    }
+                }
+            },
+            "placeholder": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of placeholder text in form controls (the gray text that appears in empty input fields to show users what to enter, like 'Enter your name' or 'Select an option'). This determines what color the hint text appears in.<br>CSS variable: --wm-form-controls-placeholder-color"
+                    }
+                }
+            },
+            "background": {
+                "value": "{color.outline.variant.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of form controls (input fields, text areas, select boxes, and other form elements where users enter data). This is the main background color that appears behind the form field content.<br>CSS variable: --wm-form-controls-background"
+                }
+            },
+            "color": {
+                "value": "{color.black.@.value}",
+                "type": "color"
+            },
+            "label": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of form control labels (the text labels that appear next to or above input fields to describe what information should be entered). This determines what color the label text appears in.<br>CSS variable: --wm-form-controls-label-color"
+                    }
+                },
+                "background": {
+                    "value": "{color.transparent.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of form control labels (the text labels that appear next to or above input fields). When transparent, only the label text is visible. When filled with a color, the label appears with a colored background.<br>CSS variable: --wm-form-controls-label-background"
+                    }
+                },
+                "font": {
+                    "size": {
+                        "value": "{label.large.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls how large form control labels appear (the text labels that appear next to or above input fields). This affects the size of the label text that users see.<br>CSS variable: --wm-form-controls-label-font-size"
+                        }
+                    },
+                    "weight": {
+                        "value": "{label.large.font-weight.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-weight",
+                            "description": "Controls how thick or bold form control labels appear (the text labels that appear next to or above input fields). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-form-controls-label-font-weight"
+                        }
+                    },
+                    "family": {
+                        "value": "{label.large.font-family.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-family",
+                            "description": "Sets the typeface (font style) for form control labels (the text labels that appear next to or above input fields). This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-form-controls-label-font-family"
+                        }
+                    }
+                },
+                "margin": {
+                    "vertical": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the vertical spacing around form control labels (the space above and below the label text). This creates visual separation between labels and form fields.<br>CSS variable: --wm-form-controls-label-margin-vertical"
+                        }
+                    },
+                    "horizontal": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the horizontal spacing around form control labels (the space to the left and right of the label text). This creates visual separation between labels and form fields.<br>CSS variable: --wm-form-controls-label-margin-horizontal"
+                        }
+                    }
+                }
+            },
+            "states": {
+                "focused": {
+                        "border": {
+                            "color": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the color of borders around form controls when they are in the focused state (when the user clicks or tabs into the form field). This determines what color the border appears in when the field is active and ready for input.<br>CSS variable: --wm-form-controls-border-color (focused state)"
+                                }
+                            },
+                            "width": {
+                                "value": "{border.width.base.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "border-width",
+                                    "description": "Controls the thickness of borders around form controls when they are in the focused state (when the user clicks or tabs into the form field). This determines how thick the border lines appear when the field is active.<br>CSS variable: --wm-form-controls-border-width (focused state)"
+                                }
+                            }
+                        },
+                        "background": {
+                            "value": "{color.outline.variant.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the background color of form controls when they are in the focused state (when the user clicks or tabs into the form field). This is the background color that appears when the field is active and ready for input.<br>CSS variable: --wm-form-controls-background (focused state)"
+                            }
+                        },
+                        "color": {
+                            "value": "{color.black.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the text color of form controls when they are in the focused state (when the user clicks or tabs into the form field). This determines what color the text that users type appears in when the field is active.<br>CSS variable: --wm-form-controls-color (focused state)"
+                            }
+                        }
+                },
+                "disabled": {
+                        "border": {
+                            "color": {
+                                "value": "{color.shadow.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the color of borders around form controls when they are in the disabled state (when the form field is not interactive and users cannot enter data). This determines what color the border appears in when the field is disabled.<br>CSS variable: --wm-form-controls-border-color (disabled state)"
+                                }
+                            },
+                            "width": {
+                                "value": "{border.width.base.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "border-width",
+                                    "description": "Controls the thickness of borders around form controls when they are in the disabled state (when the form field is not interactive). This determines how thick the border lines appear when the field is disabled.<br>CSS variable: --wm-form-controls-border-width (disabled state)"
+                                }
+                            }
+                        },
+                        "background": {
+                            "value": "{color.surface.dim.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the background color of form controls when they are in the disabled state (when the form field is not interactive and users cannot enter data). This is the background color that appears when the field is disabled.<br>CSS variable: --wm-form-controls-background (disabled state)"
+                            }
+                        },
+                        "color": {
+                            "value": "{color.scrim.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the text color of form controls when they are in the disabled state (when the form field is not interactive). This determines what color the text appears in when the field is disabled.<br>CSS variable: --wm-form-controls-color (disabled state)"
+                            }
+                        },
+                    "opacity": {
+                        "value": "0.67",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "opacity",
+                            "description": "Controls the transparency of form controls when they are in the disabled state (when the form field is not interactive). A value of 0.67 makes the form controls appear dimmed to indicate they are disabled. Lower values make them more transparent.<br>CSS variable: --wm-form-controls-opacity (disabled state)"
+                        }
+                    }
+                }
+            }
+        },
+        "appearances": {
+            
+        }
+    }
+}

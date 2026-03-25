@@ -1,0 +1,224 @@
+{
+  "picture": {
+    "meta": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".app-picture",
+              "mobile": ".app-picture"
+            }
+          },
+          "variantGroups": {
+            "shape": {
+              "rounded": {
+                "selector": {
+                  "web": ".img-rounded",
+                  "mobile": ".rounded-image.app-picture"
+                }
+              },
+              "circle": {
+                "selector": {
+                  "web": ".img-circle",
+                  "mobile": ".circle-image.app-picture"
+                }
+              }
+            }
+          }
+        },
+        "thumbnail": {
+          "mapping": {
+            "selector": {
+              "web": ".img-thumbnail",
+              "mobile": ".thumbnail-image.app-picture"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "radius": {
+        "value": "{radius.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of pictures (image elements). This makes the pictures appear with rounded corners for a softer appearance.<br>CSS variable: --wm-picture-radius"
+        }
+      },
+      "padding": {
+        "top": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the top padding (vertical spacing) inside pictures. This creates breathing room above the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-top"
+          }
+        },
+        "bottom": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the bottom padding (vertical spacing) inside pictures. This creates breathing room below the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-bottom"
+          }
+        },
+        "left": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the left padding (horizontal spacing) inside pictures. This creates breathing room on the left side of the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-left"
+          }
+        },
+        "right": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the right padding (horizontal spacing) inside pictures. This creates breathing room on the right side of the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-right"
+          }
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.border.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the border around pictures. This determines the color of the outline that defines the picture container.<br>CSS variable: --wm-picture-border-color"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the style of the border around pictures. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-picture-border-style"
+          }
+        },
+        "width": {
+          "value": "{border.width.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the border around pictures. When set to 0, no border is visible. Acceptable units: px.<br>CSS variable: --wm-picture-border-width"
+          }
+        }
+      },
+      "background": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of pictures (image elements). When transparent, only the image is visible. When filled with a color, the picture appears with a colored background.<br>CSS variable: --wm-picture-background"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius"
+          },
+          "padding": {
+            "top": {
+              "value": "{space.0.value}",
+              "type": "space"
+            },
+            "bottom": {
+              "value": "{space.0.value}",
+              "type": "space"
+            },
+            "left": {
+              "value": "{space.0.value}",
+              "type": "space"
+            },
+            "right": {
+              "value": "{space.0.value}",
+              "type": "space"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color"
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius"
+            },
+            "width": {
+              "value": "{border.width.0.value}",
+              "type": "space"
+            }
+          },
+          "background": {
+            "value": "transparent",
+            "type": "color"
+          }
+        },
+        "variantGroups": {
+          "shape": {
+            "rounded": {
+                "radius": {
+                  "value": "{radius.xs.value}",
+                  "type": "radius"
+                }
+            },
+            "circle": {
+                "radius": {
+                  "value": "{radius.circle.value}",
+                  "type": "radius"
+                }
+            }
+          }
+        }
+      },
+      "thumbnail": {
+        "mapping": {
+          "radius": {
+            "value": "{radius.xs.value}",
+            "type": "radius"
+          },
+          "padding": {
+            "top": {
+              "value": "{space.1.value}",
+              "type": "space"
+            },
+            "bottom": {
+              "value": "{space.1.value}",
+              "type": "space"
+            },
+            "left": {
+              "value": "{space.1.value}",
+              "type": "space"
+            },
+            "right": {
+              "value": "{space.1.value}",
+              "type": "space"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color"
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius"
+            },
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "space"
+            }
+          },
+          "background": {
+            "value": "{color.surface.container.low.@.value}",
+            "type": "color"
+          }
+        }
+      }
+    }
+  }
+}

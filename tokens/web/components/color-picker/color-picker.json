@@ -1,0 +1,24 @@
+{
+  "color-picker": {
+    "mapping": {
+      "container": {
+        "width": {
+          "value": "48px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how wide the color picker button appears (the small colored square that users click to open the color selection dialog). This determines the size of the color preview button.<br>CSS variable: --wm-color-picker-container-width"
+          }
+        },
+        "height": {
+          "value": "48px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how tall the color picker button appears (the small colored square that users click to open the color selection dialog). This determines the size of the color preview button.<br>CSS variable: --wm-color-picker-container-height"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,338 @@
+{
+  "color": {
+    "primary": {
+      "@": { "value": "#FF7250", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#ffe3dc",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "lighten(40%)" }
+        }
+      },
+      "fixed": {
+        "@": {
+          "value": "#ffe8e2",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "lighten(45%)" }
+        },
+        "dim": {
+          "value": "#ffe8e2",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "lighten(45%)" }
+        }
+      }
+    },
+    "on-primary": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#2d201d",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "darken(20%)" }
+        }
+      },
+      "fixed": {
+        "@": {
+          "value": "#1d0600",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "darken(50%)" }
+        },
+        "variant": {
+          "value": "#804536",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "darken(30%)" }
+        }
+      }
+    },
+    "secondary": {
+      "@": { "value": "#656DF9", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#e2e3ff",
+          "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "lighten(40%)" }
+        }
+      },
+      "fixed": {
+        "@": {
+          "value": "#dcdef6",
+          "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "lighten(45%)" }
+        },
+        "dim": {
+          "value": "#bbbcd6",
+          "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "lighten(45%)" }
+        }
+      }
+    },
+    "on-secondary": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#1c1c2b",
+          "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "darken(20%)" }
+        }
+      },
+      "fixed": {
+        "@": {
+          "value": "#171828",
+          "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "darken(50%)" }
+        },
+        "variant": {
+          "value": "#404154",
+          "attributes": { "subtype": "color", "derivedFrom": "color.secondary.@", "formula": "darken(30%)" }
+        }
+      }
+    },
+    "tertiary": {
+      "@": { "value": "#E0B313", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#fff5d3",
+          "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "lighten(40%)" }
+        }
+      },
+      "fixed": {
+        "@": {
+          "value": "#fff5d2",
+          "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "lighten(45%)" }
+        },
+        "dim": {
+          "value": "#e9e1c3",
+          "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "lighten(45%)" }
+        }
+      }
+    },
+    "on-tertiary": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#27210c",
+          "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "darken(20%)" }
+        }
+      },
+      "fixed": {
+        "@": {
+          "value": "#362e12",
+          "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "darken(50%)" }
+        },
+        "variant": {
+          "value": "#544c31",
+          "attributes": { "subtype": "color", "derivedFrom": "color.tertiary.@", "formula": "darken(30%)" }
+        }
+      }
+    },
+    "success": {
+      "@": { "value": "#5AC588", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#d6ffe8",
+          "attributes": { "subtype": "color", "derivedFrom": "color.success.@", "formula": "lighten(45%)" }
+        }
+      }
+    },
+    "on-success": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.success.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#11251a",
+          "attributes": { "subtype": "color", "derivedFrom": "color.success.@", "formula": "darken(30%)" }
+        }
+      }
+    },
+    "info": {
+      "@": { "value": "#00c8ff", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#ddf7ff",
+          "attributes": { "subtype": "color", "derivedFrom": "color.info.@", "formula": "lighten(40%)" }
+        }
+      }
+    },
+    "on-info": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.info.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#191919",
+          "attributes": { "subtype": "color", "derivedFrom": "color.info.@", "formula": "darken(15%)" }
+        }
+      }
+    },
+    "warning": {
+      "@": { "value": "#ffae00", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#fff4d5",
+          "attributes": { "subtype": "color", "derivedFrom": "color.warning.@", "formula": "lighten(40%)" }
+        }
+      }
+    },
+    "on-warning": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.warning.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#1b1b1b",
+          "attributes": { "subtype": "color", "derivedFrom": "color.warning.@", "formula": "darken(15%)" }
+        }
+      }
+    },
+    "error": {
+      "@": { "value": "#EF3F3F", "attributes": { "subtype": "color" } },
+      "container": {
+        "@": {
+          "value": "#F9DEDC",
+          "attributes": { "subtype": "color", "derivedFrom": "color.error.@", "formula": "lighten(40%)" }
+        }
+      }
+    },
+    "on-error": {
+      "@": {
+        "value": "#FFFFFF",
+        "attributes": { "subtype": "color", "derivedFrom": "color.error.@", "formula": "contrast('#FFFFFF') > 4.5 ? '#FFFFFF' : '#000000'" }
+      },
+      "container": {
+        "@": {
+          "value": "#410E0B",
+          "attributes": { "subtype": "color", "derivedFrom": "color.error.@", "formula": "darken(25%)" }
+        }
+      }
+    },
+    "background": {
+      "@": { "value": "#FFFFFF", "attributes": { "subtype": "color" } }
+    },
+    "on-background": {
+      "@": {
+        "value": "#35363B",
+        "attributes": { "subtype": "color", "derivedFrom": "color.background.@", "formula": "darken(80%)" }
+      }
+    },
+    "outline": {
+      "@": {
+        "value": "#79747E",
+        "attributes": { "subtype": "color", "derivedFrom": "color.background.@", "formula": "darken(30%)" }
+      },
+      "variant": {
+        "value": "#E4E4E4",
+        "attributes": { "subtype": "color", "derivedFrom": "color.background.@", "formula": "lighten(10%)" }
+      }
+    },
+    "shadow": {
+      "@": {
+        "value": "#dfdfdf",
+        "attributes": { "subtype": "color", "derivedFrom": "color.background.@", "formula": "darken(12.25%)" }
+      }
+    },
+    "scrim": {
+      "@": {
+        "value": "#000000",
+        "attributes": { "subtype": "color", "derivedFrom": "color.background.@", "formula": "rgba(0, 0, 0, 0.5)" }
+      }
+    },
+    "surface": {
+      "@": { "value": "#FFFFFF", "attributes": { "subtype": "color" } },
+      "variant": {
+        "@": {
+          "value": "#FBFBFC",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(6%)" }
+        }
+      },
+      "bright": {
+        "@": {
+          "value": "#f3f4fe",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(0%)" }
+        }
+      },
+      "dim": {
+        "@": {
+          "value": "#c5c6d4",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "darken(10%)" }
+        }
+      },
+      "tint": {
+        "@": {
+          "value": "#474b98",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "darken(10%)" }
+        }
+      },
+      "container": {
+        "@": {
+          "value": "#ebebf7",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(6%)" }
+        },
+        "low": {
+          "@": {
+            "value": "#f0f2ff",
+            "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(10%)" }
+          }
+        },
+        "lowest": {
+          "@": {
+            "value": "#f5f7ff",
+            "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(10%)" }
+          }
+        },
+        "high": {
+          "@": {
+            "value": "#e8e8f1",
+            "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(3%)" }
+          }
+        },
+        "highest": {
+          "@": {
+            "value": "#dfe0e9",
+            "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(1%)" }
+          }
+        }
+      }
+    },
+    "on-surface": {
+      "@": {
+        "value": "#1D1B20",
+        "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(70%)" }
+      },
+      "variant": {
+        "@": {
+          "value": "#4F556D",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(40%)" }
+        }
+      }
+    },
+    "inverse": {
+      "surface": {
+        "@": {
+          "value": "#2d2d33",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(12%)" }
+        }
+      },
+      "on-surface": {
+        "@": {
+          "value": "#f5f5ff",
+          "attributes": { "subtype": "color", "derivedFrom": "color.surface.@", "formula": "lighten(70%)" }
+        }
+      },
+      "primary": {
+        "@": {
+          "value": "#ffd4c9",
+          "attributes": { "subtype": "color", "derivedFrom": "color.primary.@", "formula": "lighten(65%)" }
+        }
+      }
+    },
+    "white": { "@": { "value": "#FFFFFF", "attributes": { "subtype": "color" } } },
+    "black": { "@": { "value": "#000000", "attributes": { "subtype": "color" } } },
+    "transparent": { "@": { "value": "transparent", "attributes": { "subtype": "color" } } },
+    "border": {
+      "@": { "value": "{color.outline.variant.value}", "attributes": { "subtype": "color" } },
+      "translucent": { "value": "rgba(0, 0, 0, 0.175)", "attributes": { "subtype": "color" } }
+    }
+  }
+}

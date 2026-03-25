@@ -1,0 +1,233 @@
+{
+  "picture": {
+    "meta": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".app-picture",
+              "mobile": ".app-picture"
+            }
+          },
+          "variantGroups": {
+            "shape": {
+              "default": {
+                "selector": {
+                  "web": " "
+                }
+              },
+              "rounded": {
+                "selector": {
+                  "web": ".img-rounded",
+                  "mobile": ".img-rounded"
+                }
+              },
+              "circle": {
+                "selector": {
+                  "web": ".img-circle",
+                  "mobile": ".img-circle"
+                }
+              }
+            }
+          }
+        },
+        "thumbnail": {
+          "mapping": {
+            "selector": {
+              "web": ".app-picture.img-thumbnail",
+              "mobile": ".app-picture.img-thumbnail"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "width": {
+        "value": "auto",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how wide images appear on the page. 'auto' lets the image size itself naturally, while specific values (px, %, em, rem, vw) set a fixed width.<br>CSS variable: --wm-picture-width"
+        }
+      },
+      "height": {
+        "value": "auto",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how tall images appear on the page. 'auto' lets the image size itself naturally, while specific values (px, %, em, rem, vh) set a fixed height.<br>CSS variable: --wm-picture-height"
+        }
+      },
+      "radius": {
+        "value": "{radius.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of images. When set to 'none', images have sharp corners. Higher values create more rounded corners for a softer appearance.<br>CSS variable: --wm-picture-radius"
+        }
+      },
+      "padding": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing around images (the space between the image and its border). This creates breathing room around the image content.<br>CSS variable: --wm-picture-padding"
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.border.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the outline around images. This creates a colored border around the image to define its boundaries.<br>CSS variable: --wm-picture-border-color"
+          }
+        },
+        "style": {
+          "value": "{border.style.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the style of the outline around images. 'none' removes the border, 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-picture-border-style"
+          }
+        },
+        "width": {
+          "value": "{border.width.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the outline around images. When set to 0, there's no visible border. Higher values create thicker borders around the image.<br>CSS variable: --wm-picture-border-width"
+          }
+        }
+      },
+      "background": {
+        "value": "{color.transparent.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of images (the area behind the image). When set to 'transparent', images have no background color, making them transparent.<br>CSS variable: --wm-picture-background"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius"
+            }
+          },
+          "padding": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "style": {
+              "value": "{border.style.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style"
+              }
+            },
+            "width": {
+              "value": "{border.width.0.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            }
+          },
+          "background": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          }
+        },
+        "variantGroups": {
+          "shape": {
+            "rounded": {
+              "radius": {
+                "value": "{radius.xs.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius"
+                }
+              }
+            },
+            "circle": {
+              "radius": {
+                "value": "{radius.circle.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius"
+                }
+              }
+            }
+          }
+        }
+      },
+      "thumbnail": {
+        "mapping": {
+          "radius": {
+            "value": "{radius.xs.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius"
+            }
+          },
+          "padding": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          },
+          "border": {
+            "color": {
+              "value": "{color.border.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style"
+              }
+            },
+            "width": {
+              "value": "{border.width.base.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width"
+              }
+            }
+          },
+          "background": {
+            "value": "{color.surface.container.low.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          }
+        }
+      }
+    }
+  }
+}

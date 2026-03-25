@@ -1,0 +1,69 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px'}}}%%
+flowchart TB
+    subgraph inputs ["INPUTS"]
+        direction LR
+        TokenFiles["<b>Token Files</b><br/>Color, font, spacing values"]
+        WidgetConfig["<b>Widget Config</b><br/>Button, accordion, etc."]
+        TokenSlots["<b>Token Slot Rules</b><br/>Which token goes where"]
+    end
+
+    subgraph core ["CORE ENGINE"]
+        direction LR
+        Matrix["<b>Test Reducer</b><br/>Cuts 25,000+ combos to ~2,500"]
+        PayloadGen["<b>Payload Builder</b><br/>Creates JSON payloads"]
+        StudioAPI["<b>Studio API</b><br/>Applies tokens to the app"]
+    end
+
+    subgraph web ["WEB TESTING"]
+        direction LR
+        Canvas["<b>Canvas Check</b><br/>Design-time view"]
+        Preview["<b>Preview Check</b><br/>Runtime view"]
+    end
+
+    subgraph mobile ["MOBILE TESTING"]
+        direction LR
+        Android["<b>Android Check</b>"]
+        iOS["<b>iOS Check</b>"]
+    end
+
+    subgraph output ["RESULTS"]
+        direction LR
+        Reports["<b>Test Reports</b>"]
+        Screenshots["<b>Screenshot Diffs</b>"]
+        Coverage["<b>Coverage Summary</b>"]
+    end
+
+    TokenFiles -->|"token values"| Matrix
+    WidgetConfig -->|"widget list"| Matrix
+    TokenSlots -->|"slot rules"| PayloadGen
+    Matrix -->|"test combos"| PayloadGen
+    PayloadGen -->|"payloads"| StudioAPI
+    StudioAPI -->|"applied"| Canvas
+    StudioAPI -->|"applied"| Preview
+    StudioAPI -->|"applied"| Android
+    StudioAPI -->|"applied"| iOS
+    Canvas --> Reports
+    Preview --> Reports
+    Android --> Reports
+    iOS --> Reports
+    Android --> Screenshots
+    iOS --> Screenshots
+    Reports --> Coverage
+
+    classDef inputStyle fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef coreStyle fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef webStyle fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef mobileStyle fill:#E8EAF6,stroke:#283593,stroke-width:2px,color:#1A237E
+    classDef outputStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class TokenFiles,WidgetConfig,TokenSlots inputStyle
+    class Matrix,PayloadGen,StudioAPI coreStyle
+    class Canvas,Preview webStyle
+    class Android,iOS mobileStyle
+    class Reports,Screenshots,Coverage outputStyle
+
+    style inputs fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style core fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style web fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    style mobile fill:#E8EAF6,stroke:#283593,stroke-width:2px,color:#1A237E
+    style output fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20

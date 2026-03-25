@@ -1,0 +1,12 @@
+{
+  "currency": {
+    "inputgroup": {
+      "addon": {
+        "width": {
+          "value": "40px",
+          "type": "space"
+        }
+      }
+    }
+  }
+}

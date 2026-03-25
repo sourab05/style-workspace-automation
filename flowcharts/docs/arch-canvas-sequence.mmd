@@ -1,0 +1,28 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px', 'actorBkg': '#E3F2FD', 'actorBorder': '#1565C0', 'actorTextColor': '#0D47A1', 'noteBkgColor': '#FFF3E0', 'noteBorderColor': '#E65100', 'noteTextColor': '#BF360C', 'signalColor': '#333', 'signalTextColor': '#333'}}}%%
+sequenceDiagram
+    participant Test as Test Script
+    participant API as Studio API
+    participant Browser as Playwright Browser
+    participant Canvas as Studio Canvas
+
+    rect rgb(232, 245, 233)
+    Note over Test,Canvas: STEP 1 -- Apply the token
+    Test->>API: Apply token to the widget
+    API-->>Test: Done - Token applied
+    end
+
+    rect rgb(227, 242, 253)
+    Note over Test,Canvas: STEP 2 -- Find the widget on canvas
+    Test->>Browser: Open the canvas page
+    Browser->>Canvas: Load the widget
+    Test->>Browser: Find widget element using XPath
+    Browser->>Canvas: Locate the element
+    end
+
+    rect rgb(243, 229, 245)
+    Note over Test,Canvas: STEP 3 -- Read CSS and compare
+    Test->>Browser: Read CSS value (getComputedStyle)
+    Browser-->>Test: Return value e.g. rgb(98, 0, 238)
+    Test->>Test: Convert to hex e.g. #6200EE
+    Test->>Test: Compare with expected token value
+    end

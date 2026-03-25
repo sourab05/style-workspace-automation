@@ -1,0 +1,16 @@
+variantName,studioWidgetName
+formcontrols-standard-standard-default,en_formLabel
+formcontrols-standard-standard-focused,en_formLabel
+formcontrols-standard-standard-disabled,en_formLabel
+formcontrols-text-standard-default,en_formLabel
+formcontrols-text-standard-focused,en_formLabel
+formcontrols-text-standard-disabled,en_formLabel
+formcontrols-number-standard-default,Employee_deptId_formLabel
+formcontrols-number-standard-focused,Employee_deptId_formLabel
+formcontrols-number-standard-disabled,Employee_deptId_formLabel
+formcontrols-date-standard-default,Employee_birthdate_formLabel
+formcontrols-date-standard-focused,Employee_birthdate_formLabel
+formcontrols-date-standard-disabled,Employee_birthdate_formLabel
+formcontrols-currency-standard-default,Employee_managerId_formLabel
+formcontrols-currency-standard-focused,Employee_managerId_formLabel
+formcontrols-currency-standard-disabled,Employee_managerId_formLabel

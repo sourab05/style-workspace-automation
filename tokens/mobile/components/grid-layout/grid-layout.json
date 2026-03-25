@@ -1,0 +1,30 @@
+{
+  "grid-layout": {
+    "mapping": {
+      "width": {
+        "value": "100%",
+        "type": "space"
+      },
+      "column": {
+        "padding": {
+          "top": {
+            "value": "{space.2.value}",
+            "type": "space"
+          },
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space"
+          },
+          "right": {
+            "value": "{space.2.value}",
+            "type": "space"
+          },
+          "bottom": {
+            "value": "{space.2.value}",
+            "type": "space"
+          }
+        }
+      }
+    }
+  }
+}

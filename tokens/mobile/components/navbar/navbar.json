@@ -1,0 +1,341 @@
+{
+    "navbar": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-appnavbar"
+                }
+            }
+        },
+        "mapping": {
+            "height": {
+                "value": "80px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the height of navigation bars (top bars that contain navigation elements, icons, and content). This determines how tall the navbar appears. Acceptable units: px.<br>CSS variable: --wm-navbar-height"
+                }
+            },
+            "background-color": {
+                "value": "{color.surface.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of navigation bars (top bars that contain navigation elements, icons, and content). This is the main background color that appears behind the navbar content.<br>CSS variable: --wm-navbar-background-color"
+                }
+            },
+            "padding": {
+                "left": {
+                    "value": "{space.3.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the left padding (horizontal spacing) inside navigation bars. This creates breathing room on the left side of the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-left"
+                    }
+                },
+                "right": {
+                    "value": "{space.3.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the right padding (horizontal spacing) inside navigation bars. This creates breathing room on the right side of the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-right"
+                    }
+                },
+                "top": {
+                    "value": "{space.3.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the top padding (vertical spacing) inside navigation bars. This creates breathing room above the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-top"
+                    }
+                },
+                "bottom": {
+                    "value": "{space.3.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the bottom padding (vertical spacing) inside navigation bars. This creates breathing room below the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-bottom"
+                    }
+                }
+            },
+            "left-icon": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of left icons in navigation bars (icons that appear on the left side of the navbar). This determines what color the left icons appear in.<br>CSS variable: --wm-navbar-left-icon-color"
+                    }
+                },
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of left icons in navigation bars. This affects how large the left icons appear. Acceptable units: px.<br>CSS variable: --wm-navbar-left-icon-size"
+                    }
+                }
+            },
+            "back-icon": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of back icons in navigation bars (icons that navigate back to the previous screen). This determines what color the back icons appear in.<br>CSS variable: --wm-navbar-back-icon-color"
+                    }
+                },
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of back icons in navigation bars. This affects how large the back icons appear. Acceptable units: px.<br>CSS variable: --wm-navbar-back-icon-size"
+                    }
+                }
+            },
+            "menu-icon": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of menu icons in navigation bars (icons that open navigation menus). This determines what color the menu icons appear in.<br>CSS variable: --wm-navbar-menu-icon-color"
+                    }
+                },
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of menu icons in navigation bars. This affects how large the menu icons appear. Acceptable units: px.<br>CSS variable: --wm-navbar-menu-icon-size"
+                    }
+                }
+            },
+            "popover-icon": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of popover icons in navigation bars (icons that open popover menus). This determines what color the popover icons appear in.<br>CSS variable: --wm-navbar-popover-icon-color"
+                    }
+                },
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of popover icons in navigation bars. This affects how large the popover icons appear. Acceptable units: px.<br>CSS variable: --wm-navbar-popover-icon-size"
+                    }
+                }
+            },
+            "image": {
+                "width": {
+                    "value": "32px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the width of images in navigation bars (logos or images that appear in the navbar). This determines how wide the navbar images appear. Acceptable units: px.<br>CSS variable: --wm-navbar-image-width"
+                    }
+                },
+                "height": {
+                    "value": "32px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the height of images in navigation bars (logos or images that appear in the navbar). This determines how tall the navbar images appear. Acceptable units: px.<br>CSS variable: --wm-navbar-image-height"
+                    }
+                }
+            },
+            "content": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of navigation bar content (the main text that appears in the navbar). This determines what color the navbar content text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-navbar-content-color"
+                    }
+                },
+                "font": {
+                    "size": {
+                        "value": "{body.large.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls the size of navigation bar content text. This affects how large the navbar content text appears.<br>CSS variable: --wm-navbar-content-font-size"
+                        }
+                    },
+                    "family": {
+                        "value": "{body.large.font-family.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-family",
+                            "description": "Sets the typeface (font style) for navigation bar content text. This determines whether the navbar content text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-navbar-content-font-family"
+                        }
+                    },
+                    "weight": {
+                        "value": "{body.large.font-weight.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-weight",
+                            "description": "Controls how thick or bold navigation bar content text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-navbar-content-font-weight"
+                        }
+                    }
+                }
+            },
+            "badge": {
+                "background-color": {
+                    "value": "transparent",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of badges in navigation bars (small indicators that appear on navbar elements). When transparent, only the badge text is visible. When filled with a color, the badge appears with a colored background.<br>CSS variable: --wm-navbar-badge-background-color"
+                    }
+                },
+                "color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of badges in navigation bars. This determines what color the badge text appears in, typically matching the primary theme color.<br>CSS variable: --wm-navbar-badge-color"
+                    }
+                },
+                "margin-left": {
+                    "value": "4px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the left margin (horizontal spacing) of badges in navigation bars. This creates spacing to the left of badges, separating them from adjacent content. Acceptable units: px.<br>CSS variable: --wm-navbar-badge-margin-left"
+                    }
+                }
+            },
+            "anchor": {
+                "padding": {
+                    "right": {
+                        "value": "0px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the right padding (horizontal spacing) inside navigation bar anchor elements (clickable links in the navbar). This creates breathing room on the right side of the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-right"
+                        }
+                    },
+                    "left": {
+                        "value": "0px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the left padding (horizontal spacing) inside navigation bar anchor elements. This creates breathing room on the left side of the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-left"
+                        }
+                    },
+                    "top": {
+                        "value": "0px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top padding (vertical spacing) inside navigation bar anchor elements. This creates breathing room above the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "0px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom padding (vertical spacing) inside navigation bar anchor elements. This creates breathing room below the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-bottom"
+                        }
+                    }
+                },
+                "text": {
+                    "color": {
+                        "value": "{color.on-surface.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the text color of navigation bar anchor text (clickable link text in the navbar). This determines what color the anchor text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-navbar-anchor-text-color"
+                        }
+                    },
+                    "font": {
+                        "size": {
+                            "value": "{body.large.font-size.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-size",
+                                "description": "Controls the size of navigation bar anchor text. This affects how large the anchor text appears.<br>CSS variable: --wm-navbar-anchor-text-font-size"
+                            }
+                        },
+                        "family": {
+                            "value": "{body.large.font-family.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-family",
+                                "description": "Sets the typeface (font style) for navigation bar anchor text. This determines whether the anchor text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-navbar-anchor-text-font-family"
+                            }
+                        },
+                        "weight": {
+                            "value": "{body.large.font-weight.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-weight",
+                                "description": "Controls how thick or bold navigation bar anchor text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-navbar-anchor-text-font-weight"
+                            }
+                        }
+                    }
+                },
+                "icon": {
+                    "color": {
+                        "value": "{color.on-surface.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the color of icons in navigation bar anchor elements. This determines what color the anchor icons appear in.<br>CSS variable: --wm-navbar-anchor-icon-color"
+                        }
+                    },
+                    "size": {
+                        "value": "{icon.size.@.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "icon-size",
+                            "description": "Controls the size of icons in navigation bar anchor elements. This affects how large the anchor icons appear. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-icon-size"
+                        }
+                    }
+                }
+            },
+            "button": {
+                "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of buttons in navigation bars. This determines what color the button text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-navbar-button-color"
+                    }
+                },
+                "font": {
+                    "size": {
+                        "value": "{body.large.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls the size of button text in navigation bars. This affects how large the button text appears.<br>CSS variable: --wm-navbar-button-font-size"
+                        }
+                    },
+                    "family": {
+                        "value": "{body.large.font-family.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-family",
+                            "description": "Sets the typeface (font style) for button text in navigation bars. This determines whether the button text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-navbar-button-font-family"
+                        }
+                    },
+                    "weight": {
+                        "value": "{body.large.font-weight.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-weight",
+                            "description": "Controls how thick or bold button text in navigation bars appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-navbar-button-font-weight"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

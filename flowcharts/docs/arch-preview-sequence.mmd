@@ -1,0 +1,25 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px', 'actorBkg': '#E3F2FD', 'actorBorder': '#1565C0', 'actorTextColor': '#0D47A1', 'noteBkgColor': '#FFF3E0', 'noteBorderColor': '#E65100', 'noteTextColor': '#BF360C', 'signalColor': '#333', 'signalTextColor': '#333'}}}%%
+sequenceDiagram
+    participant Test as Test Script
+    participant Browser as Playwright Browser
+    participant Preview as RN Web Preview
+    participant Inspector as Style Inspector
+
+    rect rgb(232, 245, 233)
+    Note over Test,Inspector: STEP 1 -- Open the preview
+    Test->>Browser: Go to Preview URL
+    Browser->>Preview: Load the React Native Web app
+    end
+
+    rect rgb(227, 242, 253)
+    Note over Test,Inspector: STEP 2 -- Send a style command
+    Test->>Browser: Find the style command input field
+    Browser->>Inspector: Type the style command
+    end
+
+    rect rgb(243, 229, 245)
+    Note over Test,Inspector: STEP 3 -- Read and compare
+    Test->>Browser: Read the style output label
+    Browser-->>Test: Return style value e.g. #6200EE
+    Test->>Test: Compare with expected token value
+    end

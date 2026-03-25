@@ -1,0 +1,15 @@
+{
+    "audio": {
+        "mapping": {
+            "width": {
+                "value": "300px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the width of the audio component. This determines how wide the audio player appears on the screen.<br>CSS variable: --wm-audio-width"
+                }
+            }
+        },
+        "appearances": {}
+    }
+}

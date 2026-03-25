@@ -1,0 +1,263 @@
+{
+  "dropdown": {
+    "mapping": {
+      "menu": {
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of dropdown menus (lists of options that appear when users click on a button or link). This is the main background color that appears behind the dropdown menu items.<br>CSS variable: --wm-dropdown-menu-background"
+          }
+        },
+        "padding": {
+          "left": {
+            "type": "space",
+            "value": "{space.0.value}",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) inside dropdown menu containers. This creates breathing room on the left side of the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-left"
+            }
+          },
+          "right": {
+            "type": "space",
+            "value": "{space.0.value}",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right padding (horizontal spacing) inside dropdown menu containers. This creates breathing room on the right side of the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-right"
+            }
+          },
+          "top": {
+            "type": "space",
+            "value": "{space.2.value}",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top padding (vertical spacing) inside dropdown menu containers. This creates breathing room above the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-top"
+            }
+          },
+          "bottom": {
+            "type": "space",
+            "value": "{space.2.value}",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the bottom padding (vertical spacing) inside dropdown menu containers. This creates breathing room below the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-bottom"
+            }
+          }
+        },
+        "color": {
+          "type": "color",
+          "value": "{color.on-surface.variant.@.value}",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of dropdown menu triggers (the button or link that opens the dropdown). This determines what color the trigger text appears in.<br>CSS variable: --wm-dropdown-menu-color"
+          }
+        },
+        "text": {
+          "decoration": {
+            "type": "radius",
+            "value": "none",
+            "attributes": {
+              "subtype": "text-decoration",
+              "description": "Controls the text decoration of dropdown menu triggers (underline, overline, line-through, or none). When set to 'none', no decoration is applied to the trigger text.<br>CSS variable: --wm-dropdown-menu-text-decoration"
+            }
+          },
+          "font-weight": {
+            "type": "font",
+            "value": "{font.weight.700.value}",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the dropdown menu trigger text appears. When set to 700, the trigger text appears bold to emphasize the dropdown button.<br>CSS variable: --wm-dropdown-menu-text-font-weight"
+            }
+          },
+          "padding": {
+            "left": {
+              "type": "space",
+              "value": "{space.2.value}",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the left padding (horizontal spacing) of dropdown menu trigger text. This creates spacing on the left side of the trigger text. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-text-padding-left"
+              }
+            },
+            "right": {
+              "type": "space",
+              "value": "{space.3.value}",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the right padding (horizontal spacing) of dropdown menu trigger text. This creates spacing on the right side of the trigger text. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-text-padding-right"
+              }
+            }
+          }
+        },
+        "content": {
+          "width": {
+            "value": "220px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how wide dropdown menu content appears (the container that holds the dropdown menu items). This determines the horizontal size of the dropdown menu container.<br>CSS variable: --wm-dropdown-menu-content-width"
+            }
+          },
+          "border": {
+            "radius": {
+              "value": "{radius.xs.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of dropdown menu content. This makes the dropdown appear with slightly rounded corners for a softer appearance.<br>CSS variable: --wm-dropdown-menu-content-border-radius"
+              }
+            }
+          },
+          "background": {
+            "value": "#fff",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of dropdown menu content (the container that holds the dropdown menu items). This is the main background color that appears behind the menu items.<br>CSS variable: --wm-dropdown-menu-content-background"
+            }
+          }
+        },
+        "caret": {
+          "color": {
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of dropdown menu caret icons (the small arrow symbols that indicate dropdown menus). This determines what color the arrow symbols appear in.<br>CSS variable: --wm-dropdown-menu-caret-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls how large dropdown menu caret icons appear (the small arrow symbols that indicate dropdown menus). This affects the size of the arrow symbols that users see in dropdown buttons.<br>CSS variable: --wm-dropdown-menu-caret-size"
+            }
+          }
+        },
+        "icon": {
+          "size": {
+            "value": "{icon.size.md.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls how large dropdown menu icons appear (icons that appear alongside menu items). This affects the size of the icons that users see in the dropdown menu.<br>CSS variable: --wm-dropdown-menu-icon-size"
+            }
+          }
+        },
+        "item": {
+          "font-family": {
+            "value": "{body.large.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for dropdown menu items (individual options in the dropdown list). This determines whether the menu item text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-dropdown-menu-item-font-family"
+            }
+          },
+          "font-size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls how large the dropdown menu items appear (individual options in the dropdown list). This affects the size of the text that users see in each menu option.<br>CSS variable: --wm-dropdown-menu-item-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "{body.large.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the dropdown menu items appear (individual options in the dropdown list). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-dropdown-menu-item-font-weight"
+            }
+          },
+          "line-height": {
+            "value": "{body.large.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when dropdown menu item text wraps to multiple lines. This ensures proper spacing for the menu item text displayed in the dropdown.<br>CSS variable: --wm-dropdown-menu-item-line-height"
+            }
+          },
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of dropdown menu items (individual options in the dropdown list). This determines what color the menu item text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-dropdown-menu-item-color"
+            }
+          },
+          "border": {
+            "style": {
+              "type": "radius",
+              "value": "{border.style.solid.value}",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Controls the style of the border around dropdown menu items. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-dropdown-menu-item-border-style"
+              }
+            }
+          },
+          "padding": {
+            "bottom": {
+              "value": "{space.3.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the bottom padding (vertical spacing) inside dropdown menu items. This creates breathing room below each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-bottom"
+              }
+            },
+            "left": {
+              "value": "{space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the left padding (horizontal spacing) inside dropdown menu items. This creates breathing room on the left side of each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-left"
+              }
+            },
+            "right": {
+              "value": "{space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the right padding (horizontal spacing) inside dropdown menu items. This creates breathing room on the right side of each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-right"
+              }
+            },
+            "top": {
+              "value": "{space.3.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the top padding (vertical spacing) inside dropdown menu items. This creates breathing room above each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-top"
+              }
+            }
+          }
+        },
+        "border":{
+          "radius":{
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of dropdown menus (lists of options that appear when users click on a button or link). When set to 'none', dropdowns have sharp corners. Higher values create more rounded corners for a softer appearance.<br>CSS variable: --wm-dropdown-menu-border-radius"
+            }
+          },
+          "width":{
+            "value": "0",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around dropdown menus. When set to 0, there's no visible border. Higher values create thicker borders around the dropdown.<br>CSS variable: --wm-dropdown-menu-border-width"
+            }
+          },
+          "color":{
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around dropdown menus. This determines the color of the outline that defines the dropdown menu shape.<br>CSS variable: --wm-dropdown-menu-border-color"
+            }
+          }
+
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "rating": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-rating"
+        },
+        "states": {
+          "disabled": {
+            "selector": {
+              "mobile": "-disabled"
+            }
+          },
+          "active": {
+            "selector": {
+              "mobile": "-selected-icon"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "padding": {
+        "value": "{space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the spacing between rating components (star rating systems where users can rate items with 1-5 stars). This creates visual separation between different rating elements.<br>CSS variable: --wm-rating-padding"
+        }
+      },
+      "opacity":{
+            "value": "1",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of rating components (star rating systems where users can rate items with 1-5 stars). When set to 1, the rating is fully opaque. Lower values make the rating more transparent, higher values make it more opaque.<br>CSS variable: --wm-rating-opacity"
+            }
+      },
+      "icon": {
+        "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of rating icons (the stars in a star rating system). This determines what color the stars appear in when they are not selected or active.<br>CSS variable: --wm-rating-icon-color"
+            }
+          },
+        "size": {
+          "value": "32px",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls how large rating icons appear (the stars in a star rating system). Larger values make the stars more prominent, smaller values make them more subtle.<br>CSS variable: --wm-rating-icon-size"
+          }
+        }
+      },
+      "text": {
+        "size": {
+          "value": "32px",
+          "type": "space",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large rating text appears (numeric or text values that appear alongside rating icons). This affects the size of the rating text that users see.<br>CSS variable: --wm-rating-text-size"
+          }
+        },
+        "padding": {
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the spacing between rating text and icons. This creates visual separation between the text and the rating icons.<br>CSS variable: --wm-rating-text-padding-left"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.warning.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of rating text (numeric or text values that appear alongside rating icons). This is typically a bright color like yellow or orange to match the selected rating stars.<br>CSS variable: --wm-rating-text-color"
+          }
+        }
+      },
+      "states": {
+        "disabled": {
+          "opacity": {
+            "value": "0.38",
+            "type": "radius",
+            "attributes": {
+              "subtype": "opacity",
+              "description": "Controls the transparency of disabled rating components. When set to 0.38, the rating appears faded to indicate it cannot be clicked. Lower values make it more transparent, higher values make it more opaque.<br>CSS variable: --wm-rating-opacity (disabled state)"
+            }
+          }
+        },
+        "active": {
+            "icon": {
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of active rating icons (the stars that are selected or hovered over). This is typically a bright color like yellow or orange to indicate the selected rating.<br>CSS variable: --wm-rating-icon-color (active state)"
+                }
+              },
+              "size": {
+                "value": "32px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size",
+                  "description": "Controls how large active rating icons appear (the stars that are selected or hovered over). Larger values make the stars more prominent, smaller values make them more subtle.<br>CSS variable: --wm-rating-icon-size (active state)"
+                }
+              }
+          }
+        }
+      }
+    }
+  }
+}

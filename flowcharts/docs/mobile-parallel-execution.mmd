@@ -1,0 +1,30 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px'}}}%%
+flowchart TB
+    Runner["<b>WDIO Test Runner</b><br/>Sends each spec file<br/>to an available device"]
+
+    subgraph appium ["APPIUM SERVERS -- One per device"]
+        A1["<b>Appium Server 1</b><br/>Port 4723"]
+        A2["<b>Appium Server 2</b><br/>Port 4724"]
+        A3["<b>Appium Server 3</b><br/>Port 4725"]
+    end
+
+    subgraph devices ["DEVICES -- Running in parallel"]
+        E1["<b>Device 1</b><br/>Runs spec file A"]
+        E2["<b>Device 2</b><br/>Runs spec file B"]
+        E3["<b>Device 3</b><br/>Runs spec file C"]
+    end
+
+    Runner -->|"spec A"| A1 -->|"automate"| E1
+    Runner -->|"spec B"| A2 -->|"automate"| E2
+    Runner -->|"spec C"| A3 -->|"automate"| E3
+
+    classDef runnerStyle fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef appiumStyle fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef deviceStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class Runner runnerStyle
+    class A1,A2,A3 appiumStyle
+    class E1,E2,E3 deviceStyle
+
+    style appium fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style devices fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20

@@ -1,0 +1,6 @@
+variant,studioWidgetName
+progress-circle-filled-default-default,progress_circle1
+progress-circle-filled-info-default,progress_circle2
+progress-circle-filled-success-default,progress_circle3
+progress-circle-filled-warning-default,progress_circle4
+progress-circle-filled-danger-default,progress_circle5

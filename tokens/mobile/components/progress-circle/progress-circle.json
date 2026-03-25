@@ -1,0 +1,176 @@
+{
+  "progress-circle": {
+    "meta": {
+      "appearances": {
+        "filled": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-progress-circle"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "default": {
+                "selector": {
+                  "mobile": ".progress-circle-default"
+                }
+              },
+              "success": {
+                "selector": {
+                  "mobile": ".progress-circle-success"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".progress-circle-info"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".progress-circle-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".progress-circle-danger"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "sub-title": {
+        "font": {
+          "family": {
+            "value": "{font.family.brand.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the typeface (font style) for progress circle subtitle text (secondary text that appears below the progress indicator). This determines whether the subtitle text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-progress-circle-sub-title-font-family"
+            }
+          },
+          "size": {
+            "value": "{body.small.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of progress circle subtitle text (secondary text that appears below the progress indicator). This affects how large the subtitle text appears.<br>CSS variable: --wm-progress-circle-sub-title-font-size"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.scrim.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of progress circle subtitles (secondary text that appears below the progress indicator). This determines what color the subtitle text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-progress-circle-sub-title-color"
+          }
+        }
+      },
+      "stroke": {
+        "inactive": {
+          "value": "{color.primary.container.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of circular progress indicators (the unfilled portion of the circle that shows remaining progress). This is the color of the circle track that shows how much progress is left.<br>CSS variable: --wm-progress-circle-stroke-inactive"
+          }
+        },
+        "active": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the fill color of circular progress indicators (the filled portion of the circle that shows completed progress). This is the color that shows how much progress has been made.<br>CSS variable: --wm-progress-circle-stroke-active"
+          }
+        }
+      },
+      "width":{
+        "value": "150px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the width of progress circles (circular visual indicators that show the completion status of a task or process). This determines how wide the progress circle appears. Acceptable units: px.<br>CSS variable: --wm-progress-circle-width"
+        }
+      },
+      "height":{
+        "value": "150px",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the height of progress circles (circular visual indicators that show the completion status of a task or process). This determines how tall the progress circle appears. Acceptable units: px.<br>CSS variable: --wm-progress-circle-height"
+        }
+      }
+    },
+    "appearances": {
+      "filled": {
+        "variantGroups": {
+          "status": {
+            "default": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.primary.container.@.value}",
+                  "type": "color"
+                },
+                "active": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "success": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.success.container.@.value}",
+                  "type": "color"
+                },
+                "active": {
+                  "value": "{color.success.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "info": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.info.container.@.value}",
+                  "type": "color"
+                },
+                "active": {
+                  "value": "{color.info.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "warning": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.warning.container.@.value}",
+                  "type": "color"
+                },
+                "active": {
+                  "value": "{color.warning.@.value}",
+                  "type": "color"
+                }
+              }
+            },
+            "danger": {
+              "stroke": {
+                "inactive": {
+                  "value": "{color.error.container.@.value}",
+                  "type": "color"
+                },
+                "active": {
+                  "value": "{color.error.@.value}",
+                  "type": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

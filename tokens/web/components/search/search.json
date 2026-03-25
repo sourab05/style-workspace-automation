@@ -1,0 +1,390 @@
+{
+  "search": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-search"
+        },
+        "states": {
+          "matched": {
+            "selector": {
+              "web": " li > a strong"
+            }
+          },
+          "hover": {
+            "selector": {
+              "web": " li > a:hover:before"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " li > a:active:before"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": " li > a:focus:before"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "full": {
+        "screen": {
+          "background": {
+            "value": "{color.surface.container.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the full-screen search overlay.<br>CSS variable: --wm-search-full-screen-background"
+            }
+          }
+        }
+      },
+      "back": {
+        "btn": {
+          "margin": {
+            "value": "{space.0.value} {space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls external spacing around the back button.<br>CSS variable: --wm-search-back-btn-margin"
+            }
+          }
+        }
+      },
+      "dropdown": {
+        "menu": {
+          "background": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the dropdown menu.<br>CSS variable: --wm-search-dropdown-menu-background"
+            }
+          },
+          "border": {
+            "radius": {
+              "value": "{radius.xs.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of the dropdown menu.<br>CSS variable: --wm-search-dropdown-menu-border-radius"
+              }
+            }
+          },
+          "box": {
+            "shadow": {
+              "value": "{elevation.shadow.2.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation",
+                "description": "Controls the drop shadow effect of the dropdown menu.<br>CSS variable: --wm-search-dropdown-menu-box-shadow"
+              }
+            }
+          },
+          "height": {
+            "value": "~\"calc({search.mapping.dropdown.menu.item.height.value} * 6.5)\"",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the maximum height of the dropdown menu.<br>CSS variable: --wm-search-dropdown-menu-height"
+            }
+          },
+          "margin": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls external spacing around the dropdown menu.<br>CSS variable: --wm-search-dropdown-menu-margin"
+            }
+          },
+          "z": {
+            "index": {
+              "value": "1060",
+              "type": "radius",
+              "attributes": {
+                "subtype": "elevation",
+                "description": "Controls the z-index stacking order of the dropdown menu.<br>CSS variable: --wm-search-dropdown-menu-z-index"
+              }
+            }
+          },
+          "item": {
+            "height": {
+              "value": "40px",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of dropdown menu items.<br>CSS variable: --wm-search-dropdown-menu-item-height"
+              }
+            },
+            "font": {
+              "family": {
+                "value": "{body.large.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family",
+                  "description": "Sets the font family for dropdown menu item text.<br>CSS variable: --wm-search-dropdown-menu-item-font-family"
+                }
+              },
+              "size": {
+                "value": "{body.large.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size",
+                  "description": "Controls the size of dropdown menu item text.<br>CSS variable: --wm-search-dropdown-menu-item-font-size"
+                }
+              },
+              "weight": {
+                "value": "{body.large.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight",
+                  "description": "Controls the weight of dropdown menu item text.<br>CSS variable: --wm-search-dropdown-menu-item-font-weight"
+                }
+              }
+            },
+            "line-height": {
+              "value": "{body.large.line-height.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "line-height",
+                "description": "Sets the line height for dropdown menu item text.<br>CSS variable: --wm-search-dropdown-menu-item-line-height"
+              }
+            },
+            "color": {
+              "value": "{color.on-surface.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of dropdown menu items.<br>CSS variable: --wm-search-dropdown-menu-item-color"
+              }
+            },
+            "gap": {
+              "value": "{space.2.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls spacing between elements within dropdown menu items.<br>CSS variable: --wm-search-dropdown-menu-item-gap"
+              }
+            },
+            "padding": {
+              "value": "{space.2.value} {space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Sets internal spacing within dropdown menu items.<br>CSS variable: --wm-search-dropdown-menu-item-padding"
+              }
+            },
+            "state": {
+              "layer": {
+                "color": {
+                  "value": "{color.on-surface.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the color of the state layer overlay for dropdown menu items.<br>CSS variable: --wm-search-dropdown-menu-item-state-layer-color"
+                  }
+                }
+              }
+            },
+            "img": {
+              "radius": {
+                "value": "{radius.circle.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius of images in dropdown menu items.<br>CSS variable: --wm-search-dropdown-menu-item-img-radius"
+                }
+              }
+            }
+          },
+          "group": {
+            "item": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the text color of dropdown menu group items.<br>CSS variable: --wm-search-dropdown-menu-group-item-color"
+                }
+              },
+              "background": {
+                "value": "{color.surface.container.low.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of dropdown menu group items.<br>CSS variable: --wm-search-dropdown-menu-group-item-background"
+                }
+              },
+              "gap": {
+                "value": "{space.2.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space",
+                  "description": "Controls spacing between elements within dropdown menu group items.<br>CSS variable: --wm-search-dropdown-menu-group-item-gap"
+                }
+              },
+              "padding": {
+                "value": "{space.2.value} {space.4.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space",
+                  "description": "Sets internal spacing within dropdown menu group items.<br>CSS variable: --wm-search-dropdown-menu-group-item-padding"
+                }
+              },
+              "header": {
+                "font-family": {
+                  "value": "{h4.font-family.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-family",
+                    "description": "Sets the font family for dropdown menu group item headers.<br>CSS variable: --wm-search-dropdown-menu-group-item-header-font-family"
+                  }
+                },
+                "font-size": {
+                  "value": "{h4.font-size.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-size",
+                    "description": "Controls the size of dropdown menu group item header text.<br>CSS variable: --wm-search-dropdown-menu-group-item-header-font-size"
+                  }
+                },
+                "font-weight": {
+                  "value": "{h4.font-weight.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-weight",
+                    "description": "Controls the weight of dropdown menu group item header text.<br>CSS variable: --wm-search-dropdown-menu-group-item-header-font-weight"
+                  }
+                },
+                "line-height": {
+                  "value": "{h4.line-height.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "line-height",
+                    "description": "Sets the line height for dropdown menu group item header text.<br>CSS variable: --wm-search-dropdown-menu-group-item-header-line-height"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "state": {
+          "layer": {
+            "opacity": {
+              "value": "0",
+              "type": "radius",
+              "attributes": {
+                "subtype": "opacity",
+                "description": "Controls the opacity of the state layer overlay for dropdown items.<br>CSS variable: --wm-search-dropdown-state-layer-opacity"
+              }
+            }
+          }
+        }
+      },
+      "status": {
+        "background": {
+          "value": "{color.surface.dim.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the status message area.<br>CSS variable: --wm-search-status-background"
+          }
+        },
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets internal spacing within the status message area.<br>CSS variable: --wm-search-status-padding"
+          }
+        }
+      },
+      "btn": {
+        "position": {
+          "left": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left positioning of search buttons.<br>CSS variable: --wm-search-btn-position-left"
+            }
+          },
+          "right": {
+            "value": "auto",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the right positioning of search buttons.<br>CSS variable: --wm-search-btn-position-right"
+            }
+          }
+        }
+      },
+      "states": {
+        "matched": {
+          "dropdown": {
+            "menu": {
+              "item": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "hover": {
+          "dropdown": {
+            "state": {
+              "layer": {
+                "opacity": {
+                  "value": "{opacity.hover.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "dropdown": {
+            "state": {
+              "layer": {
+                "opacity": {
+                  "value": "{opacity.focus.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "dropdown": {
+            "state": {
+              "layer": {
+                "opacity": {
+                  "value": "{opacity.active.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearance": {}
+  }
+}

@@ -1,0 +1,86 @@
+{
+    "breadcrumb": {
+        "gap": {
+            "value": "{space.1.value}",
+            "type": "space"
+        },
+        "item": {
+            "gap": {
+                "@": {
+                    "value": "{space.1.value}",
+                    "type": "space"
+                }
+            },
+            "font-size": {
+                "value": "{body.large.font-size.value}",
+                "type": "font"
+            },
+            "font-family": {
+                "value": "{body.large.font-family.value}",
+                "type": "font"
+            },
+            "font-weight": {
+                "value": "{body.large.font-weight.value}",
+                "type": "font"
+            },
+            "line-height": {
+                "value": "{body.large.line-height.value}",
+                "type": "font"
+            },
+            "letter-spacing": {
+                "value": "{body.large.letter-spacing.value}",
+                "type": "font"
+            },
+            "text-transform": {
+                "value": "none",
+                "type": "radius"
+            },
+            "text": {
+                "decoration": {
+                    "@": {
+                        "value": "none",
+                        "type": "radius"
+                    },
+                    "hover": {
+                        "value": "underline",
+                        "type": "radius"
+                    },
+                    "focus": {
+                        "value": "underline",
+                        "type": "radius"
+                    },
+                    "active": {
+                        "value": "none",
+                        "type": "radius"
+                    }
+                }
+            },
+            "color": {
+                "@": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color"
+                }
+            },
+            "icon": {
+                "color": {
+                    "value": "{color.on-background.@.value}",
+                    "type": "color"
+                },
+                "size": {
+                    "value": "{icon.size.sm.value}",
+                    "type": "space"
+                }
+            },
+            "separator": {
+                "color": {
+                    "value": "{color.outline.@.value}",
+                    "type": "color"
+                },
+                "size": {
+                    "value": "{icon.size.sm.value}",
+                    "type": "space"
+                }
+            }
+        }
+    }
+}

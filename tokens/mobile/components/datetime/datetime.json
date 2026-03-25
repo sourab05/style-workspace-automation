@@ -1,0 +1,223 @@
+{
+  "datetime": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-datetime",
+          "mobile": ".app-datetime"
+        }
+      }
+    },
+    "mapping": {
+      "cancel-button": {
+        "text": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the cancel button in the datetime picker (the button that dismisses the picker without selecting a date/time). This determines what color the cancel button text appears in.<br>CSS variable: --wm-datetime-cancel-button-text-color"
+            }
+          },
+          "size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the cancel button text in the datetime picker. This affects how large the cancel button text appears.<br>CSS variable: --wm-datetime-cancel-button-text-size"
+            }
+          },
+          "weight": {
+            "value": "{body.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the cancel button text appears in the datetime picker. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-datetime-cancel-button-text-weight"
+            }
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the cancel button in the datetime picker. When transparent, only the button text is visible. When filled with a color, the button appears with a solid background.<br>CSS variable: --wm-datetime-cancel-button-background"
+          }
+        }
+      },
+      "selected-button": {
+        "background": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the selected/confirm button in the datetime picker (the button that confirms the selected date/time). This fills the button with a color to visually indicate it's the primary action.<br>CSS variable: --wm-datetime-selected-button-background"
+          }
+        },
+        "text": {
+          "color": {
+            "value": "{color.on-primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the selected/confirm button in the datetime picker. This ensures the button text is clearly visible against the colored background.<br>CSS variable: --wm-datetime-selected-button-text-color"
+            }
+          },
+          "size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the selected/confirm button text in the datetime picker. This affects how large the button text appears.<br>CSS variable: --wm-datetime-selected-button-text-size"
+            }
+          },
+          "weight": {
+            "value": "{body.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the selected/confirm button text appears in the datetime picker. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-datetime-selected-button-text-weight"
+            }
+          }
+        }
+      },
+      "background": {
+        "value": "{color.surface.container.high.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of the datetime picker (the modal interface where users select dates and times). This is the main background color that appears behind the picker interface.<br>CSS variable: --wm-datetime-background"
+        }
+      },
+      "button": {
+        "border": {
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around datetime picker buttons. This creates the outline that defines each button shape.<br>CSS variable: --wm-datetime-button-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around datetime picker buttons. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-datetime-button-border-style"
+            }
+          },
+          "radius": {
+            "value": "{radius.pill.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of datetime picker buttons. When set to 'pill', the buttons appear with fully rounded corners, creating a pill-shaped appearance.<br>CSS variable: --wm-datetime-button-border-radius"
+            }
+          },
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around datetime picker buttons. This determines the color of the outline that defines each button shape.<br>CSS variable: --wm-datetime-button-border-color"
+            }
+          }
+        },
+        "ripple": {
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the ripple effect color that appears when users tap datetime picker buttons. This creates a visual feedback animation to indicate user interaction. When transparent, no ripple effect is visible.<br>CSS variable: --wm-datetime-button-ripple-color"
+            }
+          }
+        }
+      },
+      "text": {
+        "font-size": {
+          "value": "{body.medium.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of the datetime picker text (the date/time values displayed in the picker). This affects how large the text appears.<br>CSS variable: --wm-datetime-text-font-size"
+          }
+        },
+        "font-weight": {
+          "value": "{body.medium.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the datetime picker text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-datetime-text-font-weight"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the datetime picker (the date/time values displayed in the picker). This determines what color the text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-datetime-text-color"
+          }
+        }
+      },
+      "selected": {
+        "text": {
+          "font-size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the selected datetime picker text (the date/time value that is currently selected). This affects how large the selected text appears.<br>CSS variable: --wm-datetime-selected-text-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "{body.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the selected datetime picker text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-datetime-selected-text-font-weight"
+            }
+          },
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the selected datetime picker value (the date/time that is currently selected). This determines what color the selected text appears in to distinguish it from unselected values.<br>CSS variable: --wm-datetime-selected-text-color"
+            }
+          }
+        }
+      },
+      "header-text": {
+        "font": {
+          "size": {
+            "value": "20px",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the datetime picker header text (the title that appears at the top of the picker interface). This affects how large the header text appears.<br>CSS variable: --wm-datetime-header-text-font-size"
+            }
+          },
+          "weight": {
+            "value": "{font.weight.700.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold the datetime picker header text appears. When set to 700, the header text appears bold to emphasize the picker title.<br>CSS variable: --wm-datetime-header-text-font-weight"
+            }
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the datetime picker header (the title that appears at the top of the picker interface). This determines what color the header text appears in.<br>CSS variable: --wm-datetime-header-text-color"
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

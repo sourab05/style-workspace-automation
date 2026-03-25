@@ -1,0 +1,91 @@
+{
+    "login": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-login"
+                }
+            }
+        },
+        "mapping": {
+            "error": {
+                "text": {
+                    "color": {
+                        "value": "{color.on-error.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the text color of login error messages (messages that appear when login fails or validation errors occur). This determines what color the error message text appears in, typically a contrasting color to ensure visibility against the error background.<br>CSS variable: --wm-login-error-text-color"
+                        }
+                    }
+                },
+                "background": {
+                    "color": {
+                        "value": "{color.error.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of login error messages (messages that appear when login fails or validation errors occur). This is the main background color that appears behind the error message text.<br>CSS variable: --wm-login-error-background-color"
+                        }
+                    }
+                },
+                "border": {
+                    "color": {
+                        "value": "{color.error.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the color of the border around login error messages. This determines the color of the outline that defines the error message container.<br>CSS variable: --wm-login-error-border-color"
+                        }
+                    },
+                    "radius": {
+                        "value": "{radius.sm.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Controls the corner rounding of login error messages. This makes the error messages appear with rounded corners for a softer appearance.<br>CSS variable: --wm-login-error-border-radius"
+                        }
+                    }
+                }
+            },
+            "form": {
+                "padding": {
+                    "top": {
+                        "value": "{space.9.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top padding (vertical spacing) inside the login form container. This creates breathing room above the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.9.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom padding (vertical spacing) inside the login form container. This creates breathing room below the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-bottom"
+                        }
+                    },
+                    "left": {
+                        "value": "{space.9.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the left padding (horizontal spacing) inside the login form container. This creates breathing room on the left side of the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-left"
+                        }
+                    },
+                    "right": {
+                        "value": "{space.9.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the right padding (horizontal spacing) inside the login form container. This creates breathing room on the right side of the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-right"
+                        }
+                    }
+                }
+            }
+
+        },
+        "appearances": {}
+    }
+}

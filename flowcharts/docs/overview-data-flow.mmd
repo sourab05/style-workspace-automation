@@ -1,0 +1,69 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px'}}}%%
+flowchart TB
+    subgraph phase1 ["PHASE 1 -- Load Tokens"]
+        TokenJSON["<b>Token JSON Files</b><br/>Raw token definitions"]
+        TokenLoader["<b>Token Loader</b><br/>Reads and parses files"]
+        TokenMap["<b>Token Value Map</b><br/>Key-value pairs ready to use"]
+        Mapper["<b>Token-to-CSS Mapper</b><br/>Links tokens to CSS properties"]
+    end
+
+    subgraph phase2 ["PHASE 2 -- Build Test Matrix"]
+        WidgetConfig["<b>Widget Config</b><br/>All widgets and their variants"]
+        MatrixGen["<b>Test Reducer</b><br/>Shrinks combinations smartly"]
+        MatrixItems["<b>Test Combinations</b><br/>Widget + Appearance +<br/>Variant + State + TokenType"]
+    end
+
+    subgraph phase3 ["PHASE 3 -- Create Payloads"]
+        TokenSlots["<b>Token Slot Rules</b><br/>Which token fits where"]
+        SlotGen["<b>Payload Builder</b><br/>Builds JSON from slots"]
+        Payloads["<b>JSON Payloads</b><br/>One per widget"]
+    end
+
+    subgraph phase4 ["PHASE 4 -- Apply Tokens"]
+        StudioAPI["<b>Studio API</b><br/>Sends tokens to project"]
+        RNProject["<b>RN Project Manager</b><br/>Exports and builds apps"]
+        WebApply["<b>Web:</b> Apply tokens<br/>and load project"]
+        MobileApply["<b>Mobile:</b> Batch apply<br/>and build apps"]
+    end
+
+    subgraph phase5 ["PHASE 5 -- Validate Results"]
+        CSSExtract["<b>CSS Extraction</b><br/>Read computed styles"]
+        RNStyle["<b>Style Commands</b><br/>Read runtime styles"]
+        ScreenshotCompare["<b>Screenshot Comparison</b><br/>Pixel-by-pixel diff"]
+        Reports["<b>Test Reports</b><br/>Allure + Playwright HTML"]
+    end
+
+    TokenJSON -->|"read"| TokenLoader -->|"parse"| TokenMap
+    TokenMap -->|"resolve"| Mapper
+    Mapper -->|"provide values"| SlotGen
+
+    WidgetConfig -->|"widget list"| MatrixGen -->|"reduced set"| MatrixItems
+    MatrixItems -->|"combos"| SlotGen
+
+    TokenSlots -->|"slot rules"| SlotGen -->|"build"| Payloads
+
+    Payloads -->|"web payloads"| StudioAPI --> WebApply
+    Payloads -->|"mobile payloads"| RNProject --> MobileApply
+
+    WebApply -->|"CSS check"| CSSExtract --> Reports
+    WebApply -->|"style check"| RNStyle --> Reports
+    MobileApply -->|"style check"| RNStyle
+    MobileApply -->|"visual check"| ScreenshotCompare --> Reports
+
+    classDef p1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef p2 fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef p3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    classDef p4 fill:#E8EAF6,stroke:#283593,stroke-width:2px,color:#1A237E
+    classDef p5 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class TokenJSON,TokenLoader,TokenMap,Mapper p1
+    class WidgetConfig,MatrixGen,MatrixItems p2
+    class TokenSlots,SlotGen,Payloads p3
+    class StudioAPI,RNProject,WebApply,MobileApply p4
+    class CSSExtract,RNStyle,ScreenshotCompare,Reports p5
+
+    style phase1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style phase2 fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style phase3 fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    style phase4 fill:#E8EAF6,stroke:#283593,stroke-width:2px,color:#1A237E
+    style phase5 fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20

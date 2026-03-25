@@ -1,0 +1,33 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px'}}}%%
+flowchart LR
+    subgraph tools ["TEST TOOLS"]
+        PW["<b>Playwright</b><br/>Browser automation"]
+        WDIO["<b>WebDriverIO + Appium</b><br/>Mobile automation"]
+    end
+
+    subgraph studio ["WAVEMAKER STUDIO"]
+        Canvas["<b>Canvas</b><br/>Design-time view"]
+        Preview["<b>Preview</b><br/>React Native Web"]
+    end
+
+    subgraph native ["NATIVE MOBILE"]
+        Android["<b>Android</b><br/>React Native app"]
+        iOS["<b>iOS</b><br/>React Native app"]
+    end
+
+    PW -->|"reads CSS values"| Canvas
+    PW -->|"reads RN styles"| Preview
+    WDIO -->|"reads styles"| Android
+    WDIO -->|"reads styles"| iOS
+
+    classDef toolStyle fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef studioStyle fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef nativeStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class PW,WDIO toolStyle
+    class Canvas,Preview studioStyle
+    class Android,iOS nativeStyle
+
+    style tools fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style studio fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style native fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20

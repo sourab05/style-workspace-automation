@@ -1,0 +1,364 @@
+{
+  "icon": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-icon-wrapper",
+          "mobile": ".app-icon-wrapper"
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": " ",
+              "mobile": " "
+            }
+          },
+          "variantGroups": {
+            "size": {
+              "xs": {
+                "selector": {
+                  "web": ".fa-xs"
+                }
+              },
+              "sm": {
+                "selector": {
+                  "web": ".fa-sm"
+                }
+              },
+              "md": {
+                "selector": {
+                  "web": " "
+                }
+              },
+              "lg": {
+                "selector": {
+                  "web": ".fa-lg"
+                }
+              },
+              "2x": {
+                "selector": {
+                  "web": ".fa-2x"
+                }
+              },
+              "3x": {
+                "selector": {
+                  "web": ".fa-3x"
+                }
+              },
+              "4x": {
+                "selector": {
+                  "web": ".fa-4x"
+                }
+              },
+              "5x": {
+                "selector": {
+                  "web": ".fa-5x"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "color": {
+        "value": "{color.on-background.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-icon-color"
+        }
+      },
+      "font-size": {
+        "value": "{icon.size.@.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "icon-size",
+          "description": "Controls how large icon symbols appear (like arrows, hearts, settings, etc.). Larger values make icons more prominent, smaller values make them more subtle.<br>CSS variable: --wm-icon-font-size"
+        }
+      },
+      "min-width": {
+        "value": "{icon.size.@.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "icon-size",
+          "description": "Controls the minimum width of icon symbols to ensure they're always wide enough to be visible and clickable, even when they contain small symbols.<br>CSS variable: --wm-icon-min-width"
+        }
+      },
+      "width": {
+        "value": "{icon.size.@.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "icon-size",
+          "description": "Controls how wide icon symbols appear (like arrows, hearts, settings, etc.). This determines the horizontal space each icon takes up.<br>CSS variable: --wm-icon-width"
+        }
+      },
+      "height": {
+        "value": "{icon.size.@.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "icon-size",
+          "description": "Controls how tall icon symbols appear (like arrows, hearts, settings, etc.). This determines the vertical space each icon takes up.<br>CSS variable: --wm-icon-height"
+        }
+      },
+      "gap": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the spacing between icons and adjacent elements (like text or other icons). This creates visual separation so icons don't appear crowded together.<br>CSS variable: --wm-icon-gap"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "variantGroups": {
+          "size": {
+            "xs": {
+              "font-size": {
+                "value": "{icon.size.xs.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.xs.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.xs.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.xs.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "sm": {
+              "font-size": {
+                "value": "{icon.size.sm.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.sm.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.sm.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.sm.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "md": {
+              "font-size": {
+                "value": "{icon.size.md.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.md.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.md.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.md.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "lg": {
+              "font-size": {
+                "value": "{icon.size.lg.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.lg.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.lg.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.lg.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "2x": {
+              "font-size": {
+                "value": "{icon.size.2x.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.2x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.2x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.2x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "3x": {
+              "font-size": {
+                "value": "{icon.size.3x.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.3x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.3x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.3x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "4x": {
+              "font-size": {
+                "value": "{icon.size.4x.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.4x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.4x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.4x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            },
+            "5x": {
+              "font-size": {
+                "value": "{icon.size.5x.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "min-width": {
+                "value": "{icon.size.5x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "width": {
+                "value": "{icon.size.5x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              },
+              "height": {
+                "value": "{icon.size.5x.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

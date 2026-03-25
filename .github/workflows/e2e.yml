@@ -1,0 +1,55 @@
+name: Style Workspace Automation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: |
+          npm ci
+          npx playwright install --with-deps
+
+      - name: Run token discovery (always)
+        run: npm test -- --grep "discover and validate token files"
+
+      - name: Run API E2E (only if secrets provided)
+        if: ${{ secrets.STUDIO_BASE_URL && secrets.PROJECT_ID }}
+        env:
+          STUDIO_BASE_URL: ${{ secrets.STUDIO_BASE_URL }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          STUDIO_API_KEY: ${{ secrets.STUDIO_API_KEY }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: npm test -- --grep "apply token, validate in canvas"
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+
+      - name: Upload artifacts (screenshots, css)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: artifacts
+
+
+
+
+

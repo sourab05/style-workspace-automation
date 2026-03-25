@@ -1,0 +1,33 @@
+<!-- AUTO-GENERATED FILE. Do not edit manually. -->
+
+# Token Reference Table
+
+This table lists all tokens for this component:
+
+| Token | Description |
+|-------|------------|
+| color | Sets the text color of date picker elements (calendar interface where users select dates). This determines what color the date picker text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-datepicker-color |
+| background | Sets the background color of date picker elements (calendar interface where users select dates). This is the main background color that appears behind the calendar interface.<br>CSS variable: --wm-datepicker-background |
+| border.radius | Controls the corner rounding of date picker elements (calendar interface where users select dates). This makes the date picker appear with rounded corners for a softer appearance.<br>CSS variable: --wm-datepicker-border-radius |
+| previous.icon | Sets the icon for previous navigation in date picker (the arrow button that moves to the previous month). This determines which icon symbol is displayed for the previous month button.<br>CSS variable: --wm-datepicker-previous-icon |
+| next.icon | Sets the icon for next navigation in date picker (the arrow button that moves to the next month). This determines which icon symbol is displayed for the next month button.<br>CSS variable: --wm-datepicker-next-icon |
+| font-family | Sets the typeface (font style) for date picker text (calendar interface where users select dates). This determines whether the date picker text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-datepicker-font-family |
+| font-size | Controls how large the date picker text appears (calendar interface where users select dates). This affects the size of the text that users see in the date picker.<br>CSS variable: --wm-datepicker-font-size |
+| font-weight | Controls how thick or bold the date picker text appears (calendar interface where users select dates). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-datepicker-font-weight |
+| line-height | Controls the vertical spacing between lines when date picker text wraps to multiple lines. This ensures proper spacing for the text displayed in the date picker.<br>CSS variable: --wm-datepicker-line-height |
+| letter-spacing | Controls the horizontal spacing between individual characters in date picker text. This can help make the date picker text more readable and properly spaced.<br>CSS variable: --wm-datepicker-letter-spacing |
+| date.width | Controls how wide date cells appear in the date picker (individual date boxes in the calendar grid). This determines the horizontal size of each date cell that users can click to select dates.<br>CSS variable: --wm-datepicker-date-width |
+| date.height | Controls how tall date cells appear in the date picker (individual date boxes in the calendar grid). This determines the vertical size of each date cell that users can click to select dates.<br>CSS variable: --wm-datepicker-date-height |
+| date.color | Sets the text color of date cells (individual date boxes in the calendar grid). This determines what color the date numbers appear in, which should contrast well with the background for readability.<br>CSS variable: --wm-datepicker-date-color |
+| date.background | Sets the background color of date cells (individual date boxes in the calendar grid). This is the main background color that appears behind each date number.<br>CSS variable: --wm-datepicker-date-background |
+| date.border.width | Controls the thickness of the border around date cells (individual date boxes in the calendar grid). This creates the outline that defines each date cell shape.<br>CSS variable: --wm-datepicker-date-border-width |
+| date.border.style | Controls the style of the border around date cells (individual date boxes in the calendar grid). 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots, 'none' removes the border.<br>CSS variable: --wm-datepicker-date-border-style |
+| date.border.color | Sets the color of the border around date cells (individual date boxes in the calendar grid). This determines the color of the outline that defines each date cell shape.<br>CSS variable: --wm-datepicker-date-border-color |
+| date.border.radius | Controls the corner rounding of date cells (individual date boxes in the calendar grid). When set to 'pill', the date cells appear with fully rounded corners, creating a pill-shaped appearance.<br>CSS variable: --wm-datepicker-date-border-radius |
+| date.font-family | Sets the typeface (font style) for date cell text (the numbers that appear in each date box). This determines whether the date numbers appear in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-datepicker-date-font-family |
+| date.font-size | Controls how large the date cell text appears (the numbers that appear in each date box). This affects the size of the date numbers that users see and interact with.<br>CSS variable: --wm-datepicker-date-font-size |
+| date.font-weight | Controls how thick or bold the date cell text appears (the numbers that appear in each date box). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-datepicker-date-font-weight |
+| date.line-height | Controls the vertical spacing between lines when date cell text wraps to multiple lines. This ensures proper spacing for the date numbers displayed in each cell.<br>CSS variable: --wm-datepicker-date-line-height |
+| date.other.month.color | Sets the color of other month dates (dates from previous/next months that appear in the current month view). This determines what color these dates appear in to distinguish them from the current month's dates.<br>CSS variable: --wm-datepicker-date-other-month-color |
+| date.state.layer.opacity | Controls the transparency of the state layer that appears during user interactions with date cells (hover, focus, active). When set to 0, the state layer is invisible. Higher values make the interaction feedback more visible.<br>CSS variable: --wm-datepicker-date-state-layer-opacity |
+| date.state.layer.color | Sets the color of the state layer that appears when users hover, focus, or interact with date cells. This creates visual feedback to show that the date cell is interactive and responsive to user actions.<br>CSS variable: --wm-datepicker-date-state-layer-color |

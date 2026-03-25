@@ -1,0 +1,171 @@
+{
+    "select": {
+        "meta": {
+            "selector":{
+                "mobile": ".app-select"
+            },
+            "states":{
+                "active":{
+                    "selector":{
+                        "mobile":"-active-item"
+                    }
+                }
+            }
+        },
+        "mapping": {
+            "arrow": {
+                "button": {
+                    "border": {
+                        "color": {
+                            "value": "{color.transparent.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the border color of select arrow buttons (dropdown arrows that appear in select components). This determines what color the border around the arrow button appears in.<br>CSS variable: --wm-select-arrow-button-border-color"
+                            }
+                        },
+                        "style": {
+                            "value": "{border.style.base.value}",
+                            "type": "style",
+                            "attributes": {
+                                "subtype": "border-style",
+                                "description": "Controls the border style of select arrow buttons. This determines the style of the border around the arrow button (e.g., solid, dashed, none).<br>CSS variable: --wm-select-arrow-button-border-style"
+                            }
+                        },
+                        "width": {
+                            "value": "{border.width.base.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "border-width",
+                                "description": "Controls the border width (thickness) of select arrow buttons. This determines how thick the border around the arrow button appears. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-border-width"
+                            }
+                        },
+                        "radius": {
+                            "value": "{radius.base.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the border radius (rounded corners) of select arrow buttons. This determines how rounded the corners of the arrow button appear. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-border-radius"
+                            }
+                        }
+                    },
+                    "height": {
+                        "value": "12px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the height of select arrow buttons. This determines the vertical size of the arrow button. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-height"
+                        }
+                    }
+                }
+            },
+            "modal": {
+                "content": {
+                    "background": {
+                        "value": "{color.white.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of select modal content (the dropdown modal that appears when selecting options). This determines what color the background of the modal appears in.<br>CSS variable: --wm-select-modal-content-background"
+                        }
+                    },
+                    "border": {
+                        "color": {
+                            "value": "{color.transparent.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the border color of select modal content. This determines what color the border around the modal appears in.<br>CSS variable: --wm-select-modal-content-border-color"
+                            }
+                        },
+                        "style": {
+                            "value": "{border.style.base.value}",
+                            "type": "style",
+                            "attributes": {
+                                "subtype": "border-style",
+                                "description": "Controls the border style of select modal content. This determines the style of the border around the modal (e.g., solid, dashed, none).<br>CSS variable: --wm-select-modal-content-border-style"
+                            }
+                        },
+                        "width": {
+                            "value": "{border.width.base.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "border-width",
+                                "description": "Controls the border width (thickness) of select modal content. This determines how thick the border around the modal appears. Acceptable units: px.<br>CSS variable: --wm-select-modal-content-border-width"
+                            }
+                        },
+                        "radius": {
+                            "value": "{radius.base.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the border radius (rounded corners) of select modal content. This determines how rounded the corners of the modal appear. Acceptable units: px.<br>CSS variable: --wm-select-modal-content-border-radius"
+                            }
+                        }
+                    },
+                    "width": {
+                        "value": "90%",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the width of select modal content. This determines how wide the modal appears relative to its container. Acceptable units: %, px.<br>CSS variable: --wm-select-modal-content-width"
+                        }
+                    }
+                }
+            },
+            "item": {
+                "color": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of select items (individual options that appear in the select dropdown). This determines what color the text in select items appears in, typically matching the primary theme color.<br>CSS variable: --wm-select-item-color"
+                    }
+                },
+                "padding": {
+                    "vertical": {
+                        "value": "{space.2.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the vertical padding (top and bottom spacing) of select items. This creates breathing room at the top and bottom of select items. Acceptable units: px.<br>CSS variable: --wm-select-item-padding-vertical"
+                        }
+                    },
+                    "horizontal": {
+                        "value": "{space.4.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the horizontal padding (left and right spacing) of select items. This creates breathing room on the left and right sides of select items. Acceptable units: px.<br>CSS variable: --wm-select-item-padding-horizontal"
+                        }
+                    }
+                },
+                "border": {
+                    "bottom": {
+                        "value": "1px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "border-width",
+                            "description": "Controls the bottom border width (thickness) of select items. This determines how thick the bottom border appears between select items. Acceptable units: px.<br>CSS variable: --wm-select-item-border-bottom"
+                        }
+                    }
+                }
+            },
+            "states": {
+                "active": {
+                    "item": {
+                        "color": {
+                            "value": "{color.secondary.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the text color of active/selected select items (options that are currently selected or highlighted). This determines what color the text appears in for active items, typically matching the secondary theme color.<br>CSS variable: --wm-select-active-item-color"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "appearance": {}
+    }
+}

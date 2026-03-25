@@ -1,0 +1,723 @@
+{
+  "label": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-label",
+          "mobile": ".app-label"
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".app-label",
+              "mobile": ".app-label"
+            }
+          },
+          "variantGroups": {
+            "size": {
+              "p": {
+                "selector": {
+                  "web": ".p",
+                  "mobile": "p"
+                }
+              },
+              "h1": {
+                "selector": {
+                  "web": ".h1",
+                  "mobile": ".h1"
+                }
+              },
+              "h2": {
+                "selector": {
+                  "web": ".h2",
+                  "mobile": ".h2"
+                }
+              },
+              "h3": {
+                "selector": {
+                  "web": ".h3",
+                  "mobile": ".h3"
+                }
+              },
+              "h4": {
+                "selector": {
+                  "web": ".h4",
+                  "mobile": ".h4"
+                }
+              },
+              "h5": {
+                "selector": {
+                  "web": ".h5",
+                  "mobile": ".h5"
+                }
+              },
+              "h6": {
+                "selector": {
+                  "web": ".h6",
+                  "mobile": ".h6"
+                }
+              }
+            }
+          }
+        },
+        "text": {
+          "mapping": {
+            "selector": {
+              "web": ".app-label"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "primary": {
+                "selector": {
+                  "web": ".text-primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "web": ".text-secondary"
+                }
+              },
+              "tertiary": {
+                "selector": {
+                  "web": ".text-tertiary"
+                }
+              },
+              "success": {
+                "selector": {
+                  "web": ".text-success"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "web": ".text-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "web": ".text-danger"
+                }
+              },
+              "info": {
+                "selector": {
+                  "web": ".text-info"
+                }
+              },
+              "muted": {
+                "selector": {
+                  "web": ".text-muted"
+                }
+              }
+            }
+          }
+        },
+        "label": {
+          "mapping": {
+            "selector": {
+              "web": ".app-label"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "primary": {
+                "selector": {
+                  "web": ".label-primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "web": ".label-secondary"
+                }
+              },
+              "tertiary": {
+                "selector": {
+                  "web": ".label-tertiary"
+                }
+              },
+              "success": {
+                "selector": {
+                  "web": ".label-success"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "web": ".label-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "web": ".label-danger"
+                }
+              },
+              "info": {
+                "selector": {
+                  "web": ".label-info"
+                }
+              },
+              "muted": {
+                "selector": {
+                  "web": ".label-muted"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "color": {
+        "value": "inherit",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of labels (text elements that describe or identify other content). This determines what color the label text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-label-color"
+        }
+      },
+      "margin": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the outer spacing around labels (the space between the label and surrounding elements). This creates breathing room around label text.<br>CSS variable: --wm-label-margin"
+        }
+      },
+      "padding": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside labels (the space between the label text and its border). This creates breathing room around the label content.<br>CSS variable: --wm-label-padding"
+        }
+      },
+      "font-size": {
+        "value": "{body.medium.font-size.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-size",
+          "description": "Controls how large label text appears (text that describes or identifies other content). Larger values make labels more prominent, smaller values make them more subtle.<br>CSS variable: --wm-label-font-size"
+        }
+      },
+      "font-weight": {
+        "value": "{body.medium.font-weight.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-weight",
+          "description": "Controls how thick or bold label text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-label-font-weight"
+        }
+      },
+      "line-height": {
+        "value": "{body.medium.line-height.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "line-height",
+          "description": "Controls the vertical spacing between lines when label text wraps to multiple lines. Higher values create more space between lines for better readability.<br>CSS variable: --wm-label-line-height"
+        }
+      },
+      "letter-spacing": {
+        "value": "{body.medium.letter-spacing.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "letter-spacing",
+          "description": "Controls the horizontal spacing between individual letters in label text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-label-letter-spacing"
+        }
+      },
+      "font-family": {
+        "value": "{body.medium.font-family.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Sets the typeface (font style) for label text. This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-label-font-family"
+        }
+      },
+      "background-color": {
+        "value": "none",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of labels (the area behind the label text). When set to 'none', labels have no background color, making them transparent.<br>CSS variable: --wm-label-background-color"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "variantGroups": {
+          "size": {
+            "p": {
+              "font-size": {
+                "value": "{p.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{p.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{p.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{p.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{p.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            },
+            "h1": {
+              "font-size": {
+                "value": "{h1.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{h1.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{h1.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{h1.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{h1.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            },
+            "h2": {
+              "font-size": {
+                "value": "{h2.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{h2.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{h2.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{h2.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{h2.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            },
+            "h3": {
+              "font-size": {
+                "value": "{h3.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{h3.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{h3.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{h3.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{h3.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            },
+            "h4": {
+              "font-size": {
+                "value": "{h4.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{h4.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{h4.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{h4.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{h4.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            },
+            "h5": {
+              "font-size": {
+                "value": "{h5.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{h5.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{h5.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{h5.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{h5.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            },
+            "h6": {
+              "font-size": {
+                "value": "{h6.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size"
+                }
+              },
+              "font-weight": {
+                "value": "{h6.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight"
+                }
+              },
+              "line-height": {
+                "value": "{h6.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{h6.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              },
+              "font-family": {
+                "value": "{h6.font-family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family"
+                }
+              }
+            }
+          }
+        }
+      },
+      "text": {
+        "variantGroups": {
+          "status": {
+            "primary": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "secondary": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "success": {
+              "color": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "warning": {
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "danger": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "info": {
+              "color": {
+                "value": "{color.info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "muted": {
+              "color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      },
+      "label": {
+        "variantGroups": {
+          "status": {
+            "primary": {
+              "background-color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "secondary": {
+              "background-color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "background-color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "success": {
+              "background-color": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "warning": {
+              "background-color": {
+                "value": "{color.warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "danger": {
+              "background-color": {
+                "value": "{color.error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "info": {
+              "background-color": {
+                "value": "{color.info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "muted": {
+              "background-color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,531 @@
+{
+  "form": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-composite-widget"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": ":has(.form-control:not(.ng-touched.ng-invalid):hover), .form-control:hover,.form-control:hover"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": ":has(.form-control:not(.ng-touched.ng-invalid):focus), .form-control:focus,.form-control:focus"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": ":has(.form-control:not(.ng-touched.ng-invalid):active), .form-control:active,.form-control:active"
+            }
+          },
+          "error": {
+            "selector": {
+              "web": ":has(.form-control.ng-touched.ng-invalid), .form-control.ng-touched.ng-invalid, .form-group .ng-touched.ng-invalid .form-control"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "group": {
+        "gap": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between form groups (collections of related form fields like a group of address fields or contact information fields). This creates visual separation between different sections of a form.<br>CSS variable: --wm-form-group-gap"
+          }
+        }
+      },
+      "form": {
+        "width": {
+          "value": "1240px",
+          "type": "space"
+        },
+        "min-width": {
+          "value": "320px",
+          "type": "space"
+        }
+      },
+      "control": {
+        "color": {
+          "@": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of form controls (input fields, text areas, select boxes, and other form elements where users enter data). This determines what color the text that users type appears in.<br>CSS variable: --wm-form-control-color"
+            }
+          },
+          "place-holder": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of placeholder text in form controls (the gray text that appears in empty input fields to show users what to enter, like 'Enter your name' or 'Select an option'). This determines what color the hint text appears in.<br>CSS variable: --wm-form-control-place-holder-color"
+            }
+          }
+        },
+        "background": {
+          "value": "{color.surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of form controls (input fields, text areas, select boxes, and other form elements where users enter data). This is the main background color that appears behind the form field content.<br>CSS variable: --wm-form-control-background"
+          }
+        },
+        "border": {
+          "width": {
+            "@": {
+              "value": "{border.width.base.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of borders around form controls (input fields, text areas, select boxes, and other form elements). This determines how thick the border lines appear around the form fields.<br>CSS variable: --wm-form-control-border-width"
+              }
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of borders around form controls (input fields, text areas, select boxes, and other form elements). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-form-control-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around form controls (input fields, text areas, select boxes, and other form elements). This determines what color the border lines appear in that outline the form fields.<br>CSS variable: --wm-form-control-border-color"
+            }
+          },
+          "radius": {
+            "value": "{radius.xs.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of form controls (input fields, text areas, select boxes, and other form elements). This makes the form field corners slightly rounded for a softer appearance.<br>CSS variable: --wm-form-control-border-radius"
+            }
+          }
+        },
+        "width": {
+          "value": "100%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how wide form controls appear (input fields, text areas, select boxes, and other form elements). This determines the horizontal size of the form fields. Acceptable units: %, px, em, rem.<br>CSS variable: --wm-form-control-width"
+          }
+        },
+        "height": {
+          "value": "56px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls how tall form controls appear (input fields, text areas, select boxes, and other form elements). This determines the vertical size of the form fields. Acceptable units: px, em, rem.<br>CSS variable: --wm-form-control-height"
+          }
+        },
+        "padding": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside form controls (the space between the form field content and its borders). This creates breathing room around the text that users type in the form fields.<br>CSS variable: --wm-form-control-padding"
+          }
+        },
+        "font-family": {
+          "value": "{body.large.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for form controls (input fields, text areas, select boxes, and other form elements). This determines whether the form field text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-form-control-font-family"
+          }
+        },
+        "font-size": {
+          "value": "{body.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large the text appears in form controls (input fields, text areas, select boxes, and other form elements). This affects the size of the text that users see and type in the form fields.<br>CSS variable: --wm-form-control-font-size"
+          }
+        },
+        "font-weight": {
+          "value": "{body.large.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the text appears in form controls (input fields, text areas, select boxes, and other form elements). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-form-control-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{body.large.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when form control text wraps to multiple lines (like in text areas). This ensures proper spacing for the text displayed in the form fields.<br>CSS variable: --wm-form-control-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{body.large.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in form controls (input fields, text areas, select boxes, and other form elements). This can help make the form field text more readable and properly spaced.<br>CSS variable: --wm-form-control-letter-spacing"
+          }
+        }
+      },
+      "caption": {
+        "font": {
+          "family": {
+            "value": "{body.large.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of form captions.<br>CSS variable: --wm-form-caption-font-family"
+            }
+          },
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of form captions.<br>CSS variable: --wm-form-caption-font-size"
+            }
+          },
+          "weight": {
+            "value": "{body.large.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight of form captions. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-form-caption-font-weight"
+            }
+          }
+        },
+        "line-height": {
+          "value": "{body.large.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the line height of form captions.<br>CSS variable: --wm-form-caption-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{body.large.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls spacing between characters in form captions.<br>CSS variable: --wm-form-caption-letter-spacing"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.variant.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of form captions.<br>CSS variable: --wm-form-caption-color"
+          }
+        },
+        "margin": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls margin of form captions.<br>CSS variable: --wm-form-caption-margin"
+          }
+        },
+        "padding": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls padding of form captions.<br>CSS variable: --wm-form-caption-padding"
+          }
+        },
+        "gap": {
+          "value": "~\"calc({space.1.value} * 0.5)\"",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls spacing between form caption elements.<br>CSS variable: --wm-form-caption-gap"
+          }
+        }
+      },
+      "required": {
+        "content": {
+          "value": "\"*\"",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Sets the content for required field indicators.<br>CSS variable: --wm-form-required-content"
+          }
+        },
+        "color": {
+          "value": "{color.error.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of required field indicators.<br>CSS variable: --wm-form-required-color"
+          }
+        },
+        "font-size": {
+          "value": "inherit",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the font size of required field indicators.<br>CSS variable: --wm-form-required-font-size"
+          }
+        },
+        "font-weight": {
+          "value": "{font.weight.700.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls the font weight of required field indicators. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-form-required-font-weight"
+          }
+        }
+      },
+      "help": {
+        "block": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of form help blocks.<br>CSS variable: --wm-form-help-block-color"
+            }
+          },
+          "font-family": {
+            "value": "{body.small.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of form help blocks.<br>CSS variable: --wm-form-help-block-font-family"
+            }
+          },
+          "font-size": {
+            "value": "{body.small.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of form help blocks.<br>CSS variable: --wm-form-help-block-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "{body.small.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight of form help blocks. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-form-help-block-font-weight"
+            }
+          },
+          "line-height": {
+            "value": "{body.small.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the line height of form help blocks.<br>CSS variable: --wm-form-help-block-line-height"
+            }
+          },
+          "letter-spacing": {
+            "value": "{body.small.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls spacing between characters in form help blocks.<br>CSS variable: --wm-form-help-block-letter-spacing"
+            }
+          }
+        }
+      },
+      "input": {
+        "group": {
+          "btn": {
+            "width": {
+              "value": "{space.10.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the width of input group buttons.<br>CSS variable: --wm-form-input-group-btn-width"
+              }
+            },
+            "height": {
+              "value": "{space.10.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of input group buttons.<br>CSS variable: --wm-form-input-group-btn-height"
+              }
+            },
+            "font": {
+              "size": {
+                "value": "{icon.size.md.value}",
+                "type": "space",
+                "attributes": {
+                  "subtype": "icon-size",
+                  "description": "Controls the font size of input group button icons.<br>CSS variable: --wm-form-input-group-btn-font-size"
+                }
+              }
+            },
+            "border": {
+              "radius": {
+                "value": "{radius.sm.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius of input group buttons.<br>CSS variable: --wm-form-input-group-btn-border-radius"
+                }
+              }
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "control": {
+            "border": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          },
+          "caption": {
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "font-weight": {
+              "value": "{body.large.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight"
+              }
+            }
+          }
+        },
+        "focus": {
+          "control": {
+            "border": {
+              "width": {
+                "value": "2px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          },
+          "caption": {
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "font-weight": {
+              "value": "{body.large.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight"
+              }
+            }
+          }
+        },
+        "error": {
+          "control": {
+            "border": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          },
+          "caption": {
+            "color": {
+              "value": "{color.error.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "font-weight": {
+              "value": "{body.large.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight"
+              }
+            }
+          },
+          "help": {
+            "block": {
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "control": {
+            "border": {
+              "width": {
+                "value": "2px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "border-width"
+                }
+              },
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          },
+          "caption": {
+            "color": {
+              "value": "{color.on-surface.variant.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            },
+            "font-weight": {
+              "value": "{body.large.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight"
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

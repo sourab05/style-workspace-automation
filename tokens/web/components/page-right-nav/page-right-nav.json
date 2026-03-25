@@ -1,0 +1,950 @@
+{
+  "aside-right": {
+     "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-right-panel"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": " .app-nav-item:has(:hover)"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " .app-nav-item:has(:active),.app-right-panel .app-nav-item:has(.active), .app-nav-item.active"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": " .app-nav-item:has(:focus)"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "full": {
+          "mapping": {
+            "selector": {
+              "web": ".wm-app"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "nav-drawer": {
+                "selector": {
+                  "web": ":has(.app-right-panel.app-nav-drawer.app-nav-full)"
+                }
+              },
+              "nav-rail": {
+                "selector": {
+                  "web": ":has(.app-right-panel.app-nav-rail.app-nav-full)"
+                }
+              }
+            }
+          }
+        },
+        "clipped": {
+          "mapping": {
+            "selector": {
+              "web": ".wm-app"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "nav-drawer": {
+                "selector": {
+                  "web": ":has(.app-right-panel.app-nav-drawer.app-nav-clipped)"
+                }
+              },
+              "nav-rail": {
+                "selector": {
+                  "web": ":has(.app-right-panel.app-nav-rail.app-nav-clipped)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "nav": {
+        "border": {
+          "color": {
+            "value": "{aside-left.mapping.nav.border.color.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the right navigation panel border (the vertical sidebar that contains navigation menu items). This determines what color the border line appears in that separates the navigation from the main content.<br>CSS variable: --wm-aside-right-nav-border-color"
+            }
+          },
+          "style": {
+            "value": "{aside-left.mapping.nav.border.style.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of the right navigation panel border. 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes the border completely.<br>CSS variable: --wm-aside-right-nav-border-style"
+            }
+          },
+          "radius": {
+            "value": "{aside-left.mapping.nav.border.radius.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of the right navigation panel. This makes the navigation panel corners slightly rounded for a softer appearance, or keeps them square with 'none'.<br>CSS variable: --wm-aside-right-nav-border-radius"
+            }
+          },
+          "width": {
+            "value": "{border.width.0.value} {border.width.0.value} {border.width.0.value} {border.width.1.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the right navigation panel border. The format is 'top right bottom left' - this setting creates a left border only to separate the navigation from the main content.<br>CSS variable: --wm-aside-right-nav-border-width"
+            }
+          }
+        },
+        "shadow": {
+          "value": "{aside-left.mapping.nav.shadow.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around the right navigation panel (the vertical sidebar that contains navigation menu items). This creates a subtle shadow that makes the navigation appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-aside-right-nav-shadow"
+          }
+        },
+        "letter-spacing": {
+          "value": "{aside-left.mapping.nav.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in the right navigation panel text. This can help make the navigation text more readable and properly spaced.<br>CSS variable: --wm-aside-right-nav-letter-spacing"
+          }
+        },
+        "padding": {
+          "value": "{aside-left.mapping.nav.padding.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside the right navigation panel (the space between the navigation content and its borders). This creates breathing room around the navigation menu items.<br>CSS variable: --wm-aside-right-nav-padding"
+          }
+        },
+        "background": {
+          "value": "{aside-left.mapping.nav.background.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the right navigation panel (the vertical sidebar that contains navigation menu items). This is the main background color that appears behind the navigation content.<br>CSS variable: --wm-aside-right-nav-background"
+          }
+        },
+        "color": {
+          "value": "{aside-left.mapping.nav.color.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the right navigation panel (the vertical sidebar that contains navigation menu items). This determines what color the navigation text appears in.<br>CSS variable: --wm-aside-right-nav-color"
+          }
+        },
+        "gap": {
+          "value": "{aside-left.mapping.nav.gap.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls spacing between elements in right navigation panels.<br>CSS variable: --wm-aside-right-nav-gap"
+          }
+        },
+        "item": {
+          "color": {
+            "value": "{aside-left.mapping.nav.item.color.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-color"
+            }
+          },
+          "background": {
+            "value": "{aside-left.mapping.nav.item.background.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-background"
+            }
+          },
+          "min": {
+            "height": {
+              "value": "{aside-left.mapping.nav.item.min.height.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the minimum height of right navigation items. Acceptable units: px, em, rem.<br>CSS variable: --wm-aside-right-nav-item-min-height"
+              }
+            }
+          },
+          "padding": {
+            "value": "{aside-left.mapping.nav.item.padding.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls padding of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-padding"
+            }
+          },
+          "font": {
+            "family": {
+              "value": "{aside-left.mapping.nav.item.font.family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the font family of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-font-family"
+              }
+            },
+            "size": {
+              "value": "{aside-left.mapping.nav.item.font.size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-font-size"
+              }
+            },
+            "weight": {
+              "value": "{aside-left.mapping.nav.item.font.weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight of right navigation items. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-aside-right-nav-item-font-weight"
+              }
+            }
+          },
+          "line-height": {
+            "value": "{aside-left.mapping.nav.item.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the line height of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-line-height"
+            }
+          },
+          "border": {
+            "radius": {
+              "value": "{aside-left.mapping.nav.item.border.radius.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of right navigation items.<br>CSS variable: --wm-aside-right-nav-item-border-radius"
+              }
+            }
+          },
+          "gap": {
+            "value": "{aside-left.mapping.nav.item.gap.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls spacing between elements in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-gap"
+            }
+          },
+          "icon": {
+            "size": {
+              "value": "{aside-left.mapping.nav.item.icon.size.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "icon-size",
+                "description": "Controls the size of icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-icon-size"
+              }
+            },
+            "width": {
+              "value": "{aside-left.mapping.nav.item.icon.width.value}",
+              "type": "space",
+              "description": "Controls the width of icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-icon-width"
+            },
+            "height": {
+              "value": "{aside-left.mapping.nav.item.icon.height.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-icon-height"
+              }
+            },
+            "border": {
+              "radius": {
+                "value": "{aside-left.mapping.nav.item.icon.border.radius.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius of icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-icon-border-radius"
+                }
+              }
+            },
+            "background": {
+              "value": "{aside-left.mapping.nav.item.icon.background.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-icon-background"
+              }
+            },
+            "color": {
+              "value": "{aside-left.mapping.nav.item.icon.color.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-icon-color"
+              }
+            }
+          },
+          "indicator": {
+            "color": {
+              "value": "{aside-left.mapping.nav.item.indicator.color.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of indicators in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-indicator-color"
+              }
+            },
+            "width": {
+              "value": "{aside-left.mapping.nav.item.indicator.width.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the width of indicators in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-indicator-width"
+              }
+            },
+            "height": {
+              "value": "{aside-left.mapping.nav.item.indicator.height.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of indicators in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-indicator-height"
+              }
+            },
+            "position": {
+              "value": " auto 0 0 0",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the position of indicators in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-indicator-position"
+              }
+            },
+            "border": {
+              "radius": {
+                "value": "{aside-left.mapping.nav.item.indicator.border.radius.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius of indicators in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-indicator-radius"
+                }
+              }
+            }
+          },
+          "caret": {
+            "size": {
+              "value": "{aside-left.mapping.nav.item.caret.size.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the size of caret icons in right navigation items.<br>CSS variable: --wm-aside-right-nav-item-caret-size"
+              }
+            }
+          }
+        },
+        "submenu": {
+          "padding": {
+            "value": "{aside-left.mapping.nav.submenu.padding.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls padding of right navigation submenus.<br>CSS variable: --wm-aside-right-nav-submenu-padding"
+            }
+          },
+          "background": {
+            "value": "{aside-left.mapping.nav.submenu.background.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of right navigation submenus.<br>CSS variable: --wm-aside-right-nav-submenu-background"
+            }
+          },
+          "border": {
+            "radius": {
+              "value": "{aside-left.mapping.nav.submenu.border.radius.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of right navigation submenus.<br>CSS variable: --wm-aside-right-nav-submenu-border-radius"
+              }
+            }
+          },
+          "box-shadow": {
+            "value": "{aside-left.mapping.nav.submenu.box-shadow.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "elevation",
+              "description": "Controls the box shadow of right navigation submenus.<br>CSS variable: --wm-aside-right-nav-submenu-box-shadow"
+            }
+          },
+          "item": {
+            "color": {
+              "value": "{aside-left.mapping.nav.submenu.item.color.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-color"
+              }
+            },
+            "background": {
+              "value": "{aside-left.mapping.nav.submenu.item.background.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-background"
+              }
+            },
+            "height": {
+              "value": "{aside-left.mapping.nav.submenu.item.height.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-height"
+              }
+            },
+            "padding": {
+              "value": "{aside-left.mapping.nav.submenu.item.padding.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls padding of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-padding"
+              }
+            },
+            "font": {
+              "size": {
+                "value": "{aside-left.mapping.nav.submenu.item.font.size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size",
+                  "description": "Controls the font size of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-font-size"
+                }
+              },
+              "family": {
+                "value": "{aside-left.mapping.nav.submenu.item.font.family.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family",
+                  "description": "Sets the font family of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-font-family"
+                }
+              },
+              "weight": {
+                "value": "{aside-left.mapping.nav.submenu.item.font.weight.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight",
+                  "description": "Controls the font weight of right navigation submenu items. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-aside-right-nav-submenu-item-font-weight"
+                }
+              }
+            },
+            "line-height": {
+              "value": "{aside-left.mapping.nav.submenu.item.line-height.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "line-height",
+                "description": "Controls the line height of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-line-height"
+              }
+            },
+            "border": {
+              "radius": {
+                "value": "{aside-left.mapping.nav.submenu.item.border.radius.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius of right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-border-radius"
+                }
+              }
+            },
+            "gap": {
+              "value": "{aside-left.mapping.nav.submenu.item.gap.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls spacing between elements in right navigation submenu items.<br>CSS variable: --wm-aside-right-nav-submenu-item-gap"
+              }
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "nav": {
+            "item": {
+              "background": {
+                "value": "{color.inherit.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.inherit.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "indicator": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "icon": {
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "width": {
+                    "value": "none",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "radius"
+                    }
+                  },
+                  "style": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "color": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              },
+              "anchor": {
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.on-surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "opacity": {
+                    "value": "{opacity.hover.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "opacity"
+                    }
+                  }
+                }
+              }
+            },
+            "submenu": {
+              "item": {
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "opacity": {
+                  "value": "{opacity.hover.value}",
+                  "type": "radius",
+                  "attributes": {
+                    "subtype": "opacity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "nav": {
+            "item": {
+              "background": {
+                "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "indicator": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "icon": {
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "width": {
+                    "value": "none",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "radius"
+                    }
+                  },
+                  "style": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "color": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              },
+              "anchor": {
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "opacity": {
+                    "value": "{opacity.active.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "opacity"
+                    }
+                  }
+                }
+              }
+            },
+            "submenu": {
+              "item": {
+                "background": {
+                  "value": "{color.secondary.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "focus": {
+          "nav": {
+            "item": {
+              "background": {
+                "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "indicator": {
+                "color": {
+                  "value": "{color.secondary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "icon": {
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "border": {
+                  "width": {
+                    "value": "none",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "radius"
+                    }
+                  },
+                  "style": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "color": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              },
+              "anchor": {
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "background": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              },
+              "state": {
+                "layer": {
+                  "color": {
+                    "value": "{color.inherit.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "opacity": {
+                    "value": "{opacity.active.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "opacity"
+                    }
+                  }
+                }
+              }
+            },
+            "submenu": {
+              "item": {
+                "background": {
+                  "value": "{color.secondary.container.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                },
+                "color": {
+                  "value": "{color.inherit.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "full": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "nav-drawer": {
+              "nav": {
+                "width": {
+                  "value": "220px",
+                  "type": "space",
+                  "attributes": {
+                    "subtype": "space"
+                  }
+                }
+              }
+            },
+            "nav-rail": {
+              "nav": {
+                "width": {
+                  "value": "102px",
+                  "type": "space",
+                  "attributes": {
+                    "subtype": "space"
+                  }
+                },
+                "submenu": {
+                  "box-shadow": {
+                    "value": "{elevation.shadow.1.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "elevation"
+                    }
+                  },
+                  "radius": {
+                    "value": "{radius.none.value} {radius.sm.value} {radius.sm.value} {radius.none.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "radius"
+                    }
+                  }
+                },
+                "item": {
+                  "anchor-display": {
+                    "value": "block",
+                    "type": "font",
+                    "attributes": {
+                      "subtype": "font-family"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "clipped": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "nav-drawer": {
+              "nav": {
+                "width": {
+                  "value": "220px",
+                  "type": "space",
+                  "attributes": {
+                    "subtype": "space"
+                  }
+                }
+              }
+            },
+            "nav-rail": {
+              "nav": {
+                "width": {
+                  "value": "102px",
+                  "type": "space",
+                  "attributes": {
+                    "subtype": "space"
+                  }
+                },
+                "submenu": {
+                  "box-shadow": {
+                    "value": "{elevation.shadow.1.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "elevation"
+                    }
+                  },
+                  "radius": {
+                    "value": "{radius.none.value} {radius.sm.value} {radius.sm.value} {radius.none.value}",
+                    "type": "radius",
+                    "attributes": {
+                      "subtype": "radius"
+                    }
+                  }
+                },
+                "item": {
+                  "anchor-display": {
+                    "value": "block",
+                    "type": "font",
+                    "attributes": {
+                      "subtype": "font-family"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

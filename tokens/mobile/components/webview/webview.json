@@ -1,0 +1,17 @@
+{
+  "webview": {
+    "mapping": {
+      "container": {
+        "min-height": {
+          "value": "100px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of webview containers (embedded web content viewers that display web pages or HTML content). This ensures the webview is always tall enough to be visible and properly display content.<br>CSS variable: --wm-webview-container-min-height"
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

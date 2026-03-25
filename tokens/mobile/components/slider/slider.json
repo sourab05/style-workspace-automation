@@ -1,0 +1,111 @@
+{
+    "slider": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-slider"
+                }
+            }
+        },
+        "mapping": {
+            "track": {
+                "height": {
+                    "value": "{space.4.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the height of slider tracks (the horizontal bar that represents the slider range). This determines the vertical size of the track. Acceptable units: px.<br>CSS variable: --wm-slider-track-height"
+                    }
+                },
+                "margin-vertical": {
+                    "value": "{space.4.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the vertical margin (top and bottom spacing) of slider tracks. This creates spacing above and below the track. Acceptable units: px.<br>CSS variable: --wm-slider-track-margin-vertical"
+                    }
+                },
+                "border-radius": {
+                    "value": "{radius.lg.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius (rounded corners) of slider tracks. This determines how rounded the corners of the track appear. Acceptable units: px.<br>CSS variable: --wm-slider-track-border-radius"
+                    }
+                }
+            },
+            "min-track": {
+                "background": {
+                    "value": "{color.surface.tint.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of slider minimum tracks (the portion of the track from the start to the current value). This determines what color the minimum track appears in.<br>CSS variable: --wm-slider-min-track-background"
+                    }
+                }
+            },
+            "max-track": {
+                "background": {
+                    "value": "{color.primary.container.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of slider maximum tracks (the portion of the track from the current value to the end). This determines what color the maximum track appears in, typically matching the primary container theme color.<br>CSS variable: --wm-slider-max-track-background"
+                    }
+                }
+            },
+            "thumb": {
+                "background": {
+                    "value": "{color.surface.tint.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of slider thumbs (the draggable handle that users interact with to set values). This determines what color the thumb appears in.<br>CSS variable: --wm-slider-thumb-background"
+                    }
+                },
+                "height": {
+                    "value": "{space.8.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the height of slider thumbs. This determines the vertical size of the thumb. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-height"
+                    }
+                },
+                "width": {
+                    "value": "{space.1.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the width of slider thumbs. This determines the horizontal size of the thumb. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-width"
+                    }
+                },
+                "border-radius": {
+                    "value": "{radius.xs.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius (rounded corners) of slider thumbs. This determines how rounded the corners of the thumb appear. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-border-radius"
+                    }
+                }
+            },
+            "tooltip": {
+                "background": {
+                    "value": "#000",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of slider tooltips (popup labels that show the current value when hovering or dragging). This determines what color the background of the tooltip appears in.<br>CSS variable: --wm-slider-tooltip-background"
+                    }
+                },
+                "color": {
+                    "value": "{color.white.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of slider tooltips. This determines what color the text in the tooltip appears in, typically white for contrast against dark backgrounds.<br>CSS variable: --wm-slider-tooltip-color"
+                    }
+                }
+            }
+        }
+    }
+}

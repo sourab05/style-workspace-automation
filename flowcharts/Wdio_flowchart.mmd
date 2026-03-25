@@ -1,0 +1,57 @@
+flowchart LR
+    %% =====================
+    %% MOBILE TESTING – WDIO
+    %% =====================
+
+    M0[Start Mobile Test Flow]
+
+    %% =====================
+    %% BUILD SETUP (BOX 1)
+    %% =====================
+    subgraph BUILD[Build Setup]
+        direction TB
+    
+        MS0[Baseline build]
+        MS1[Build APK & IPA]
+        MS2[Upload to BrowserStack]
+        MS3[Capture baseline screenshots]
+        MS4[Apply token batch]
+        MS5[Rebuild apps]
+        MS6[Revert styles]
+        MS7[Upload tokenized apps]
+
+
+        %% vertical spine
+   MS0 --> MS1 --> MS2 --> MS3 --> MS4 --> MS5 --> MS6 --> MS7 
+    end
+
+    %% =====================
+    %% RUNTIME TESTING (BOX 2)
+    %% =====================
+    subgraph RUNTIME[Runtime Testing]
+        direction TB
+
+        MT0[Start WDIO tests]
+        MT1[Launch app]
+        MT2[Navigate to widget]
+        MT3[Capture runtime screenshot]
+        MT4[Compare with baseline]
+        MT5[Compare runtime CSS with expected]
+        MT6[Record result]
+        MT7[Summarize mobile results]
+        MT8[Generate Allure report]
+        MT9[Mobile artifacts ready]
+
+        %% vertical spine
+        MT0 --> MT1 --> MT2 --> MT3 --> MT4 --> MT5 --> MT6 --> MT7 --> MT8 --> MT9
+    end
+
+    %% =====================
+    %% MAIN FLOW (Left to Right)
+    %% =====================
+    M0 --> BUILD
+    BUILD --> RUNTIME --> M10[Runtime testing complete]
+
+    %% Styles
+    classDef mobile fill:#FFF3E0,stroke:#EF6C00,color:#E65100
+    class M0,MS0,MS1,MS2,MS3,MS4,MS5,MS6,MS7,MS8,MT0,MT1,MT2,MT3,MT4,MT5,MT6,MT7,MT8,MT9,M10 mobile

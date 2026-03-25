@@ -1,0 +1,121 @@
+{
+    "anchor": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "web": ".app-anchor",
+                    "mobile": ".app-anchor"
+                }
+            }
+        },
+        "mapping": {
+            "color": {
+                "@": {
+                    "value": "{color.primary.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the text color of anchor links (clickable text elements that navigate to other pages or sections). This determines what color the anchor text appears in.<br>CSS variable: --wm-anchor-color"
+                    }
+                }
+            },
+            "font-size": {
+                "value": "{body.medium.font-size.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "font-size",
+                    "description": "Controls the size of the text in anchor links. This affects how large the anchor text appears.<br>CSS variable: --wm-anchor-font-size"
+                }
+            },
+            "font-family": {
+                "value": "{body.medium.font-family.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "font-family",
+                    "description": "Sets the typeface (font style) for anchor link text. This determines whether the anchor text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-anchor-font-family"
+                }
+            },
+            "font-weight": {
+                "value": "{body.medium.font-weight.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "font-weight",
+                    "description": "Controls how thick or bold the anchor link text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-anchor-font-weight"
+                }
+            },
+            "line-height": {
+                "value": "{body.medium.line-height.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "line-height",
+                    "description": "Controls the vertical spacing between lines when anchor link text wraps to multiple lines. This ensures proper spacing for the anchor text.<br>CSS variable: --wm-anchor-line-height"
+                }
+            },
+            "letter-spacing": {
+                "value": "{body.medium.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "letter-spacing",
+                    "description": "Controls the horizontal spacing between individual characters in anchor link text. This can help make the anchor text more readable and properly spaced.<br>CSS variable: --wm-anchor-letter-spacing"
+                }
+            },
+            "text-transform": {
+                "value": "none",
+                "type": "radius",
+                "attributes": {
+                    "subtype": "text-transform",
+                    "description": "Controls text transformation for anchor link text. 'none' keeps the original case, 'uppercase' makes all text uppercase, 'lowercase' makes all text lowercase, and 'capitalize' capitalizes the first letter of each word.<br>CSS variable: --wm-anchor-text-transform"
+                }
+            },
+            "text": {
+                "decoration": {
+                    "@": {
+                        "value": "none",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "text-decoration",
+                            "description": "Controls the text decoration (underline, overline, line-through) for anchor links. 'none' removes all decorations, 'underline' adds an underline, 'overline' adds a line above, and 'line-through' adds a line through the text.<br>CSS variable: --wm-anchor-text-decoration"
+                        }
+                    }
+                }
+            },
+            "gap": {
+                "value": "{space.1.value}",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Sets spacing between icon and text content in anchor links. This creates visual separation between the icon and the anchor text.<br>CSS variable: --wm-anchor-gap"
+                }
+            },
+            "icon": {
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of icons in anchor links. This affects how large the icon appears next to the anchor text.<br>CSS variable: --wm-anchor-icon-size"
+                    }
+                }
+            },
+            "image": {
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of images in anchor links. This affects how large the image appears next to the anchor text.<br>CSS variable: --wm-anchor-image-size"
+                    }
+                },
+                "radius": {
+                    "value": "{radius.circle.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius of images in anchor links. This makes the image appear with rounded corners.<br>CSS variable: --wm-anchor-image-radius"
+                    }
+                }
+            }
+        },
+        "appearances": {}
+    }
+}

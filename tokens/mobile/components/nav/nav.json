@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "item": {
+      "background": {
+        "value": "#ffffff",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of navigation items (individual menu items in navigation menus). This is the main background color that appears behind each navigation item.<br>CSS variable: --wm-nav-item-background"
+        }
+      },
+      "min": {
+        "height": {
+          "value": "44px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of navigation items (individual menu items in navigation menus). This ensures each navigation item is always tall enough to be visible and properly displayed. Acceptable units: px.<br>CSS variable: --wm-nav-item-min-height"
+          }
+        }
+      },
+      "font-size": {
+        "value": "{label.large.font-size.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-size",
+          "description": "Controls the size of navigation item text (the text that appears in each navigation menu item). This affects how large the navigation text appears.<br>CSS variable: --wm-nav-item-font-size"
+        }
+      },
+      "font-family": {
+        "value": "{label.large.font-family.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Sets the typeface (font style) for navigation item text. This determines whether the navigation text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-nav-item-font-family"
+        }
+      },
+      "font-weight": {
+        "value": "{label.large.font-weight.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-weight",
+          "description": "Controls how thick or bold navigation item text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-nav-item-font-weight"
+        }
+      },
+      "line-height": {
+        "value": "{label.large.line-height.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "line-height",
+          "description": "Controls the vertical spacing between lines when navigation item text wraps to multiple lines. This ensures proper spacing for the navigation text.<br>CSS variable: --wm-nav-item-line-height"
+        }
+      },
+      "letter-spacing": {
+        "value": "{label.large.letter-spacing.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "letter-spacing",
+          "description": "Controls the horizontal spacing between individual letters in navigation item text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-nav-item-letter-spacing"
+        }
+      },
+      "color": {
+        "value": "#151420",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of navigation items (individual menu items in navigation menus). This determines what color the navigation text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-nav-item-color"
+        }
+      },
+      "padding": {
+        "left": {
+          "type": "space",
+          "value": "{space.3.value}",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the left padding (horizontal spacing) inside navigation items. This creates breathing room on the left side of the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-left"
+          }
+        },
+        "right": {
+          "type": "space",
+          "value": "{space.3.value}",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the right padding (horizontal spacing) inside navigation items. This creates breathing room on the right side of the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-right"
+          }
+        },
+        "top": {
+          "type": "space",
+          "value": "{space.3.value}",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the top padding (vertical spacing) inside navigation items. This creates breathing room above the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-top"
+          }
+        },
+        "bottom": {
+          "type": "space",
+          "value": "{space.3.value}",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the bottom padding (vertical spacing) inside navigation items. This creates breathing room below the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-bottom"
+          }
+        }
+      }
+    }
+  }
+}

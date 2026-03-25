@@ -1,0 +1,442 @@
+{
+  "tile": {
+    "meta": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "selector": {
+              "web": ".app-tile",
+              "mobile": ".app-tile"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "default": {
+                "selector": {
+                  "mobile": ".bg-default",
+                  "web": ".bg-default"
+                }
+              },
+              "primary": {
+                "selector": {
+                  "mobile": ".bg-primary",
+                  "web": ".bg-primary"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "mobile": ".bg-secondary",
+                  "web": ".bg-secondary"
+                }
+              },
+              "tertiary": {
+                "selector": {
+                  "mobile": ".bg-tertiary",
+                  "web": ".bg-tertiary"
+                }
+              },
+              "success": {
+                "selector": {
+                  "mobile": ".bg-success",
+                  "web": ".bg-success"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".bg-info",
+                  "web": ".bg-info"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".bg-warning",
+                  "web": ".bg-warning"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".bg-danger",
+                  "web": ".bg-danger"
+                }
+              }
+            }
+          }
+        },
+        "filled": {
+          "mapping": {
+            "selector": {
+              "web": ".app-tile",
+              "mobile": ".app-tile"
+            }
+          },
+          "variantGroups": {
+            "status": {
+              "default": {
+                "selector": {
+                  "mobile": ".bg-default-filled",
+                  "web": ".bg-default-filled"
+                }
+              },
+              "primary": {
+                "selector": {
+                  "mobile": ".bg-primary-filled",
+                  "web": ".bg-primary-filled"
+                }
+              },
+              "secondary": {
+                "selector": {
+                  "mobile": ".bg-secondary-filled",
+                  "web": ".bg-secondary-filled"
+                }
+              },
+              "tertiary": {
+                "selector": {
+                  "mobile": ".bg-tertiary-filled",
+                  "web": ".bg-tertiary-filled"
+                }
+              },
+              "success": {
+                "selector": {
+                  "mobile": ".bg-success-filled",
+                  "web": ".bg-success-filled"
+                }
+              },
+              "info": {
+                "selector": {
+                  "mobile": ".bg-info-filled",
+                  "web": ".bg-info-filled"
+                }
+              },
+              "warning": {
+                "selector": {
+                  "mobile": ".bg-warning-filled",
+                  "web": ".bg-warning-filled"
+                }
+              },
+              "danger": {
+                "selector": {
+                  "mobile": ".bg-danger-filled",
+                  "web": ".bg-danger-filled"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "padding": {
+        "value": "{space.4.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside tile components (rectangular content blocks that hold information). This creates breathing room around the tile content.<br>CSS variable: --wm-tile-padding"
+        }
+      },
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of tile components (rectangular content blocks that hold information). This is the main background color that appears behind the tile content.<br>CSS variable: --wm-tile-background"
+        }
+      },
+      "color": {
+        "value": "{color.on-surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the text color of tile components (the color of text content within rectangular content blocks). This should contrast well with the background color for readability.<br>CSS variable: --wm-tile-color"
+        }
+      },
+      "radius": {
+        "value": "{radius.sm.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the corner rounding of tile components (rectangular content blocks). This makes the tiles appear with rounded corners instead of sharp edges for a softer appearance.<br>CSS variable: --wm-tile-radius"
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.1.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around tile components (rectangular content blocks). This creates a subtle shadow that makes the tiles appear to float above the background, giving them depth and elevation.<br>CSS variable: --wm-tile-shadow"
+        }
+      }
+    },
+    "appearances": {
+      "default": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "default": {
+              "background": {
+                "value": "{color.surface.container.low.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "primary": {
+              "background": {
+                "value": "{color.primary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "secondary": {
+              "background": {
+                "value": "{color.secondary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "background": {
+                "value": "{color.tertiary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "success": {
+              "background": {
+                "value": "{color.success.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "info": {
+              "background": {
+                "value": "{color.info.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "warning": {
+              "background": {
+                "value": "{color.warning.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "danger": {
+              "background": {
+                "value": "{color.error.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      },
+      "filled": {
+        "mapping": {},
+        "variantGroups": {
+          "status": {
+            "default": {
+              "background": {
+                "value": "{color.surface.container.highest.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-surface.variant.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "primary": {
+              "background": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "secondary": {
+              "background": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "tertiary": {
+              "background": {
+                "value": "{color.tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-tertiary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "success": {
+              "background": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "info": {
+              "background": {
+                "value": "{color.info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "warning": {
+              "background": {
+                "value": "{color.warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-warning.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "danger": {
+              "background": {
+                "value": "{color.error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "color": {
+                "value": "{color.on-error.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '15px'}}}%%
+flowchart TB
+    subgraph setup ["SETUP -- Runs once before all tests"]
+        Auth["<b>Login</b><br/>Authenticate with Studio"]
+        LoadTokens["<b>Load Tokens</b><br/>Read all global tokens"]
+        SelectTokens["<b>Pick Tokens</b><br/>Select random tokens"]
+        Baselines["<b>Capture Baselines</b><br/>Take before screenshots"]
+    end
+
+    subgraph execution ["TEST LOOP -- Repeats for each test case"]
+        Generate["<b>Generate</b><br/>Build matrix and payload"]
+        Apply["<b>Apply Token</b><br/>Send token via Studio API"]
+        Navigate["<b>Open Widget</b><br/>Navigate to the widget"]
+        Extract["<b>Read Style</b><br/>Get CSS or RN style value"]
+        Compare["<b>Compare</b><br/>Actual vs Expected"]
+        Rollback["<b>Rollback</b><br/>Reset token to original"]
+    end
+
+    subgraph reports ["REPORTS -- Generated after all tests"]
+        HTML["<b>HTML Report</b><br/>Playwright visual report"]
+        JSON["<b>JSON Log</b><br/>Raw test data"]
+        TokenReport["<b>Token Report</b><br/>Detailed validation results"]
+    end
+
+    Auth -->|"login"| LoadTokens -->|"loaded"| SelectTokens -->|"selected"| Baselines
+
+    Baselines -->|"start tests"| Generate -->|"payload ready"| Apply
+    Apply -->|"token set"| Navigate
+    Navigate -->|"widget found"| Extract -->|"value read"| Compare -->|"reset"| Rollback
+
+    Compare -->|"pass/fail"| HTML
+    Compare -->|"log data"| JSON
+    Compare -->|"details"| TokenReport
+
+    classDef setupStyle fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    classDef execStyle fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    classDef reportStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+
+    class Auth,LoadTokens,SelectTokens,Baselines setupStyle
+    class Generate,Apply,Navigate,Extract,Compare,Rollback execStyle
+    class HTML,JSON,TokenReport reportStyle
+
+    style setup fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style execution fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C
+    style reports fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20

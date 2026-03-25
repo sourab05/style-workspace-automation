@@ -1,0 +1,64 @@
+{
+    "left-panel": {
+        "mapping": {
+            "min-height": {
+                "type": "space",
+                "value": "100%",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the minimum height of the left navigation panel (the side panel that slides in from the left). When set to 100%, the panel takes up the full height of the viewport. Acceptable units: %, px.<br>CSS variable: --wm-left-panel-min-height"
+                }
+            },
+            "background": {
+                "type": "color",
+                "value": "#ffffff",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of the left navigation panel (the side panel that slides in from the left). This is the main background color that appears behind the navigation content.<br>CSS variable: --wm-left-panel-background"
+                }
+            },
+            "elevation": {
+                "type": "radius",
+                "value": "{elevation.shadow.1.value}",
+                "attributes": {
+                    "subtype": "elevation",
+                    "description": "Controls the drop shadow effect around the left navigation panel. This creates a subtle shadow that makes the panel appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-left-panel-elevation"
+                }
+            },
+            "border": {
+                "top": {
+                    "right": {
+                        "radius": {
+                            "type": "radius",
+                            "value": "{radius.lg.value}",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the corner rounding of the top-right corner of the left navigation panel. This makes the panel appear with rounded corners on the top-right for a softer appearance.<br>CSS variable: --wm-left-panel-border-top-right-radius"
+                            }
+                        }
+                    }
+                },
+                "bottom": {
+                    "right": {
+                        "radius": {
+                            "type": "radius",
+                            "value": "{radius.lg.value}",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the corner rounding of the bottom-right corner of the left navigation panel. This makes the panel appear with rounded corners on the bottom-right for a softer appearance.<br>CSS variable: --wm-left-panel-border-bottom-right-radius"
+                            }
+                        }
+                    }
+                }
+            },
+            "max-width": {
+                "type": "space",
+                "value": "360px",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the maximum width of the left navigation panel (the side panel that slides in from the left). This determines how wide the panel can be when it's open. Acceptable units: px.<br>CSS variable: --wm-left-panel-max-width"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,6 @@
+variant,studioWidgetName
+progress-bar-filled-default-default,progress_bar1
+progress-bar-filled-info-default,progress_bar2
+progress-bar-filled-success-default,progress_bar3
+progress-bar-filled-warning-default,progress_bar4
+progress-bar-filled-danger-default,progress_bar5

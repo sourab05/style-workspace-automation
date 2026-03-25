@@ -1,0 +1,25 @@
+{
+  "lottie": {
+    "mapping": {
+      "content": {
+        "height": {
+          "value": "{spacer.7.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of lottie animation content (animated graphics and illustrations). This determines how tall the lottie animation appears. Acceptable units: px.<br>CSS variable: --wm-lottie-content-height"
+          }
+        },
+        "width": {
+          "value": "100%",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of lottie animation content (animated graphics and illustrations). When set to 100%, the animation takes up the full width of its container. Acceptable units: %, px.<br>CSS variable: --wm-lottie-content-width"
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

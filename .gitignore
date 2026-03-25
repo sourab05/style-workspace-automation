@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment — never commit secrets (template stays tracked)
+.env
+!.env.example
+.env.local
+.env.*.local
+
+# Screenshots - exclude actual and difference images (keep base-image for baselines)
+screenshots/actual-image/
+screenshots/difference-image/
+
+# Playwright / WDIO / Allure — all auto-generated on test run
+artifacts/
+test-results/
+playwright-report/
+playwright-report*/
+allure-report/
+allure-report*/
+allure-results/
+
+# Test cache (global setup artifacts)
+.test-cache/
+
+# Debug logs — auto-generated
+*.log
+log/
+logs/
+setup_debug.log
+
+# Local debug / device dumps (can contain paths or sensitive device data)
+debug/
+bugreport-*.zip
+
+# Mobile automation artifacts — auto-generated
+mobile-builds/
+
+# IDE / Cursor workspace config (machine-local, not part of the framework)
+.cursor/
+
+# Certificates / keystores (never commit private material)
+certificates/
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+.temp/
+
+# Generated reports
+reports/
+
+# One-off scripts / scratch files
+repro_normalization.ts
+
+# Coverage (if added later)
+coverage/
+.nyc_output/

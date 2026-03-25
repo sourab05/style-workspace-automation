@@ -1,0 +1,45 @@
+{
+  "spacer": {
+    "@": { "value": "1rem", "attributes": { "subtype": "spacer" } },
+    "0": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "0", "subtype": "spacer" }
+    },
+    "1": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "0.25", "subtype": "spacer" }
+    },
+    "2": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "0.5", "subtype": "spacer" }
+    },
+    "3": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "1", "subtype": "spacer" }
+    },
+    "4": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "1.6", "subtype": "spacer" }
+    },
+    "5": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "2.5", "subtype": "spacer" }
+    },
+    "6": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "3.5", "subtype": "spacer" }
+    },
+    "7": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "4", "subtype": "spacer" }
+    },
+    "8": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "8", "subtype": "spacer" }
+    },
+    "9": {
+      "value": "{spacer.@.value}",
+      "attributes": { "multiple": "11", "subtype": "spacer" }
+    }
+  }
+}

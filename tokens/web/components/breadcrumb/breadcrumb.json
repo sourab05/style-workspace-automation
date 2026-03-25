@@ -1,0 +1,392 @@
+{
+  "breadcrumb": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-breadcrumb"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": ":is(a):hover,:is(i):hover"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": ":has(:active)"
+            }
+          },
+          "on-active": {
+            "selector": {
+              "web": " li.active"
+            }
+          },
+          "focus": {
+            "selector": {
+              "web": ":has(:focus)"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "classic": {
+          "mapping": {
+            "selector": {
+              "web": ".app-breadcrumb.classic"
+            }
+          }
+        },
+        "attribute-based": {
+          "mapping": {
+            "selector": {
+              "web": ".app-breadcrumb.attribute-based"
+            }
+          }
+        },
+        "path-based": {
+          "mapping": {
+            "selector": {
+              "web": ".app-breadcrumb.path-based"
+            },
+            "states": {
+              "active": {
+                "selector": {
+                  "web": " li.active"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "icon": {
+        "font-family": {
+          "value": "wavicon",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family"
+          }
+        },
+        "content": {
+          "value": "'/\\00a0'",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family"
+          }
+        }
+      },
+      "gap": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the vertical spacing between breadcrumb navigation rows when they wrap to multiple lines. This creates breathing room between different lines of navigation links.<br>CSS variable: --wm-breadcrumb-gap"
+        }
+      },
+      "item": {
+        "gap": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal spacing between elements within each breadcrumb navigation item (like between icons and text, or between text and separators).<br>CSS variable: --wm-breadcrumb-item-gap"
+          }
+        },
+        "padding": {
+          "value": "{space.9.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space"
+          }
+        },
+        "font-size": {
+          "value": "{body.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large the text appears in breadcrumb navigation links (like 'Home', 'Products', 'Category'). This affects the size of the clickable navigation text.<br>CSS variable: --wm-breadcrumb-item-font-size"
+          }
+        },
+        "font-family": {
+          "value": "{body.large.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for breadcrumb navigation links. This determines whether the navigation text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-breadcrumb-item-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{body.large.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the breadcrumb navigation text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-breadcrumb-item-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{body.large.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when breadcrumb navigation text wraps to multiple lines. Higher values create more space between lines for better readability.<br>CSS variable: --wm-breadcrumb-item-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{body.large.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing"
+          }
+        },
+        "text-transform": {
+          "value": "none",
+          "type": "radius",
+          "attributes": {
+            "subtype": "text-transform",
+            "description": "Controls text transformation for breadcrumb items. Acceptable values: none, uppercase, lowercase, capitalize.<br>CSS variable: --wm-breadcrumb-item-text-transform"
+          }
+        },
+        "color": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of breadcrumb items.<br>CSS variable: --wm-breadcrumb-item-color"
+          }
+        },
+        "text": {
+          "decoration": {
+            "value": "none",
+            "type": "radius",
+            "attributes": {
+              "subtype": "text-decoration",
+              "description": "Controls text decoration for breadcrumb items. Acceptable values: none, underline, overline, line-through.<br>CSS variable: --wm-breadcrumb-item-text-decoration"
+            }
+          }
+        },
+        "separator": {
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of breadcrumb separators.<br>CSS variable: --wm-breadcrumb-item-separator-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of breadcrumb separators.<br>CSS variable: --wm-breadcrumb-item-separator-size"
+            }
+          }
+        },
+        "icon": {
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of breadcrumb item icons.<br>CSS variable: --wm-breadcrumb-item-icon-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of breadcrumb item icons.<br>CSS variable: --wm-breadcrumb-item-icon-size"
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "item": {
+            "text": {
+              "decoration": {
+                "value": "underline",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "text-decoration"
+                }
+              }
+            },
+            "color": {
+              "value": "~\"color-mix(in srgb, {color.primary.@.value}, {color.black.@.value} {opacity.hover.value})\"",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          }
+        },
+        "active": {
+          "item": {
+            "text": {
+              "decoration": {
+                "value": "none",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "text-decoration"
+                }
+              }
+            },
+            "color": {
+              "value": "~\"color-mix(in srgb, {color.primary.@.value}, {color.black.@.value} {opacity.active.value})\"",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          }
+        },
+        "on-active": {
+          "item": {
+            "text": {
+              "decoration": {
+                "value": "none",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "text-decoration"
+                }
+              }
+            },
+            "color": {
+              "value": "~\"color-mix(in srgb, {color.primary.@.value}, {color.black.@.value} {opacity.active.value})\"",
+              "type": "color",
+              "attributes": {
+                "subtype": "color"
+              }
+            }
+          }
+        },
+        "focus": {
+          "item": {
+            "text": {
+              "decoration": {
+                "value": "none",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "text-decoration"
+                }
+              },
+              "color": {
+                "value": "~\"color-mix(in srgb, {color.primary.@.value}, {color.black.@.value} {opacity.focus.value})\"",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "classic": {
+        "mapping": {
+          "icon": {
+            "font-family": {
+              "value": "wavicon",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family"
+              }
+            },
+            "content": {
+              "value": "'/\\00a0'",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family"
+              }
+            }
+          }
+        }
+      },
+      "attribute-based": {
+        "mapping": {
+          "icon": {
+            "font-family": {
+              "value": "wavicon",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family"
+              }
+            },
+            "content": {
+              "value": "\"\\f1d2\"",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family"
+              }
+            }
+          }
+        }
+      },
+      "path-based": {
+        "mapping": {
+          "height": {
+            "value": "46px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space"
+            }
+          },
+          "background": {
+            "value": "{color.background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          },
+          "box-shadow": {
+            "value": "7px 0 14px rgba(0, 0, 0, .07)",
+            "type": "shadow",
+            "attributes": {
+              "subtype": "elevation"
+            }
+          },
+          "icon": {
+            "font-family": {
+              "value": "FontAwesome",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family"
+              }
+            },
+            "content": {
+              "value": "\"\\f101\"",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family"
+              }
+            }
+          },
+          "states": {
+            "active": {
+              "background": {
+                "value": "{color.info.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "item": {
+                "color": {
+                  "value": "{color.on-info.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

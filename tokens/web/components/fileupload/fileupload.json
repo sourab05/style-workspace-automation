@@ -1,0 +1,328 @@
+{
+  "file-upload": {
+    "mapping": {
+      "min-height": {
+        "type": "space",
+        "value": "3em",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the minimum height of file upload area. Acceptable units: em, px, rem.<br>CSS variable: --wm-file-upload-min-height"
+        }
+      },
+      "status": {
+        "padding": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls padding of file upload status area.<br>CSS variable: --wm-file-upload-status-padding"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.border.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of file upload status area.<br>CSS variable: --wm-file-upload-status-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border width of file upload status area.<br>CSS variable: --wm-file-upload-status-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of file upload status area. Acceptable values: solid, dashed, dotted, none.<br>CSS variable: --wm-file-upload-status-border-style"
+            }
+          }
+        },
+        "background": {
+          "value": "{color.surface.container.low.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of file upload status area.<br>CSS variable: --wm-file-upload-status-background"
+          }
+        },
+        "radius": {
+          "value": "{radius.xs.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius of file upload status area.<br>CSS variable: --wm-file-upload-status-radius"
+          }
+        },
+        "bottom": {
+          "space": {
+            "value": "{space.1.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls bottom spacing of file upload status area.<br>CSS variable: --wm-file-upload-status-bottom-space"
+            }
+          }
+        }
+      },
+      "bottom": {
+        "space": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls bottom spacing of file upload area.<br>CSS variable: --wm-file-upload-bottom-space"
+          }
+        }
+      },
+      "title": {
+        "color": {
+          "value": "{color.black.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of file upload titles.<br>CSS variable: --wm-file-upload-title-color"
+          }
+        },
+        "font-size": {
+          "value": "{body.medium.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the font size of file upload titles.<br>CSS variable: --wm-file-upload-title-font-size"
+          }
+        },
+        "font-family": {
+          "value": "{font.family.brand.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the font family of file upload titles.<br>CSS variable: --wm-file-upload-title-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{font.weight.400.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls the font weight of file upload titles. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-file-upload-title-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{body.medium.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the line height of file upload titles.<br>CSS variable: --wm-file-upload-title-line-height"
+          }
+        }
+      },
+      "size": {
+        "color": {
+          "value": "{color.black.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of file size information.<br>CSS variable: --wm-file-upload-size-color"
+          }
+        },
+        "font": {
+          "size": {
+            "value": "{body.small.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of file size information.<br>CSS variable: --wm-file-upload-size-font-size"
+            }
+          },
+          "family": {
+            "value": "{font.family.brand.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of file size information.<br>CSS variable: --wm-file-upload-size-font-family"
+            }
+          },
+          "weight": {
+            "value": "{font.weight.400.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight of file size information. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-file-upload-size-font-weight"
+            }
+          }
+        },
+        "line-height": {
+          "value": "{body.small.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the line height of file size information.<br>CSS variable: --wm-file-upload-size-line-height"
+          }
+        }
+      },
+      "gap": {
+        "value": "{space.3.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls spacing between file upload elements.<br>CSS variable: --wm-file-upload-gap"
+        }
+      },
+      "drop": {
+        "box": {
+          "gap": {
+            "value": "{space.3.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls spacing between elements in drop box area.<br>CSS variable: --wm-file-upload-drop-box-gap"
+            }
+          },
+          "bottom": {
+            "space": {
+              "value": "{space.2.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls bottom spacing of drop box area.<br>CSS variable: --wm-file-upload-drop-box-bottom-space"
+              }
+            }
+          },
+          "background": {
+            "value": "none",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of drop box area.<br>CSS variable: --wm-file-upload-drop-box-background"
+            }
+          }
+        }
+      },
+      "multi": {
+        "file": {
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius of multi-file upload items.<br>CSS variable: --wm-file-upload-multi-file-radius"
+            }
+          }
+        }
+      },
+      "message": {
+        "caption": {
+          "color": {
+            "value": "{color.black.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of file upload message captions.<br>CSS variable: --wm-file-upload-message-caption-color"
+            }
+          },
+          "font-size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of file upload message captions.<br>CSS variable: --wm-file-upload-message-caption-font-size"
+            }
+          },
+          "font-family": {
+            "value": "{font.family.brand.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of file upload message captions.<br>CSS variable: --wm-file-upload-message-caption-font-family"
+            }
+          },
+          "font-weight": {
+            "value": "{font.weight.400.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight of file upload message captions. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-file-upload-message-caption-font-weight"
+            }
+          },
+          "line-height": {
+            "value": "{body.large.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the line height of file upload message captions.<br>CSS variable: --wm-file-upload-message-caption-line-height"
+            }
+          }
+        },
+        "anchor": {
+          "color": {
+            "value": "{color.black.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of file upload message anchors.<br>CSS variable: --wm-file-upload-message-anchor-color"
+            }
+          },
+          "font-size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the font size of file upload message anchors.<br>CSS variable: --wm-file-upload-message-anchor-font-size"
+            }
+          },
+          "font-family": {
+            "value": "{font.family.brand.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Sets the font family of file upload message anchors.<br>CSS variable: --wm-file-upload-message-anchor-font-family"
+            }
+          },
+          "font-weight": {
+            "value": "{font.weight.400.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the font weight of file upload message anchors. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-file-upload-message-anchor-font-weight"
+            }
+          },
+          "line-height": {
+            "value": "{body.medium.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the line height of file upload message anchors.<br>CSS variable: --wm-file-upload-message-anchor-line-height"
+            }
+          }
+        }
+      },
+      "media": {
+        "icon": {
+          "size": {
+            "value": "{icon.size.@.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of file upload media icons.<br>CSS variable: --wm-file-upload-media-icon-size"
+            }
+          },
+          "padding": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls padding of file upload media icons.<br>CSS variable: --wm-file-upload-media-icon-padding"
+            }
+          }
+        }
+      }
+    }
+  }
+}

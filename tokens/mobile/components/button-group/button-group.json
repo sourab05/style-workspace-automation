@@ -1,0 +1,67 @@
+{
+  "button-group": {
+    "meta": {
+      "appearances": {
+        "outlined": {
+          "mapping": {
+            "selector": {
+              "mobile": ".app-buttongroup"
+            }
+          },
+          "variantGroups": {
+            "layout": {
+              "horizontal": {
+                "selector": {
+                  "mobile": ".app-buttongroup"
+                }
+              },
+              "vertical": {
+                "selector": {
+                  "mobile": ".btn-group-vertical"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "radius": {
+        "value": "{radius.sm.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "radius",
+          "description": "Controls the border radius for rounded corners of the button group component. This makes the button group appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-button-group-radius"
+        }
+      }
+    },
+    "appearances": {
+      "outlined": {
+        "variantGroups": {
+          "layout": {
+            "horizontal": {
+              "radius": {
+                "value": "{radius.sm.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius for rounded corners of the horizontal button group layout. This makes the button group appear with rounded corners when arranged horizontally.<br>CSS variable: --wm-button-group-outlined-layout-horizontal-radius"
+                }
+              }
+            },
+            "vertical": {
+              "radius": {
+                "value": "{radius.xs.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the border radius for rounded corners of the vertical button group layout. This makes the button group appear with rounded corners when arranged vertically.<br>CSS variable: --wm-button-group-outlined-layout-vertical-radius"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

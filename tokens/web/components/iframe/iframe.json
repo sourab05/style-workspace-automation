@@ -1,0 +1,23 @@
+{
+  "iframe": {
+    "mapping": {
+      "width": {
+        "value": "100%",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how wide embedded content appears (like embedded videos, maps, or web pages). This determines the horizontal size of the embedded content window.<br>CSS variable: --wm-iframe-width"
+        }
+      },
+      "height": {
+        "value": "100%",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls how tall embedded content appears (like embedded videos, maps, or web pages). This determines the vertical size of the embedded content window.<br>CSS variable: --wm-iframe-height"
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

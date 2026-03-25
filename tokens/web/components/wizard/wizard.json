@@ -1,0 +1,869 @@
+{
+  "wizard": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-wizard"
+        },
+        "states": {
+          "current": {
+            "selector": {
+              "web": " .app-wizard-step.current"
+            }
+          },
+          "active": {
+            "selector": {
+              "web": " .app-wizard-step.active"
+            }
+          }
+        }
+      },
+      "appearances": {
+        "number": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.number"
+            }
+          }
+        },
+        "iconstepper": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.iconstepper"
+            }
+          }
+        },
+        "iconstepper-textinline": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.iconstepper.text-inline"
+            }
+          }
+        },
+        "dottedstepper": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.dottedstepper"
+            }
+          }
+        },
+        "dottedstepper-textinline": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.dottedstepper.text-inline"
+            }
+          }
+        },
+        "classic": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.classic"
+            }
+          }
+        },
+        "vertical": {
+          "mapping": {
+            "selector": {
+              "web": ".app-wizard.vertical"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "{panel.mapping.background.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of wizard components (multi-step forms that guide users through a process like account setup, checkout, or configuration). This is the main background color that appears behind the entire wizard container.<br>CSS variable: --wm-wizard-background"
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of borders around wizard components (multi-step forms that guide users through a process). 'transparent' removes the border color, or you can specify a specific color value.<br>CSS variable: --wm-wizard-border-color"
+          }
+        },
+        "style": {
+          "value": "{border.style.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the visual style of borders around wizard components (multi-step forms). 'none' removes borders completely, 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-wizard-border-style"
+          }
+        },
+        "width": {
+          "value": "{border.width.0.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of borders around wizard components (multi-step forms that guide users through a process). This determines how thick the border lines appear around the wizard container.<br>CSS variable: --wm-wizard-border-width"
+          }
+        },
+        "radius": {
+          "value": "{panel.mapping.border.radius.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of wizard components (multi-step forms that guide users through a process). This makes the wizard container corners slightly rounded for a softer appearance.<br>CSS variable: --wm-wizard-border-radius"
+          }
+        }
+      },
+      "shadow": {
+        "value": "{panel.mapping.shadow.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around wizard components (multi-step forms that guide users through a process). This creates a subtle shadow that makes the wizard appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-wizard-shadow"
+        }
+      },
+      "padding": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding"
+        }
+      },
+      "heading": {
+        "background": {
+          "value": "{color.surface.bright.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of wizard headings (the top section that contains the step navigation and progress indicators). This creates a distinct background color for the wizard header area.<br>CSS variable: --wm-wizard-heading-background"
+          }
+        },
+        "border": {
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of borders around wizard headings (the top section that contains the step navigation). This determines how thick the border lines appear around the wizard header area.<br>CSS variable: --wm-wizard-heading-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of borders around wizard headings (the top section that contains the step navigation). 'none' removes borders completely, 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-wizard-heading-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of borders around wizard headings (the top section that contains the step navigation). 'transparent' removes the border color, or you can specify a specific color value.<br>CSS variable: --wm-wizard-heading-border-color"
+            }
+          },
+          "radius": {
+            "value": "{panel.mapping.border.radius.value} {panel.mapping.border.radius.value} {panel.mapping.border.radius.value} {panel.mapping.border.radius.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of wizard headings (the top section that contains the step navigation). This makes the wizard header corners slightly rounded for a softer appearance.<br>CSS variable: --wm-wizard-heading-border-radius"
+            }
+          }
+        },
+        "padding": {
+          "value": "{space.7.value} {space.0.value} {space.7.value}  {space.7.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding"
+          }
+        }
+      },
+      "body": {
+        "min-height": {
+          "value": "50vh",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of wizard body content (the main area where users fill out forms and see step content). This ensures the wizard body is always tall enough to display content properly. Acceptable units: px, em, rem, vh.<br>CSS variable: --wm-wizard-body-min-height"
+          }
+        }
+      },
+      "step": {
+        "display": {
+          "value": "inline-flex",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls how wizard steps are displayed (individual steps in the wizard navigation like 'Step 1', 'Step 2', 'Step 3'). 'inline-flex' arranges steps in a horizontal line with flexible spacing, 'flex' allows more control over layout, 'block' stacks them vertically.<br>CSS variable: --wm-wizard-step-display"
+          }
+        },
+        "gap": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between wizard step elements (the space between step indicators, titles, and descriptions within each step). This creates visual separation between different parts of each step.<br>CSS variable: --wm-wizard-step-gap"
+          }
+        },
+        "title": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of wizard step titles (the main text labels for each step like 'Personal Information', 'Payment Details', 'Confirmation'). This determines what color the step title text appears in.<br>CSS variable: --wm-wizard-step-title-color"
+            }
+          },
+          "background": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of wizard step titles (the main text labels for each step). 'transparent' removes the background color, or you can specify a specific color value to create a colored background behind the step titles.<br>CSS variable: --wm-wizard-step-title-background"
+            }
+          },
+          "font": {
+            "family": {
+              "value": "{label.large.font-family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the typeface (font style) for wizard step titles (the main text labels for each step like 'Personal Information', 'Payment Details', 'Confirmation'). This determines whether the step title text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-title-font-family"
+              }
+            },
+            "weight": {
+              "value": "{font.weight.400.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls how thick or bold wizard step titles appear (the main text labels for each step). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-title-font-weight"
+              }
+            },
+            "size": {
+              "value": "{label.large.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls how large wizard step titles appear (the main text labels for each step like 'Personal Information', 'Payment Details', 'Confirmation'). This affects the size of the text that users see for each step.<br>CSS variable: --wm-wizard-step-title-font-size"
+              }
+            }
+          },
+          "line-height": {
+            "value": "{label.large.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when wizard step titles wrap to multiple lines. This ensures proper spacing for the step title text displayed in the wizard navigation.<br>CSS variable: --wm-wizard-step-title-line-height"
+            }
+          },
+          "letter-spacing": {
+            "value": "{label.large.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls the horizontal spacing between individual characters in wizard step titles (the main text labels for each step). This can help make the step title text more readable and properly spaced.<br>CSS variable: --wm-wizard-step-title-letter-spacing"
+            }
+          }
+        },
+        "description": {
+          "color": {
+            "value": "{color.on-surface.variant.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of wizard step descriptions (the smaller text that provides additional details about each step like 'Enter your personal details' or 'Review your information'). This determines what color the step description text appears in.<br>CSS variable: --wm-wizard-step-description-color"
+            }
+          },
+          "font": {
+            "family": {
+              "value": "{label.medium.font-family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the font family of wizard step descriptions.<br>CSS variable: --wm-wizard-step-description-font-family"
+              }
+            },
+            "weight": {
+              "value": "{font.weight.500.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight of wizard step descriptions. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-wizard-step-description-font-weight"
+              }
+            },
+            "size": {
+              "value": "{label.medium.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of wizard step descriptions.<br>CSS variable: --wm-wizard-step-description-font-size"
+              }
+            }
+          },
+          "line-height": {
+            "value": "{label.medium.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the line height of wizard step descriptions.<br>CSS variable: --wm-wizard-step-description-line-height"
+            }
+          },
+          "letter-spacing": {
+            "value": "{label.medium.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls spacing between characters in wizard step descriptions.<br>CSS variable: --wm-wizard-step-description-letter-spacing"
+            }
+          }
+        },
+        "indicator": {
+          "size": {
+            "value": "33px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how large wizard step indicators appear (the circular or numbered indicators that show progress like '1', '2', '3' or checkmark icons). This affects the size of the progress indicators that users see for each step. Acceptable units: px, em, rem.<br>CSS variable: --wm-wizard-step-indicator-size"
+            }
+          },
+          "background": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of wizard step indicators (the circular or numbered indicators that show progress). 'transparent' removes the background color, or you can specify a specific color value to create a colored background behind the indicators.<br>CSS variable: --wm-wizard-step-indicator-background"
+            }
+          },
+          "border": {
+            "width": {
+              "value": "{border.width.2.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of borders around wizard step indicators (the circular or numbered indicators that show progress). This determines how thick the border lines appear around the step indicators.<br>CSS variable: --wm-wizard-step-indicator-border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Sets the visual style of borders around wizard step indicators (the circular or numbered indicators that show progress). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes borders completely.<br>CSS variable: --wm-wizard-step-indicator-border-style"
+              }
+            },
+            "color": {
+              "value": "{color.outline.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of borders around wizard step indicators (the circular or numbered indicators that show progress). This determines what color the border lines appear in that outline the step indicators.<br>CSS variable: --wm-wizard-step-indicator-border-color"
+              }
+            },
+            "radius": {
+              "value": "{radius.circle.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of wizard step indicators (the circular or numbered indicators that show progress). This makes the step indicators perfectly circular for a clean, modern appearance.<br>CSS variable: --wm-wizard-step-indicator-border-radius"
+              }
+            }
+          }
+        },
+        "count": {
+          "color": {
+            "value": "{wizard.mapping.step.title.color}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of wizard step count numbers (the numbers that appear inside step indicators like '1', '2', '3'). This determines what color the step numbers appear in.<br>CSS variable: --wm-wizard-step-count-color"
+            }
+          },
+          "font": {
+            "family": {
+              "value": "{wizard.mapping.step.title.font.family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the font family of wizard step count numbers.<br>CSS variable: --wm-wizard-step-count-font-family"
+              }
+            },
+            "size": {
+              "value": "{wizard.mapping.step.title.font.size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of wizard step count numbers.<br>CSS variable: --wm-wizard-step-count-font-size"
+              }
+            },
+            "weight": {
+              "value": "{wizard.mapping.step.title.font.weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls the font weight of wizard step count numbers. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-wizard-step-count-font-weight"
+              }
+            }
+          },
+          "line-height": {
+            "value": "{wizard.mapping.step.title.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the line height of wizard step count numbers.<br>CSS variable: --wm-wizard-step-count-line-height"
+            }
+          }
+        },
+        "icon": {
+          "font": {
+            "family": {
+              "value": "{wizard.mapping.step.title.font.family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the typeface (font style) for wizard step icons (the small symbols that appear in step indicators like checkmarks, arrows, or other progress symbols). This determines whether the icons appear in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-wizard-step-icon-font-family"
+              }
+            },
+            "size": {
+              "value": "{wizard.mapping.step.title.font.size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls how large wizard step icons appear (the small symbols that appear in step indicators like checkmarks, arrows, or other progress symbols). This affects the size of the icons that users see in the step indicators.<br>CSS variable: --wm-wizard-step-icon-font-size"
+              }
+            },
+            "weight": {
+              "value": "{wizard.mapping.step.title.font.weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls how thick or bold wizard step icons appear (the small symbols that appear in step indicators). 'normal' makes them regular weight, 'bold' makes them thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-wizard-step-icon-font-weight"
+              }
+            }
+          },
+          "line-height": {
+            "value": "{wizard.mapping.step.title.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when wizard step icons wrap to multiple lines. This ensures proper spacing for the icons displayed in the step indicators.<br>CSS variable: --wm-wizard-step-icon-line-height"
+            }
+          },
+          "color": {
+            "value": "{wizard.mapping.step.count.color.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of wizard step icons (the small symbols that appear in step indicators like checkmarks, arrows, or other progress symbols). This determines what color the icons appear in.<br>CSS variable: --wm-wizard-step-icon-color"
+            }
+          },
+          "size": {
+            "value": "{icon.size.sm.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls how large wizard step icons appear (the small symbols that appear in step indicators like checkmarks, arrows, or other progress symbols). This affects the size of the icons that users see in the step indicators.<br>CSS variable: --wm-wizard-step-icon-size"
+            }
+          }
+        },
+        "connector": {
+          "height": {
+            "value": "100%",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how tall wizard step connectors appear (the lines that connect step indicators to show the progression flow). This determines the vertical size of the connecting lines between steps. Acceptable units: px, em, rem, %.<br>CSS variable: --wm-wizard-step-connector-height"
+            }
+          },
+          "width": {
+            "value": "1px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls how wide wizard step connectors appear (the lines that connect step indicators to show the progression flow). This determines the horizontal thickness of the connecting lines between steps. Acceptable units: px, em, rem.<br>CSS variable: --wm-wizard-step-connector-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the visual style of wizard step connectors (the lines that connect step indicators to show the progression flow). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes the connectors completely.<br>CSS variable: --wm-wizard-step-connector-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.variant.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of wizard step connectors (the lines that connect step indicators to show the progression flow). This determines what color the connecting lines appear in between the step indicators.<br>CSS variable: --wm-wizard-step-connector-color"
+            }
+          }
+        }
+      },
+      "states": {
+        "current": {
+          "step": {
+            "indicator": {
+              "background": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "count": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "icon": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "title": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "background": {
+                "value": "{color.transparent.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "font": {
+                "family": {
+                  "value": "{label.large.font-family.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-family"
+                  }
+                },
+                "weight": {
+                  "value": "{font.weight.600.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-weight"
+                  }
+                },
+                "size": {
+                  "value": "{label.large.font-size.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-size"
+                  }
+                }
+              },
+              "line-height": {
+                "value": "{label.large.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{label.large.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              }
+            }
+          }
+        },
+        "active": {
+          "step": {
+            "indicator": {
+              "background": {
+                "value": "{color.success.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "count": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "icon": {
+              "color": {
+                "value": "{color.on-secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            },
+            "title": {
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "background": {
+                "value": "{color.transparent.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "font": {
+                "family": {
+                  "value": "{label.large.font-family.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-family"
+                  }
+                },
+                "weight": {
+                  "value": "{font.weight.600.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-weight"
+                  }
+                },
+                "size": {
+                  "value": "{label.large.font-size.value}",
+                  "type": "font",
+                  "attributes": {
+                    "subtype": "font-size"
+                  }
+                }
+              },
+              "line-height": {
+                "value": "{label.large.line-height.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "line-height"
+                }
+              },
+              "letter-spacing": {
+                "value": "{label.large.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "letter-spacing"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {
+      "number": {
+        "mapping": {},
+        "variantGroups": {
+          "horizontal": {},
+          "vertical": {}
+        }
+      },
+      "iconstepper": {
+        "mapping": {},
+        "variantGroups": {
+          "horizontal": {},
+          "vertical": {}
+        }
+      },
+      "iconstepper-textinline": {
+        "mapping": {},
+        "variantGroups": {
+          "horizontal": {},
+          "vertical": {}
+        }
+      },
+      "dottedstepper": {
+        "mapping": {
+          "step": {
+            "size": {
+              "value": "{space.2.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            },
+            "indicator": {
+              "background": {
+                "value": "none",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "variantGroups": {
+          "horizontal": {},
+          "vertical": {}
+        }
+      },
+      "dottedstepper-textinline": {
+        "mapping": {},
+        "variantGroups": {
+          "horizontal": {},
+          "vertical": {}
+        }
+      },
+      "classic": {
+        "mapping": {
+          "heading": {
+            "padding": {
+              "value": "{space.8.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            }
+          },
+          "step": {
+            "display": {
+              "value": "table-cell",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius"
+              }
+            },
+            "gap": {
+              "value": "{space.0.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            },
+            "title": {
+              "height": {
+                "value": "46px",
+                "type": "space",
+                "attributes": {
+                  "subtype": "space"
+                }
+              },
+              "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "background": {
+                "value": "{color.white.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          },
+          "states": {
+            "current": {
+              "step": {
+                "title": {
+                  "background": {
+                    "value": "{color.info.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "color": {
+                    "value": "{color.on-info.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            },
+            "active": {
+              "step": {
+                "title": {
+                  "background": {
+                    "value": "{color.white.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  },
+                  "color": {
+                    "value": "{color.success.@.value}",
+                    "type": "color",
+                    "attributes": {
+                      "subtype": "color"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "variantGroups": {
+          "horizontal": {}
+        }
+      },
+      "vertical": {
+        "mapping": {
+          "heading": {
+            "width": {
+              "value": "200px",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            },
+            "border": {
+              "radius": {
+                "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius"
+                }
+              }
+            },
+            "padding": {
+              "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            }
+          },
+          "connector": {
+            "height": {
+              "value": "100%",
+              "type": "space",
+              "attributes": {
+                "subtype": "space"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "tabs": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-tabheader",
+          "mobile": ".app-tabheader"
+        },
+        "states": {
+          "active": {
+            "selector": {
+              "mobile": "-active-item, .app-tabheader-active-item-text, .app-tabheader-active-item-icon, .app-tabheader-active-indicator"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "{color.surface.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of tabs components (navigation interfaces that allow users to switch between different content sections). This is the main background color that appears behind the tab navigation and content.<br>CSS variable: --wm-tabs-background"
+        }
+      },
+      "border": {
+        "radius": {
+          "value": "{radius.sm.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius (rounded corners) of tabs components. This determines how rounded the corners of the tabs container appear. Acceptable units: px.<br>CSS variable: --wm-tabs-border-radius"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the style of the border around tabs components. 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-tabs-border-style"
+          }
+        },
+        "color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of tabs components. This determines what color the border around the tabs container appears in.<br>CSS variable: --wm-tabs-border-color"
+          }
+        },
+        "width": {
+          "value": "{border.width.1.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the border around tabs components. This creates the outline that separates the tab headers from the content area.<br>CSS variable: --wm-tabs-border-width"
+          }
+        }
+      },
+      "heading": {
+        "background": {
+          "value": "{color.surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of tabs headings (the header section that contains tab labels). This determines what color the background of the heading appears in.<br>CSS variable: --wm-tabs-heading-background"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius (rounded corners) of tabs headings. This determines how rounded the corners of the heading appear. Acceptable units: px.<br>CSS variable: --wm-tabs-heading-border-radius"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around tabs headings (the section containing the tab labels). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, and 'none' removes the border.<br>CSS variable: --wm-tabs-heading-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of tabs headings. This determines what color the border around the heading appears in.<br>CSS variable: --wm-tabs-heading-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.1.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around tabs headings (the section containing the tab labels). This creates the outline that separates the tab headers from the content area.<br>CSS variable: --wm-tabs-heading-border-width"
+            }
+          }
+        }
+      },
+      "item": {
+        "heading": {
+          "padding": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the internal spacing inside tab item headings (the clickable tab labels that users click to switch between different content sections). This creates breathing room around the tab text and icons.<br>CSS variable: --wm-tabs-item-heading-padding"
+            }
+          },
+          "font": {
+            "size": {
+              "value": "{h6.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls how large the text appears in tab item headings (the clickable tab labels that users click to switch between different content sections). This affects the size of the tab text that users see.<br>CSS variable: --wm-tabs-item-heading-font-size"
+              }
+            },
+            "weight": {
+              "value": "{h6.font-weight.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-weight",
+                "description": "Controls how thick or bold the text appears in tab item headings (the clickable tab labels that users click to switch between different content sections). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-tabs-item-heading-font-weight"
+              }
+            }
+          },
+          "line-height": {
+            "value": "{h6.line-height.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "line-height",
+              "description": "Controls the vertical spacing between lines when tab item headings wrap to multiple lines. This ensures proper spacing for the tab text displayed in the tab headers.<br>CSS variable: --wm-tabs-item-heading-line-height"
+            }
+          },
+          "background": {
+            "value": "{color.surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of tab item headings. This determines what color the background of tab headings appears in.<br>CSS variable: --wm-tabs-item-heading-background"
+            }
+          },
+          "text": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of tab item headings (the clickable tab labels that users click to switch between different content sections). This determines what color the tab text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-tabs-item-heading-text"
+            }
+          },
+          "icon":{
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of tab item heading icons (icons that appear in tab labels). This determines what color the icons appear in, which should match or complement the tab text color for visual consistency.<br>CSS variable: --wm-tabs-item-heading-icon"
+            }
+          },
+          "indicator": {
+            "height": {
+              "value": "3px",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of tab item heading indicators. Acceptable units: px, em, rem.<br>CSS variable: --wm-tabs-item-heading-indicator-height"
+              }
+            },
+            "background": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of tab item heading indicators.<br>CSS variable: --wm-tabs-item-heading-indicator-background"
+              }
+            }
+          }
+        },
+        "icon": {
+          "display": {
+            "value": "inline-flex",
+            "type": "text",
+            "attributes": {
+              "subtype": "cursor",
+              "description": "Controls the display property of tab item icons. This determines how icons are displayed in the layout.<br>CSS variable: --wm-tabs-item-heading-icon-display"
+            }
+          },
+          "font": {
+            "size": {
+              "value": "{h6.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "icon-size",
+                "description": "Controls the font size of tab item icons. This affects how large the icons appear. Acceptable units: px.<br>CSS variable: --wm-tabs-item-heading-font-size (for icons)"
+              }
+            }
+          },
+          "height": {
+            "value": "1",
+            "type": "size",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the height of tab item icons. This determines the vertical size of the icons. Acceptable units: px.<br>CSS variable: --wm-tabs-item-heading-icon-height"
+            }
+          },
+          "width": {
+            "value": "1",
+            "type": "size",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the width of tab item icons. This determines the horizontal size of the icons. Acceptable units: px.<br>CSS variable: --wm-tabs-item-heading-icon-width"
+            }
+          }
+        }
+      },
+      "min": {
+        "height": {
+          "value": "240px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum height of tabs components. This determines the minimum vertical size of the tabs container. Acceptable units: px.<br>CSS variable: --wm-tabs-min-height"
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "item": {
+            "heading": {
+              "indicator": {
+                "height": {
+                  "value": "3px",
+                  "type": "space",
+                  "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the height of active tab item heading indicators. This determines the vertical size of the indicator for active tabs. Acceptable units: px.<br>CSS variable: --wm-tabs-item-heading-indicator-height (active state)"
+                  }
+                },
+                "background": {
+                  "value": "{color.primary.@.value}",
+                  "type": "color",
+                  "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of active tab item heading indicators. This determines what color the indicator appears in for active tabs, typically matching the primary theme color.<br>CSS variable: --wm-tabs-item-heading-indicator-background (active state)"
+                  }
+                }
+              },
+              "background": {
+                "value": "{color.surface.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of active tab item headings. This determines what color the background appears in for active tab headings.<br>CSS variable: --wm-tabs-item-heading-background (active state)"
+                }
+              },
+              "text": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the text color of active tab item headings. This determines what color the text appears in for active tabs, typically matching the primary theme color.<br>CSS variable: --wm-tabs-item-heading-text (active state)"
+                }
+              },
+              "icon":{
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the color of active tab item heading icons. This determines what color the icons appear in for active tabs, typically matching the primary theme color.<br>CSS variable: --wm-tabs-item-heading-icon (active state)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

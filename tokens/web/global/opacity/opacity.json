@@ -1,0 +1,7 @@
+{
+  "opacity": {
+    "hover": { "value": "8%", "attributes": { "subtype": "opacity" } },
+    "focus": { "value": "12%", "attributes": { "subtype": "opacity" } },
+    "active": { "value": "16%", "attributes": { "subtype": "opacity" } }
+  }
+}

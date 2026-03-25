@@ -1,0 +1,94 @@
+{
+  "spinner": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-spinner"
+        }
+      }
+    },
+    "mapping": {
+      "background": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of loading spinners (the overlay that appears behind the spinner animation). This creates a backdrop that dims the content while loading.<br>CSS variable: --wm-spinner-background"
+        }
+      },
+      "width": {
+        "value": "100%",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the width of spinner components. This determines how wide the spinner appears relative to its container. Acceptable units: %, px.<br>CSS variable: --wm-spinner-width"
+        }
+      },
+      "text": {
+        "color": {
+          "value": "{color.scrim.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of loading data messages (the text that appears with the spinner to explain what's loading). This determines the color of the loading message text.<br>CSS variable: --wm-spinner-text-color"
+          }
+        },
+        "font-size": {
+          "value": "{body.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the font size of loading data messages (the text that appears with the spinner to explain what's loading). This affects how large the loading message text appears.<br>CSS variable: --wm-spinner-text-font-size"
+          }
+        },
+        "padding": {
+          "left": {
+            "value": "{space.2.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the left padding (horizontal spacing) of loading data messages. This creates breathing room on the left side of the loading message text.<br>CSS variable: --wm-spinner-text-padding-left"
+            }
+          }
+        }
+      },
+      "icon": {
+        "size": {
+          "value": "{icon.size.@.value}",
+          "type": "icon",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of loading spinner icons (animated indicators that show content is loading). This affects how large the spinner icons appear.<br>CSS variable: --wm-spinner-icon-size"
+          }
+        },
+        "color": {
+          "value": "{color.scrim.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of loading spinner icons (animated indicators that show content is loading). This determines what color the spinner icons appear in.<br>CSS variable: --wm-spinner-icon-color"
+          }
+        }
+      },
+      "lottie": {
+        "width": {
+          "value": "150px",
+          "type": "font",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of spinner Lottie animations (animated graphics used as loading indicators). This determines how wide the Lottie animation appears.<br>CSS variable: --wm-spinner-lottie-width"
+          }
+        },
+        "height": {
+          "value": "150px",
+          "type": "font",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of spinner Lottie animations (animated graphics used as loading indicators). This determines how tall the Lottie animation appears.<br>CSS variable: --wm-spinner-lottie-height"
+          }
+        }
+      }
+    },
+    "appearances": {}
+  }
+}

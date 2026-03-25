@@ -1,0 +1,90 @@
+{
+  "border": {
+    "width": {
+      "base": {
+        "value": "1px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "0": {
+        "value": "0px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "1": {
+        "value": "1px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "2": {
+        "value": "2px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "3": {
+        "value": "3px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "4": {
+        "value": "4px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "5": {
+        "value": "5px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "6": {
+        "value": "6px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "7": {
+        "value": "7px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "8": {
+        "value": "8px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "9": {
+        "value": "9px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "10": {
+        "value": "10px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "11": {
+        "value": "11px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      },
+      "12": {
+        "value": "12px",
+        "attributes": {
+          "subtype": "border-width"
+        }
+      }
+    }
+  }
+}

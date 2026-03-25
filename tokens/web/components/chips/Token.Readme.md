@@ -1,0 +1,43 @@
+<!-- AUTO-GENERATED FILE. Do not edit manually. -->
+
+# Token Reference Table
+
+This table lists all tokens for this component:
+
+| Token | Description |
+|-------|------------|
+| border.width | Controls the border width of the main chips container (the wrapper that holds all chips and the input field). This creates the outline around the entire chips component.<br>CSS variable: --wm-chips-border-width |
+| background | Sets the background color of the main chips container (the wrapper that holds all chips and the input field). When set to 'none', the container has no background color.<br>CSS variable: --wm-chips-background |
+| color | Sets the text color of individual chip items (the small pill-shaped elements). This affects the color of the text content inside each chip, not the container.<br>CSS variable: --wm-chips-color |
+| opacity | Controls the overall transparency of the chips component. When set to 1, the component is fully opaque. Lower values make the entire component more transparent.<br>CSS variable: --wm-chips-opacity |
+| cursor | Controls the mouse cursor style when hovering over the chips component. Acceptable values: pointer (hand cursor), default (arrow), not-allowed (blocked cursor).<br>CSS variable: --wm-chips-cursor |
+| pointer-events | Controls whether the chips component can receive mouse/touch interactions. Acceptable values: all (fully interactive), none (not clickable), auto (browser default).<br>CSS variable: --wm-chips-pointer-events |
+| shadow | Controls the drop shadow effect around the main chips container. This creates a subtle elevation effect that makes the chips component appear to float above the background.<br>CSS variable: --wm-chips-shadow |
+| list.gap | Controls the horizontal spacing between individual chip items (the small pill-shaped elements) within the chips container. This creates visual separation between each chip so users can easily distinguish between them.<br>CSS variable: --wm-chips-list-gap |
+| list.icon.size | Controls the size of icons that appear within the chips container (like search icons or action icons). This affects icons that are part of the chips component interface, not icons inside individual chips.<br>CSS variable: --wm-chips-list-icon-size |
+| list.padding | Controls the internal spacing (padding) around the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding |
+| list.background | Sets the background color of the chips container (the wrapper that holds all chips and the input field). When set to 'none', the container has no background color, making it transparent.<br>CSS variable: --wm-chips-list-background |
+| list.border.width | Controls the thickness of the border around the chips container (the wrapper that holds all chips and the input field). This creates the outline that defines the container shape.<br>CSS variable: --wm-chips-list-border-width |
+| list.border.style | Controls the border style of the chips container. Acceptable values: solid (continuous line), dashed (dotted line), dotted (small dots), none (no border).<br>CSS variable: --wm-chips-list-border-style |
+| list.border.color | Sets the color of the border around the chips container (the wrapper that holds all chips and the input field). This determines the color of the outline that defines the container shape.<br>CSS variable: --wm-chips-list-border-color |
+| list.border.radius | Controls the corner rounding of the chips container (the wrapper that holds all chips and the input field). This makes the container appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-chips-list-border-radius |
+| list.height | Controls the minimum height of the chips container (the wrapper that holds all chips and the input field). This ensures the container has a consistent height even when empty or with few chips.<br>CSS variable: --wm-chips-list-height |
+| input.padding | Controls the internal spacing (padding) around the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding |
+| item.height | Controls the height of individual chip items (the small pill-shaped elements). This determines how tall each chip appears visually. Acceptable units: px, em, rem.<br>CSS variable: --wm-chips-item-height |
+| item.padding | Controls the internal spacing (padding) around the content inside each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding |
+| item.gap | Controls the spacing between elements within individual chip items (like between text and icons, or between text and the remove button). This creates visual separation between different parts of each chip.<br>CSS variable: --wm-chips-item-gap |
+| item.border.width | Controls the thickness of the border around individual chip items (the small pill-shaped elements). This creates the outline that defines each chip's shape.<br>CSS variable: --wm-chips-item-border-width |
+| item.border.style | Controls the border style of individual chip items. Acceptable values: solid (continuous line), dashed (dotted line), dotted (small dots), none (no border).<br>CSS variable: --wm-chips-item-border-style |
+| item.border.color | Sets the color of the border around individual chip items (the small pill-shaped elements). This determines the color of the outline that defines each chip's shape.<br>CSS variable: --wm-chips-item-border-color |
+| item.border.radius.@ | Controls the corner rounding of individual chip items (the small pill-shaped elements). This makes each chip appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-chips-item-border-radius |
+| item.border.radius.with.icon | Controls the corner rounding of chip items that contain icons. This creates a specific rounded appearance for chips with icon content.<br>CSS variable: --wm-chips-item-border-radius-with-icon |
+| item.border.radius.with.avatar | Controls the corner rounding of chip items that contain user avatars. This creates a pill-shaped appearance for chips with avatar content.<br>CSS variable: --wm-chips-item-border-radius-with-avatar |
+| item.font-family | Sets the font family (typeface) for the text content inside individual chip items (the small pill-shaped elements). This determines the visual style of the text that appears within each chip.<br>CSS variable: --wm-chips-item-font-family |
+| item.font-weight | Controls the thickness/boldness of the text content inside individual chip items. Acceptable values: normal, bold, 100-900. This affects how prominent the text appears within each chip.<br>CSS variable: --wm-chips-item-font-weight |
+| item.font-size | Controls the size of the text content inside individual chip items (the small pill-shaped elements). This determines how large the text appears within each chip.<br>CSS variable: --wm-chips-item-font-size |
+| item.line-height | Controls the vertical spacing between lines of text inside individual chip items. This is important when chip text wraps to multiple lines, ensuring proper readability.<br>CSS variable: --wm-chips-item-line-height |
+| item.letter-spacing | Controls the horizontal spacing between individual characters in the text content inside chip items. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-chips-item-letter-spacing |
+| item.layer.color | Sets the color of the state layer that appears when users hover, focus, or interact with individual chip items. This creates visual feedback to show that chips are interactive and responsive to user actions.<br>CSS variable: --wm-chips-item-layer-color |
+| item.layer.opacity | Controls the transparency of the state layer that appears during user interactions with individual chip items (hover, focus, active). When set to 0, the state layer is invisible. Higher values make the interaction feedback more visible.<br>CSS variable: --wm-chips-item-layer-opacity |
+| item.avatar.size | Controls the size of user avatars that appear inside chip items (the small pill-shaped elements). This determines how large profile pictures or user images appear within each chip.<br>CSS variable: --wm-chips-item-avatar-size |
+| item.avatar.radius | Controls the corner rounding of user avatars inside chip items. When set to pill, avatars appear as perfect circles. Other values create rounded rectangles.<br>CSS variable: --wm-chips-item-avatar-radius |

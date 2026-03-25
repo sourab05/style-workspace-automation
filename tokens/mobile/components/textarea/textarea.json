@@ -1,0 +1,16 @@
+{
+    "textarea": {
+        "meta": {},
+        "mapping": {
+            "height": {
+                "value": "86px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the height of textarea components (multi-line text input fields that allow users to enter longer text). This determines how tall the textarea appears, providing space for multiple lines of text input.<br>CSS variable: --wm-textarea-height"
+                }
+            }
+        },
+        "appearance": {}
+    }
+}
