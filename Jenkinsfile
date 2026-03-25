@@ -31,15 +31,13 @@ pipeline {
     }
 
     environment {
-        // Studio / Auth
+        // Studio / Auth — STUDIO_COOKIE bypasses Google OAuth entirely (no 2FA, no "Verify it's you")
         STUDIO_BASE_URL       = credentials('STUDIO_BASE_URL')
         PROJECT_ID            = credentials('PROJECT_ID')
         STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
         STUDIO_USERNAME       = credentials('STUDIO_USERNAME')
         STUDIO_PASSWORD       = credentials('STUDIO_PASSWORD')
-        GOOGLE_EMAIL          = credentials('GOOGLE_EMAIL')
-        GOOGLE_PASSWORD       = credentials('GOOGLE_PASSWORD')
-        GOOGLE_TOTP_SECRET    = credentials('GOOGLE_TOTP_SECRET')
+        STUDIO_COOKIE         = credentials('STUDIO_COOKIE')
 
         // BrowserStack (BrowserStack plugin credential — auto-splits into _USR and _PSW)
         BROWSERSTACK_CREDS      = credentials('BROWSERSTACK_CREDS')
