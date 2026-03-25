@@ -240,13 +240,61 @@ async function handle2FA(page: Page): Promise<void> {
     return;
   }
 
+  // Wait a moment for the 2FA page to load after password entry
+  await page.waitForTimeout(3000);
+
+  // If already redirected to Studio, no 2FA needed
+  if (!page.url().includes('accounts.google.com')) {
+    console.log('[GoogleAuth] Already past 2FA (no Google page), continuing...');
+    return;
+  }
+
+  // Google may show push notification (Prompts) as default — switch to TOTP
+  const tryAnotherWay = page.locator(
+    'button:has-text("Try another way"), ' +
+    'a:has-text("Try another way"), ' +
+    '[data-challengetype], ' +
+    'button:has-text("Use your Authenticator app"), ' +
+    'a:has-text("Use your Authenticator app")'
+  ).first();
+
+  try {
+    await tryAnotherWay.waitFor({ state: 'visible', timeout: 5_000 });
+    console.log('[GoogleAuth] Push notification 2FA detected, clicking "Try another way"...');
+    await tryAnotherWay.click();
+    await page.waitForTimeout(2000);
+
+    // Select the Authenticator app / TOTP option
+    const totpOption = page.locator(
+      '[data-challengetype="6"], ' +
+      'li:has-text("Authenticator"), ' +
+      'li:has-text("authenticator"), ' +
+      'div[role="link"]:has-text("Authenticator"), ' +
+      'div[data-challengeindex]:has-text("Authenticator"), ' +
+      'li:has-text("verification code"), ' +
+      'div[role="link"]:has-text("verification code")'
+    ).first();
+
+    try {
+      await totpOption.waitFor({ state: 'visible', timeout: 5_000 });
+      console.log('[GoogleAuth] Selecting Authenticator app option...');
+      await totpOption.click();
+      await page.waitForTimeout(2000);
+    } catch {
+      console.log('[GoogleAuth] Could not find Authenticator option in list, trying direct TOTP input...');
+    }
+  } catch {
+    console.log('[GoogleAuth] No "Try another way" link found, checking for direct TOTP input...');
+  }
+
+  // Now look for the TOTP input field
   const totpSelectors = '#totpPin, input[type="tel"], input[name="totpPin"]';
   const totpInput = page.locator(totpSelectors).first();
 
   try {
     await totpInput.waitFor({ state: 'visible', timeout: 10_000 });
   } catch {
-    console.log('[GoogleAuth] No 2FA prompt detected (session may be trusted), continuing...');
+    console.log('[GoogleAuth] No TOTP input found after all attempts, waiting for manual 2FA...');
     return;
   }
 
