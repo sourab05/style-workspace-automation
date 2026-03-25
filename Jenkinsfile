@@ -1,37 +1,37 @@
 pipeline {
     agent any
 
-    // ─── Build parameters — choose what to run from the Jenkins UI ───────────
+    // ─── Single dropdown — pick exactly what you want to run ─────────────────
     parameters {
         choice(
-            name: 'TEST_TYPE',
-            choices: ['web', 'mobile', 'both'],
-            description: 'Which test suite to run'
-        )
-        choice(
-            name: 'SLOT_VERIFY_TARGET',
-            choices: ['both', 'canvas', 'preview'],
-            description: 'Web: which target to validate token slots against'
-        )
-        choice(
-            name: 'MOBILE_PLATFORM',
-            choices: ['android', 'ios', 'both'],
-            description: 'Mobile: which platform to run on BrowserStack'
+            name: 'RUN_TARGET',
+            choices: [
+                'Web — Canvas only',
+                'Web — Preview only',
+                'Web — Canvas + Preview',
+                'Mobile — Android only',
+                'Mobile — iOS only',
+                'Mobile — Android + iOS',
+                'All — Web (Canvas+Preview) + Mobile (Android+iOS)'
+            ],
+            description: '''What to run:
+  Web options   → Playwright token slot validation
+  Mobile options → WDIO on BrowserStack
+  All           → Full suite (web + mobile)'''
         )
         string(
             name: 'TEST_WIDGETS',
             defaultValue: '',
-            description: 'Optional: comma-separated widgets to test (empty = all)'
+            description: 'Optional: comma-separated widgets to test (empty = all). e.g. button,accordion,label'
         )
     }
 
-    // ─── Tool versions (configure these names in Jenkins → Global Tool Config) ─
     tools {
         nodejs 'NodeJS 20.8.1'
     }
 
     environment {
-        // Studio / Auth — stored as Jenkins Secret Text credentials
+        // Studio / Auth
         STUDIO_BASE_URL       = credentials('STUDIO_BASE_URL')
         PROJECT_ID            = credentials('PROJECT_ID')
         STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
@@ -39,19 +39,16 @@ pipeline {
         STUDIO_PASSWORD       = credentials('STUDIO_PASSWORD')
         STUDIO_API_KEY        = credentials('STUDIO_API_KEY')
 
-        // BrowserStack — stored as Jenkins Username+Password credential named BROWSERSTACK
+        // BrowserStack (Username+Password credential type)
         BROWSERSTACK_USERNAME   = credentials('BROWSERSTACK_CREDS_USR')
         BROWSERSTACK_ACCESS_KEY = credentials('BROWSERSTACK_CREDS_PSW')
 
-        // AWS S3 — stored as Jenkins Secret Text credentials
+        // AWS S3
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_REGION            = 'us-west-2'
         S3_BUCKET_NAME        = credentials('S3_BUCKET_NAME')
 
-        // Pass through build parameters as env vars
-        SLOT_VERIFY_TARGET    = "${params.SLOT_VERIFY_TARGET}"
-        MOBILE_PLATFORM       = "${params.MOBILE_PLATFORM}"
         TEST_WIDGETS          = "${params.TEST_WIDGETS}"
         RUN_LOCAL             = 'false'
     }
@@ -64,6 +61,40 @@ pipeline {
             }
         }
 
+        // Derive run flags from the single RUN_TARGET param
+        stage('Resolve Run Target') {
+            steps {
+                script {
+                    def target = params.RUN_TARGET
+
+                    env.RUN_WEB    = (target.startsWith('Web') || target.startsWith('All')) ? 'true' : 'false'
+                    env.RUN_MOBILE = (target.startsWith('Mobile') || target.startsWith('All')) ? 'true' : 'false'
+
+                    if (target.contains('Canvas + Preview') || target.startsWith('All')) {
+                        env.SLOT_VERIFY_TARGET = 'both'
+                    } else if (target.contains('Canvas')) {
+                        env.SLOT_VERIFY_TARGET = 'canvas'
+                    } else if (target.contains('Preview')) {
+                        env.SLOT_VERIFY_TARGET = 'preview'
+                    } else {
+                        env.SLOT_VERIFY_TARGET = 'both'
+                    }
+
+                    if (target.contains('Android + iOS') || target.startsWith('All')) {
+                        env.MOBILE_PLATFORM = 'both'
+                    } else if (target.contains('Android')) {
+                        env.MOBILE_PLATFORM = 'android'
+                    } else if (target.contains('iOS')) {
+                        env.MOBILE_PLATFORM = 'ios'
+                    } else {
+                        env.MOBILE_PLATFORM = 'both'
+                    }
+
+                    echo "▶ RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}"
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh 'node --version && npm --version'
@@ -71,23 +102,21 @@ pipeline {
             }
         }
 
-        stage('Install Playwright Browsers') {
-            when {
-                expression { params.TEST_TYPE in ['web', 'both'] }
-            }
+        // ── WEB ───────────────────────────────────────────────────────────────
+
+        stage('Web — Install Playwright Browsers') {
+            when { expression { env.RUN_WEB == 'true' } }
             steps {
                 sh 'npx playwright install --with-deps chromium'
             }
         }
 
-        // ── WEB: Playwright token slot validation ─────────────────────────────
         stage('Web — Token Slot Validation') {
-            when {
-                expression { params.TEST_TYPE in ['web', 'both'] }
-            }
+            when { expression { env.RUN_WEB == 'true' } }
             steps {
                 sh '''
                     PW_WORKERS=8 \
+                    SLOT_VERIFY_TARGET=${SLOT_VERIFY_TARGET} \
                     npx playwright test tests/token_slot_validation.spec.ts \
                     --reporter=html,line
                 '''
@@ -106,20 +135,17 @@ pipeline {
             }
         }
 
-        // ── MOBILE: WDIO + BrowserStack ───────────────────────────────────────
+        // ── MOBILE ────────────────────────────────────────────────────────────
+
         stage('Mobile — Setup') {
-            when {
-                expression { params.TEST_TYPE in ['mobile', 'both'] }
-            }
+            when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh 'npx ts-node wdio/specs/mobile.global.setup.ts'
             }
         }
 
         stage('Mobile — Run on BrowserStack') {
-            when {
-                expression { params.TEST_TYPE in ['mobile', 'both'] }
-            }
+            when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh '''
                     rm -rf allure-results
@@ -130,9 +156,7 @@ pipeline {
         }
 
         stage('Mobile — Generate Allure Report') {
-            when {
-                expression { params.TEST_TYPE in ['mobile', 'both'] }
-            }
+            when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh 'allure generate --clean allure-results -o allure-report'
             }
@@ -146,11 +170,12 @@ pipeline {
             }
         }
 
-        // ── OPTIONAL: Upload reports to S3 ───────────────────────────────────
+        // ── UPLOAD ────────────────────────────────────────────────────────────
+
         stage('Upload Reports to S3') {
             when {
                 allOf {
-                    expression { env.S3_BUCKET_NAME != '' }
+                    expression { env.S3_BUCKET_NAME?.trim() }
                     expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
                 }
             }
@@ -162,15 +187,13 @@ pipeline {
 
     post {
         always {
-            // Archive raw artifacts for download from Jenkins
             archiveArtifacts artifacts: 'playwright-report/**,allure-report/**,artifacts/**',
                              allowEmptyArchive: true
         }
         failure {
-            echo 'Tests failed — check the Playwright / Allure report above.'
+            echo 'Build failed — check Playwright / Allure report above.'
         }
         cleanup {
-            // Keep workspace lean between builds
             sh 'rm -rf allure-results playwright-report'
         }
     }
