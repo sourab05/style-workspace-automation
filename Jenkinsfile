@@ -126,6 +126,7 @@ pipeline {
                 sh '''
                     PW_WORKERS=8 \
                     SLOT_VERIFY_TARGET=${SLOT_VERIFY_TARGET} \
+                    xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
                     npx playwright test tests/token_slot_validation.spec.ts \
                     --reporter=html,line
                 '''
