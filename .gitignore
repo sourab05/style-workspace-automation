@@ -11,9 +11,8 @@ build/
 .env.local
 .env.*.local
 
-# Screenshots - exclude actual and difference images (keep base-image for baselines)
-screenshots/actual-image/
-screenshots/difference-image/
+# Screenshots — all auto-generated on test run, none committed
+screenshots/
 
 # Playwright / WDIO / Allure — all auto-generated on test run
 artifacts/
