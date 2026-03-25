@@ -121,10 +121,13 @@ async function loginInPage(
   // Handle 2FA automatically via TOTP if secret is configured, otherwise wait for manual
   await handle2FA(page);
 
+  // Handle any post-2FA pages (device prompt, consent, "Yes it was me", etc.)
+  await handlePostAuthPages(page);
+
   console.log('[GoogleAuth] Waiting for Studio redirect...');
   await page.waitForURL(
     (url) => isOnStudioPage(url.toString(), baseUrl),
-    { timeout: process.env.GOOGLE_TOTP_SECRET ? 60_000 : 180_000 },
+    { timeout: process.env.GOOGLE_TOTP_SECRET ? 90_000 : 180_000 },
   );
 
   await page.waitForTimeout(3000);
@@ -246,6 +249,78 @@ async function fillGoogleCredentials(
   } else {
     console.log('[GoogleAuth] Password field not shown (session may still be active)');
   }
+}
+
+// ---------------------------------------------------------------------------
+// Post-auth page handling (device prompts, consent, etc.)
+// ---------------------------------------------------------------------------
+
+async function handlePostAuthPages(page: Page): Promise<void> {
+  // Give the page a moment to load after 2FA
+  await page.waitForTimeout(3000);
+
+  // Already on Studio — nothing to handle
+  if (!page.url().includes('accounts.google.com')) {
+    return;
+  }
+
+  const currentUrl = page.url();
+  console.log(`[GoogleAuth] Post-2FA page detected: ${currentUrl.split('?')[0]}`);
+
+  // Look for common post-auth buttons: "Yes", "Continue", "Allow", "Next", "Confirm", "I agree"
+  const actionSelectors = [
+    'button:has-text("Yes")',
+    'button:has-text("Continue")',
+    'button:has-text("Allow")',
+    'button:has-text("Next")',
+    'button:has-text("Confirm")',
+    'button:has-text("I agree")',
+    'button:has-text("Done")',
+    'button:has-text("Yes, it")',
+    '#confirm button',
+    '#submit_approve_access',
+    'button[type="submit"]',
+  ];
+
+  for (const sel of actionSelectors) {
+    const btn = page.locator(sel).first();
+    if (await btn.isVisible().catch(() => false)) {
+      console.log(`[GoogleAuth] Clicking post-auth button: ${sel}`);
+      await btn.click();
+      await page.waitForTimeout(5000);
+
+      if (!page.url().includes('accounts.google.com')) {
+        console.log('[GoogleAuth] Redirected away from Google after post-auth click');
+        return;
+      }
+      break;
+    }
+  }
+
+  // Check for "Don't ask again" / "Remember this device" checkbox
+  const rememberCheckbox = page.locator(
+    'input[type="checkbox"], ' +
+    'label:has-text("Don\'t ask again"), ' +
+    'label:has-text("Remember this device")'
+  ).first();
+  if (await rememberCheckbox.isVisible().catch(() => false)) {
+    console.log('[GoogleAuth] Checking "Don\'t ask again" checkbox...');
+    await rememberCheckbox.click().catch(() => {});
+    await page.waitForTimeout(1000);
+  }
+
+  // Try clicking any remaining action buttons after checkbox
+  for (const sel of actionSelectors) {
+    const btn = page.locator(sel).first();
+    if (await btn.isVisible().catch(() => false)) {
+      console.log(`[GoogleAuth] Clicking post-checkbox button: ${sel}`);
+      await btn.click();
+      await page.waitForTimeout(5000);
+      break;
+    }
+  }
+
+  console.log(`[GoogleAuth] Post-auth handling complete. Current URL: ${page.url().split('?')[0]}`);
 }
 
 // ---------------------------------------------------------------------------
