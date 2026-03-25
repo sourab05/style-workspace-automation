@@ -105,6 +105,12 @@ pipeline {
             }
         }
 
+        stage('Build Token Map') {
+            steps {
+                sh 'npx ts-node scripts/generate-token-values.ts mobile'
+            }
+        }
+
         // ── WEB ───────────────────────────────────────────────────────────────
 
         stage('Web — Install Playwright Browsers') {
@@ -126,14 +132,7 @@ pipeline {
             }
             post {
                 always {
-                    publishHTML(target: [
-                        allowMissing         : true,
-                        alwaysLinkToLastBuild: true,
-                        keepAll              : true,
-                        reportDir            : 'playwright-report',
-                        reportFiles          : 'index.html',
-                        reportName           : 'Playwright Report'
-                    ])
+                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
                 }
             }
         }
