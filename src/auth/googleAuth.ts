@@ -230,25 +230,36 @@ async function fillGoogleCredentials(
       console.log('[GoogleAuth] On challenge selection page, looking for password option...');
       await page.waitForTimeout(2000);
 
-      // Use Playwright's native text matching — much more reliable than page.evaluate
-      try {
-        await page.getByText('Enter your password', { exact: true }).click({ timeout: 5000 });
-        console.log('[GoogleAuth] Clicked "Enter your password" option');
-        await page.waitForTimeout(3000);
-        passwordInput = page.locator('input[type="password"]');
-        passwordVisible = await passwordInput.isVisible().catch(() => false);
-      } catch {
-        // Fallback: try clicking the first list item on the page
-        console.log('[GoogleAuth] getByText failed, trying fallback selectors...');
+      // Try multiple approaches to click "Enter your password"
+      const approaches = [
+        async () => { await page.click('text=Enter your password', { timeout: 3000 }); return 'text selector'; },
+        async () => { await page.getByText('Enter your password').first().click({ timeout: 3000 }); return 'getByText'; },
+        async () => { await page.getByText('password').first().click({ timeout: 3000 }); return 'getByText partial'; },
+        async () => { await page.locator('ul li').first().click({ timeout: 3000 }); return 'first li'; },
+        async () => { await page.locator('[data-challengeindex="0"]').click({ timeout: 3000 }); return 'challengeindex'; },
+        async () => { await page.locator('li >> text=password').first().click({ timeout: 3000 }); return 'li with password text'; },
+      ];
+
+      let clicked = false;
+      for (const approach of approaches) {
         try {
-          await page.locator('ul li').first().click({ timeout: 3000 });
-          console.log('[GoogleAuth] Clicked first list item (password option)');
+          const method = await approach();
+          console.log(`[GoogleAuth] Clicked password option via: ${method}`);
+          clicked = true;
           await page.waitForTimeout(3000);
           passwordInput = page.locator('input[type="password"]');
           passwordVisible = await passwordInput.isVisible().catch(() => false);
+          if (passwordVisible) break;
         } catch {
-          console.log('[GoogleAuth] Could not find password option on selection page');
+          continue;
         }
+      }
+
+      if (!clicked) {
+        console.log('[GoogleAuth] All approaches to click password option failed');
+        // Debug: log all visible text on the page
+        const pageText = await page.evaluate(() => document.body?.innerText?.substring(0, 500) || 'empty');
+        console.log(`[GoogleAuth] Page text: ${pageText}`);
       }
     }
   }
