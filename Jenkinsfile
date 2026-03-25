@@ -188,18 +188,14 @@ pipeline {
 
     post {
         always {
-            node('built-in') {
-                archiveArtifacts artifacts: 'playwright-report/**,allure-report/**,artifacts/**',
-                                 allowEmptyArchive: true
-            }
+            archiveArtifacts artifacts: 'playwright-report/**,allure-report/**,artifacts/**',
+                             allowEmptyArchive: true
         }
         failure {
             echo 'Build failed — check Playwright / Allure report above.'
         }
         cleanup {
-            node('built-in') {
-                sh 'rm -rf allure-results playwright-report || true'
-            }
+            sh 'rm -rf allure-results playwright-report || true'
         }
     }
 }
