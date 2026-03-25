@@ -383,39 +383,33 @@ async function handle2FA(page: Page): Promise<void> {
     return;
   }
 
-  // Google may show push notification or SMS as default — click "Try another way" to get to Authenticator
-  const tryAnotherWay = page.locator(
-    'button:has-text("Try another way"), ' +
-    'a:has-text("Try another way")'
-  ).first();
+  // We might be on the 2FA method selection page OR a specific 2FA challenge page
+  const isSelectionPage = page.url().includes('/challenge/selection');
 
-  try {
-    await tryAnotherWay.waitFor({ state: 'visible', timeout: 5_000 });
-    console.log('[GoogleAuth] Non-TOTP 2FA detected, clicking "Try another way"...');
-    await tryAnotherWay.click();
-    await page.waitForTimeout(3000);
-
-    // Select the Authenticator / TOTP option from the list
-    const totpOption = page.locator(
-      '[data-challengetype="6"], ' +
-      'li:has-text("Google Authenticator"), ' +
-      'div[role="link"]:has-text("Google Authenticator"), ' +
-      'div[data-challengeindex]:has-text("Authenticator"), ' +
-      'li:has-text("Get a verification code from the Google Authenticator app"), ' +
-      'div[role="link"]:has-text("verification code from the Google Authenticator")'
+  if (isSelectionPage) {
+    // Already on the method selection list — directly pick Google Authenticator
+    console.log('[GoogleAuth] On 2FA method selection page, picking Google Authenticator...');
+    await clickAuthenticatorOption(page);
+  } else {
+    // On a specific challenge page (push notification, SMS, etc.) — click "Try another way" first
+    const tryAnotherWay = page.locator(
+      'button:has-text("Try another way"), ' +
+      'a:has-text("Try another way")'
     ).first();
 
     try {
-      await totpOption.waitFor({ state: 'visible', timeout: 5_000 });
-      console.log('[GoogleAuth] Selecting Google Authenticator option...');
-      await totpOption.click();
-      await page.waitForTimeout(5000);
+      await tryAnotherWay.waitFor({ state: 'visible', timeout: 5_000 });
+      console.log('[GoogleAuth] Non-TOTP 2FA detected, clicking "Try another way"...');
+      await tryAnotherWay.click();
+      await page.waitForTimeout(3000);
+      await clickAuthenticatorOption(page);
     } catch {
-      console.log('[GoogleAuth] Could not find Authenticator option in list, trying direct TOTP input...');
+      console.log('[GoogleAuth] No "Try another way" link found, checking for direct TOTP input...');
     }
-  } catch {
-    console.log('[GoogleAuth] No "Try another way" link found, checking for direct TOTP input...');
   }
+
+  // Wait for the Authenticator page to fully load
+  await page.waitForTimeout(3000);
 
   // Now look for the TOTP input field (avoid input[type="tel"] — matches phone number fields)
   const totpSelectors = [
@@ -455,6 +449,36 @@ async function findVisibleElement(page: Page, selectors: string[]) {
     }
   }
   return null;
+}
+
+async function clickAuthenticatorOption(page: Page): Promise<void> {
+  // Use page.evaluate to find and click the Authenticator option in Google's challenge list
+  const clicked = await page.evaluate(() => {
+    const keywords = ['authenticator', 'verification code from', 'google authenticator'];
+    const elements = document.querySelectorAll('div, li, button, a, span');
+    for (const el of elements) {
+      const text = ((el as HTMLElement).innerText || '').toLowerCase();
+      const isVisible = (el as HTMLElement).offsetHeight > 0;
+      if (isVisible && keywords.some(kw => text.includes(kw)) && text.length < 200) {
+        (el as HTMLElement).click();
+        return text.substring(0, 80);
+      }
+    }
+    // Fallback: try data-challengetype="6" (TOTP challenge type in Google's system)
+    const totp6 = document.querySelector('[data-challengetype="6"]');
+    if (totp6) {
+      (totp6 as HTMLElement).click();
+      return 'data-challengetype=6';
+    }
+    return null;
+  });
+
+  if (clicked) {
+    console.log(`[GoogleAuth] Clicked Authenticator option: "${clicked}"`);
+    await page.waitForTimeout(5000);
+  } else {
+    console.log('[GoogleAuth] Could not find Authenticator option in list');
+  }
 }
 
 async function fillAndSubmitTotp(page: Page, input: any, totpSecret: string): Promise<void> {
