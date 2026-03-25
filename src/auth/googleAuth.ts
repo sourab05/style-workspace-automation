@@ -279,7 +279,7 @@ async function handle2FA(page: Page): Promise<void> {
       await totpOption.waitFor({ state: 'visible', timeout: 5_000 });
       console.log('[GoogleAuth] Selecting Authenticator app option...');
       await totpOption.click();
-      await page.waitForTimeout(2000);
+      await page.waitForTimeout(5000);
     } catch {
       console.log('[GoogleAuth] Could not find Authenticator option in list, trying direct TOTP input...');
     }
@@ -287,14 +287,48 @@ async function handle2FA(page: Page): Promise<void> {
     console.log('[GoogleAuth] No "Try another way" link found, checking for direct TOTP input...');
   }
 
-  // Now look for the TOTP input field
-  const totpSelectors = '#totpPin, input[type="tel"], input[name="totpPin"]';
-  const totpInput = page.locator(totpSelectors).first();
+  // Now look for the TOTP input field with broad selectors
+  const totpSelectors = [
+    '#totpPin',
+    'input[name="totpPin"]',
+    'input[type="tel"]',
+    'input[type="text"][aria-label*="code" i]',
+    'input[type="text"][aria-label*="Code" i]',
+    'input[type="number"]',
+    'input[name="pin"]',
+    'input[autocomplete="one-time-code"]',
+  ];
+  
+  let totpInput = null;
+  for (const sel of totpSelectors) {
+    const el = page.locator(sel).first();
+    if (await el.isVisible().catch(() => false)) {
+      totpInput = el;
+      console.log(`[GoogleAuth] Found TOTP input with selector: ${sel}`);
+      break;
+    }
+  }
 
-  try {
-    await totpInput.waitFor({ state: 'visible', timeout: 10_000 });
-  } catch {
+  if (!totpInput) {
+    // Last resort: wait longer and try again
+    console.log('[GoogleAuth] TOTP input not immediately visible, waiting 5s more...');
+    console.log(`[GoogleAuth] Current URL: ${page.url()}`);
+    await page.waitForTimeout(5000);
+
+    for (const sel of totpSelectors) {
+      const el = page.locator(sel).first();
+      if (await el.isVisible().catch(() => false)) {
+        totpInput = el;
+        console.log(`[GoogleAuth] Found TOTP input on retry: ${sel}`);
+        break;
+      }
+    }
+  }
+
+  if (!totpInput) {
     console.log('[GoogleAuth] No TOTP input found after all attempts, waiting for manual 2FA...');
+    console.log(`[GoogleAuth] Page title: ${await page.title()}`);
+    console.log(`[GoogleAuth] Current URL: ${page.url()}`);
     return;
   }
 
