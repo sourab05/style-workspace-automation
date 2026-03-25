@@ -100,7 +100,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'node --version && npm --version'
-                sh 'npm ci'
+                sh 'npm install'
             }
         }
 
