@@ -100,7 +100,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'node --version && npm --version'
-                sh 'npm install'
+                sh 'npm install -g pnpm'
+                sh 'pnpm install --frozen-lockfile'
             }
         }
 
