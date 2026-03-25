@@ -37,9 +37,10 @@ pipeline {
         STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
         STUDIO_USERNAME       = credentials('STUDIO_USERNAME')
         STUDIO_PASSWORD       = credentials('STUDIO_PASSWORD')
-        STUDIO_API_KEY        = credentials('STUDIO_API_KEY')
+        GOOGLE_EMAIL          = credentials('GOOGLE_EMAIL')
+        GOOGLE_PASSWORD       = credentials('GOOGLE_PASSWORD')
 
-        // BrowserStack (Username+Password credential type)
+        // BrowserStack (BrowserStack plugin credential type)
         BROWSERSTACK_USERNAME   = credentials('BROWSERSTACK_CREDS_USR')
         BROWSERSTACK_ACCESS_KEY = credentials('BROWSERSTACK_CREDS_PSW')
 
