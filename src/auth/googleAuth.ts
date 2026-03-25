@@ -221,20 +221,41 @@ async function fillGoogleCredentials(
   let passwordVisible = await passwordInput.isVisible().catch(() => false);
 
   if (!passwordVisible) {
-    // Google may show "Choose how you want to sign in" with "Enter your password" option
-    const enterPwOption = page.locator(
-      'div:has-text("Enter your password"), ' +
-      'button:has-text("Enter your password"), ' +
-      'li:has-text("Enter your password"), ' +
-      'div[role="link"]:has-text("Enter your password")'
-    ).first();
+    // Google may show "Choose how you want to sign in" (/challenge/selection page)
+    const isSelectionPage = page.url().includes('/challenge/selection') ||
+      page.url().includes('/challenge/pwd');
 
-    if (await enterPwOption.isVisible().catch(() => false)) {
-      console.log('[GoogleAuth] Clicking "Enter your password" option...');
-      await enterPwOption.click();
-      await page.waitForTimeout(3000);
-      passwordInput = page.locator('input[type="password"]');
-      passwordVisible = await passwordInput.isVisible().catch(() => false);
+    if (isSelectionPage) {
+      console.log('[GoogleAuth] On challenge selection page, looking for password option...');
+
+      // Try clicking any element that mentions "password" — Google uses various markup
+      const clicked = await page.evaluate(() => {
+        const elements = document.querySelectorAll('div, li, button, a, span');
+        for (const el of elements) {
+          const text = (el as HTMLElement).innerText || '';
+          if (text.toLowerCase().includes('enter your password') && 
+              (el as HTMLElement).offsetHeight > 0) {
+            (el as HTMLElement).click();
+            return true;
+          }
+        }
+        // Fallback: click first challenge option (usually password)
+        const challengeItems = document.querySelectorAll('[data-challengeindex="0"], [data-challengetype]');
+        if (challengeItems.length > 0) {
+          (challengeItems[0] as HTMLElement).click();
+          return true;
+        }
+        return false;
+      });
+
+      if (clicked) {
+        console.log('[GoogleAuth] Clicked password option on selection page');
+        await page.waitForTimeout(3000);
+        passwordInput = page.locator('input[type="password"]');
+        passwordVisible = await passwordInput.isVisible().catch(() => false);
+      } else {
+        console.log('[GoogleAuth] Could not find password option on selection page');
+      }
     }
   }
 
