@@ -40,9 +40,10 @@ pipeline {
         GOOGLE_EMAIL          = credentials('GOOGLE_EMAIL')
         GOOGLE_PASSWORD       = credentials('GOOGLE_PASSWORD')
 
-        // BrowserStack (BrowserStack plugin credential type)
-        BROWSERSTACK_USERNAME   = credentials('BROWSERSTACK_CREDS_USR')
-        BROWSERSTACK_ACCESS_KEY = credentials('BROWSERSTACK_CREDS_PSW')
+        // BrowserStack (BrowserStack plugin credential — auto-splits into _USR and _PSW)
+        BROWSERSTACK_CREDS      = credentials('BROWSERSTACK_CREDS')
+        BROWSERSTACK_USERNAME   = "${env.BROWSERSTACK_CREDS_USR}"
+        BROWSERSTACK_ACCESS_KEY = "${env.BROWSERSTACK_CREDS_PSW}"
 
         // AWS S3
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
@@ -187,15 +188,8 @@ pipeline {
     }
 
     post {
-        always {
-            archiveArtifacts artifacts: 'playwright-report/**,allure-report/**,artifacts/**',
-                             allowEmptyArchive: true
-        }
         failure {
             echo 'Build failed — check Playwright / Allure report above.'
-        }
-        cleanup {
-            sh 'rm -rf allure-results playwright-report || true'
         }
     }
 }
