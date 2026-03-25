@@ -213,10 +213,29 @@ async function fillGoogleCredentials(
     await page.waitForTimeout(2000);
   }
 
-  // Password step (may be skipped if session is still partially valid)
-  const passwordInput = page.locator('input[type="password"]');
-  try {
-    await passwordInput.waitFor({ state: 'visible', timeout: 10_000 });
+  // Password step
+  let passwordInput = page.locator('input[type="password"]');
+  let passwordVisible = await passwordInput.isVisible().catch(() => false);
+
+  if (!passwordVisible) {
+    // Google may show "Choose how you want to sign in" with "Enter your password" option
+    const enterPwOption = page.locator(
+      'div:has-text("Enter your password"), ' +
+      'button:has-text("Enter your password"), ' +
+      'li:has-text("Enter your password"), ' +
+      'div[role="link"]:has-text("Enter your password")'
+    ).first();
+
+    if (await enterPwOption.isVisible().catch(() => false)) {
+      console.log('[GoogleAuth] Clicking "Enter your password" option...');
+      await enterPwOption.click();
+      await page.waitForTimeout(3000);
+      passwordInput = page.locator('input[type="password"]');
+      passwordVisible = await passwordInput.isVisible().catch(() => false);
+    }
+  }
+
+  if (passwordVisible) {
     await passwordInput.fill(password);
     console.log('[GoogleAuth] Entered password');
     await page
@@ -224,7 +243,7 @@ async function fillGoogleCredentials(
       .first()
       .click();
     await page.waitForTimeout(3000);
-  } catch {
+  } else {
     console.log('[GoogleAuth] Password field not shown (session may still be active)');
   }
 }
