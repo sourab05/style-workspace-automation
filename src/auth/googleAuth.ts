@@ -288,6 +288,24 @@ async function handlePostAuthPages(page: Page): Promise<void> {
   const currentUrl = page.url();
   console.log(`[GoogleAuth] Post-2FA page detected: ${currentUrl.split('?')[0]}`);
 
+  // If we landed on the TOTP page but code wasn't filled yet, fill it now
+  if (currentUrl.includes('/challenge/totp')) {
+    const totpSecret = process.env.GOOGLE_TOTP_SECRET;
+    const totpInput = page.locator('#totpPin').first();
+    if (totpSecret && await totpInput.isVisible().catch(() => false)) {
+      const inputVal = await totpInput.inputValue().catch(() => '');
+      if (!inputVal) {
+        console.log('[GoogleAuth] TOTP page reached via post-auth, filling code now...');
+        await fillAndSubmitTotp(page, totpInput, totpSecret);
+        await page.waitForTimeout(5000);
+        if (!page.url().includes('accounts.google.com')) {
+          console.log('[GoogleAuth] Redirected to Studio after TOTP fill');
+          return;
+        }
+      }
+    }
+  }
+
   // Look for common post-auth buttons: "Yes", "Continue", "Allow", "Next", "Confirm", "I agree"
   const actionSelectors = [
     'button:has-text("Yes")',
@@ -408,8 +426,15 @@ async function handle2FA(page: Page): Promise<void> {
     }
   }
 
-  // Wait for the Authenticator page to fully load
-  await page.waitForTimeout(3000);
+  // Wait for navigation away from the selection page to the TOTP page
+  console.log('[GoogleAuth] Waiting for TOTP page to load...');
+  try {
+    await page.waitForURL(url => !url.toString().includes('/challenge/selection'), { timeout: 15_000 });
+    console.log(`[GoogleAuth] Navigated to: ${page.url().split('?')[0]}`);
+  } catch {
+    console.log('[GoogleAuth] URL did not change from selection page');
+  }
+  await page.waitForTimeout(2000);
 
   // Now look for the TOTP input field (avoid input[type="tel"] — matches phone number fields)
   const totpSelectors = [
