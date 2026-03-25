@@ -27,7 +27,7 @@ pipeline {
 
     // ─── Tool versions (configure these names in Jenkins → Global Tool Config) ─
     tools {
-        nodejs 'Node-20'
+        nodejs 'NodeJS 20.8.1'
     }
 
     environment {
