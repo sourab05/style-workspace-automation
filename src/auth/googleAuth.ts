@@ -249,35 +249,50 @@ async function handle2FA(page: Page): Promise<void> {
     return;
   }
 
-  // Google may show push notification (Prompts) as default — switch to TOTP
+  // Check if we're on a "Choose how you want to sign in" page (not 2FA) — need password first
+  const enterPasswordOption = page.locator(
+    'div[role="link"]:has-text("Enter your password"), ' +
+    'li:has-text("Enter your password"), ' +
+    'button:has-text("Enter your password")'
+  ).first();
+  if (await enterPasswordOption.isVisible().catch(() => false)) {
+    console.log('[GoogleAuth] Sign-in method selection detected, not 2FA — skipping handle2FA');
+    return;
+  }
+
+  // Check if TOTP input is already visible (direct Authenticator challenge)
+  const directTotp = page.locator('#totpPin').first();
+  if (await directTotp.isVisible().catch(() => false)) {
+    console.log('[GoogleAuth] TOTP input already visible, filling directly...');
+    await fillAndSubmitTotp(page, directTotp, totpSecret);
+    return;
+  }
+
+  // Google may show push notification or SMS as default — click "Try another way" to get to Authenticator
   const tryAnotherWay = page.locator(
     'button:has-text("Try another way"), ' +
-    'a:has-text("Try another way"), ' +
-    '[data-challengetype], ' +
-    'button:has-text("Use your Authenticator app"), ' +
-    'a:has-text("Use your Authenticator app")'
+    'a:has-text("Try another way")'
   ).first();
 
   try {
     await tryAnotherWay.waitFor({ state: 'visible', timeout: 5_000 });
-    console.log('[GoogleAuth] Push notification 2FA detected, clicking "Try another way"...');
+    console.log('[GoogleAuth] Non-TOTP 2FA detected, clicking "Try another way"...');
     await tryAnotherWay.click();
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3000);
 
-    // Select the Authenticator app / TOTP option
+    // Select the Authenticator / TOTP option from the list
     const totpOption = page.locator(
       '[data-challengetype="6"], ' +
-      'li:has-text("Authenticator"), ' +
-      'li:has-text("authenticator"), ' +
-      'div[role="link"]:has-text("Authenticator"), ' +
+      'li:has-text("Google Authenticator"), ' +
+      'div[role="link"]:has-text("Google Authenticator"), ' +
       'div[data-challengeindex]:has-text("Authenticator"), ' +
-      'li:has-text("verification code"), ' +
-      'div[role="link"]:has-text("verification code")'
+      'li:has-text("Get a verification code from the Google Authenticator app"), ' +
+      'div[role="link"]:has-text("verification code from the Google Authenticator")'
     ).first();
 
     try {
       await totpOption.waitFor({ state: 'visible', timeout: 5_000 });
-      console.log('[GoogleAuth] Selecting Authenticator app option...');
+      console.log('[GoogleAuth] Selecting Google Authenticator option...');
       await totpOption.click();
       await page.waitForTimeout(5000);
     } catch {
@@ -287,42 +302,23 @@ async function handle2FA(page: Page): Promise<void> {
     console.log('[GoogleAuth] No "Try another way" link found, checking for direct TOTP input...');
   }
 
-  // Now look for the TOTP input field with broad selectors
+  // Now look for the TOTP input field (avoid input[type="tel"] — matches phone number fields)
   const totpSelectors = [
     '#totpPin',
     'input[name="totpPin"]',
-    'input[type="tel"]',
-    'input[type="text"][aria-label*="code" i]',
-    'input[type="text"][aria-label*="Code" i]',
-    'input[type="number"]',
     'input[name="pin"]',
     'input[autocomplete="one-time-code"]',
+    'input[type="text"][aria-label*="code" i]',
+    'input[type="number"]',
   ];
   
-  let totpInput = null;
-  for (const sel of totpSelectors) {
-    const el = page.locator(sel).first();
-    if (await el.isVisible().catch(() => false)) {
-      totpInput = el;
-      console.log(`[GoogleAuth] Found TOTP input with selector: ${sel}`);
-      break;
-    }
-  }
+  let totpInput = await findVisibleElement(page, totpSelectors);
 
   if (!totpInput) {
-    // Last resort: wait longer and try again
     console.log('[GoogleAuth] TOTP input not immediately visible, waiting 5s more...');
     console.log(`[GoogleAuth] Current URL: ${page.url()}`);
     await page.waitForTimeout(5000);
-
-    for (const sel of totpSelectors) {
-      const el = page.locator(sel).first();
-      if (await el.isVisible().catch(() => false)) {
-        totpInput = el;
-        console.log(`[GoogleAuth] Found TOTP input on retry: ${sel}`);
-        break;
-      }
-    }
+    totpInput = await findVisibleElement(page, totpSelectors);
   }
 
   if (!totpInput) {
@@ -332,6 +328,21 @@ async function handle2FA(page: Page): Promise<void> {
     return;
   }
 
+  await fillAndSubmitTotp(page, totpInput, totpSecret);
+}
+
+async function findVisibleElement(page: Page, selectors: string[]) {
+  for (const sel of selectors) {
+    const el = page.locator(sel).first();
+    if (await el.isVisible().catch(() => false)) {
+      console.log(`[GoogleAuth] Found element with selector: ${sel}`);
+      return el;
+    }
+  }
+  return null;
+}
+
+async function fillAndSubmitTotp(page: Page, input: any, totpSecret: string): Promise<void> {
   const { TOTP, Secret } = await import('otpauth');
   const totp = new TOTP({
     secret: Secret.fromBase32(totpSecret.replace(/\s+/g, '').toUpperCase()),
@@ -341,10 +352,26 @@ async function handle2FA(page: Page): Promise<void> {
   const code = totp.generate();
 
   console.log('[GoogleAuth] Auto-filling 2FA TOTP code...');
-  await totpInput.fill(code);
+  await input.fill(code);
 
-  const nextBtn = page.locator('#totpNext button, button:has-text("Next"), button:has-text("Verify")').first();
-  await nextBtn.click();
+  // Try multiple submit button selectors
+  const submitSelectors = [
+    '#totpNext button',
+    '#totpNext',
+    'button:has-text("Next")',
+    'button:has-text("Verify")',
+    'button[type="button"]:near(#totpPin)',
+  ];
+
+  for (const sel of submitSelectors) {
+    const btn = page.locator(sel).first();
+    if (await btn.isVisible().catch(() => false)) {
+      console.log(`[GoogleAuth] Clicking submit button: ${sel}`);
+      await btn.click();
+      break;
+    }
+  }
+
   await page.waitForTimeout(3000);
   console.log('[GoogleAuth] 2FA code submitted');
 }
