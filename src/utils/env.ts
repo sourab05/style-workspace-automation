@@ -22,6 +22,7 @@ export const ENV = {
   studioPassword: process.env.STUDIO_PASSWORD || '',
   googleEmail: process.env.GOOGLE_EMAIL || process.env.STUDIO_USERNAME || '',
   googlePassword: process.env.GOOGLE_PASSWORD || '',
+  googleTotpSecret: process.env.GOOGLE_TOTP_SECRET || '',
   apiKey: process.env.STUDIO_API_KEY,
   get studioCookie(): string | undefined {
     return process.env.STUDIO_COOKIE;

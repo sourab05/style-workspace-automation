@@ -118,11 +118,13 @@ async function loginInPage(
   // Fill email + password
   await fillGoogleCredentials(page, email, password);
 
-  // Wait for 2FA + consent + redirect back to Studio (user handles 2FA manually)
-  console.log('[GoogleAuth] Waiting for login to complete (including any 2FA)...');
+  // Handle 2FA automatically via TOTP if secret is configured, otherwise wait for manual
+  await handle2FA(page);
+
+  console.log('[GoogleAuth] Waiting for Studio redirect...');
   await page.waitForURL(
     (url) => isOnStudioPage(url.toString(), baseUrl),
-    { timeout: 180_000 }, // 3 min for manual 2FA
+    { timeout: process.env.GOOGLE_TOTP_SECRET ? 60_000 : 180_000 },
   );
 
   await page.waitForTimeout(3000);
@@ -225,6 +227,44 @@ async function fillGoogleCredentials(
   } catch {
     console.log('[GoogleAuth] Password field not shown (session may still be active)');
   }
+}
+
+// ---------------------------------------------------------------------------
+// 2FA handling (TOTP)
+// ---------------------------------------------------------------------------
+
+async function handle2FA(page: Page): Promise<void> {
+  const totpSecret = process.env.GOOGLE_TOTP_SECRET;
+  if (!totpSecret) {
+    console.log('[GoogleAuth] No GOOGLE_TOTP_SECRET set, waiting for manual 2FA...');
+    return;
+  }
+
+  const totpSelectors = '#totpPin, input[type="tel"], input[name="totpPin"]';
+  const totpInput = page.locator(totpSelectors).first();
+
+  try {
+    await totpInput.waitFor({ state: 'visible', timeout: 10_000 });
+  } catch {
+    console.log('[GoogleAuth] No 2FA prompt detected (session may be trusted), continuing...');
+    return;
+  }
+
+  const { TOTP, Secret } = await import('otpauth');
+  const totp = new TOTP({
+    secret: Secret.fromBase32(totpSecret.replace(/\s+/g, '').toUpperCase()),
+    digits: 6,
+    period: 30,
+  });
+  const code = totp.generate();
+
+  console.log('[GoogleAuth] Auto-filling 2FA TOTP code...');
+  await totpInput.fill(code);
+
+  const nextBtn = page.locator('#totpNext button, button:has-text("Next"), button:has-text("Verify")').first();
+  await nextBtn.click();
+  await page.waitForTimeout(3000);
+  console.log('[GoogleAuth] 2FA code submitted');
 }
 
 // ---------------------------------------------------------------------------

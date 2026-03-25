@@ -39,6 +39,7 @@ pipeline {
         STUDIO_PASSWORD       = credentials('STUDIO_PASSWORD')
         GOOGLE_EMAIL          = credentials('GOOGLE_EMAIL')
         GOOGLE_PASSWORD       = credentials('GOOGLE_PASSWORD')
+        GOOGLE_TOTP_SECRET    = credentials('GOOGLE_TOTP_SECRET')
 
         // BrowserStack (BrowserStack plugin credential — auto-splits into _USR and _PSW)
         BROWSERSTACK_CREDS      = credentials('BROWSERSTACK_CREDS')
