@@ -230,34 +230,44 @@ async function fillGoogleCredentials(
       console.log('[GoogleAuth] On challenge selection page, looking for password option...');
       await page.waitForTimeout(2000);
 
-      // Try multiple approaches to click "Enter your password"
-      const approaches = [
-        async () => { await page.click('text=Enter your password', { timeout: 3000 }); return 'text selector'; },
-        async () => { await page.getByText('Enter your password').first().click({ timeout: 3000 }); return 'getByText'; },
-        async () => { await page.getByText('password').first().click({ timeout: 3000 }); return 'getByText partial'; },
-        async () => { await page.locator('ul li').first().click({ timeout: 3000 }); return 'first li'; },
-        async () => { await page.locator('[data-challengeindex="0"]').click({ timeout: 3000 }); return 'challengeindex'; },
-        async () => { await page.locator('li >> text=password').first().click({ timeout: 3000 }); return 'li with password text'; },
+      // Try Playwright native clicks (real mouse events) — DOM .click() doesn't work on Google's elements
+      const pwdSelectors = [
+        'li:has-text("Enter your password")',
+        'li:has-text("password")',
+        '[data-challengeindex="0"]',
+        'div[role="link"]:has-text("password")',
       ];
 
       let clicked = false;
-      for (const approach of approaches) {
+      for (const sel of pwdSelectors) {
         try {
-          const method = await approach();
-          console.log(`[GoogleAuth] Clicked password option via: ${method}`);
+          const el = page.locator(sel).first();
+          if (await el.isVisible({ timeout: 2000 }).catch(() => false)) {
+            console.log(`[GoogleAuth] Clicking password option via: ${sel}`);
+            await el.click();
+            clicked = true;
+            await page.waitForTimeout(3000);
+            passwordInput = page.locator('input[type="password"]');
+            passwordVisible = await passwordInput.isVisible().catch(() => false);
+            if (passwordVisible) break;
+          }
+        } catch { continue; }
+      }
+
+      if (!clicked) {
+        // Last resort: getByText
+        try {
+          await page.getByText('Enter your password').click({ timeout: 3000 });
+          console.log('[GoogleAuth] Clicked password option via getByText');
           clicked = true;
           await page.waitForTimeout(3000);
           passwordInput = page.locator('input[type="password"]');
           passwordVisible = await passwordInput.isVisible().catch(() => false);
-          if (passwordVisible) break;
-        } catch {
-          continue;
-        }
+        } catch {}
       }
 
       if (!clicked) {
         console.log('[GoogleAuth] All approaches to click password option failed');
-        // Debug: log all visible text on the page
         const pageText = await page.evaluate(() => document.body?.innerText?.substring(0, 500) || 'empty');
         console.log(`[GoogleAuth] Page text: ${pageText}`);
       }
@@ -482,33 +492,38 @@ async function findVisibleElement(page: Page, selectors: string[]) {
 }
 
 async function clickAuthenticatorOption(page: Page): Promise<void> {
-  // Use page.evaluate to find and click the Authenticator option in Google's challenge list
-  const clicked = await page.evaluate(() => {
-    const keywords = ['authenticator', 'verification code from', 'google authenticator'];
-    const elements = document.querySelectorAll('div, li, button, a, span');
-    for (const el of elements) {
-      const text = ((el as HTMLElement).innerText || '').toLowerCase();
-      const isVisible = (el as HTMLElement).offsetHeight > 0;
-      if (isVisible && keywords.some(kw => text.includes(kw)) && text.length < 200) {
-        (el as HTMLElement).click();
-        return text.substring(0, 80);
-      }
-    }
-    // Fallback: try data-challengetype="6" (TOTP challenge type in Google's system)
-    const totp6 = document.querySelector('[data-challengetype="6"]');
-    if (totp6) {
-      (totp6 as HTMLElement).click();
-      return 'data-challengetype=6';
-    }
-    return null;
-  });
+  // Use Playwright's native click (simulates real mouse events) — page.evaluate DOM click doesn't work on Google's custom elements
+  const selectors = [
+    'li:has-text("Google Authenticator")',
+    'li:has-text("Authenticator")',
+    'li:has-text("authenticator")',
+    'li:has-text("verification code")',
+    '[data-challengetype="6"]',
+    'div[role="link"]:has-text("Authenticator")',
+    'div[role="link"]:has-text("verification code")',
+  ];
 
-  if (clicked) {
-    console.log(`[GoogleAuth] Clicked Authenticator option: "${clicked}"`);
-    await page.waitForTimeout(5000);
-  } else {
-    console.log('[GoogleAuth] Could not find Authenticator option in list');
+  for (const sel of selectors) {
+    try {
+      const el = page.locator(sel).first();
+      if (await el.isVisible({ timeout: 2000 }).catch(() => false)) {
+        console.log(`[GoogleAuth] Clicking Authenticator option via Playwright: ${sel}`);
+        await el.click();
+        await page.waitForTimeout(5000);
+        return;
+      }
+    } catch { continue; }
   }
+
+  // Last resort: click by text content using getByText
+  try {
+    await page.getByText('Authenticator').first().click({ timeout: 3000 });
+    console.log('[GoogleAuth] Clicked Authenticator option via getByText');
+    await page.waitForTimeout(5000);
+    return;
+  } catch {}
+
+  console.log('[GoogleAuth] Could not find Authenticator option in list');
 }
 
 async function fillAndSubmitTotp(page: Page, input: any, totpSecret: string): Promise<void> {
