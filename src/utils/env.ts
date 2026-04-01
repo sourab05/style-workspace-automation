@@ -50,7 +50,7 @@ export const ENV = {
   canvasPath: process.env.CANVAS_PATH || 's/page/Main?project-id=${PROJECT_ID}',
   previewPath: process.env.PREVIEW_PATH || '/preview',
   studioLoginPath: process.env.STUDIO_LOGIN_PATH || '/login/authenticate',
-  studioDeployPath: process.env.STUDIO_DEPLOY_PATH || '/studio/services/projects/${PROJECT_ID}/inplace-deploy',
+  studioDeployPath: process.env.STUDIO_DEPLOY_PATH || 'studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy',
   tokensDir: process.env.TOKENS_DIR || `${process.cwd()}/Tokens`,
 
   get isGoogleAuth(): boolean {
