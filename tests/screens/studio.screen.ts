@@ -27,11 +27,37 @@ class StudioScreen {
       return this.cookieHeader;
     }
 
+    if (ENV.isPlatformDB) {
+      return this.platformDBLogin();
+    }
+
     if (ENV.isGoogleAuth) {
       return this.googleLogin();
     }
 
     return this.wavemakerLogin();
+  }
+
+  private async platformDBLogin(): Promise<string> {
+    if (!ENV.studioUsername || !ENV.studioPassword) {
+      throw new Error('Studio credentials not found (STUDIO_USERNAME / STUDIO_PASSWORD) for Platform DB login.');
+    }
+
+    console.log('🔐 Performing Platform DB REST login (wavemaker.ai detected)...');
+
+    const client = new StudioClient({
+      baseUrl: ENV.studioBaseUrl,
+      projectId: ENV.projectId,
+    });
+
+    const cookie = await client.loginWithPlatformDB(ENV.studioUsername, ENV.studioPassword);
+    this.cookieHeader = cookie;
+    process.env.STUDIO_COOKIE = cookie;
+
+    await ensureAuthCookies(this.page, ENV.studioBaseUrl, this.cookieHeader);
+
+    console.log('🔑 Platform DB login successful, cookie captured');
+    return this.cookieHeader;
   }
 
   private async googleLogin(): Promise<string> {

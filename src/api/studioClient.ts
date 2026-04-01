@@ -76,12 +76,15 @@ export class StudioClient {
 
             // 3) No cached cookie available — perform fresh login
             if (!this.cookieFromEnv) {
-              console.log('Authentication failed, attempting to re-login...');
-              const newCookie = ENV.isGoogleAuth
-                ? await this.loginWithGoogle()
-                : (ENV.studioUsername && ENV.studioPassword)
-                  ? await this.login(ENV.studioUsername, ENV.studioPassword)
-                  : null;
+              console.log(`Authentication failed, attempting to re-login (method: ${ENV.authMethod})...`);
+              let newCookie: string | null = null;
+              if (ENV.isPlatformDB && ENV.studioUsername && ENV.studioPassword) {
+                newCookie = await this.loginWithPlatformDB(ENV.studioUsername, ENV.studioPassword);
+              } else if (ENV.isGoogleAuth) {
+                newCookie = await this.loginWithGoogle();
+              } else if (ENV.studioUsername && ENV.studioPassword) {
+                newCookie = await this.login(ENV.studioUsername, ENV.studioPassword);
+              }
 
               if (newCookie) {
                 this.updateAuthCookie(newCookie);
@@ -329,6 +332,67 @@ export class StudioClient {
     this.updateAuthCookie(result.cookieHeader);
     process.env.STUDIO_COOKIE = result.cookieHeader;
     return result.cookieHeader;
+  }
+
+  /**
+   * Login via Platform DB REST API (no browser required).
+   * Used for wavemaker.ai domains (stage-platform, platform).
+   * Sends credentials with X-WM-AUTH-PROVIDER: Platform DB header.
+   */
+  async loginWithPlatformDB(username: string, password: string): Promise<string> {
+    const baseUrl =
+      (this.http.defaults.baseURL as string)?.replace(/\/$/, '') ||
+      (ENV.studioBaseUrl || '').replace(/\/$/, '');
+
+    console.log(`[StudioClient] Performing Platform DB login at ${baseUrl}...`);
+
+    const loginPayload = qs.stringify({
+      j_username: username,
+      j_password: password,
+      regButton: 'Login',
+    });
+
+    let lastError: any;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const loginRes = await this.http.post(ENV.studioLoginPath, loginPayload, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-WM-AUTH-PROVIDER': 'Platform DB',
+          },
+          maxRedirects: 0,
+          validateStatus: (status) => status === 302,
+          timeout: 60000,
+        });
+
+        const setCookies = loginRes.headers['set-cookie'] || [];
+        let authCookieLine = setCookies.find((c: string) => c.startsWith('auth_cookie='));
+        let jsessionLine = setCookies.find((c: string) => c.startsWith('JSESSIONID='));
+
+        if (!authCookieLine && !jsessionLine) {
+          console.error('[PlatformDB] No auth cookies in response. set-cookie:', setCookies);
+          throw new Error('Platform DB login: no auth_cookie/JSESSIONID in response.');
+        }
+
+        const parts: string[] = [];
+        if (authCookieLine) parts.push(authCookieLine.split(';')[0]);
+        if (jsessionLine) parts.push(jsessionLine.split(';')[0]);
+        const combinedCookie = parts.join('; ');
+
+        console.log(`[StudioClient] Platform DB login successful (attempt ${attempt})`);
+        this.updateAuthCookie(combinedCookie);
+        return combinedCookie;
+      } catch (error: any) {
+        lastError = error;
+        const transient = error?.code === 'ECONNABORTED' || !error?.response;
+        console.warn(`[PlatformDB Login] Attempt ${attempt} failed${transient ? ' (transient)' : ''}:`, error?.message || error);
+
+        if (!transient || attempt === 3) break;
+        await new Promise((r) => setTimeout(r, attempt * 2000));
+      }
+    }
+
+    throw new Error(`Platform DB login failed for user ${username}: ${lastError?.message || lastError}`);
   }
 
   /** Trigger in-place deploy; returns preview URL if provided by server */

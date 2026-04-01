@@ -5,9 +5,26 @@ const GOOGLE_AUTH_DOMAINS = ['stage-platform.wavemaker.ai'];
 function detectGoogleAuth(baseUrl: string): boolean {
   if (process.env.AUTH_METHOD === 'google') return true;
   if (process.env.AUTH_METHOD === 'wavemaker') return false;
+  if (process.env.AUTH_METHOD === 'platformdb') return false;
   try {
     const hostname = new URL(baseUrl).hostname;
     return GOOGLE_AUTH_DOMAINS.some(d => hostname === d || hostname.endsWith(`.${d}`));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Detects if the environment uses Platform DB REST login (wavemaker.ai domains).
+ * These use /login/authenticate with X-WM-AUTH-PROVIDER: Platform DB header
+ * instead of Google OAuth or browser-based WaveMaker form login.
+ */
+function detectPlatformDB(baseUrl: string): boolean {
+  if (process.env.AUTH_METHOD === 'platformdb') return true;
+  if (process.env.AUTH_METHOD === 'google' || process.env.AUTH_METHOD === 'wavemaker') return false;
+  try {
+    const hostname = new URL(baseUrl).hostname;
+    return hostname.endsWith('wavemaker.ai');
   } catch {
     return false;
   }
@@ -40,11 +57,21 @@ export const ENV = {
     return detectGoogleAuth(this.studioBaseUrl);
   },
 
+  get isPlatformDB(): boolean {
+    return detectPlatformDB(this.studioBaseUrl);
+  },
+
+  get authMethod(): 'platformdb' | 'google' | 'wavemaker' {
+    if (this.isPlatformDB) return 'platformdb';
+    if (this.isGoogleAuth) return 'google';
+    return 'wavemaker';
+  },
+
   validate(): void {
-    const isGoogle = detectGoogleAuth(process.env.STUDIO_BASE_URL || '');
+    const method = this.authMethod;
     const required: string[] = ['studioBaseUrl', 'projectId'];
 
-    if (isGoogle) {
+    if (method === 'google') {
       required.push('googleEmail', 'googlePassword');
     } else {
       required.push('studioUsername', 'studioPassword');
@@ -57,10 +84,12 @@ export const ENV = {
         `❌ Missing required environment variables:\n` +
         missing.map(m => `   - ${m}`).join('\n') +
         `\nPlease check your .env file or environment configuration.` +
-        (isGoogle ? '\n   (Google auth detected for stage-platform.wavemaker.ai)' : '')
+        (method === 'google' ? '\n   (Google auth detected for stage-platform.wavemaker.ai)' : '') +
+        (method === 'platformdb' ? '\n   (Platform DB auth detected for wavemaker.ai)' : '')
       );
     }
 
-    console.log(`✅ Environment validation passed (auth: ${isGoogle ? 'Google OAuth' : 'WaveMaker form'})`);
+    const labels = { platformdb: 'Platform DB REST', google: 'Google OAuth', wavemaker: 'WaveMaker form' };
+    console.log(`✅ Environment validation passed (auth: ${labels[method]})`);
   }
 };

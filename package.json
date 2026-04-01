@@ -61,7 +61,8 @@
     "parallel:start:appium": "bash scripts/start-parallel-appium.sh android 5",
     "parallel:start:emulators": "bash scripts/start-android-emulators.sh 5",
     "parallel:stop:appium": "bash scripts/stop-parallel-appium.sh",
-    "parallel:stop:emulators": "bash scripts/stop-android-emulators.sh"
+    "parallel:stop:emulators": "bash scripts/stop-android-emulators.sh",
+    "jenkins:refresh-cookie": "ts-node scripts/refresh-jenkins-cookie.ts"
   },
   "keywords": [],
   "author": "",

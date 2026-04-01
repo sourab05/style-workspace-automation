@@ -31,7 +31,9 @@ pipeline {
     }
 
     environment {
-        // Studio / Auth — uses WaveMaker form login (stage-studio, not stage-platform)
+        // Studio / Auth — auto-detected from STUDIO_BASE_URL:
+        //   *.wavemaker.ai        → Platform DB REST login (X-WM-AUTH-PROVIDER header, no browser)
+        //   *.wavemakeronline.com → WaveMaker form login (browser-based)
         STUDIO_BASE_URL       = credentials('STUDIO_BASE_URL')
         PROJECT_ID            = credentials('PROJECT_ID')
         STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
