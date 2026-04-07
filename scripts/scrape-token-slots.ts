@@ -481,8 +481,6 @@ async function discoverWidgetConfig(page: Page, widget: string): Promise<Discove
 // ---------------------------------------------------------------------------
 
 async function getAuthenticatedContext(): Promise<{ context: BrowserContext; page: Page }> {
-  console.log('[Scraper] Authenticating via Google OAuth...');
-
   const profileDir = path.join(CACHE_DIR, 'google-browser-profile');
   if (!fs.existsSync(profileDir)) {
     fs.mkdirSync(profileDir, { recursive: true });
@@ -502,9 +500,34 @@ async function getAuthenticatedContext(): Promise<{ context: BrowserContext; pag
 
   const page = context.pages()[0] || (await context.newPage());
 
-  const authResult = await googleBrowserLogin({ page, headless: false });
-  if (!authResult.cookieHeader) {
-    throw new Error('Failed to authenticate');
+  if (ENV.isPlatformDB) {
+    console.log('[Scraper] Authenticating via Platform DB REST login...');
+    const { StudioClient } = await import('../src/api/studioClient');
+    const client = new StudioClient({ baseUrl: BASE_URL, projectId: PROJECT_ID });
+    const cookie = await client.loginWithPlatformDB(
+      ENV.studioUsername,
+      ENV.studioPassword
+    );
+
+    const baseUrlObj = new URL(BASE_URL);
+    const cookieParts = cookie.split('; ');
+    for (const part of cookieParts) {
+      const [name, value] = part.split('=');
+      if (name && value) {
+        await context.addCookies([{
+          name: name.trim(),
+          value: value.trim(),
+          domain: baseUrlObj.hostname,
+          path: '/',
+        }]);
+      }
+    }
+  } else {
+    console.log('[Scraper] Authenticating via Google OAuth...');
+    const authResult = await googleBrowserLogin({ page, headless: false });
+    if (!authResult.cookieHeader) {
+      throw new Error('Failed to authenticate');
+    }
   }
 
   console.log('[Scraper] Authentication successful');

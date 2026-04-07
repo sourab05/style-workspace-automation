@@ -12,7 +12,6 @@ import path from 'path';
  * and works when served from S3 or any static host.
  */
 
-const LOG_FILE = path.resolve('logs/playwright-log.json');
 const OUT_DIR = path.resolve('reports');
 const OUT_FILE = path.join(OUT_DIR, 'playwright-report.html');
 const PROJECT_ROOT = process.cwd();
@@ -22,6 +21,8 @@ const cliArgs = process.argv.slice(2);
 const cliWidgets: string[] = [];
 const cliExcludeWidgets: string[] = [];
 const cliExcludeStatus: string[] = [];
+let cliLogFile: string | null = null;
+let cliPreviewDir: string | null = null;
 
 for (let i = 0; i < cliArgs.length; i++) {
   const arg = cliArgs[i];
@@ -34,8 +35,14 @@ for (let i = 0; i < cliArgs.length; i++) {
   } else if (arg === '--exclude-status') {
     const raw = cliArgs[++i] || '';
     raw.split(',').map(v => v.trim().toLowerCase()).filter(Boolean).forEach(v => cliExcludeStatus.push(v));
+  } else if (arg === '--log' || arg === '-l') {
+    cliLogFile = cliArgs[++i] || null;
+  } else if (arg === '--preview-dir' || arg === '--pd') {
+    cliPreviewDir = cliArgs[++i] || null;
   }
 }
+
+const LOG_FILE = cliLogFile ? path.resolve(cliLogFile) : path.resolve('logs/playwright-log.json');
 
 // ——— Types ———
 
@@ -108,6 +115,7 @@ function collectTests(suite: Suite, parentTitle: string): FlatTest[] {
 
 function categoriseFailure(errors: string[]): string {
   const joined = errors.join(' ');
+  if (/Trace Issue/i.test(joined)) return 'Trace Issue';
   if (/timeout/i.test(joined)) return 'Selector Timeout';
   if (/waitForSelector/i.test(joined)) return 'Selector Timeout';
   if (/Expected.*Got|value mismatch|!==|not equal/i.test(joined)) return 'Value Mismatch';
@@ -164,22 +172,121 @@ function buildVideoTag(att: Attachment): string {
   return '<div class="verdict-block"><p style="color:#8b949e">Video available when viewing locally (npm run report:serve)</p></div>';
 }
 
-// ——— Main ———
+// ——— Preview Dir Loader ———
 
-function generate(): void {
-  if (!fs.existsSync(LOG_FILE)) {
-    console.error(`❌ Playwright log not found: ${LOG_FILE}`);
-    console.error('   Run tests first: npx playwright test');
+function collectTestsFromPreviewDir(dir: string): FlatTest[] {
+  const absDir = path.resolve(dir);
+  if (!fs.existsSync(absDir)) {
+    console.error(`❌ Preview dir not found: ${absDir}`);
     process.exit(1);
   }
 
-  console.log(`📖 Reading ${LOG_FILE}...`);
-  const raw = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
-  const allTests: FlatTest[] = [];
-  for (const suite of (raw.suites || []) as Suite[]) {
-    allTests.push(...collectTests(suite, ''));
+  const files = fs.readdirSync(absDir).filter(f => f.endsWith('-report.json') && f !== 'overall-summary.json');
+  if (files.length === 0) {
+    console.error(`❌ No *-report.json files found in: ${absDir}`);
+    process.exit(1);
   }
-  const globalErrors: string[] = (raw.errors || []).map((e: any) => e.message || JSON.stringify(e));
+
+  const tests: FlatTest[] = [];
+  for (const file of files) {
+    const data = JSON.parse(fs.readFileSync(path.join(absDir, file), 'utf-8'));
+    const widget: string = (data.widget || '').toLowerCase();
+    const timestamp: string = data.timestamp || new Date().toISOString();
+
+    for (const r of (data.results || [])) {
+      const previewResult = r.preview || {};
+      const rawStatus: string = (previewResult.status || r.overallStatus || 'SKIPPED').toUpperCase();
+
+      let status: FlatTest['status'] = 'skipped';
+      if (rawStatus === 'PASS') status = 'passed';
+      else if (rawStatus === 'FAIL' || rawStatus === 'ERROR') status = 'failed';
+
+      const actualRaw = previewResult.actualValue;
+      const actualStr = actualRaw === null || actualRaw === undefined
+        ? ''
+        : (typeof actualRaw === 'object' ? JSON.stringify(actualRaw) : String(actualRaw));
+
+      const originalError: string = previewResult.error || '';
+      const isTimeoutError = /timeout|waitForSelector|not found/i.test(originalError);
+
+      const isTraceIssue = status === 'failed' && !isTimeoutError && (
+        actualStr === '{}' || actualStr === '[]' ||
+        actualStr === '' || actualStr === 'null' || actualStr === 'undefined'
+      );
+
+      const errors: string[] = [];
+      if (isTimeoutError) {
+        errors.push(originalError);
+      } else if (isTraceIssue) {
+        const reason = (actualStr === '{}' || actualStr === '[]')
+          ? `Trace Issue: {} returned — shorthand property not expanded for "${r.propertyPath}"`
+          : `Trace Issue: undefined returned — style path missing for "${r.propertyPath}"`;
+        errors.push(reason);
+      } else if (originalError) {
+        errors.push(originalError);
+      }
+
+      const verdictLines: string[] = [
+        `Token    : ${r.tokenRef || ''}`,
+        `Property : ${r.propertyPath || ''}`,
+        `Expected : ${r.expectedValue ?? ''}`,
+        `Actual   : ${actualStr || '(empty)'}`,
+        `Status   : ${rawStatus}`,
+      ];
+      if (isTraceIssue) verdictLines.push(`Category : Trace Issue`);
+      if (r.tokenType) verdictLines.unshift(`Type     : ${r.tokenType}`);
+      if (r.appearance) verdictLines.unshift(`Appearance: ${r.appearance}${r.variant ? ' / ' + r.variant : ''}${r.state ? ' / ' + r.state : ''}`);
+
+      const verdictText = verdictLines.join('\n');
+      const verdictB64 = Buffer.from(verdictText).toString('base64');
+
+      const stdoutLines: string[] = [
+        `[${rawStatus}] ${r.propertyPath} | expected: ${r.expectedValue ?? ''} | actual: ${actualStr || '(empty)'}`,
+      ];
+      if (errors.length > 0) stdoutLines.push(`Error: ${errors[0]}`);
+
+      tests.push({
+        title: r.testId || `${widget}-${r.propertyPath}`,
+        widget,
+        suite: `Preview Token Validation - ${widget} Widget`,
+        status,
+        duration: 0,
+        errors,
+        stdout: stdoutLines,
+        stderr: [],
+        attachments: [{ name: 'style-verdict', contentType: 'text/plain', body: verdictB64 }],
+        startTime: timestamp,
+        env: 'preview',
+      });
+    }
+  }
+  return tests;
+}
+
+// ——— Main ———
+
+function generate(): void {
+  let allTests: FlatTest[] = [];
+  const globalErrors: string[] = [];
+
+  if (cliPreviewDir) {
+    console.log(`📂 Reading preview widget JSONs from: ${path.resolve(cliPreviewDir)}`);
+    allTests = collectTestsFromPreviewDir(cliPreviewDir);
+  } else {
+    if (!fs.existsSync(LOG_FILE)) {
+      console.error(`❌ Playwright log not found: ${LOG_FILE}`);
+      console.error('   Run tests first: npx playwright test');
+      console.error('   Or use --preview-dir <path> to read from widget JSON reports');
+      process.exit(1);
+    }
+    console.log(`📖 Reading ${LOG_FILE}...`);
+    const raw = JSON.parse(fs.readFileSync(LOG_FILE, 'utf-8'));
+    for (const suite of (raw.suites || []) as Suite[]) {
+      allTests.push(...collectTests(suite, ''));
+    }
+    globalErrors.push(...(raw.errors || []).map((e: any) => e.message || JSON.stringify(e)));
+  }
+
   console.log(`📊 Collected ${allTests.length} test results`);
 
   // Apply CLI filters

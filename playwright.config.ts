@@ -6,7 +6,7 @@ export default defineConfig({
   fullyParallel: true, // Enable parallel execution after global setup
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 4 : 0,
-  workers: process.env.CI ? 1 : (parseInt(process.env.PW_WORKERS || '4', 10)),
+  workers: process.env.CI ? 4 : (parseInt(process.env.PW_WORKERS || '4', 10)),
   reporter: [
     ['line'],
     ['json', { outputFile: 'logs/playwright-log.json' }],
