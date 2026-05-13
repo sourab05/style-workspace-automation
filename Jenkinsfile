@@ -4,6 +4,7 @@ pipeline {
     options {
         // Cap stored builds + archived artifacts on the controller (reduces disk growth over time).
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '5'))
+        skipDefaultCheckout(true)
     }
 
     // If post-stage archive fails with java.nio.file.FileSystemException "No space left on device",
@@ -70,6 +71,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                deleteDir()
                 checkout scm
             }
         }
