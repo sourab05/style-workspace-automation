@@ -41,9 +41,10 @@ pipeline {
     }
 
     environment {
-        // Studio / Auth — auto-detected from STUDIO_BASE_URL:
-        //   *.wavemaker.ai        → Platform DB REST login (X-WM-AUTH-PROVIDER header, no browser)
-        //   *.wavemakeronline.com → WaveMaker form login (browser-based)
+        // Studio / Auth — forced to Platform DB REST login (API-based, no browser/Google OAuth).
+        // AUTH_METHOD=platformdb bypasses domain-based Google auth detection so Jenkins
+        // uses STUDIO_USERNAME + STUDIO_PASSWORD via /login/authenticate directly.
+        AUTH_METHOD           = 'platformdb'
         STUDIO_BASE_URL       = credentials('STUDIO_BASE_URL')
         PROJECT_ID            = credentials('PROJECT_ID')
         STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
