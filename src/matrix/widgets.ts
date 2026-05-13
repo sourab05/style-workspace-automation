@@ -51,7 +51,8 @@ export type Widget =
   // | 'nav-item'
   // | 'page-content'
   | 'panel-footer'
-  | 'video';
+  | 'video'
+  | 'accordion-pane';
 export type Appearance = 'filled' | 'outlined' | 'text' | 'fab' | 'icon' | 'standard' | 'default' | 'test' | 'elevated' | 'label' | 'currency' | 'date' | 'number' | 'thumbnail';
 export type Variant =
   | 'primary'
@@ -623,6 +624,16 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     states: ['default'],
     allowedTokenTypes: ['space']
   },
+  'accordion-pane': {
+    appearances: ['standard'],
+    variants: {
+      standard: ['standard'],
+    },
+    states: ['default'],
+    allowedTokenTypes: [
+      'border-radius', 'border-style', 'border-width', 'color', 'font', 'space',
+    ],
+  },
 };
 
 export interface MatrixItem {
@@ -692,6 +703,7 @@ export const WIDGET_STRUCTURE_MAP: Record<string, WidgetStructureType> = {
   // 'page-content': 'direct-mapping',
   'panel-footer': 'direct-mapping',
   'video': 'direct-mapping',
+  'accordion-pane': 'direct-mapping',
 };
 
 export function getWidgetStructureType(widget: string): WidgetStructureType {

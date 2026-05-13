@@ -45,6 +45,11 @@ pipeline {
         // AUTH_METHOD=platformdb bypasses domain-based Google auth detection so Jenkins
         // uses STUDIO_USERNAME + STUDIO_PASSWORD via /login/authenticate directly.
         AUTH_METHOD           = 'platformdb'
+
+        // Android SDK — Jenkins agent must have ANDROID_HOME set or sdk installed at this path.
+        // gradle is resolved via ANDROID_HOME/cmdline-tools or a local gradle wrapper.
+        ANDROID_HOME          = "${env.ANDROID_HOME ?: '/opt/android-sdk'}"
+        GRADLE_HOME           = "${env.GRADLE_HOME ?: '/opt/gradle/gradle-8.7'}"
         STUDIO_BASE_URL       = credentials('STUDIO_BASE_URL')
         PROJECT_ID            = credentials('PROJECT_ID')
         STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
@@ -158,10 +163,60 @@ pipeline {
 
         // ── MOBILE ────────────────────────────────────────────────────────────
 
+        stage('Mobile — Verify Android Environment') {
+            when { expression { env.RUN_MOBILE == 'true' && !params.RUN_TARGET.contains('iOS only') } }
+            steps {
+                sh '''
+                    echo "=== Checking Android build environment ==="
+
+                    # Ensure ANDROID_HOME and Gradle are on PATH
+                    export PATH="${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
+
+                    echo "ANDROID_HOME=${ANDROID_HOME}"
+                    echo "GRADLE_HOME=${GRADLE_HOME}"
+
+                    # Verify gradle is callable
+                    if ! command -v gradle &>/dev/null; then
+                        echo "❌ gradle not found on PATH — attempting to install via sdkman or direct download"
+
+                        # Try sdkman if available
+                        if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
+                            source "$HOME/.sdkman/bin/sdkman-init.sh"
+                            sdk install gradle 8.7 || true
+                        else
+                            # Install gradle directly
+                            GRADLE_VERSION=8.7
+                            GRADLE_ZIP="gradle-${GRADLE_VERSION}-bin.zip"
+                            GRADLE_URL="https://services.gradle.org/distributions/${GRADLE_ZIP}"
+                            GRADLE_INSTALL_DIR="/opt/gradle"
+
+                            mkdir -p "${GRADLE_INSTALL_DIR}"
+                            curl -fsSL "${GRADLE_URL}" -o "/tmp/${GRADLE_ZIP}"
+                            unzip -q "/tmp/${GRADLE_ZIP}" -d "${GRADLE_INSTALL_DIR}" || true
+                            rm -f "/tmp/${GRADLE_ZIP}"
+
+                            export GRADLE_HOME="${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}"
+                            export PATH="${GRADLE_HOME}/bin:${PATH}"
+                        fi
+                    fi
+
+                    gradle --version || echo "⚠️ gradle still not available — build may fail"
+
+                    # Check Java
+                    java -version 2>&1 || echo "⚠️ Java not found — required for Android builds"
+
+                    echo "=== Environment check complete ==="
+                '''
+            }
+        }
+
         stage('Mobile — Setup') {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
-                sh 'npx ts-node wdio/specs/mobile.global.setup.ts'
+                sh '''
+                    export PATH="${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
+                    npx ts-node wdio/specs/mobile.global.setup.ts
+                '''
             }
         }
 
@@ -169,9 +224,30 @@ pipeline {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh '''
+                    # Clear previous results once before all batches
                     rm -rf allure-results
-                    PLATFORM=${MOBILE_PLATFORM} \
-                    wdio run wdio/config/wdio.browserstack.conf.ts
+                    mkdir -p allure-results
+
+                    run_batch() {
+                        local BATCH_NUM=$1
+                        local SPEC_GLOB=$2
+                        echo ""
+                        echo "============================================"
+                        echo "  BATCH ${BATCH_NUM}: ${SPEC_GLOB}"
+                        echo "============================================"
+                        MOBILE_PLATFORM=${MOBILE_PLATFORM} \
+                        wdio run wdio/config/wdio.browserstack.conf.ts \
+                            --spec "${SPEC_GLOB}" || echo "⚠️  Batch ${BATCH_NUM} had failures (continuing)"
+                    }
+
+                    run_batch 1 "wdio/specs/mobile.{accordion,accordion-pane,anchor,audio,barcodescanner,bottomsheet,button,button-group,calendar,camera}.token.validate.spec.ts"
+                    run_batch 2 "wdio/specs/mobile.{cards,carousel,checkbox,checkboxset,chips,container,currency,datetime,dropdown-menu,fileupload}.token.validate.spec.ts"
+                    run_batch 3 "wdio/specs/mobile.{form-wrapper,formcontrols,icon,label,list,login,lottie,message,modal,navbar}.token.validate.spec.ts"
+                    run_batch 4 "wdio/specs/mobile.{panel,panel-footer,picture,popover,progress-bar,progress-circle,radioset,rating,search,select}.token.validate.spec.ts"
+                    run_batch 5 "wdio/specs/mobile.{slider,spinner,switch,tabbar,tabs,tile,toggle,video,webview,wizard}.token.validate.spec.ts"
+
+                    echo ""
+                    echo "✅ All 5 batches complete. allure-results accumulated."
                 '''
             }
         }

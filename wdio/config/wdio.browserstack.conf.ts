@@ -72,8 +72,8 @@ const validateBrowserStackApp = async (label: string, appUrl: string): Promise<v
   console.log(`✓ ${label}: ${appUrl}`);
 };
 
-// Get platform filter from environment variable
-const platformFilter = process.env.PLATFORM?.toLowerCase();
+// Get platform filter from environment variable — accept either MOBILE_PLATFORM or PLATFORM
+const platformFilter = (process.env.MOBILE_PLATFORM || process.env.PLATFORM)?.toLowerCase();
 
 // All available capabilities
 const androidAppUrl = resolveAppUrl('android');

@@ -14,8 +14,12 @@
                     "header.background-color",
                     "header.border.color",
                     "icon.color",
+                    "pane.border.color",
+                    "text.background.color",
+                    "text.border.color",
                     "text.color",
-                    "title.icon.color"
+                    "title.icon.color",
+                    "title.wrapper.background-color"
                 ]
             },
             {
@@ -35,9 +39,12 @@
                     "badge.height",
                     "badge.margin-right",
                     "badge.width",
+                    "gap",
                     "header.border.width",
                     "header.padding",
                     "header.subtitle.margin-top",
+                    "title.wrapper.padding",
+                    "title.wrapper.width",
                     "width"
                 ]
             },
@@ -45,20 +52,63 @@
                 "tokenType": "border-width",
                 "properties": [
                     "badge.border.width",
-                    "border.width"
+                    "border.width",
+                    "pane.border.width",
+                    "text.border.width",
+                    "title.wrapper.border.width"
                 ]
             },
             {
                 "tokenType": "border-style",
                 "properties": [
-                    "border.style"
+                    "border.style",
+                    "pane.border.style",
+                    "title.wrapper.border.style"
                 ]
             },
             {
                 "tokenType": "border-radius",
                 "properties": [
                     "badge.border.radius",
-                    "border.radius"
+                    "border.radius",
+                    "pane.border.radius",
+                    "text.border.radius",
+                    "title.wrapper.border.radius"
+                ]
+            }
+        ]
+    },
+    "accordion-pane": {
+        "tokenSlots": [
+            {
+                "tokenType": "color",
+                "properties": [
+                    "content.background-color",
+                    "content.border.color"
+                ]
+            },
+            {
+                "tokenType": "space",
+                "properties": [
+                    "content.padding"
+                ]
+            },
+            {
+                "tokenType": "border-width",
+                "properties": [
+                    "content.border.width"
+                ]
+            },
+            {
+                "tokenType": "border-style",
+                "properties": [
+                    "content.border.style"
+                ]
+            },
+            {
+                "tokenType": "border-radius",
+                "properties": [
+                    "content.border.radius"
                 ]
             }
         ]
@@ -84,7 +134,6 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "gap",
                     "text.padding"
                 ]
             },
@@ -99,6 +148,12 @@
                 "tokenType": "border-radius",
                 "properties": [
                     "image.radius"
+                ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "gap"
                 ]
             }
         ]
@@ -237,7 +292,7 @@
                 "tokenType": "space",
                 "properties": [
                     "gap",
-                    "height",
+                    "min-height",
                     "min-width",
                     "padding",
                     "skeleton.height"
@@ -479,17 +534,21 @@
                     "dots.background",
                     "dots.border.color",
                     "dots.wrapper.background.color",
-                    "navigation-arrows.background",
-                    "navigation-arrows.border.color",
-                    "navigation-arrows.color",
-                    "navigation-arrows.ripple.color",
-                    "ripple.color"
-                ]
-            },
-            {
-                "tokenType": "font",
-                "properties": [
-                    "navigation-arrows.font-size"
+                    "first-slide.background",
+                    "first-slide.border.color",
+                    "last-slide.background",
+                    "last-slide.border.color",
+                    "next-btn.background",
+                    "next-btn.border.color",
+                    "next-btn.color",
+                    "next-btn.ripple.color",
+                    "prev-btn.background",
+                    "prev-btn.border.color",
+                    "prev-btn.color",
+                    "prev-btn.ripple.color",
+                    "ripple.color",
+                    "slide.background",
+                    "slide.border.color"
                 ]
             },
             {
@@ -499,9 +558,17 @@
                     "dots.margin",
                     "dots.width",
                     "dots.wrapper.padding",
-                    "navigation-arrows.height",
-                    "navigation-arrows.margin-left",
-                    "navigation-arrows.width",
+                    "first-slide.padding",
+                    "last-slide.padding",
+                    "next-btn.font-size",
+                    "next-btn.height",
+                    "next-btn.margin-left",
+                    "next-btn.margin-right",
+                    "next-btn.width",
+                    "prev-btn.font-size",
+                    "prev-btn.height",
+                    "prev-btn.margin-left",
+                    "prev-btn.width",
                     "slide.padding",
                     "slide.width"
                 ]
@@ -510,14 +577,30 @@
                 "tokenType": "border-width",
                 "properties": [
                     "dots.border.width",
-                    "navigation-arrows.border.width"
+                    "first-slide.border.width",
+                    "last-slide.border.width",
+                    "next-btn.border.width",
+                    "prev-btn.border.width",
+                    "slide.border.width"
+                ]
+            },
+            {
+                "tokenType": "border-style",
+                "properties": [
+                    "first-slide.border.style",
+                    "last-slide.border.style",
+                    "slide.border.style"
                 ]
             },
             {
                 "tokenType": "border-radius",
                 "properties": [
                     "dots.border.radius",
-                    "navigation-arrows.border.radius"
+                    "first-slide.border.radius",
+                    "last-slide.border.radius",
+                    "next-btn.border.radius",
+                    "prev-btn.border.radius",
+                    "slide.border.radius"
                 ]
             },
             {
@@ -907,6 +990,12 @@
                     "menu.border.radius",
                     "menu.content.border.radius"
                 ]
+            },
+            {
+                "tokenType": "elevation",
+                "properties": [
+                    "menu.box-shadow"
+                ]
             }
         ]
     },
@@ -1137,10 +1226,7 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "padding.bottom",
-                    "padding.left",
-                    "padding.right",
-                    "padding.top"
+                    "padding"
                 ]
             },
             {
@@ -1246,7 +1332,9 @@
                     "close-btn.ripple.color",
                     "color",
                     "container.background",
-                    "container.border.color"
+                    "container.border.color",
+                    "text.color",
+                    "title.color"
                 ]
             },
             {
@@ -1307,6 +1395,7 @@
                     "description.background",
                     "description.border.color",
                     "description.color",
+                    "dialog.overlay.background",
                     "header.background",
                     "header.border.color",
                     "header.close-btn.background",
@@ -1390,6 +1479,8 @@
                     "anchor.text.font.family",
                     "anchor.text.font.size",
                     "anchor.text.font.weight",
+                    "badge.font.size",
+                    "badge.line-height",
                     "button.font.family",
                     "button.font.size",
                     "button.font.weight",
@@ -1402,7 +1493,9 @@
                 "tokenType": "space",
                 "properties": [
                     "anchor.padding",
+                    "badge.height",
                     "badge.margin-left",
+                    "badge.width",
                     "height",
                     "image.height",
                     "image.width",
@@ -1434,6 +1527,7 @@
             {
                 "tokenType": "border-radius",
                 "properties": [
+                    "badge.border.radius",
                     "border.radius"
                 ]
             }
@@ -1652,8 +1746,7 @@
                 "properties": [
                     "border.radius",
                     "content.border.radius",
-                    "link.border.radius",
-                    "radius"
+                    "link.border.radius"
                 ]
             },
             {
@@ -1832,6 +1925,7 @@
                     "data-complete.text.color",
                     "dropdown.background.color",
                     "dropdown.border.color",
+                    "dropdown.divider.color",
                     "invalid.color",
                     "item.separator.color",
                     "item.text.color",
@@ -1862,10 +1956,13 @@
                     "clear-btn.padding",
                     "clear-btn.width",
                     "data-complete.padding",
+                    "dropdown.max-height",
+                    "dropdown.offset-top",
                     "dropdown.width",
                     "height",
                     "item.padding",
-                    "text.padding"
+                    "text.padding",
+                    "width"
                 ]
             },
             {
@@ -2080,6 +2177,7 @@
                     "icon.border-bottom-color",
                     "icon.color",
                     "item.background.color",
+                    "item.border.color",
                     "menu.background",
                     "more-menu.background",
                     "text.color"
@@ -2096,11 +2194,14 @@
             {
                 "tokenType": "space",
                 "properties": [
+                    "gap",
                     "height",
                     "icon.padding",
                     "icon.size",
+                    "item.gap",
                     "item.min.height",
                     "item.min.width",
+                    "item.padding",
                     "menu.height",
                     "more-menu-row.padding",
                     "more-menu-row.width",
@@ -2118,7 +2219,8 @@
             {
                 "tokenType": "border-style",
                 "properties": [
-                    "border.style"
+                    "border.style",
+                    "item.border.style"
                 ]
             },
             {

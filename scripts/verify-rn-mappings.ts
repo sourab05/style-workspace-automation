@@ -58,6 +58,7 @@ const WIDGET_PAGE_NAME_MAP: Record<string, string> = {
   currency: 'Currency',
   select: 'Select',
   'panel-footer': 'panel',
+  'accordion-pane': 'accordion',
   camera: 'Camera',
   datetime: 'Datetime',
   video: 'Video',
@@ -66,6 +67,15 @@ const WIDGET_PAGE_NAME_MAP: Record<string, string> = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+function isLocalUrl(url: string): boolean {
+  try {
+    const { hostname } = new URL(url);
+    return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+  } catch {
+    return false;
+  }
+}
 
 function resolvePageName(widget: string): string {
   return WIDGET_PAGE_NAME_MAP[widget] || widget;
@@ -388,11 +398,26 @@ interface MappingResult {
 
 async function main() {
   const args = process.argv.slice(2);
-  const singleWidget = args.includes('--widget') ? args[args.indexOf('--widget') + 1] : null;
-  const headless = args.includes('--headless');
-  const previewUrlArg = args.includes('--preview-url') ? args[args.indexOf('--preview-url') + 1] : null;
+  const singleWidget  = args.includes('--widget')       ? args[args.indexOf('--widget') + 1]       : null;
+  const headless      = args.includes('--headless');
+  const previewUrlArg = args.includes('--preview-url')  ? args[args.indexOf('--preview-url') + 1]  : null;
+  const isLocal       = previewUrlArg ? isLocalUrl(previewUrlArg) : false;
 
-  ENV.validate();
+  // --use-cached: skip auth/deploy/browser, read from saved style snapshots
+  const useCached  = args.includes('--use-cached');
+  const stylesDirArg = args.includes('--styles-dir') ? args[args.indexOf('--styles-dir') + 1] : null;
+  const stylesSuffix = args.includes('--styles-suffix') ? args[args.indexOf('--styles-suffix') + 1] : 'local';
+  // default cached source: artifacts/style-comparison (produced by compare-styles.ts)
+  const cachedStylesDir = stylesDirArg
+    ? path.resolve(stylesDirArg)
+    : path.join(process.cwd(), 'artifacts', 'style-comparison');
+
+  if (!useCached && !isLocal) {
+    ENV.validate();
+  } else {
+    if (useCached) console.log(`📂 Cached mode — reading styles from: ${cachedStylesDir}  (suffix: .${stylesSuffix}.json)`);
+    else console.log('🏠 Local preview URL detected — skipping auth validation');
+  }
 
   if (!fs.existsSync(ARTIFACTS_DIR)) {
     fs.mkdirSync(ARTIFACTS_DIR, { recursive: true });
@@ -406,16 +431,88 @@ async function main() {
   console.log(`\n📋 Widgets to verify: ${widgetList.length}`);
   console.log(`   ${widgetList.join(', ')}\n`);
 
-  // --- Auth: always perform a fresh login (cached cookies go stale quickly) ---
-  console.log('🔐 Performing Google login...');
-  const authResult = await googleBrowserLogin({ headless });
-  const cookie = authResult.cookieHeader;
-  console.log(`🔐 Login successful (cookie length: ${cookie.length})`);
+  // ── Cached mode: skip auth / deploy / browser entirely ─────────────────────
+  if (useCached) {
+    const results: MappingResult[] = [];
 
-  // Cache for other tools / test runs
-  if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
-  fs.writeFileSync(path.join(CACHE_DIR, 'auth-cookie.txt'), cookie);
-  process.env.STUDIO_COOKIE = cookie;
+    for (const widget of widgetList) {
+      console.log(`\n${'═'.repeat(60)}`);
+      console.log(`  Widget: ${widget}`);
+      console.log(`${'═'.repeat(60)}`);
+
+      const result: MappingResult = {
+        widget,
+        verified: [],
+        unverified: [],
+        invalid: [],
+        unmapped: [],
+        missingFromSlots: [],
+        stylesFetched: false,
+      };
+
+      // Load from cached snapshot
+      const cachedPath = path.join(cachedStylesDir, `${widget}.${stylesSuffix}.json`);
+      let stylesObj: any = null;
+
+      if (fs.existsSync(cachedPath)) {
+        stylesObj = JSON.parse(fs.readFileSync(cachedPath, 'utf-8'));
+        result.stylesFetched = true;
+        const keyCount = collectKeys(stylesObj).length;
+        console.log(`  📂 Loaded from cache (${keyCount} leaf keys): ${cachedPath}`);
+
+        // Mirror to rn-styles dir for consistency
+        const outPath = path.join(ARTIFACTS_DIR, `${widget}.styles.json`);
+        fs.writeFileSync(outPath, JSON.stringify(stylesObj, null, 2));
+      } else {
+        result.error = `No cached styles found at: ${cachedPath}`;
+        console.log(`  ⚠️  ${result.error}`);
+      }
+
+      // Run the same mapping verification logic
+      const widgetSlots = tokenSlots[widget];
+      if (!widgetSlots?.tokenSlots) {
+        console.log(`  ⚠️  No token slots defined for ${widget}`);
+        results.push(result);
+        continue;
+      }
+
+      const traceBindings = stylesObj ? collectTraceBindings(stylesObj) : [];
+      if (traceBindings.length > 0) {
+        console.log(`  🔍 Found ${traceBindings.length} --wm- trace bindings`);
+      }
+
+      verifyMappings(widget as Widget, widgetSlots, stylesObj, traceBindings, result);
+      results.push(result);
+    }
+
+    await writeReports(results);
+    return;
+  }
+
+  // ── Live mode: auth + deploy + browser ─────────────────────────────────────
+
+  // --- Auth: skip entirely for local preview URLs ---
+  let cookie: string;
+  if (isLocal) {
+    cookie = '';
+    console.log('🏠 Local preview — skipping login');
+  } else if (ENV.authMethod === 'wavemaker') {
+    console.log('🔐 Performing WaveMaker form login...');
+    const client = new StudioClient({ baseUrl: ENV.studioBaseUrl, projectId: ENV.projectId });
+    cookie = await client.login(ENV.studioUsername, ENV.studioPassword);
+    console.log(`🔐 Login successful (cookie length: ${cookie.length})`);
+    if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
+    fs.writeFileSync(path.join(CACHE_DIR, 'auth-cookie.txt'), cookie);
+    process.env.STUDIO_COOKIE = cookie;
+  } else {
+    console.log('🔐 Performing Google login...');
+    const authResult = await googleBrowserLogin({ headless });
+    cookie = authResult.cookieHeader;
+    console.log(`🔐 Login successful (cookie length: ${cookie.length})`);
+    if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
+    fs.writeFileSync(path.join(CACHE_DIR, 'auth-cookie.txt'), cookie);
+    process.env.STUDIO_COOKIE = cookie;
+  }
 
   // --- Deploy: always run inplaceDeploy first, cache the URL, reuse for all widgets ---
   let deployUrl: string | undefined;
@@ -446,7 +543,7 @@ async function main() {
       console.error('\n❌ In-place deploy failed after 3 attempts.');
       console.error('   Options to fix:');
       console.error('   1. Provide preview URL:  npx ts-node scripts/verify-rn-mappings.ts --preview-url https://...');
-      console.error('   2. Copy from Studio:     Studio > Run/Preview > copy base URL before /rn-bundle/');
+      console.error('   2. Use cached styles:    npx ts-node scripts/verify-rn-mappings.ts --use-cached');
       process.exit(1);
     }
   }
@@ -478,22 +575,24 @@ async function main() {
     } catch { /* ignore */ }
   }
 
-  // Also inject the auth cookie header for the deploy domain
-  const deployDomain = new URL(deployUrl).hostname;
-  const cookiePairs = cookie.split(';').map(c => c.trim()).filter(Boolean);
-  const injectedCookies = cookiePairs.map(pair => {
-    const [name, ...rest] = pair.split('=');
-    return {
-      name: name.trim(),
-      value: rest.join('='),
-      domain: deployDomain,
-      path: '/',
-      httpOnly: false,
-      secure: true,
-      sameSite: 'Lax' as const,
-    };
-  });
-  await context.addCookies(injectedCookies);
+  // Inject auth cookies for remote deployments only (localhost needs no auth)
+  if (!isLocal && cookie) {
+    const deployDomain = new URL(deployUrl).hostname;
+    const cookiePairs = cookie.split(';').map(c => c.trim()).filter(Boolean);
+    const injectedCookies = cookiePairs.map(pair => {
+      const [name, ...rest] = pair.split('=');
+      return {
+        name: name.trim(),
+        value: rest.join('='),
+        domain: deployDomain,
+        path: '/',
+        httpOnly: false,
+        secure: true,
+        sameSite: 'Lax' as const,
+      };
+    });
+    await context.addCookies(injectedCookies);
+  }
 
   const results: MappingResult[] = [];
 
@@ -556,7 +655,7 @@ async function main() {
       }
     }
 
-    // 3. Verify mappings against token slots using --wm- trace bindings
+    // 3. Verify + push
     const widgetSlots = tokenSlots[widget];
     if (!widgetSlots?.tokenSlots) {
       console.log(`  ⚠️  No token slots defined for ${widget}`);
@@ -564,117 +663,106 @@ async function main() {
       continue;
     }
 
-    // Collect all --wm- CSS variable bindings from __trace entries
     const traceBindings = stylesObj ? collectTraceBindings(stylesObj) : [];
     if (traceBindings.length > 0) {
       console.log(`  🔍 Found ${traceBindings.length} --wm- trace bindings`);
     }
 
-    for (const slot of widgetSlots.tokenSlots) {
-      for (const property of slot.properties) {
-        const propertyPath = property.split('.');
-        const mappedPath = MobileMapper.mapToRnStylePath(propertyPath, widget as Widget, 'android');
-
-        const isGenericFallback = mappedPath.startsWith('root.') &&
-          !mappedPath.includes('.') === false &&
-          mappedPath === `root.${propertyPath[propertyPath.length - 1]}`;
-
-        if (stylesObj) {
-          const value = resolvePath(stylesObj, mappedPath);
-          const traceMatches = findTraceMatches(traceBindings, property);
-
-          // Trace-confirmed: if the mapped path matches a --wm- trace binding,
-          // the mapping is verified correct (source of truth)
-          const traceConfirmed = traceMatches.find(t => t.fullPath === mappedPath);
-
-          if (traceConfirmed) {
-            result.verified.push({
-              property,
-              tokenType: slot.tokenType,
-              mappedPath,
-              cssVar: traceConfirmed.cssVar,
-            });
-          } else if (value !== undefined && traceMatches.length === 0) {
-            // Path resolves to a value and there's no trace for this token at all —
-            // likely correct but can't be verified via trace
-            result.unverified.push({
-              property,
-              tokenType: slot.tokenType,
-              mappedPath,
-              resolvedValue: value,
-            });
-          } else {
-            // Trace exists but mapped path doesn't match, OR path doesn't resolve
-            // Use findPropertyInStyles as fallback suggestion when trace is empty
-            const styleMatches = findPropertyInStyles(stylesObj, property);
-
-            const firstSeg = mappedPath.split('.')[0];
-            const firstSegExists = stylesObj[firstSeg] !== undefined;
-
-            if (isGenericFallback || !firstSegExists) {
-              result.unmapped.push({
-                property,
-                tokenType: slot.tokenType,
-                mappedPath,
-                reason: isGenericFallback
-                  ? 'Generic fallback mapping (likely needs widget-specific mapping)'
-                  : `Namespace "${firstSeg}" not found in styles object`,
-                traceMatches,
-                styleMatches,
-              });
-            } else {
-              result.invalid.push({
-                property,
-                tokenType: slot.tokenType,
-                mappedPath,
-                reason: traceMatches.length > 0
-                  ? `Mapped to "${mappedPath}" but trace says "${traceMatches[0].fullPath}"`
-                  : `Path "${mappedPath}" not found in styles; expected --wm-*-${property.replace(/\./g, '-')}`,
-                traceMatches,
-                styleMatches,
-              });
-            }
-          }
-        } else {
-          if (isGenericFallback) {
-            result.unmapped.push({
-              property,
-              tokenType: slot.tokenType,
-              mappedPath,
-              reason: 'Generic fallback (no styles object to verify)',
-              traceMatches: [],
-              styleMatches: [],
-            });
-          }
-        }
-      }
-    }
-
-    // 4. Find --wm- trace tokens that are NOT covered by any token slot property
-    if (traceBindings.length > 0 && widgetSlots?.tokenSlots) {
-      // Run findTraceMatches for EVERY slot property to collect all covered vars
-      const coveredVars = new Set<string>();
-      for (const slot of widgetSlots.tokenSlots) {
-        for (const prop of slot.properties) {
-          const matches = findTraceMatches(traceBindings, prop);
-          for (const m of matches) coveredVars.add(m.cssVar);
-        }
-      }
-
-      for (const binding of traceBindings) {
-        if (!coveredVars.has(binding.cssVar)) {
-          result.missingFromSlots.push(binding);
-        }
-      }
-    }
-
-    const total = result.verified.length + result.unverified.length + result.invalid.length + result.unmapped.length;
-    console.log(`  📊 Results: ${result.verified.length} verified | ${result.unverified.length} unverified | ${result.invalid.length} invalid | ${result.unmapped.length} unmapped | ${result.missingFromSlots.length} missing from slots (of ${total} mapped properties)`);
-
+    verifyMappings(widget as Widget, widgetSlots, stylesObj, traceBindings, result);
     results.push(result);
   }
 
-  // --- Generate Reports ---
+  await writeReports(results);
+  await browser.close();
+  console.log('\n✅ Done.');
+}
+
+// ---------------------------------------------------------------------------
+// Shared: per-widget mapping verification
+// ---------------------------------------------------------------------------
+
+function verifyMappings(
+  widget: Widget,
+  widgetSlots: { tokenSlots: Array<{ tokenType: string; properties: string[] }> },
+  stylesObj: any,
+  traceBindings: ReturnType<typeof collectTraceBindings>,
+  result: MappingResult,
+) {
+  for (const slot of widgetSlots.tokenSlots) {
+    for (const property of slot.properties) {
+      const propertyPath = property.split('.');
+      const mappedPath = MobileMapper.mapToRnStylePath(propertyPath, widget, 'android');
+
+      const isGenericFallback =
+        mappedPath.startsWith('root.') &&
+        mappedPath === `root.${propertyPath[propertyPath.length - 1]}`;
+
+      if (stylesObj) {
+        const value = resolvePath(stylesObj, mappedPath);
+        const traceMatches = findTraceMatches(traceBindings, property);
+        const traceConfirmed = traceMatches.find(t => t.fullPath === mappedPath);
+
+        if (traceConfirmed) {
+          result.verified.push({ property, tokenType: slot.tokenType, mappedPath, cssVar: traceConfirmed.cssVar });
+        } else if (value !== undefined && traceMatches.length === 0) {
+          result.unverified.push({ property, tokenType: slot.tokenType, mappedPath, resolvedValue: value });
+        } else {
+          const styleMatches = findPropertyInStyles(stylesObj, property);
+          const firstSeg = mappedPath.split('.')[0];
+          const firstSegExists = stylesObj[firstSeg] !== undefined;
+
+          if (isGenericFallback || !firstSegExists) {
+            result.unmapped.push({
+              property, tokenType: slot.tokenType, mappedPath,
+              reason: isGenericFallback
+                ? 'Generic fallback mapping (likely needs widget-specific mapping)'
+                : `Namespace "${firstSeg}" not found in styles object`,
+              traceMatches, styleMatches,
+            });
+          } else {
+            result.invalid.push({
+              property, tokenType: slot.tokenType, mappedPath,
+              reason: traceMatches.length > 0
+                ? `Mapped to "${mappedPath}" but trace says "${traceMatches[0].fullPath}"`
+                : `Path "${mappedPath}" not found in styles; expected --wm-*-${property.replace(/\./g, '-')}`,
+              traceMatches, styleMatches,
+            });
+          }
+        }
+      } else {
+        if (isGenericFallback) {
+          result.unmapped.push({
+            property, tokenType: slot.tokenType, mappedPath,
+            reason: 'Generic fallback (no styles object to verify)',
+            traceMatches: [], styleMatches: [],
+          });
+        }
+      }
+    }
+  }
+
+  // Find --wm- trace vars not covered by any token slot property
+  if (traceBindings.length > 0) {
+    const coveredVars = new Set<string>();
+    for (const slot of widgetSlots.tokenSlots) {
+      for (const prop of slot.properties) {
+        for (const m of findTraceMatches(traceBindings, prop)) coveredVars.add(m.cssVar);
+      }
+    }
+    for (const binding of traceBindings) {
+      if (!coveredVars.has(binding.cssVar)) result.missingFromSlots.push(binding);
+    }
+  }
+
+  const total = result.verified.length + result.unverified.length + result.invalid.length + result.unmapped.length;
+  console.log(`  📊 Results: ${result.verified.length} verified | ${result.unverified.length} unverified | ${result.invalid.length} invalid | ${result.unmapped.length} unmapped | ${result.missingFromSlots.length} missing from slots (of ${total} mapped)`);
+}
+
+// ---------------------------------------------------------------------------
+// Shared: write mapping-report.json + mapping-report.txt
+// ---------------------------------------------------------------------------
+
+async function writeReports(results: MappingResult[]) {
   console.log(`\n${'═'.repeat(60)}`);
   console.log('  GENERATING REPORTS');
   console.log(`${'═'.repeat(60)}\n`);
@@ -691,7 +779,10 @@ async function main() {
         lines.push(`         → ${t.fullPath}  (${t.cssVar}: ${t.rnProperty})${valStr}`);
       }
     } else if (entry.styleMatches.length > 0) {
-      lines.push(`       Suggested (from styles object scan for "${entry.property.split('.').length === 1 ? entry.property : entry.property.split('.')[0] + entry.property.split('.').slice(1).map((p: string) => p.charAt(0).toUpperCase() + p.slice(1)).join('')}"):`);
+      const camel = entry.property.split('.').length === 1
+        ? entry.property
+        : entry.property.split('.')[0] + entry.property.split('.').slice(1).map((p: string) => p.charAt(0).toUpperCase() + p.slice(1)).join('');
+      lines.push(`       Suggested (from styles object scan for "${camel}"):`);
       for (const s of entry.styleMatches) {
         lines.push(`         → ${s.fullPath} = ${JSON.stringify(s.resolvedValue)}`);
       }
@@ -713,11 +804,11 @@ async function main() {
   let totalVerified = 0, totalUnverified = 0, totalInvalid = 0, totalUnmapped = 0, totalMissing = 0;
 
   for (const r of results) {
-    totalVerified += r.verified.length;
+    totalVerified   += r.verified.length;
     totalUnverified += r.unverified.length;
-    totalInvalid += r.invalid.length;
-    totalUnmapped += r.unmapped.length;
-    totalMissing += r.missingFromSlots.length;
+    totalInvalid    += r.invalid.length;
+    totalUnmapped   += r.unmapped.length;
+    totalMissing    += r.missingFromSlots.length;
 
     const hasIssues = r.unverified.length > 0 || r.invalid.length > 0 || r.unmapped.length > 0 || r.missingFromSlots.length > 0 || r.error;
     if (!hasIssues) continue;
@@ -784,9 +875,7 @@ async function main() {
     lines.push('────────────────────────────────────────────────────────────────');
     for (const r of widgetsWithUnmapped) {
       lines.push(`\n  ${r.widget} (${r.unmapped.length} unmapped):`);
-      for (const un of r.unmapped) {
-        lines.push(`    - ${un.tokenType} > ${un.property}`);
-      }
+      for (const un of r.unmapped) lines.push(`    - ${un.tokenType} > ${un.property}`);
     }
     lines.push('');
   }
@@ -800,8 +889,7 @@ async function main() {
       const stylesPath = path.join(ARTIFACTS_DIR, `${r.widget}.styles.json`);
       if (fs.existsSync(stylesPath)) {
         const styles = JSON.parse(fs.readFileSync(stylesPath, 'utf-8'));
-        const topKeys = Object.keys(styles);
-        lines.push(`  ${r.widget}: ${topKeys.join(', ')}`);
+        lines.push(`  ${r.widget}: ${Object.keys(styles).join(', ')}`);
       }
     }
   }
@@ -815,9 +903,6 @@ async function main() {
   console.log(`   ❌ Invalid:          ${totalInvalid}`);
   console.log(`   ⚠️  Unmapped:        ${totalUnmapped}`);
   console.log(`   🆕 Missing slots:   ${totalMissing}`);
-
-  await browser.close();
-  console.log('\n✅ Done.');
 }
 
 main().catch((err) => {

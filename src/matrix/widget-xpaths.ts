@@ -8,6 +8,22 @@ export const widgetXPaths = {
         styleCommandInput: "//input[@aria-label='exinput_i']",
         styleOutputLabel: "//input[@aria-label='exinput_i']/preceding-sibling::*[1]",
       },
+      // checkboxset renders real <input type="checkbox"> elements that conflict
+      // with the default placeholder='Enter text' inspector selector
+      checkboxset: {
+        styleCommandInput: "//input[@aria-label='exinput_i']",
+        styleOutputLabel: "//input[@aria-label='exinput_i']/preceding-sibling::*[1]",
+      },
+      // radioset also renders <input type="radio"> — same potential conflict
+      radioset: {
+        styleCommandInput: "//input[@aria-label='exinput_i']",
+        styleOutputLabel: "//input[@aria-label='exinput_i']/preceding-sibling::*[1]",
+      },
+      // checkbox renders <input type="checkbox"> — same potential conflict
+      checkbox: {
+        styleCommandInput: "//input[@aria-label='exinput_i']",
+        styleOutputLabel: "//input[@aria-label='exinput_i']/preceding-sibling::*[1]",
+      },
     } as Record<string, { styleCommandInput: string; styleOutputLabel: string }>,
   },
   

@@ -64,11 +64,20 @@ function main() {
         }
     }
 
+    const hadReportSources =
+        fs.existsSync(playwrightLog) ||
+        fs.existsSync(path.join(ROOT, "playwright-report")) ||
+        fs.existsSync(path.join(ROOT, "reports", "playwright-report.html")) ||
+        fs.existsSync(allureResults) ||
+        fs.existsSync(allureReport);
+
     if (!uploaded) {
-        console.error("\n❌ No reports were uploaded. Ensure you have:");
-        console.error("   - Playwright: logs/playwright-log.json or playwright-report/ or reports/");
-        console.error("   - Allure: allure-results/ or allure-report/");
-        process.exit(1);
+        if (hadReportSources) {
+            console.error("\n❌ Report data was present but nothing was uploaded (generation or S3 errors).");
+            process.exit(1);
+        }
+        console.warn("\n⚠️ No report sources on disk; skipping S3 upload.");
+        process.exit(0);
     }
 
     console.log("\n✅ Done.");

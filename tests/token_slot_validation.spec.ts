@@ -735,8 +735,7 @@ ${canvasStyleCommand}
               await page.waitForTimeout(2000);
 
               const styleOutput = page.locator(outputSelector).first();
-              await styleOutput.waitFor({ state: 'visible', timeout: 45000 });
-              previewActual = await styleOutput.textContent();
+              previewActual = await styleOutput.textContent({ timeout: 45000 });
               previewActual = previewActual?.trim() || '';
 
               console.log(`   📥 RN style value: ${previewActual}`);

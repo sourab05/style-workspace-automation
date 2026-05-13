@@ -447,7 +447,6 @@ export class MobileWidgetPage {
 
     const input = await (browser as any).$(STYLE_COMMAND_INPUT_SELECTOR);
     // Select correct output label for this widget type
-    const widgetType = getWidgetTypeFromStudioNameOrCommand(studioWidgetName);
     const outputSelector = getStyleOutputSelector(widgetType);
     console.log(`   🧭 [OutputLabel] widgetType='${widgetType}', studioWidgetName='${studioWidgetName}', selector='${outputSelector}'`);
     const output = await (browser as any).$(outputSelector);

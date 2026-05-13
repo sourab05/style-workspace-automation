@@ -74,10 +74,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      if (activeTop === 'border') {
        if (activePropertyPath.length === 2) {
          const prop = activePropertyPath[1];
-         if (prop === 'color') return 'root.borderColor';
-         if (prop === 'width') return 'root.borderTopWidth';
-         if (prop === 'style') return 'root.borderStyle';
-         if (prop === 'radius') return 'root.borderTopLeftRadius';
+        if (prop === 'color')  return 'root.borderColor';
+        if (prop === 'width')  return 'root.borderWidth';
+        if (prop === 'style')  return 'root.borderStyle';
+        if (prop === 'radius') return 'root.borderRadius';
        }
      }
 
@@ -89,12 +89,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
          const directionCap = direction.charAt(0).toUpperCase() + direction.slice(1);
          return `root.padding${directionCap}`;
        }
-       return 'root.paddingTop';
-     }
+      return 'root.padding';
+    }
 
 
-     // Margin properties
-     if (activeTop === 'margin') {
+    // Margin properties
+    if (activeTop === 'margin') {
        if (activePropertyPath.length === 2) {
          const direction = activePropertyPath[1];
          const directionCap = direction.charAt(0).toUpperCase() + direction.slice(1);
@@ -120,7 +120,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
 
      // Radius (standalone)
-     if (activePathStr === 'radius') return 'root.borderTopLeftRadius';
+     if (activePathStr === 'radius') return 'root.borderRadius';
 
 
      // Ripple
@@ -181,13 +181,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
      // header.* → heading.*
      if (top === 'header' || top === 'heading') {
-       if (propertyPath[1] === 'padding') {
-         // Flatten padding if shorthand
-         if (propertyPath.length === 2) return 'heading.paddingTop';
-         const direction = propertyPath[2];
-         const directionCap = direction.charAt(0).toUpperCase() + direction.slice(1);
-         return `heading.padding${directionCap}`;
-       }
+      if (propertyPath[1] === 'padding') {
+        if (propertyPath.length === 2) return 'heading.padding';
+        const direction = propertyPath[2];
+        const directionCap = direction.charAt(0).toUpperCase() + direction.slice(1);
+        return `heading.padding${directionCap}`;
+      }
        return `heading.${prop}`;
      }
 
@@ -211,7 +210,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Border/Padding/Background/Shadow (At top level of calcStyles)
     if (['border', 'padding', 'root'].includes(top)) {
        if (top === 'padding' || propertyPath[1] === 'padding') {
-         if (propertyPath.length === 1 || (top === 'padding' && propertyPath.length === 1)) return 'root.paddingTop';
+         if (propertyPath.length === 1 || (top === 'padding' && propertyPath.length === 1)) return 'root.padding';
          const direction = propertyPath[propertyPath.length - 1];
          const directionCap = direction.charAt(0).toUpperCase() + direction.slice(1);
          return `root.padding${directionCap}`;
@@ -228,17 +227,39 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      return prop;
    }
    // ============================================================================
+   // ACCORDION-PANE-SPECIFIC MAPPINGS
+   // ============================================================================
+   if (widget === 'accordion-pane') {
+     // All token slots live under the 'content' namespace → map to root.*
+     if (top === 'content') {
+       const second = propertyPath[1];
+       if (second === 'background-color') return 'root.backgroundColor';
+       if (second === 'border') {
+         const third = propertyPath[2];
+         if (third === 'color')  return 'root.borderColor';
+         if (third === 'width')  return 'root.borderWidth';
+         if (third === 'style')  return 'root.borderStyle';
+         if (third === 'radius') return 'root.borderRadius';
+       }
+       if (second === 'padding') return 'root.padding';
+     }
+     return 'root';
+   }
+   // ============================================================================
    // ACCORDION-SPECIFIC MAPPINGS
    // ============================================================================
    // --- Accordion-specific namespace routing scaffold ---
-   const accordionNamespaces = [
-     'root', 'header', 'firstHeader', 'lastHeader', 'activeHeader', 'badge', 'activeBadge',
+  const accordionNamespaces = [
+    'root', 'header', 'firstHeader', 'lastHeader', 'activeHeader', 'badge', 'activeBadge',
     'pane', 'subheading', 'titleWrapper', 'titleIcon', 'activeTitleIcon', 'icon', 'default',
-    'success', 'danger', 'warning', 'info', 'primary', 'title', 'text'
-   ];
-   if (widget === 'accordion' && accordionNamespaces.includes(top)) {
-     // Handle nested icon blocks like icon.root or icon.icon
-     if (top === 'icon') {
+    'success', 'danger', 'warning', 'info', 'primary', 'title', 'text', 'gap',
+  ];
+  if (widget === 'accordion' && accordionNamespaces.includes(top)) {
+    // gap (space token) → root.gap
+    if (top === 'gap') return 'root.gap';
+
+    // Handle nested icon blocks like icon.root or icon.icon
+    if (top === 'icon') {
        const second = propertyPath[1];
        let prop = TokenMappingService.mapToComputedProperty(last);
 
@@ -311,10 +332,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        }
 
 
-       // header.border.width → header.borderWidth
-       if (second === 'border' && third === 'width') {
-         return 'header.borderTopWidth';
-       }
+      // header.border.width → header.borderWidth
+      if (second === 'border' && third === 'width') {
+        return 'header.borderWidth';
+      }
 
 
        // header.background-color → header.backgroundColor
@@ -330,10 +351,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        const third = propertyPath[2];
 
 
-       // badge.border.width → badge.borderWidth
-       if (second === 'border' && third === 'width') {
-         return 'badge.borderTopWidth';
-       }
+      // badge.border.width → badge.borderWidth
+      if (second === 'border' && third === 'width') {
+        return 'badge.borderWidth';
+      }
 
 
        // badge.border.color → badge.borderColor
@@ -355,12 +376,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
 
      // --- ActiveBadge-specific nested mappings ---
-     if (top === 'activeBadge') {
-       const second = propertyPath[1];
-       const third = propertyPath[2];
-       if (second === 'border' && third === 'width') {
-         return 'activeBadge.borderTopWidth';
-       }
+    if (top === 'activeBadge') {
+      const second = propertyPath[1];
+      const third = propertyPath[2];
+      if (second === 'border' && third === 'width') {
+        return 'activeBadge.borderWidth';
+      }
        if (second === 'border' && third === 'color') {
          return 'activeBadge.borderColor';
        }
@@ -389,15 +410,24 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      }
 
 
-     // --- Title specific mappings (e.g. title.icon.size -> titleIcon.fontSize) ---
-     if (top === 'title') {
-       const second = propertyPath[1];
-       const third = propertyPath[2];
-       if (second === 'icon') {
-         if (third === 'size') return 'titleIcon.icon.fontSize';
-         if (third === 'color') return 'titleIcon.icon.color';
-       }
-     }
+    // --- Title specific mappings ---
+    if (top === 'title') {
+      const second = propertyPath[1];
+      const third  = propertyPath[2];
+      const fourth = propertyPath[3];
+      if (second === 'icon') {
+        if (third === 'size')  return 'titleIcon.icon.fontSize';
+        if (third === 'color') return 'titleIcon.icon.color';
+      }
+      // title.wrapper.* → titleWrapper.*
+      if (second === 'wrapper') {
+        if (third === 'border' && fourth === 'width')  return 'titleWrapper.borderWidth';
+        if (third === 'border' && fourth === 'style')  return 'titleWrapper.borderStyle';
+        if (third === 'border' && fourth === 'radius') return 'titleWrapper.borderRadius';
+        const prop = TokenMappingService.mapToComputedProperty(last);
+        return `titleWrapper.${prop}`;
+      }
+    }
 
 
      // --- icon.root / icon.icon mapping already partially handled ---
@@ -411,17 +441,34 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      }
 
 
-     // Text → header/activeHeaderTitle mappings
-     if (top === 'text') {
-       if (last === 'color') return 'header.color';
-       if (last === 'font-size') return 'activeHeaderTitle.fontSize';
-     }
+    // Text namespace — specific sub-paths before generic color fallback
+    if (top === 'text') {
+      const second = propertyPath[1];
+      const third  = propertyPath[2];
+      if (second === 'background' && third === 'color') return 'text.backgroundColor';
+      if (second === 'border'     && third === 'color') return 'text.borderColor';
+      if (second === 'border'     && third === 'width') return 'text.borderWidth';
+      if (last === 'color')     return 'header.color';
+      if (last === 'font-size') return 'activeHeaderTitle.fontSize';
+      const prop = TokenMappingService.mapToComputedProperty(last);
+      return `text.${prop}`;
+    }
 
+    // Pane namespace — explicit border sub-paths
+    if (top === 'pane') {
+      const second = propertyPath[1];
+      const third  = propertyPath[2];
+      if (second === 'border' && third === 'color') return 'pane.borderColor';
+      if (second === 'border' && third === 'width') return 'pane.borderWidth';
+      if (second === 'border' && third === 'style') return 'pane.borderStyle';
+      const prop = TokenMappingService.mapToComputedProperty(last);
+      return `pane.${prop}`;
+    }
 
-     // Standard namespace mapping
-     const prop = TokenMappingService.mapToComputedProperty(last);
-     return `${top}.${prop}`;
-   }
+    // Standard namespace mapping
+    const prop = TokenMappingService.mapToComputedProperty(last);
+    return `${top}.${prop}`;
+  }
 
 
    // ============================================================================
@@ -739,8 +786,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        // header.border.* -> heading.border*
        if (second === 'border') {
          if (third === 'color') return 'heading.borderColor';
-         if (third === 'width') return 'heading.borderTopWidth';
-         if (third === 'radius') return 'heading.borderTopLeftRadius';
+        if (third === 'width')  return 'heading.borderWidth';
+        if (third === 'radius') return 'heading.borderRadius';
          if (third === 'style') return 'heading.borderStyle';
        }
        // header.padding.* -> heading.padding*
@@ -758,8 +805,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        // body.border.* -> body.root.border*
        if (second === 'border') {
          if (third === 'color') return 'body.root.borderColor';
-         if (third === 'width') return 'body.root.borderTopWidth';
-         if (third === 'radius') return 'body.root.borderTopLeftRadius';
+        if (third === 'width')  return 'body.root.borderWidth';
+        if (third === 'radius') return 'body.root.borderRadius';
          if (third === 'style') return 'body.root.borderStyle';
        }
        // body.padding.* -> body.root.padding*
@@ -777,8 +824,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        // footer.border.* -> footer.root.border*
        if (second === 'border') {
          if (third === 'color') return 'footer.root.borderColor';
-         if (third === 'width') return 'footer.root.borderTopWidth';
-         if (third === 'radius') return 'footer.root.borderTopLeftRadius';
+        if (third === 'width')  return 'footer.root.borderWidth';
+        if (third === 'radius') return 'footer.root.borderRadius';
          if (third === 'style') return 'footer.root.borderStyle';
        }
        // footer.padding.* -> footer.root.padding*
@@ -792,13 +839,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      // 4. Root-level properties
      if (top === 'background') return 'root.backgroundColor';
      if (top === 'border') {
-       if (second === 'width') return 'root.borderTopWidth';
-       if (second === 'radius') return 'root.borderTopLeftRadius';
-       if (second === 'style') return 'root.borderStyle';
-       if (second === 'color') return 'root.borderColor';
-     }
-     if (top === 'margin') return 'root.marginLeft'; // margin shorthand
-     if (top === 'padding') return 'root.paddingTop'; // padding shorthand
+      if (second === 'width')  return 'root.borderWidth';
+      if (second === 'radius') return 'root.borderRadius';
+      if (second === 'style') return 'root.borderStyle';
+      if (second === 'color') return 'root.borderColor';
+    }
+    if (top === 'margin') return 'root.marginLeft';
+    if (top === 'padding') return 'root.padding';
 
 
      return `root.${TokenMappingService.mapToComputedProperty(last)}`;
@@ -866,14 +913,14 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        if (second === 'color') return 'floatingLabel.color';
        if (second === 'left') return 'floatingLabel.left';
        if (second === 'top') return 'floatingLabel.top';
-       if (second === 'padding') return 'floatingLabel.padding';
+       if (second === 'padding') return 'floatingLabel.paddingTop';
        return `floatingLabel.${computedLast}`;
      }
 
 
      // 3. Border properties -> root.border*
      if (top === 'border') {
-       if (second === 'radius') return 'root.borderTopLeftRadius';
+       if (second === 'radius') return 'root.borderRadius';
        if (second === 'color') return 'root.borderColor';
        if (second === 'style') return 'root.borderStyle';
        if (second === 'width') return 'root.borderTopWidth';
@@ -917,8 +964,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      if (prop === 'radius') prop = 'borderRadius';
      if (prop === 'height' || prop === 'min-height') prop = 'minHeight';
      if (prop === 'width' || prop === 'min-width') prop = 'minWidth';
-     if (prop === 'color') return 'text.color';
-     if (prop === 'opacity') return 'root.opacity';
+    if (prop === 'color') return 'placeholderText.color';
+    if (prop === 'opacity') return 'root.opacity';
 
 
      return `root.${prop}`;
@@ -1006,12 +1053,14 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
      // 6. Badge mappings
      if (top === 'badge') {
-       // badge.background-color -> badge.backgroundColor
        if (second === 'background-color') return 'badge.backgroundColor';
-       // badge.color -> badge.color
        if (second === 'color') return 'badge.color';
-       // badge.margin-left -> badge.marginLeft
        if (second === 'margin-left') return 'badge.marginLeft';
+       if (second === 'line-height') return 'badge.lineHeight';
+       if (second === 'font' && propertyPath[2] === 'size') return 'badge.fontSize';
+       if (second === 'border' && propertyPath[2] === 'radius') return 'badge.borderRadius';
+       if (second === 'height') return 'badge.height';
+       if (second === 'width') return 'badge.width';
      }
 
 
@@ -1060,7 +1109,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
          const direction = second.charAt(0).toUpperCase() + second.slice(1);
          return `root.padding${direction}`;
        }
-       return 'root.paddingTop';
+       return 'root.padding';
      }
 
 
@@ -1087,12 +1136,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      if (top === 'border') {
        // border.color -> root.borderColor
        if (second === 'color') return 'root.borderColor';
-       // border.width -> root.borderWidth
-       if (second === 'width') return 'root.borderTopWidth';
-       // border.style -> root.borderStyle
+       if (second === 'width') return 'root.borderWidth';
        if (second === 'style') return 'root.borderStyle';
      }
-
 
      // 3. Padding mappings -> root.padding*
      if (top === 'padding') {
@@ -1100,14 +1146,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
          const direction = second.charAt(0).toUpperCase() + second.slice(1);
          return `root.padding${direction}`;
        }
-       return 'root.paddingTop';
+       return 'root.padding';
      }
 
-
-     // 4. Radius -> root.borderRadius (and likely picture.borderRadius)
-     // The doc shows radius maps to root.borderRadius AND picture.borderRadius.
-     // We'll target root.borderRadius as the primary validation target.
-     if (top === 'radius') return 'root.borderTopLeftRadius';
+     if (top === 'radius') return 'root.borderRadius';
 
 
      return `root.${TokenMappingService.mapToComputedProperty(last)}`;
@@ -1122,7 +1164,6 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      let dotPrefix = 'dotStyle';
      let slidePrefix = 'slide';
 
-
      // Support active state mapping
      if (propertyPath[0] === 'states' && propertyPath[1] === 'active') {
        currentPath = propertyPath.slice(2);
@@ -1130,26 +1171,22 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        slidePrefix = 'activeSlide';
      }
 
-
      const top = currentPath[0];
      const second = currentPath[1];
      const third = currentPath[2];
      const fourth = currentPath[3];
 
-
      // 1. Dots mappings -> dotStyle.* or dotsWrapperStyle.*
      if (top === 'dots') {
-      // dots.wrapper.* -> dotsWrapperStyle.*
-      if (second === 'wrapper') {
-        if (third === 'background' && fourth === 'color') return 'dotsWrapperStyle.backgroundColor';
-        if (third === 'padding') {
-          if (fourth === 'top') return 'dotsWrapperStyle.paddingTop';
-          if (fourth === 'bottom') return 'dotsWrapperStyle.paddingBottom';
-          if (!fourth) return 'dotsWrapperStyle.paddingTop';
-        }
-        if (third === 'opacity') return 'dotsWrapperStyle.opacity';
-      }
-       // dots.* (excluding wrapper) -> dotStyle.* or activeDotStyle.*
+       if (second === 'wrapper') {
+         if (third === 'background' && fourth === 'color') return 'dotsWrapperStyle.backgroundColor';
+         if (third === 'padding') {
+           if (fourth === 'top') return 'dotsWrapperStyle.paddingTop';
+           if (fourth === 'bottom') return 'dotsWrapperStyle.paddingBottom';
+           if (!fourth) return 'dotsWrapperStyle.padding';
+         }
+         if (third === 'opacity') return 'dotsWrapperStyle.opacity';
+       }
        if (second === 'background') return `${dotPrefix}.backgroundColor`;
        if (second === 'border') {
          if (third === 'color') return `${dotPrefix}.borderColor`;
@@ -1158,55 +1195,113 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
          if (third === 'style') return `${dotPrefix}.borderStyle`;
        }
        if (second === 'radius') return `${dotPrefix}.borderRadius`;
-      if (second === 'margin') {
-        if (third === 'left') return `${dotPrefix}.marginLeft`;
-        if (third === 'right') return `${dotPrefix}.marginRight`;
-        if (!third) return 'activeDotStyle.margin';
-      }
+       if (second === 'margin') {
+         if (third === 'left') return `${dotPrefix}.marginLeft`;
+         if (third === 'right') return `${dotPrefix}.marginRight`;
+         if (!third) return 'activeDotStyle.margin';
+       }
        if (second === 'opacity') return `${dotPrefix}.opacity`;
        if (second === 'height') return `${dotPrefix}.height`;
        if (second === 'width') return `${dotPrefix}.width`;
      }
+
      // 2. Navigation-arrows mappings -> prevBtn.root.* or prevBtn.icon.*
      if (top === 'navigation-arrows') {
-       // navigation-arrows.background -> prevBtn.root.backgroundColor
        if (second === 'background') return 'prevBtn.root.backgroundColor';
-       // navigation-arrows.border.* -> prevBtn.root.border*
        if (second === 'border') {
          if (third === 'color') return 'prevBtn.root.borderColor';
-         if (third === 'width') return 'prevBtn.root.borderTopWidth';
-         if (third === 'radius') return 'prevBtn.root.borderTopLeftRadius';
+         if (third === 'width') return 'prevBtn.root.borderWidth';
+         if (third === 'radius') return 'prevBtn.root.borderRadius';
          if (third === 'style') return 'prevBtn.root.borderStyle';
        }
-       // navigation-arrows.ripple.color -> prevBtn.root.rippleColor
        if (second === 'ripple' && third === 'color') return 'prevBtn.root.rippleColor';
-       // navigation-arrows.color -> prevBtn.icon.color
        if (second === 'color') return 'prevBtn.icon.color';
-       // navigation-arrows.font-size -> prevBtn.icon.fontSize
        if (second === 'font-size') return 'prevBtn.icon.fontSize';
-       // navigation-arrows.height/width/margin-left -> prevBtn.root.*
        if (second === 'height') return 'prevBtn.root.height';
        if (second === 'width') return 'prevBtn.root.width';
        if (second === 'margin-left') return 'prevBtn.root.marginLeft';
        if (second === 'margin-right') return 'nextBtn.root.marginRight';
      }
 
+     // 3. prev-btn specific mappings
+     if (top === 'prev-btn') {
+       if (second === 'background') return 'prevBtn.root.backgroundColor';
+       if (second === 'border') {
+         if (third === 'color') return 'prevBtn.root.borderColor';
+         if (third === 'width') return 'prevBtn.root.borderWidth';
+         if (third === 'radius') return 'prevBtn.root.borderRadius';
+         if (third === 'style') return 'prevBtn.root.borderStyle';
+       }
+       if (second === 'ripple' && third === 'color') return 'prevBtn.root.rippleColor';
+       if (second === 'color') return 'prevBtn.icon.color';
+       if (second === 'font-size') return 'prevBtn.icon.fontSize';
+       if (second === 'height') return 'prevBtn.root.height';
+       if (second === 'width') return 'prevBtn.root.width';
+       if (second === 'margin-left') return 'prevBtn.root.marginLeft';
+       if (second === 'margin-right') return 'prevBtn.root.marginRight';
+     }
 
-     // 3. Ripple -> root.rippleColor
+     // 4. next-btn specific mappings
+     if (top === 'next-btn') {
+       if (second === 'background') return 'nextBtn.root.backgroundColor';
+       if (second === 'border') {
+         if (third === 'color') return 'nextBtn.root.borderColor';
+         if (third === 'width') return 'nextBtn.root.borderWidth';
+         if (third === 'radius') return 'nextBtn.root.borderRadius';
+         if (third === 'style') return 'nextBtn.root.borderStyle';
+       }
+       if (second === 'ripple' && third === 'color') return 'nextBtn.root.rippleColor';
+       if (second === 'color') return 'nextBtn.icon.color';
+       if (second === 'font-size') return 'nextBtn.icon.fontSize';
+       if (second === 'height') return 'nextBtn.root.height';
+       if (second === 'width') return 'nextBtn.root.width';
+       if (second === 'margin-left') return 'nextBtn.root.marginLeft';
+       if (second === 'margin-right') return 'nextBtn.root.marginRight';
+     }
+
+     // 5. Ripple -> root.rippleColor
      if (top === 'ripple' && second === 'color') return 'root.rippleColor';
 
-
-     // 4. Skeleton -> skeleton.root.width
+     // 6. Skeleton -> skeleton.root.width
      if (top === 'skeleton' && second === 'width') return 'skeleton.root.width';
 
+     // 7. slide -> slide.* or activeSlide.*
+     if (top === 'slide') {
+       if (second === 'background') return `${slidePrefix}.backgroundColor`;
+       if (second === 'border') {
+         if (third === 'color') return `${slidePrefix}.borderColor`;
+         if (third === 'width') return `${slidePrefix}.borderWidth`;
+         if (third === 'radius') return `${slidePrefix}.borderRadius`;
+         if (third === 'style') return `${slidePrefix}.borderStyle`;
+       }
+       if (second === 'padding' && third === 'horizontal') return `${slidePrefix}.paddingHorizontal`;
+       if (second === 'padding' && !third) return `${slidePrefix}.padding`;
+       if (second === 'width') return `${slidePrefix}.width`;
+     }
 
-    // 5. Slide -> slide.* or activeSlide.*
-    if (top === 'slide') {
-      if (second === 'padding' && third === 'horizontal') return `${slidePrefix}.paddingHorizontal`;
-      if (second === 'padding' && !third) return 'slide.paddingTop';
-      if (second === 'width') return `${slidePrefix}.width`;
-    }
+     // 8. first-slide specific mappings
+     if (top === 'first-slide') {
+       if (second === 'background') return 'firstSlide.backgroundColor';
+       if (second === 'border') {
+         if (third === 'color') return 'firstSlide.borderColor';
+         if (third === 'width') return 'firstSlide.borderWidth';
+         if (third === 'radius') return 'firstSlide.borderRadius';
+         if (third === 'style') return 'firstSlide.borderStyle';
+       }
+       if (second === 'padding') return 'firstSlide.padding';
+     }
 
+     // 9. last-slide specific mappings
+     if (top === 'last-slide') {
+       if (second === 'background') return 'lastSlide.backgroundColor';
+       if (second === 'border') {
+         if (third === 'color') return 'lastSlide.borderColor';
+         if (third === 'width') return 'lastSlide.borderWidth';
+         if (third === 'radius') return 'lastSlide.borderRadius';
+         if (third === 'style') return 'lastSlide.borderStyle';
+       }
+       if (second === 'padding') return 'lastSlide.padding';
+     }
 
      return `root.${TokenMappingService.mapToComputedProperty(currentPath[currentPath.length - 1])}`;
    }
@@ -1226,7 +1321,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'border') {
       if (second === 'color') return 'container.borderColor';
       if (second === 'radius') return 'container.borderTopLeftRadius';
-      if (second === 'width') return 'container.borderBottomWidth';
+      if (second === 'width') return 'container.borderWidth';
       if (second === 'style') return 'container.borderStyle';
     }
      if (top === 'handle') {
@@ -1241,18 +1336,18 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
          if (third === 'width') return 'dragIconHandle.width';
        }
        if (second === 'padding') {
-         if (!third) return 'dragHandleContainer.paddingTop';
+         if (!third) return 'dragHandleContainer.padding';
          const direction = third.charAt(0).toUpperCase() + third.slice(1);
          return `dragHandleContainer.padding${direction}`;
        }
      }
     if (top === 'content' && second === 'padding') {
-      if (!third) return 'sheetScrollContent.paddingTop';
+      if (!third) return 'sheetScrollContent.padding';
       const direction = third.charAt(0).toUpperCase() + third.slice(1);
       return `sheetScrollContent.padding${direction}`;
     }
      if (top === 'margin') {
-       if (!second) return 'container.marginLeft';
+       if (!second) return 'container.margin';
        const direction = second.charAt(0).toUpperCase() + second.slice(1);
        return `container.margin${direction}`;
      }
@@ -1272,10 +1367,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (top === 'background') return 'button.root.backgroundColor';
     if (top === 'border') {
-      if (second === 'color') return 'button.root.borderColor';
-      if (second === 'width') return 'button.root.borderTopWidth';
-      if (second === 'radius') return 'button.root.borderTopLeftRadius';
-      if (second === 'style') return 'button.root.borderStyle';
+      if (second === 'color')  return 'button.root.borderColor';
+      if (second === 'width')  return 'button.root.borderWidth';
+      if (second === 'radius') return 'button.root.borderRadius';
+      if (second === 'style')  return 'button.root.borderStyle';
     }
     if (top === 'icon') {
       if (second === 'color') return 'button.icon.icon.color';
@@ -1287,8 +1382,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'color') return 'button.text.color';
       if (second === 'font' && third === 'size') return 'button.text.fontSize';
       if (second === 'padding') {
-        if (!third) return 'button.text.paddingTop';
-        if (third === 'left') return 'button.text.paddingLeft';
+        if (!third)            return 'button.text.padding';
+        if (third === 'left')  return 'button.text.paddingLeft';
+        if (third === 'right') return 'button.text.paddingRight';
+        if (third === 'top')   return 'button.text.paddingTop';
+        if (third === 'bottom') return 'button.text.paddingBottom';
       }
     }
     if (top === 'min') {
@@ -1296,7 +1394,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'width') return 'button.root.minWidth';
     }
     if (top === 'padding') {
-      if (!second) return 'button.root.paddingTop';
+      if (!second) return 'button.root.padding';
       const direction = second.charAt(0).toUpperCase() + second.slice(1);
       return `button.root.padding${direction}`;
     }
@@ -1363,7 +1461,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'padding-top') return `${chipPrefix}.paddingTop`;
       if (second === 'avatar') {
         if (third === 'size') return 'imageStyles.root.width';
-        if (third === 'radius') return 'imageStyles.root.borderTopLeftRadius';
+        if (third === 'radius') return 'imageStyles.root.borderRadius';
       }
     }
 
@@ -1379,15 +1477,15 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
             ? 'activeChip.borderColor'
             : 'root.borderColor';
         }
-        if (third === 'width') return 'root.borderTopWidth';
-        if (third === 'radius') return 'root.borderTopLeftRadius';
+        if (third === 'width')  return 'root.borderWidth';
+        if (third === 'radius') return 'root.borderRadius';
       }
       if (second === 'place' && third === 'holder' && (!fourth || fourth === 'color')) {
         return isActiveState
           ? 'activeChip.color'
           : 'search.placeholderText.color';
       }
-      if (second === 'padding') return 'root.paddingTop';
+      if (second === 'padding') return 'root.padding';
       if (second === 'gap') return 'chipsWrapper.gap';
       if (second === 'height') return 'root.minHeight';
       if (second === 'padding-bottom') return 'root.paddingBottom';
@@ -1397,7 +1495,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     }
 
     if (top === 'input') {
-      if (second === 'padding') return 'search.text.paddingTop';
+      if (second === 'padding') return 'search.text.padding';
       if (second === 'padding-bottom') return 'inputchipwithicon.paddingBottom';
       if (second === 'padding-left') return 'inputchipwithicon.paddingLeft';
       if (second === 'padding-right') return 'inputchipwithicon.paddingRight';
@@ -1418,7 +1516,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (top === 'border') {
       if (second === 'color') return 'uncheckedRadio.root.borderColor';
-      if (second === 'width') return 'uncheckedRadio.root.borderTopWidth';
+      if (second === 'width')  return 'uncheckedRadio.root.borderWidth';
       if (second === 'radius') return 'uncheckedRadio.root.borderTopLeftRadius';
       if (second === 'style') return 'uncheckedRadio.root.borderStyle';
     }
@@ -1438,7 +1536,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background' && third === 'color') return 'groupHeaderTitle.backgroundColor';
       if (second === 'color') return 'groupHeaderTitle.color';
       if (second === 'padding') {
-        if (!third) return 'groupHeaderTitle.paddingTop';
+        if (!third) return 'groupHeaderTitle.padding';
         if (third === 'right') return 'groupHeaderTitle.paddingRight';
         if (third === 'left') return 'groupHeaderTitle.paddingLeft';
       }
@@ -1546,7 +1644,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (activeSecond === 'color') return 'groupHeaderTitle.color';
       if (activeSecond === 'padding' && activeThird === 'left') return 'groupHeaderTitle.paddingLeft';
       if (activeSecond === 'padding' && activeThird === 'right') return 'groupHeaderTitle.paddingRight';
-      if (activeSecond === 'padding' && !activeThird) return 'groupHeaderTitle.paddingTop';
+      if (activeSecond === 'padding' && !activeThird) return 'groupHeaderTitle.padding';
       if (activeSecond === 'font' && activeThird === 'family') return 'groupHeaderTitle.fontFamily';
       if (activeSecond === 'font' && activeThird === 'size') return 'groupHeaderTitle.fontSize';
     }
@@ -1576,7 +1674,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (top === 'border') {
       if (second === 'color') return 'root.borderColor';
-      if (second === 'radius') return 'root.borderTopLeftRadius';
+      if (second === 'radius') return 'root.borderRadius';
       if (second === 'width') return 'root.borderTopWidth';
     }
 
@@ -1608,7 +1706,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'border') {
         if (third === 'color') return 'button.borderColor';
         if (third === 'radius') return 'firstButton.borderTopLeftRadius';
-        if (third === 'width') return 'button.borderTopWidth';
+        if (third === 'width') return 'button.borderWidth';
       }
       if (second === 'color') return 'button.color';
       if (second === 'ripple' && third === 'color') return 'button.rippleColor';
@@ -1650,7 +1748,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Heading properties
     if (top === 'heading') {
       if (second === 'background' && third === 'color') return 'wizardHeader.backgroundColor';
-      if (second === 'radius') return 'wizardHeader.borderTopLeftRadius';
+      if (second === 'background-color') return 'wizardHeader.backgroundColor';
+      if (second === 'radius') return 'wizardHeader.borderRadius';
+      if (second === 'padding') return 'wizardHeader.padding';
       if (second === 'padding-top') return 'wizardHeader.paddingTop'
       if (second === 'padding-bottom') return 'wizardHeader.paddingBottom';
       if (second === 'padding-left') return 'wizardHeader.paddingLeft';
@@ -1696,8 +1796,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'indicator') {
         if (third === 'background-color') return 'step.backgroundColor';
         if (third === 'border-color')  return 'step.borderColor';
-          if (third === 'border-width') return 'step.borderTopWidth';
-          if (third === 'border-radius') return 'step.borderTopLeftRadius';
+          if (third === 'border-width') return 'step.borderWidth';
+          if (third === 'border-radius') return 'step.borderRadius';
           if (third === 'border-style') return 'step.borderStyle';
         
         if (third === 'size') return 'step.width';  // Also applies to height
@@ -1723,7 +1823,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'body') {
       if (second === 'height') return 'wizardBody.height';
       if (second === 'padding-top') return 'wizardBody.paddingTop';
-      if (second === 'padding') return 'wizardBody.paddingTop';
+      if (second === 'padding') return 'wizardBody.padding';
     }
 
     // States - current state (activeStep)
@@ -1757,14 +1857,14 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'background' && second === 'color') return 'root.backgroundColor';
     if (top === 'border') {
       if (second === 'color') return 'root.borderColor';
-      if (second === 'radius') return 'root.borderTopLeftRadius';
+      if (second === 'radius') return 'root.borderRadius';
       if (second === 'style') return 'root.borderStyle';
       if (second === 'width') {
         if (third === 'top') return 'root.borderTopWidth';
         if (third === 'bottom') return 'root.borderBottomWidth';
         if (third === 'left') return 'root.borderLeftWidth';
         if (third === 'right') return 'root.borderRightWidth';
-        return 'root.borderTopWidth';
+        return 'root.borderWidth';
       }
     }
     if (top === 'padding') {
@@ -1792,9 +1892,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'color') return 'root.color';
     if (top === 'border') {
       if (second === 'color') return 'root.borderColor';
-      if (second === 'radius') return 'root.borderTopLeftRadius';
+      if (second === 'radius') return 'root.borderRadius';
       if (second === 'style') return 'root.borderStyle';
-      if (second === 'width') return 'root.borderTopWidth';
+      if (second === 'width') return 'root.borderWidth';
     }
     if (top === 'padding') {
       if (second === 'top') return 'root.paddingTop';
@@ -1817,11 +1917,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Root level properties
     if (top === 'border') {
       if (second === 'color') return 'root.borderColor';
-      if (second === 'radius') return 'root.borderTopLeftRadius';
-      if (second === 'style') return 'root.borderStyle';
-      if (second === 'width') return 'root.borderTopWidth';
+      if (second === 'radius') return 'root.borderRadius';
+      if (second === 'style')  return 'root.borderStyle';
+      if (second === 'width')  return 'root.borderWidth';
     }
-    if (top === 'radius') return 'root.borderTopLeftRadius';
+    if (top === 'radius') return 'root.borderRadius';
 
     return `root.${TokenMappingService.mapToComputedProperty(propertyPath[propertyPath.length - 1])}`;
   }
@@ -1848,7 +1948,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Image properties
     if (top === 'image') {
       if (second === 'size') return 'icon.image.width';  // Also applies to height
-      if (second === 'radius') return 'icon.image.borderTopLeftRadius';
+      if (second === 'radius') return 'icon.image.borderRadius';
     }
 
     // Font properties
@@ -1870,11 +1970,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Text decoration
     if (top === 'text' && second === 'decoration' && third === '@') return 'text.textDecorationLine';
     
-    // Text padding
-    if (top === 'text' && second === 'padding' && third) {
-      if (third === 'left') return 'text.paddingLeft';
+    // Text padding — with or without direction
+    if (top === 'text' && second === 'padding') {
+      if (!third)            return 'text.padding';
+      if (third === 'left')  return 'text.paddingLeft';
       if (third === 'right') return 'text.paddingRight';
-      if (third === 'top') return 'text.paddingTop';
+      if (third === 'top')   return 'text.paddingTop';
       if (third === 'bottom') return 'text.paddingBottom';
     }
 
@@ -1922,8 +2023,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Text properties
     if (top === 'text') {
       if (second === 'color') return 'text.color';
+      if (second === 'font-size') return 'text.fontSize';
+      if (second === 'font' && third === 'size') return 'text.fontSize';
+      if (second === 'padding' && !third) return 'text.padding';
       if (second === 'padding' && third === 'left') return 'text.paddingLeft';
-      if (second === 'font' && third === '-size') return 'text.fontSize';
     }
 
     // Lottie properties
@@ -1949,8 +2052,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'height') return 'searchButton.root.height';
     if (top === 'border') {
       if (second === 'color') return 'dropDownContent.borderColor';
-      if (second === 'width') return 'dropDownContent.borderTopWidth';
-      if (second === 'radius') return 'root.borderTopLeftRadius';
+      if (second === 'width')  return 'modalContent.borderBottomWidth';
+      if (second === 'radius') return 'root.borderRadius';
     }
 
     // Button properties
@@ -1961,7 +2064,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'size') return 'searchButton.icon.icon.fontSize';
       }
       if (second === 'ripple' && third === 'color') return 'searchButton.root.rippleColor';
-      if (second === 'padding') return 'searchButton.root.paddingTop';
+      if (second === 'padding') return 'clearButton.root.padding';
       if (second === 'width') return 'searchButton.root.width';
     }
     if(top=== 'invalid' && second==='color') return 'invalid.borderColor'
@@ -1978,7 +2081,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         }
       }
       if (second === 'padding') {
-        if (!third) return 'dataCompleteItem.root.paddingTop';
+        if (!third) return 'dataCompleteItem.root.padding';
         if (third === 'top') return 'dataCompleteItem.root.paddingTop';
         if (third === 'bottom') return 'dataCompleteItem.root.paddingBottom';
         if (third === 'left') return 'dataCompleteItem.root.paddingLeft';
@@ -1991,8 +2094,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background' && third === 'color') return 'dropDownContent.backgroundColor';
       if (second === 'border') {
         if (third === 'color') return 'dropDownContent.borderColor';
-        if (third === 'width') return 'dropDownContent.borderTopWidth';
-        if (third === 'radius') return 'dropDownContent.borderTopLeftRadius';
+        if (third === 'width')  return 'dropDownContent.borderWidth';
+        if (third === 'radius') return 'dropDownContent.borderBottomLeftRadius';
       }
       if (second === 'width') return 'dropDownContent.width';
     }
@@ -2017,7 +2120,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'bottom') return 'searchItem.paddingBottom';
         if (third === 'left') return 'searchItem.paddingLeft';
         if (third === 'right') return 'searchItem.paddingRight';
-        if (!third) return 'searchItem.paddingTop';
+        if (!third) return 'searchItem.padding';
       }
     }
 
@@ -2029,12 +2132,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Clear button properties
     if (top === 'clear-btn') {
       if (second === 'background' && third === 'color') return 'clearButton.root.backgroundColor';
-      if (second === 'border' && third === 'radius') return 'clearButton.root.borderTopLeftRadius';
+      if (second === 'border' && third === 'radius') return 'clearButton.root.borderRadius';
       if (second === 'icon') {
         if (third === 'color') return 'clearButton.icon.icon.color';
         if (third === 'size') return 'clearButton.icon.icon.fontSize';
       }
-      if (second === 'padding') return 'clearButton.root.paddingTop';
+      if (second === 'padding') return 'clearButton.root.padding';
       if (second === 'width') return 'clearButton.root.width';
     }
 
@@ -2043,6 +2146,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background' && third === 'color') return 'text.backgroundColor';
       if (second === 'color') return 'searchItemText.color';
       if (second === 'padding') {
+        if (!third) return 'text.padding';
         if (third === 'top') return 'text.paddingTop';
         if (third === 'bottom') return 'text.paddingBottom';
         if (third === 'left') return 'text.paddingLeft';
@@ -2090,7 +2194,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'horizontal') return 'tooltip.paddingLeft';  // Also applies to paddingRight
         if (third === 'vertical') return 'tooltip.paddingTop';  // Also applies to paddingBottom
       }
-      if (second === 'border' && third === 'radius') return 'tooltip.borderTopLeftRadius';
+      if (second === 'border' && third === 'radius') return 'tooltip.borderRadius';
     }
 
     // Root level properties
@@ -2146,7 +2250,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background') return 'root.backgroundColor';
       if (second === 'border') {
         if (third === 'color') return 'root.borderColor';
-        if (third === 'width') return 'root.borderTopWidth';
+        if (third === 'width') return 'root.borderWidth';
         if (third === 'radius') return 'root.borderTopLeftRadius';
       }
       if (second === 'caret') {
@@ -2158,7 +2262,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'content') {
         if (third === 'background') return 'menu.backgroundColor';
         if (third === 'width') return 'menu.width';
-        if (third === 'border' && fourth === 'radius') return 'menu.borderTopLeftRadius';
+        if (third === 'border' && fourth === 'radius') return 'menu.borderRadius';
       }
       if (second === 'item') {
         if (third === 'color') return 'menuItem.text.color';
@@ -2171,7 +2275,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
           if (fourth === 'bottom') return 'menuItem.root.paddingBottom';
           if (fourth === 'left') return 'menuItem.root.paddingLeft';
           if (fourth === 'right') return 'menuItem.root.paddingRight';
-          if (!fourth) return 'menuItem.root.paddingTop';
+          if (!fourth) return 'menuItem.root.padding';
         }
         if (third === 'font') {
           if (fourth === 'family') return 'menuItem.text.fontFamily';
@@ -2181,19 +2285,20 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'line' && fourth === 'height') return 'menuItem.text.lineHeight';
         if (third === 'border' && fourth === 'style') return 'menuItem.root.borderStyle';
       }
+      if (second === 'box-shadow') return 'root.modalContent.boxShadow';
       if (second === 'icon' && third === 'size') return 'menuItem.icon.icon.fontSize';
       if (second === 'padding') {
         if (third === 'top') return 'menu.paddingTop';
         if (third === 'bottom') return 'menu.paddingBottom';
         if (third === 'left') return 'menu.paddingLeft';
         if (third === 'right') return 'menu.paddingRight';
-        if (!third) return 'menu.paddingTop';
+        if (!third) return 'menu.padding';
       }
       if (second === 'text') {
         if (third === 'padding') {
           if (fourth === 'left') return 'link.text.paddingLeft';
           if (fourth === 'right') return 'link.text.paddingRight';
-          if (!fourth) return 'link.text.paddingTop';
+          if (!fourth) return 'link.text.padding';
         }
         if (third === 'font' && fourth === 'weight') return 'link.text.fontWeight';
         if (third === 'decoration') return 'link.text.textDecoration';
@@ -2214,7 +2319,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     // Root level properties
     if (top === 'background-color') return 'popover.backgroundColor';
-    if (top === 'padding') return 'popover.paddingTop';
+    if (top === 'padding') return 'popover.padding';
     if(top === 'padding-top') return 'popover.paddingTop';
     if(top === 'padding-bottom') return 'popover.paddingBottom';
     if(top === 'padding-left') return 'popover.paddingLeft';
@@ -2231,9 +2336,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     // Border properties
     if (top === 'border') {
-      if (second === 'radius') return 'popover.borderTopLeftRadius';
+      if (second === 'radius') return 'root.borderRadius';
       if (second === 'color') return 'popover.borderColor';
-      if (second === 'width') return 'popover.borderTopWidth';
+      if (second === 'width') return 'popover.borderWidth';
       if (second === 'style') return 'popover.borderStyle';
     }
 
@@ -2241,9 +2346,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'content') {
       if (second === 'background-color') return 'popoverContent.root.backgroundColor';
       if (second === 'border') {
-        if (third === 'radius') return 'popoverContent.root.borderTopLeftRadius';
+        if (third === 'radius') return 'popoverContent.root.borderRadius';
         if (third === 'color') return 'popoverContent.root.borderColor';
-        if (third === 'width') return 'popoverContent.root.borderTopWidth';
+        if (third === 'width') return 'popoverContent.root.borderWidth';
         if (third === 'style') return 'popoverContent.root.borderStyle';
       }
       if (second === 'shadow') return 'popoverContent.root.boxShadow';
@@ -2262,7 +2367,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       //   if (third === '-left') return 'title.paddingLeft';
       //   if (third === '-right') return 'title.paddingRight';
       // }
-      if(second === 'padding') return 'title.paddingTop';
+      if(second === 'padding') return 'title.padding';
       if(second === 'padding-top') return 'title.paddingTop';
       if(second === 'padding-bottom') return 'title.paddingBottom';
       if(second === 'padding-left') return 'title.paddingLeft';
@@ -2284,9 +2389,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background' && third === 'color') return 'root.backgroundColor';
       if (second === 'border') {
         if (third === 'color') return 'root.borderColor';
-        if (third === 'width') return 'root.borderTopWidth';
+        if (third === 'width') return 'root.borderWidth';
         if(third === 'style') return 'root.borderStyle';
-        if(third === 'radius') return 'root.borderTopLeftRadius';
+        if(third === 'radius') return 'root.borderRadius';
       }
       if (second === 'color') return 'link.text.color';
       if (second === 'text-decoration') return 'link.text.textDecoration';
@@ -2299,7 +2404,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'bottom') return 'root.paddingBottom';
         if (third === 'left') return 'root.paddingLeft';
         if (third === 'right') return 'root.paddingRight';
-        return 'root.paddingTop';
+        return 'root.padding';
       }
       if(second === 'padding-top') return 'root.paddingTop';
       if(second === 'padding-bottom') return 'root.paddingBottom';
@@ -2334,7 +2439,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background' && third === 'color') return 'errorMsgStyles.backgroundColor';
       if (second === 'border') {
         if (third === 'color') return 'errorMsgStyles.borderColor';
-        if (third === 'radius') return 'errorMsgStyles.borderTopLeftRadius';
+        if (third === 'radius') return 'errorMsgStyles.borderRadius';
       }
       if (second === 'text' && third === 'color') return 'errorMsgStyles.color';
     }
@@ -2346,7 +2451,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'bottom') return 'formStyles.paddingBottom';
         if (third === 'left') return 'formStyles.paddingLeft';
         if (third === 'right') return 'formStyles.paddingRight';
-        if (!third) return 'formStyles.paddingTop';
+        if (!third) return 'formStyles.padding';
       }
     }
 
@@ -2386,7 +2491,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      if (top === 'border') {
        if (second === 'color') return 'root.borderColor';
        if (second === 'width') return 'root.borderTopWidth';
-       if (second === 'radius') return 'root.borderTopLeftRadius';
+       if (second === 'radius') return 'root.borderRadius';
        if (second === 'style') return 'root.borderStyle';
      }
      if (top === 'min' && second === 'height') return 'root.minHeight';
@@ -2466,21 +2571,21 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      if (top === 'background') return 'root.backgroundColor';
      if (top === 'border') {
        if (second === 'color') return 'root.borderColor';
-       if (second === 'width') return 'root.borderTopWidth';
-       if (second === 'radius') return 'root.borderTopLeftRadius';
-       if (second === 'style') return 'root.borderStyle';
-     }
-     if (top === 'padding') {
-       if (second === 'top') return 'root.paddingTop';
-       if (second === 'bottom') return 'root.paddingBottom';
-       if (second === 'left') return 'root.paddingLeft';
-       if (second === 'right') return 'root.paddingRight';
-     }
+      if (second === 'width')  return 'root.borderWidth';
+      if (second === 'radius') return 'root.borderRadius';
+      if (second === 'style') return 'root.borderStyle';
+    }
+    if (top === 'padding') {
+      if (second === 'top') return 'root.paddingTop';
+      if (second === 'bottom') return 'root.paddingBottom';
+      if (second === 'left') return 'root.paddingLeft';
+      if (second === 'right') return 'root.paddingRight';
+    }
 
 
-     // Fallback
-     return `root.${TokenMappingService.mapToComputedProperty(propertyPath[propertyPath.length - 1])}`;
-   }
+    // Fallback
+    return `root.${TokenMappingService.mapToComputedProperty(propertyPath[propertyPath.length - 1])}`;
+  }
 
 
 
@@ -2520,7 +2625,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (third === 'style') return 'root.borderTopStyle';
       }
       if (second === 'color') return 'root.borderColor';
-      if (second === 'width') return 'root.borderTopWidth';
+      if (second === 'width') return 'root.borderWidth';
       if (second === 'style') return 'root.borderStyle';
     }
 
@@ -2531,7 +2636,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        if (second === 'color') return `${iconPrefix}.color`;
        if (second === 'size') return `${iconPrefix}.fontSize`;
        if (second === 'padding') {
-         if (!third) return 'tabIcon.root.paddingTop';
+         if (!third) return 'tabIcon.root.padding';
          if (third === 'bottom') return 'tabIcon.root.paddingBottom';
          if (third === 'right') return `${iconPrefix}.paddingRight`;
        }
@@ -2547,9 +2652,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        }
        if (second === 'opacity') return `${itemPrefix}.opacity`;
       if (second === 'border') {
-        if (third === 'radius') return `${itemPrefix}.borderTopLeftRadius`;
-        if (third === 'width') return `${itemPrefix}.borderTopWidth`;
+        if (third === 'color')  return `${itemPrefix}.borderColor`;
+        if (third === 'radius') return `${itemPrefix}.borderRadius`;
+        if (third === 'width')  return `${itemPrefix}.borderWidth`;
+        if (third === 'style')  return `${itemPrefix}.borderStyle`;
       }
+      if (second === 'gap')     return `${itemPrefix}.gap`;
+      if (second === 'padding' && !fourth) return `${itemPrefix}.padding`;
     }
 
 
@@ -2565,7 +2674,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      }
      if (top === 'more-menu-row') {
        if (second === 'padding') {
-         if (!third) return 'moreMenuRow.paddingTop';
+         if (!third) return 'moreMenuRow.padding';
          if (third === 'bottom') return 'moreMenuRow.paddingBottom';
          if (third === 'top') return 'moreMenuRow.paddingTop';
        }
@@ -2613,18 +2722,18 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'border' && third === 'bottom-width') return 'calendarHeader.borderBottomWidth';
       if (second === 'border' && third === 'style') return 'calendarHeader.borderStyle';
       if (second === 'border' && third === 'color') return 'calendarHeader.borderColor';
-      if (second === 'border' && third === 'radius') return 'calendarHeader.borderTopLeftRadius';
-      if (second === 'border' && third === 'width') return 'calendarHeader.borderTopWidth';
-      if (second === 'padding') return 'calendarHeader.paddingTop';
+      if (second === 'border' && third === 'radius') return 'calendarHeader.borderRadius';
+      if (second === 'border' && third === 'width')  return 'calendarHeader.borderWidth';
+      if (second === 'padding') return 'calendarHeader.padding';
     }
 
     if (top === 'weekday') {
-      if (second === 'padding') return 'weekDay.paddingTop';
+      if (second === 'padding') return 'weekDay.padding';
       if (second === 'background-color') return 'weekDay.backgroundColor';
       if (second === 'border' && third === 'bottom-width') return 'weekDay.borderBottomWidth';
       if (second === 'border' && third === 'style') return 'weekDay.borderStyle';
       if (second === 'border' && third === 'color') return 'weekDay.borderColor';
-      if (second === 'border' && third === 'width') return 'weekDay.borderTopWidth';
+      if (second === 'border' && third === 'width')  return 'weekDay.borderWidth';
       if (second === 'text' && third === 'color') return 'weekDayText.color';
       if (second === 'text' && third === 'font-family') return 'weekDayText.fontFamily';
       if (second === 'text' && third === 'font-size') return 'weekDayText.fontSize';
@@ -2706,8 +2815,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'wrapper') {
       if (second === 'background') return 'calendar.backgroundColor';
       if (second === 'border' && third === 'color') return 'calendar.borderColor';
-      if (second === 'border' && third === 'radius') return 'calendar.borderTopLeftRadius';
-      if (second === 'border' && third === 'width') return 'calendar.borderTopWidth';
+      if (second === 'border' && third === 'radius') return 'calendar.borderRadius';
+      if (second === 'border' && third === 'width')  return 'calendar.borderWidth';
       if (second === 'shadow') return 'calendar.boxShadow';
     }
 
@@ -2733,7 +2842,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'background') return 'thumb.backgroundColor';
       if (second === 'height') return 'thumb.height';
       if (second === 'width') return 'thumb.width';
-      if (second === 'border-radius') return 'thumb.borderTopLeftRadius';
+      if (second === 'border-radius') return 'thumb.borderRadius';
     }
     
     if (top === 'tooltip') {
@@ -2744,7 +2853,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'track') {
       if (second === 'height') return 'track.height';
       if (second === 'margin-vertical') return 'track.marginVertical';
-      if (second === 'border-radius') return 'track.borderTopLeftRadius';
+      if (second === 'border-radius') return 'track.borderRadius';
     }
   }
 
@@ -2782,7 +2891,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (pathStr === 'background') return 'root.backgroundColor';
     if (pathStr === 'min-width') return 'root.minWidth';
-    if (pathStr === 'radius') return 'root.borderTopLeftRadius';
+    if (pathStr === 'radius') return 'root.borderRadius';
     if (pathStr === 'margin') return 'root.marginTop';
     if (pathStr === 'z-index') return 'root.zIndex';
 
@@ -2813,21 +2922,22 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'line-height') return 'icon.text.lineHeight';
     }
 
-    if (top === 'body' && second === 'padding') return 'root.paddingTop';
+    if (top === 'dialog' && second === 'overlay' && third === 'background') return 'modal.backgroundColor';
+    if (top === 'body' && second === 'padding') return 'root.padding';
     if (top === 'footer' && second === 'padding') return 'dialogActions.paddingTop';
 
     if (top === 'header') {
       if (second === 'background') return 'header.backgroundColor';
       if (second === 'border' && third === 'color') return 'header.borderColor';
-      if (second === 'border' && third === 'width') return 'header.borderTopWidth';
+      if (second === 'border' && third === 'width')  return 'header.borderWidth';
       if (second === 'border' && third === 'style') return 'header.borderStyle';
-      if (second === 'padding') return 'header.paddingTop';
-      
+      if (second === 'padding') return 'header.padding';
+
       if (second === 'close-btn') {
         if (third === 'background') return 'closeBtn.root.backgroundColor';
         if (third === 'border-color') return 'closeBtn.root.borderColor';
         if (third === 'color') return 'closeBtn.icon.icon.color';
-        if (third === 'border-width') return 'closeBtn.root.borderTopWidth';
+        if (third === 'border-width') return 'closeBtn.root.borderWidth';
         if (third === 'font-size') return 'closeBtn.icon.icon.fontSize';
         if (third === 'border-style') return 'closeBtn.root.borderStyle';
       }
@@ -2851,12 +2961,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'close-btn') {
       if (second === 'background' && third === 'color') return 'closeBtn.root.backgroundColor';
       if (second === 'border' && third === 'color') return 'closeBtn.root.borderColor';
-      if (second === 'border' && third === 'radius') return 'closeBtn.root.borderTopLeftRadius';
+      if (second === 'border' && third === 'radius') return 'closeBtn.root.borderRadius';
       if (second === 'ripple' && third === 'color') return 'closeBtn.root.rippleColor';
       if (second === 'padding' && third === 'left') return 'closeBtn.root.paddingLeft';
       if (second === 'padding' && third === 'right') return 'closeBtn.root.paddingRight';
       if (second === 'icon' && third === 'size') return 'closeBtn.icon.icon.fontSize';
-      if (second === 'padding' && !third) return 'closeBtn.root.paddingTop';
+      if (second === 'padding' && !third) return 'closeBtn.root.padding';
     }
 
     if (pathStr === 'color') return 'title.color';
@@ -2864,8 +2974,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'container') {
       if (second === 'background') return 'root.backgroundColor';
       if (second === 'border' && third === 'color') return 'root.borderColor';
-      if (second === 'border' && third === 'width') return 'root.borderTopWidth';
-      if (second === 'border' && third === 'radius') return 'root.borderTopLeftRadius';
+      if (second === 'border' && third === 'width')  return 'root.borderWidth';
+      if (second === 'border' && third === 'radius') return 'root.borderRadius';
       if (second === 'border' && third === 'style') return 'root.borderStyle';
       if (second === 'padding' && third === 'bottom') return 'root.paddingBottom';
       if (second === 'padding' && third === 'left') return 'root.paddingLeft';
@@ -2876,10 +2986,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'text-wrapper' && second === 'padding' && third === 'left') {
       return 'message.paddingLeft';
     }
-    if (top === 'text-wrapper' && second === 'padding' && !third) return 'message.paddingTop';
+    if (top === 'text-wrapper' && second === 'padding' && !third) return 'message.padding';
 
     if (top === 'title') {
-      if (second === 'padding' && !third) return 'title.paddingTop';
+      if (second === 'color') return 'title.color';
+      if (second === 'padding' && !third) return 'title.padding';
       if (second === 'padding' && third === 'bottom') return 'title.paddingBottom';
       if (second === 'font' && third === 'size') return 'title.fontSize';
       if (second === 'font' && third === 'weight') return 'title.fontWeight';
@@ -2899,6 +3010,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'background' && second === 'color') return 'root.backgroundColor';
 
     if (top === 'content') {
+      if (second === 'background' && propertyPath[2] === 'color') return 'content.backgroundColor';
       if (second === 'height') return 'content.height';
       if (second === 'width') return 'content.width';
     }
@@ -2921,10 +3033,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'text') {
       if (second === 'color') return 'text.color';
       if (second === 'size') return 'text.fontSize';
+      if (second === 'padding' && !third) return 'text.padding';
       if (second === 'padding' && third === 'left') return 'text.paddingLeft';
     }
-    
-    if (pathStr === 'padding') return 'root.paddingTop';
+
+    if (pathStr === 'padding') return 'text.padding';
     if (pathStr === 'opacity') return 'root.opacity';
   }
 
@@ -2948,8 +3061,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'border') {
       if (second === 'color') return 'root.borderColor';
       if (second === 'style') return 'root.borderStyle';
-      if (second === 'radius') return 'root.borderTopLeftRadius';
-      if (second === 'width') return 'root.borderTopWidth';
+      if (second === 'radius') return 'root.borderRadius';
+      if (second === 'width')  return 'root.borderWidth';
     }
 
     // Icon properties
@@ -2990,12 +3103,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     // labelwrapper.background -> labelWrapper.backgroundColor
     if (top === 'labelwrapper' && second === 'background') return 'labelWrapper.backgroundColor';
-    // labelwrapper.border.radius -> labelWrapper.borderRadius (stored as borderTopLeftRadius etc.)
-    if (top === 'labelwrapper' && second === 'border' && third === 'radius') return 'labelWrapper.borderTopLeftRadius';
+    // labelwrapper.border.radius -> labelWrapper.borderRadius
+    if (top === 'labelwrapper' && second === 'border' && third === 'radius') return 'labelWrapper.borderRadius';
     // labelwrapper.min.height -> labelWrapper.minHeight
     if (top === 'labelwrapper' && second === 'min' && third === 'height') return 'labelWrapper.minHeight';
-    // labelwrapper.padding -> labelWrapper.padding
-    if (top === 'labelwrapper' && second === 'padding') return 'labelWrapper.paddingTop';
+    if (top === 'labelwrapper' && second === 'padding') return 'labelWrapper.padding';
     // labelwrapper.width -> labelWrapper.width
     if (top === 'labelwrapper' && second === 'width') return 'labelWrapper.width';
   }
@@ -3014,12 +3126,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // arrow-button.border.color -> arrowButton.root.borderColor
     if (top === 'arrow-button' && second === 'border' && third === 'color') return 'arrowButton.root.borderColor';
     // arrow-button.border.width -> arrowButton.root.borderWidth
-    if (top === 'arrow-button' && second === 'border' && third === 'width') return 'arrowButton.root.borderTopWidth';
-    // arrow-button.border.style -> arrowButton.root.borderStyle
+    if (top === 'arrow-button' && second === 'border' && third === 'width')  return 'arrowButton.root.borderWidth';
     if (top === 'arrow-button' && second === 'border' && third === 'style') return 'arrowButton.root.borderStyle';
-    // arrow-button.border.radius -> arrowButton.root.borderRadius (stored per-corner)
-    if (top === 'arrow-button' && second === 'border' && third === 'radius') return 'arrowButton.root.borderTopLeftRadius';
-    if (top === 'arrow-button' && second === 'padding') return 'arrowButton.root.paddingTop';
+    if (top === 'arrow-button' && second === 'border' && third === 'radius') return 'arrowButton.root.borderRadius';
+    if (top === 'arrow-button' && second === 'padding') return 'arrowButton.root.padding';
 
     // arrow-button.icon.font-size -> arrowButton.icon.icon.fontSize
     if (top === 'arrow-button' && second === 'icon' && (third === 'font-size' || third === 'fontSize')) return 'arrowButton.icon.icon.fontSize';
@@ -3027,14 +3137,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'arrow-button' && second === 'icon' && third === 'color') return 'arrowButton.icon.icon.color';
     // arrow-button.icon.height -> arrowButton.icon.icon.height
     if (top === 'arrow-button' && second === 'icon' && third === 'height') return 'arrowButton.icon.icon.height';
-    if (top === 'arrow-button' && second === 'icon' && third === 'padding') return 'arrowButton.icon.icon.paddingTop';
-    // arrow-button.icon.border.color -> arrowButton.icon.icon.borderColor
+    if (top === 'arrow-button' && second === 'icon' && third === 'padding') return 'arrowButton.icon.icon.padding';
     if (top === 'arrow-button' && second === 'icon' && third === 'border') {
       const fourth = propertyPath[3];
-      if (fourth === 'color') return 'arrowButton.icon.icon.borderColor';
-      if (fourth === 'width') return 'arrowButton.icon.icon.borderTopWidth';
-      if (fourth === 'style') return 'arrowButton.icon.icon.borderStyle';
-      if (fourth === 'radius') return 'arrowButton.icon.icon.borderTopLeftRadius';
+      if (fourth === 'color')  return 'arrowButton.icon.icon.borderColor';
+      if (fourth === 'width')  return 'arrowButton.icon.icon.borderWidth';
+      if (fourth === 'style')  return 'arrowButton.icon.icon.borderStyle';
+      if (fourth === 'radius') return 'arrowButton.icon.icon.borderRadius';
     }
 
     // check.icon.color -> checkIcon.text.color
@@ -3047,11 +3156,9 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // modal-content.border.color -> modalContent.borderColor
     if (top === 'modal-content' && second === 'border' && third === 'color') return 'modalContent.borderColor';
     // modal-content.border.width -> modalContent.borderWidth
-    if (top === 'modal-content' && second === 'border' && third === 'width') return 'modalContent.borderTopWidth';
-    // modal-content.border.style -> modalContent.borderStyle
+    if (top === 'modal-content' && second === 'border' && third === 'width')  return 'modalContent.borderWidth';
     if (top === 'modal-content' && second === 'border' && third === 'style') return 'modalContent.borderStyle';
-    // modal-content.border.radius -> modalContent.borderRadius
-    if (top === 'modal-content' && second === 'border' && third === 'radius') return 'modalContent.borderTopLeftRadius';
+    if (top === 'modal-content' && second === 'border' && third === 'radius') return 'modalContent.borderRadius';
 
     // modal-text.color -> selectItemText.color
     if (top === 'modal-text' && second === 'color') return 'selectItemText.color';
@@ -3070,10 +3177,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (pathStr === 'background' || pathStr === 'background-color') return 'button.root.backgroundColor';
     if (top === 'border' && second === 'color') return 'button.root.borderColor';
-    if (top === 'border' && second === 'width') return 'button.root.borderTopWidth';
-    if (top === 'border' && second === 'radius') return 'button.root.borderTopLeftRadius';
+    if (top === 'border' && second === 'width')  return 'button.root.borderWidth';
+    if (top === 'border' && second === 'radius') return 'button.root.borderRadius';
     if (pathStr === 'color') return 'button.icon.icon.color';
-    if (pathStr === 'padding') return 'button.root.paddingTop';
+    if (pathStr === 'padding') return 'button.root.padding';
     if (pathStr === 'min-height') return 'button.root.minHeight';
     if (pathStr === 'min-width') return 'button.root.minWidth';
     if (top === 'padding' && second === 'top') return 'button.root.paddingTop';

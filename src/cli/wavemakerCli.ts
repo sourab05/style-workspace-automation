@@ -32,7 +32,7 @@ export class WaveMakerCLI {
       fs.mkdirSync(destDir, { recursive: true });
     }
 
-    const cmd = `npx @wavemaker/wm-reactnative-cli build android --projectPath "${projectPath}" --dest="${destDir}" --clean`;
+    const cmd = `npx @wavemaker-ai/wm-reactnative-cli build android --projectPath "${projectPath}" --dest="${destDir}" --clean`;
 
     try {
       const override = parseInt(process.env.WM_BUILD_TIMEOUT_MINUTES || '', 10);
@@ -226,7 +226,7 @@ export class WaveMakerCLI {
     const iosGradleRoot = path.join(destDir, 'ios');
 
     // Build command
-    let cmd = `npx @wavemaker/wm-reactnative-cli build ios "${projectPath}" --dest="${destDir}" --auto-eject=true --clean`;
+    let cmd = `npx @wavemaker-ai/wm-reactnative-cli build ios "${projectPath}" --dest="${destDir}" --auto-eject=true --clean`;
 
     // Enforce required iOS signing inputs from ENV/options
     if (!iCert || !iCertPass || !iProv) {

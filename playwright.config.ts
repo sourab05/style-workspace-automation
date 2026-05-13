@@ -18,9 +18,10 @@ export default defineConfig({
    globalSetup: require.resolve('./tests/global-setup.ts'),
 
   use: {
-    trace: 'on',
-    screenshot: 'on',
-    video: 'on',
+    // CI: smaller artifacts than retain-on-failure on every failed attempt (helps Jenkins workspace + HTML report data/)
+    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
     headless: true,
     // Consistent viewport size across all browsers
     viewport: { width: 1280, height: 720 },

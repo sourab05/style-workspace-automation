@@ -500,14 +500,34 @@ async function getAuthenticatedContext(): Promise<{ context: BrowserContext; pag
 
   const page = context.pages()[0] || (await context.newPage());
 
-  if (ENV.isPlatformDB) {
+  if (ENV.authMethod === 'wavemaker') {
+    console.log('[Scraper] Authenticating via WaveMaker REST login (StudioClient)...');
+    const { StudioClient } = await import('../src/api/studioClient');
+    const client = new StudioClient({ baseUrl: BASE_URL, projectId: PROJECT_ID });
+    const cookie = await client.login(ENV.studioUsername, ENV.studioPassword);
+
+    const baseUrlObj = new URL(BASE_URL);
+    const cookiePairs = cookie.split(';').map(c => c.trim()).filter(Boolean);
+    for (const pair of cookiePairs) {
+      const eqIdx = pair.indexOf('=');
+      const name  = eqIdx === -1 ? pair : pair.slice(0, eqIdx).trim();
+      const value = eqIdx === -1 ? ''   : pair.slice(eqIdx + 1).trim();
+      if (name) {
+        await context.addCookies([{
+          name,
+          value,
+          domain: baseUrlObj.hostname,
+          path: '/',
+        }]);
+      }
+    }
+    process.env.STUDIO_COOKIE = cookie;
+    console.log(`[Scraper] WaveMaker REST login successful (cookie: ${cookie.length} chars)`);
+  } else if (ENV.isPlatformDB) {
     console.log('[Scraper] Authenticating via Platform DB REST login...');
     const { StudioClient } = await import('../src/api/studioClient');
     const client = new StudioClient({ baseUrl: BASE_URL, projectId: PROJECT_ID });
-    const cookie = await client.loginWithPlatformDB(
-      ENV.studioUsername,
-      ENV.studioPassword
-    );
+    const cookie = await client.loginWithPlatformDB(ENV.studioUsername, ENV.studioPassword);
 
     const baseUrlObj = new URL(BASE_URL);
     const cookieParts = cookie.split('; ');

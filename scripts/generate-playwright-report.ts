@@ -5,15 +5,16 @@ import path from 'path';
  * Generates an HTML report from Playwright's JSON log using streaming writes
  * to handle large test suites (thousands of tests with attachments).
  *
- * Reads:  logs/playwright-log.json
- * Writes: reports/playwright-report.html
+ * Reads:  logs/playwright-log.json (override with --log)
+ * Writes: reports/playwright-report.html (override with --out)
+ *
+ * Note: A saved playwright-report HTML folder cannot be converted; you need
+ * the JSON file from the same run (Playwright json reporter output).
  *
  * Images and videos are embedded as base64 so the report is self-contained
  * and works when served from S3 or any static host.
  */
 
-const OUT_DIR = path.resolve('reports');
-const OUT_FILE = path.join(OUT_DIR, 'playwright-report.html');
 const PROJECT_ROOT = process.cwd();
 
 // ——— CLI Args ———
@@ -23,6 +24,7 @@ const cliExcludeWidgets: string[] = [];
 const cliExcludeStatus: string[] = [];
 let cliLogFile: string | null = null;
 let cliPreviewDir: string | null = null;
+let cliOutFile: string | null = null;
 
 for (let i = 0; i < cliArgs.length; i++) {
   const arg = cliArgs[i];
@@ -39,10 +41,14 @@ for (let i = 0; i < cliArgs.length; i++) {
     cliLogFile = cliArgs[++i] || null;
   } else if (arg === '--preview-dir' || arg === '--pd') {
     cliPreviewDir = cliArgs[++i] || null;
+  } else if (arg === '--out' || arg === '-o') {
+    cliOutFile = cliArgs[++i] || null;
   }
 }
 
 const LOG_FILE = cliLogFile ? path.resolve(cliLogFile) : path.resolve('logs/playwright-log.json');
+const OUT_FILE = path.resolve(cliOutFile ?? path.join(PROJECT_ROOT, 'reports', 'playwright-report.html'));
+const OUT_DIR = path.dirname(OUT_FILE);
 
 // ——— Types ———
 
