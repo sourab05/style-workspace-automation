@@ -1,6 +1,15 @@
 pipeline {
     agent any
 
+    options {
+        // Cap stored builds + archived artifacts on the controller (reduces disk growth over time).
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '5'))
+    }
+
+    // If post-stage archive fails with java.nio.file.FileSystemException "No space left on device",
+    // free disk on the Jenkins controller (discard old builds, prune jobs/*/builds/*/archive, expand volume).
+    // Archiving slim artifacts below avoids copying playwright-report/data trace zips into every build archive.
+
     // ─── Single dropdown — pick exactly what you want to run ─────────────────
     parameters {
         choice(
@@ -53,6 +62,8 @@ pipeline {
 
         TEST_WIDGETS          = "${params.TEST_WIDGETS}"
         RUN_LOCAL             = 'false'
+        // Standard CI flag so Playwright config can apply CI-specific options (forbidOnly, trace, etc.)
+        CI                    = 'true'
     }
 
     stages {
@@ -100,7 +111,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'node --version && npm --version'
-                sh 'npm install -g pnpm'
+                sh 'npm install -g pnpm@9.15.9'
                 sh 'pnpm install --frozen-lockfile'
             }
         }
@@ -127,13 +138,17 @@ pipeline {
                     PW_WORKERS=8 \
                     SLOT_VERIFY_TARGET=${SLOT_VERIFY_TARGET} \
                     xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
-                    npx playwright test tests/token_slot_validation.spec.ts \
-                    --reporter=html,line
+                    npx playwright test tests/token_slot_validation.spec.ts
                 '''
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+                    sh '''
+                        if [ -f logs/playwright-log.json ]; then
+                            npx ts-node scripts/generate-playwright-report.ts || echo "generate-playwright-report.ts exited non-zero"
+                        fi
+                    '''
+                    archiveArtifacts artifacts: 'reports/playwright-report.html,logs/playwright-log.json', allowEmptyArchive: true
                 }
             }
         }
@@ -173,24 +188,32 @@ pipeline {
             }
         }
 
-        // ── UPLOAD ────────────────────────────────────────────────────────────
-
-        stage('Upload Reports to S3') {
-            when {
-                allOf {
-                    expression { env.S3_BUCKET_NAME?.trim() }
-                    expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-                }
-            }
-            steps {
-                sh 'npx ts-node scripts/generate-and-upload-reports.ts'
-            }
-        }
+        // S3 upload runs in post { success | failure | unstable } so it still runs when an earlier stage fails
+        // (skipped stages would never reach a dedicated Upload stage).
     }
 
     post {
+        success {
+            script {
+                if (env.S3_BUCKET_NAME?.trim()) {
+                    sh 'npx ts-node scripts/generate-and-upload-reports.ts'
+                }
+            }
+        }
         failure {
+            script {
+                if (env.S3_BUCKET_NAME?.trim()) {
+                    sh 'npx ts-node scripts/generate-and-upload-reports.ts || echo "S3 upload skipped or failed (non-fatal for failed build)"'
+                }
+            }
             echo 'Build failed — check Playwright / Allure report above.'
+        }
+        unstable {
+            script {
+                if (env.S3_BUCKET_NAME?.trim()) {
+                    sh 'npx ts-node scripts/generate-and-upload-reports.ts || echo "S3 upload skipped or failed (non-fatal for unstable build)"'
+                }
+            }
         }
     }
 }
