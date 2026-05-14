@@ -26,6 +26,7 @@ import { ENV } from '../src/utils/env';
 import { googleBrowserLogin } from '../src/auth/googleAuth';
 import { StudioClient } from '../src/api/studioClient';
 import { ensureAuthCookies } from '../src/playwright/helpers';
+import { studioWidgetsPropertyAccess } from '../wdio/utils/studioWidgetAccess';
 
 // ---------------------------------------------------------------------------
 // Config
@@ -136,7 +137,7 @@ function getStyleCommand(widget: string, studioWidgetName: string): string {
   if (widget === 'formcontrols') {
     return `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey.${stylesKey}`;
   }
-  return `wm.App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.${stylesKey}`;
+  return `wm.App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${stylesKey}`;
 }
 
 function collectKeys(obj: any, prefix = ''): string[] {

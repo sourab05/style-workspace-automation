@@ -20,6 +20,7 @@ export const MobileSelectors = {
     navItems: {
         button: '~button_link_caption',
         accordion: '~accordion_link_caption',
+        'accordion-pane': '~accordion_link_caption',
         panel: '~panel_link_caption',
         cards: '~cards_link_caption',
         label: '~label_link_caption',
@@ -75,6 +76,7 @@ export const MobileSelectors = {
         // Using navbar leftnavbtn as default header selector for all widgets
         button: '~exinput_i',
         accordion: '~mobile_navbar1_leftnavbtn_a',
+        'accordion-pane': '~mobile_navbar1_leftnavbtn_a',
         panel: '~mobile_navbar1_leftnavbtn_a',
         cards: '~mobile_navbar1_leftnavbtn_a',
         label: '~mobile_navbar1_leftnavbtn_a',

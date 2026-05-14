@@ -9,6 +9,7 @@ import type { Widget } from '../../src/matrix/widgets';
 import { TokenMappingService } from '../../src/tokens/mappingService';
 import { TokenTestResultTracker, isLiteralTokenString, type TokenExecutionResult } from '../utils/tokenTestResultTracker';
 import { MobileMapper } from '../utils/mobileMapper';
+import { studioWidgetsPropertyAccess } from '../utils/studioWidgetAccess';
 
 // Align Browser type with global WebdriverIO.Browser used in specs/helpers
 // Fix TS error: BrowserAsync doesn't exist; use the main WebdriverIO Browser type which *does* include $()
@@ -441,7 +442,7 @@ export class MobileWidgetPage {
     if (widgetType === 'formcontrols') {
       command = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey.calcStyles`;
     } else {
-      command = `App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.styles`;
+      command = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
     }
     console.log(`   🧾 Entering style command: ${command}`);
 
@@ -690,7 +691,7 @@ export class MobileWidgetPage {
         } else if (widget === 'formcontrols') {
           fullStylesCmd = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.calcStyles`;
         } else {
-          fullStylesCmd = `App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.styles`;
+          fullStylesCmd = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
         }
         console.log(`   💾 Dumping full styles object: ${fullStylesCmd}`);
         const fullStylesRaw = await this.executeRnCommand(browser, fullStylesCmd);
@@ -733,7 +734,7 @@ export class MobileWidgetPage {
     } else if (widget === 'formcontrols') {
       command = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.${commandSuffix}`;
     } else {
-      command = `App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.${commandSuffix}`;
+      command = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${commandSuffix}`;
     }
     let fullCommand = command;
     console.log(`   🧾 Executing RN Command: ${command}`);
@@ -790,7 +791,7 @@ export class MobileWidgetPage {
           baseLhCommand = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.calcStyles${prefix ? `.${prefix}` : ''}`;
         } else {
           const namespace = mappedPath.includes('.') ? mappedPath.split('.')[0] : 'root';
-          baseLhCommand = `App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.styles.${namespace}`;
+          baseLhCommand = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles.${namespace}`;
         }
 
         // Check if ANY of the longhands have a value. Usually all will match for a token application.

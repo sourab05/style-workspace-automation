@@ -19,6 +19,7 @@ import { mobileWidgetSelectors } from '../../src/matrix/widget-xpaths';
 const DEFAULT_VARIANT_FOR_WIDGET: Partial<Record<Widget, string>> = {
   button: 'button-filled-primary-default',
   accordion: 'accordion-standard-standard-default',
+  'accordion-pane': 'accordion-pane-standard-standard-default',
   label: 'label-default-h1-default',
   panel: 'panel-default-primary-default',
   cards: 'cards-default-standard-default',
@@ -95,6 +96,10 @@ export const MOBILE_WIDGET_SELECTORS: Partial<Record<Widget, { android: string; 
   accordion: {
     android: resolveWidgetSelector('accordion', 'android'),
     ios: resolveWidgetSelector('accordion', 'ios'),
+  },
+  'accordion-pane': {
+    android: resolveWidgetSelector('accordion', 'android'),
+    ios: resolveWidgetSelector('accordion-pane', 'ios'),
   },
   label: {
     android: resolveWidgetSelector('label', 'android'),

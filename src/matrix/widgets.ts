@@ -258,10 +258,9 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     ]
   },
   chips: {
-    appearances: ['filled', 'elevated'],
+    appearances: ['filled', ],
     variants: {
-      filled: ['primary'],
-      elevated: ['standard'],
+      filled: ['primary']
     },
     states: ['default', 'disabled', 'active'],
     allowedTokenTypes: [

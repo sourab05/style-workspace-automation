@@ -590,6 +590,7 @@ export const mobileWidgetSelectors = {
     'button-elevated-standard-disabled': '(//android.view.ViewGroup[@resource-id="non_animatableView"])[40]',
 
     'accordion-standard-standard-default': '~accordion1_header0',
+    'accordion-pane-standard-standard-default': '~accordion1_header0',
     'label-standard-standard-default': '~label3_caption',
     'panel-standard-standard-default': '~panel1',
     'cards-standard-standard-default': '~supportedLocaleList1_item0',
@@ -695,6 +696,7 @@ export const mobileWidgetSelectors = {
     'button-elevated-standard-default': 'android=new UiSelector().description("buttonWidget")',
     'button-elevated-standard-disabled': 'android=new UiSelector().description("buttonWidget")',
     'accordion-standard-standard-default': '**/XCUIElementTypeOther[`name == "accordionWidget"`]',
+    'accordion-pane-standard-standard-default': '**/XCUIElementTypeOther[`name == "accordionPaneWidget"`]',
 
     // New widgets
     'label-default-h1-default': '**/XCUIElementTypeOther[`name == "labelWidget"`]',

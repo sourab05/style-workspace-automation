@@ -443,3 +443,57 @@ export async function waitForSelectorWithRetry(
     }
   }
 }
+
+/**
+ * Evaluate an RN preview expression in the browser console, matching compare-styles
+ * and verify-rn-mappings (new Function + wm.App runtime polling).
+ */
+export async function evaluatePreviewConsoleCommand(
+  page: Page,
+  command: string,
+  options: { maxWaitMs?: number; pollIntervalMs?: number } = {},
+): Promise<string | null> {
+  const maxWaitMs = options.maxWaitMs ?? 30000;
+  const pollIntervalMs = options.pollIntervalMs ?? 2000;
+  const startTime = Date.now();
+
+  const runCommand = async () => page.evaluate((cmd: string) => {
+    try {
+      const fn = new Function(`return ${cmd}`);
+      const value = fn();
+      if (value === undefined || value === null) {
+        return { __pending: true };
+      }
+      if (typeof value === 'object') {
+        return { __value: JSON.stringify(value) };
+      }
+      return { __value: String(value) };
+    } catch (e: any) {
+      return { __error: e.message || String(e) };
+    }
+  }, command);
+
+  while (Date.now() - startTime < maxWaitMs) {
+    const result = await runCommand();
+    if (result?.__value !== undefined) {
+      return result.__value;
+    }
+    if (
+      result?.__error &&
+      !result.__error.includes('Cannot read properties of undefined') &&
+      !result.__error.includes('is not defined')
+    ) {
+      return `CONSOLE_ERROR: ${result.__error}`;
+    }
+    await page.waitForTimeout(pollIntervalMs);
+  }
+
+  const final = await runCommand();
+  if (final?.__value !== undefined) {
+    return final.__value;
+  }
+  if (final?.__error) {
+    return `CONSOLE_ERROR: ${final.__error}`;
+  }
+  return null;
+}

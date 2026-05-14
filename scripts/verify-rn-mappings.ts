@@ -18,6 +18,8 @@ import { ENV } from '../src/utils/env';
 import { googleBrowserLogin } from '../src/auth/googleAuth';
 import { StudioClient } from '../src/api/studioClient';
 import { MobileMapper } from '../wdio/utils/mobileMapper';
+import { studioWidgetsPropertyAccess } from '../wdio/utils/studioWidgetAccess';
+import { TokenMappingService } from '../src/tokens/mappingService';
 import { ensureAuthCookies } from '../src/playwright/helpers';
 import type { Widget } from '../src/matrix/widgets';
 
@@ -117,7 +119,7 @@ function getStyleCommand(widget: string, studioWidgetName: string): string {
   if (widget === 'formcontrols') {
     return `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey.${stylesKey}`;
   }
-  return `wm.App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.${stylesKey}`;
+  return `wm.App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${stylesKey}`;
 }
 
 /**
@@ -151,6 +153,41 @@ function collectKeys(obj: any, prefix = ''): string[] {
     }
   }
   return keys;
+}
+
+function splitStylePath(dotPath: string): { prefix: string; property: string } {
+  const segments = dotPath.split('.');
+  return {
+    prefix: segments.slice(0, -1).join('.'),
+    property: segments[segments.length - 1],
+  };
+}
+
+/**
+ * Trace metadata often binds a shorthand RN property (padding, borderRadius)
+ * while the resolved styles object stores longhands (paddingTop, borderTopLeftRadius).
+ */
+function isTraceEquivalentPath(traceFullPath: string, mappedPath: string): boolean {
+  if (traceFullPath === mappedPath) return true;
+
+  const trace = splitStylePath(traceFullPath);
+  const mapped = splitStylePath(mappedPath);
+  if (trace.prefix !== mapped.prefix) return false;
+
+  const longhands = TokenMappingService.getLonghandProperties(trace.property);
+  return longhands.includes(mapped.property);
+}
+
+function resolveTraceValue(obj: any, rnProperty: string): any {
+  if (obj == null || typeof obj !== 'object') return undefined;
+
+  if (obj[rnProperty] !== undefined) return obj[rnProperty];
+
+  for (const longhand of TokenMappingService.getLonghandProperties(rnProperty)) {
+    if (obj[longhand] !== undefined) return obj[longhand];
+  }
+
+  return undefined;
 }
 
 /**
@@ -191,7 +228,7 @@ function collectTraceBindings(obj: any, prefix = ''): TraceBinding[] {
             if (match) {
               const cssVar = match[1];
               const fullPath = prefix ? `${prefix}.${rnProp}` : rnProp;
-              const resolvedValue = obj[rnProp];
+              const resolvedValue = resolveTraceValue(obj, rnProp);
               bindings.push({ namespace: prefix || '(top)', rnProperty: rnProp, cssVar, fullPath, resolvedValue });
             }
           }
@@ -496,6 +533,14 @@ async function main() {
   if (isLocal) {
     cookie = '';
     console.log('🏠 Local preview — skipping login');
+  } else if (ENV.authMethod === 'platformdb') {
+    console.log('🔐 Performing Platform DB login...');
+    const client = new StudioClient({ baseUrl: ENV.studioBaseUrl, projectId: ENV.projectId });
+    cookie = await client.loginWithPlatformDB(ENV.studioUsername, ENV.studioPassword);
+    console.log(`🔐 Login successful (cookie length: ${cookie.length})`);
+    if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
+    fs.writeFileSync(path.join(CACHE_DIR, 'auth-cookie.txt'), cookie);
+    process.env.STUDIO_COOKIE = cookie;
   } else if (ENV.authMethod === 'wavemaker') {
     console.log('🔐 Performing WaveMaker form login...');
     const client = new StudioClient({ baseUrl: ENV.studioBaseUrl, projectId: ENV.projectId });
@@ -700,7 +745,7 @@ function verifyMappings(
       if (stylesObj) {
         const value = resolvePath(stylesObj, mappedPath);
         const traceMatches = findTraceMatches(traceBindings, property);
-        const traceConfirmed = traceMatches.find(t => t.fullPath === mappedPath);
+        const traceConfirmed = traceMatches.find(t => isTraceEquivalentPath(t.fullPath, mappedPath));
 
         if (traceConfirmed) {
           result.verified.push({ property, tokenType: slot.tokenType, mappedPath, cssVar: traceConfirmed.cssVar });

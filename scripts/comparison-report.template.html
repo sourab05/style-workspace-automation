@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Style Comparison Report</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0f1117;
+    --surface:   #1a1d27;
+    --border:    #2a2d3a;
+    --text:      #e2e4ed;
+    --text2:     #8b90a8;
+    --text3:     #555870;
+    --accent:    #6366f1;
+    --warn:      #f59e0b;
+    --danger:    #ef4444;
+    --success:   #22c55e;
+    --info:      #3b82f6;
+    --add-bg:    rgba(34,197,94,.10);
+    --add-txt:   #4ade80;
+    --rem-bg:    rgba(239,68,68,.10);
+    --rem-txt:   #f87171;
+    --unch-bg:   transparent;
+    --unch-txt:  #8b90a8;
+    --radius:    8px;
+    --mono:      'SF Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 32px 24px;
+  }
+
+  .page { max-width: 960px; margin: 0 auto; }
+
+  h1 { font-size: 22px; font-weight: 700; }
+  h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  h3 { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+
+  .meta { color: var(--text2); font-size: 12px; margin-top: 4px; }
+
+  /* ── Stats ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+  .stat-card  { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .stat-value { font-size: 28px; font-weight: 700; }
+  .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .stat-warn  .stat-value { color: var(--warn); }
+  .stat-ok    .stat-value { color: var(--success); }
+
+  /* ── Bar chart ── */
+  .chart-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 24px; }
+  .bar-row    { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .bar-label  { width: 140px; font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+  .bar-track  { flex: 1; display: flex; height: 18px; border-radius: 4px; overflow: hidden; gap: 1px; }
+  .bar-seg    { height: 100%; transition: width .3s; min-width: 2px; }
+  .bar-count  { font-size: 11px; color: var(--text3); width: 28px; text-align: right; flex-shrink: 0; }
+  .seg-chg  { background: var(--warn); }
+  .seg-rem  { background: var(--info); }
+  .seg-loc  { background: var(--success); }
+  .legend   { display: flex; gap: 16px; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+  .legend-dot  { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── Controls ── */
+  .controls { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .controls h2 { margin: 0; }
+  .controls select {
+    margin-left: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .controls input[type=search] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    width: 200px;
+  }
+  .controls input[type=search]::placeholder { color: var(--text3); }
+
+  /* ── Widget cards ── */
+  .widget-list { display: flex; flex-direction: column; gap: 8px; }
+  .widget-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .widget-card.has-value-diff { border-color: rgba(245,158,11,.35); }
+
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s;
+  }
+  .card-header:hover { background: rgba(255,255,255,.03); }
+  .chevron { color: var(--text3); transition: transform .2s; font-size: 11px; flex-shrink: 0; }
+  .card-header.open .chevron { transform: rotate(90deg); }
+  .widget-name { font-weight: 600; font-size: 13px; flex: 1; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .diff-stats  { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ds-add { color: var(--success); }
+  .ds-rem { color: var(--danger); }
+  .ds-chg { color: var(--warn); }
+
+  .card-body { border-top: 1px solid var(--border); display: none; }
+  .card-body.open { display: block; }
+
+  /* ── Pill ── */
+  .pill {
+    font-size: 11px; font-weight: 500;
+    padding: 2px 7px; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .pill-warn    { background: rgba(245,158,11,.15); color: var(--warn); }
+  .pill-success { background: rgba(34,197,94,.12);  color: var(--success); }
+  .pill-neutral { background: rgba(99,102,241,.12); color: #818cf8; }
+  .pill-danger  { background: rgba(239,68,68,.12);  color: var(--danger); }
+
+  /* ── Section inside card ── */
+  .section { padding: 14px 16px; }
+  .section + .section { border-top: 1px solid var(--border); }
+
+  /* ── Value change table ── */
+  .vc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .vc-table th { text-align: left; font-size: 11px; color: var(--text3); font-weight: 500; padding: 4px 8px; border-bottom: 1px solid var(--border); }
+  .vc-table td { padding: 6px 8px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,.04); font-family: var(--mono); }
+  .vc-table tr:last-child td { border-bottom: none; }
+  .vc-table tr.row-changed td:first-child::before { content:'~'; color: var(--warn); margin-right:4px; }
+  .vc-table tr.row-remote   td:first-child::before { content:'-'; color: var(--danger); margin-right:4px; }
+  .vc-table tr.row-local    td:first-child::before { content:'+'; color: var(--success); margin-right:4px; }
+  .vc-table .path-cell { color: var(--text2); font-family: var(--mono); }
+  .vc-table .val-remote { color: var(--rem-txt); }
+  .vc-table .val-local  { color: var(--add-txt); }
+  .vc-table .val-empty  { color: var(--text3); }
+
+  /* ── Trace diff — side-by-side ── */
+  .trace-ns-header {
+    display: flex; align-items: center;
+    padding: 8px 16px;
+    font-size: 12px; font-weight: 600; color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    gap: 8px;
+  }
+  .trace-ns-header .ns-name { font-family: var(--mono); }
+  .trace-ns-header .spacer  { flex: 1; }
+
+  .trace-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .trace-side {
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .trace-side + .trace-side { border-left: 1px solid var(--border); }
+  .trace-side-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    padding: 5px 12px;
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+  }
+  .trace-remote .trace-side-label { color: var(--rem-txt); background: rgba(239,68,68,.06); }
+  .trace-local  .trace-side-label { color: var(--add-txt); background: rgba(34,197,94,.06); }
+  .trace-pre {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.65;
+    padding: 10px 12px;
+    overflow-x: auto;
+    white-space: pre;
+    flex: 1;
+    margin: 0;
+  }
+  .trace-remote .trace-pre { color: var(--rem-txt); background: rgba(239,68,68,.04); }
+  .trace-local  .trace-pre { color: var(--add-txt); background: rgba(34,197,94,.04); }
+  .trace-empty-note {
+    color: var(--text3);
+    font-style: italic;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 10px 12px;
+    background: transparent;
+  }
+
+  /* field-level changes table inside trace */
+  .field-changes {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.65;
+    padding: 10px 12px;
+    overflow-x: auto;
+    background: rgba(245,158,11,.04);
+  }
+  .field-row { display: flex; gap: 8px; margin-bottom: 4px; align-items: flex-start; }
+  .field-key  { color: var(--text2); flex-shrink: 0; }
+  .field-val-rem { color: var(--rem-txt); }
+  .field-val-loc { color: var(--add-txt); }
+  .field-arrow { color: var(--text3); flex-shrink: 0; }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ── Empty ── */
+  .empty { padding: 32px 0; text-align: center; color: var(--text3); font-size: 13px; }
+
+  /* ── Scrollable chart ── */
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .bar-label  { width: 90px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Style Comparison Report</h1>
+  <p class="meta">Remote: stage-platform.wavemaker.ai &nbsp;/&nbsp; Local: localhost:19009 &nbsp;&middot;&nbsp; Generated: <span id="gen-date"></span></p>
+
+  <div class="stats-grid" id="stats-grid"></div>
+
+  <div class="chart-wrap" id="chart-section">
+    <h2>Value changes by widget</h2>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot seg-chg"></div>Changed</div>
+      <div class="legend-item"><div class="legend-dot seg-rem"></div>Remote-only</div>
+      <div class="legend-item"><div class="legend-dot seg-loc"></div>Local-only</div>
+    </div>
+    <div id="chart"></div>
+  </div>
+
+  <div class="controls">
+    <h2>Widget diffs</h2>
+    <input type="search" id="search-box" placeholder="Search widgets…" />
+    <select id="filter-select">
+      <option value="all">All widgets</option>
+      <option value="value-change">Value changes</option>
+      <option value="trace-only">Trace-only diffs</option>
+      <option value="error">Errors</option>
+      <option value="identical">Identical</option>
+    </select>
+  </div>
+
+  <div class="widget-list" id="widget-list"></div>
+  <div class="empty" id="empty-msg" style="display:none">No widgets match this filter.</div>
+
+</div>
+
+<script>
+const DATA = __REPORT_DATA__;
+
+// ── Helpers ─────────────────────────────────────────────────
+
+function isTrace(path) { return path.includes('__trace'); }
+
+function classify(w) {
+  if (w.remoteError || w.localError) return 'error';
+  if (w.diffs.some(d => !isTrace(d.path))) return 'value-change';
+  if (w.diffs.length > 0) return 'trace-only';
+  return 'identical';
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function fmt(v) {
+  if (v === null || v === undefined) return null;
+  if (typeof v === 'object') return JSON.stringify(v, null, 2);
+  return String(v);
+}
+
+function groupTraceDiffs(diffs) {
+  const map = new Map();
+  for (const d of diffs.filter(d => isTrace(d.path))) {
+    const ns = d.path.split('.__trace')[0];
+    if (!map.has(ns)) map.set(ns, []);
+    map.get(ns).push(d);
+  }
+  return map;
+}
+
+// ── Bar chart ───────────────────────────────────────────────
+
+function buildChart() {
+  const vcWidgets = DATA.filter(w => classify(w) === 'value-change');
+  const maxTotal  = Math.max(1, ...vcWidgets.map(w => {
+    const vc = w.diffs.filter(d => !isTrace(d.path));
+    return vc.length;
+  }));
+  const sorted = [...vcWidgets].sort((a, b) => b.diffs.filter(d=>!isTrace(d.path)).length - a.diffs.filter(d=>!isTrace(d.path)).length);
+  if (!sorted.length) { document.getElementById('chart-section').style.display='none'; return; }
+  let html = '';
+  for (const w of sorted) {
+    const vc  = w.diffs.filter(d => !isTrace(d.path));
+    const chg = vc.filter(d=>d.type==='changed').length;
+    const rem = vc.filter(d=>d.type==='only_in_remote').length;
+    const loc = vc.filter(d=>d.type==='only_in_local').length;
+    const total = chg + rem + loc;
+    const pct = v => `${(v/maxTotal*100).toFixed(1)}%`;
+    html += `<div class="bar-row">
+      <div class="bar-label" title="${esc(w.widget)}">${esc(w.widget)}</div>
+      <div class="bar-track">
+        ${chg ? `<div class="bar-seg seg-chg" style="width:${pct(chg)}" title="${chg} changed"></div>` : ''}
+        ${rem ? `<div class="bar-seg seg-rem" style="width:${pct(rem)}" title="${rem} remote-only"></div>` : ''}
+        ${loc ? `<div class="bar-seg seg-loc" style="width:${pct(loc)}" title="${loc} local-only"></div>` : ''}
+      </div>
+      <div class="bar-count">${total}</div>
+    </div>`;
+  }
+  document.getElementById('chart').innerHTML = html;
+}
+
+// ── Stats ────────────────────────────────────────────────────
+
+function buildStats() {
+  const vc   = DATA.filter(w => classify(w) === 'value-change').length;
+  const tr   = DATA.filter(w => classify(w) === 'trace-only').length;
+  const err  = DATA.filter(w => classify(w) === 'error').length;
+  const totalNonTrace = DATA.reduce((s,w) => s + w.diffs.filter(d=>!isTrace(d.path)).length, 0);
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-value">${DATA.length}</div><div class="stat-label">Total widgets</div></div>
+    <div class="stat-card stat-warn"><div class="stat-value">${vc}</div><div class="stat-label">Value changes</div></div>
+    <div class="stat-card"><div class="stat-value">${tr}</div><div class="stat-label">Trace-only diffs</div></div>
+    <div class="stat-card"><div class="stat-value">${totalNonTrace}</div><div class="stat-label">Non-trace diff entries</div></div>
+  `;
+}
+
+// ── Trace side-by-side split panel ───────────────────────────
+//
+// Strategy:
+//   - "whole entry" diffs: path ends exactly at __trace[N]
+//   - "field-level" diffs: path goes deeper  __trace[N].field...
+//
+// Remote panel shows what remote had; local panel shows what local had.
+// BOTH panels are always rendered — empty side shows "(no trace entries)".
+
+function traceSplitHTML(diffs) {
+  const wholeRe = /__trace\[\d+\]$/;
+  const fieldRe = /__trace\[\d+\]\./;
+
+  const wholeR  = diffs.filter(d => wholeRe.test(d.path) && d.type === 'only_in_remote');
+  const wholeL  = diffs.filter(d => wholeRe.test(d.path) && d.type === 'only_in_local');
+  const fieldDs = diffs.filter(d => fieldRe.test(d.path));
+
+  // Build remote content
+  let remParts = [];
+  for (const d of wholeR) {
+    const idx = d.path.match(/__trace\[(\d+)\]/)[1];
+    remParts.push(`[${idx}] ${JSON.stringify(d.remoteValue, null, 2)}`);
+  }
+  // Field-level remote values (changed or only_in_remote)
+  const remFields = fieldDs.filter(d => d.remoteValue !== null);
+  if (remFields.length) {
+    remFields.forEach(d => {
+      const short = d.path.replace(/^.*?__trace\[(\d+)\]/, '[$1]');
+      remParts.push(`${short}: ${JSON.stringify(d.remoteValue)}`);
+    });
+  }
+
+  // Build local content
+  let locParts = [];
+  for (const d of wholeL) {
+    const idx = d.path.match(/__trace\[(\d+)\]/)[1];
+    locParts.push(`[${idx}] ${JSON.stringify(d.localValue, null, 2)}`);
+  }
+  // Field-level local values (changed or only_in_local)
+  const locFields = fieldDs.filter(d => d.localValue !== null);
+  if (locFields.length) {
+    locFields.forEach(d => {
+      const short = d.path.replace(/^.*?__trace\[(\d+)\]/, '[$1]');
+      locParts.push(`${short}: ${JSON.stringify(d.localValue)}`);
+    });
+  }
+
+  const remHtml = remParts.length
+    ? `<pre class="trace-pre">${esc(remParts.join('\n\n'))}</pre>`
+    : `<div class="trace-empty-note">// (no trace entries)</div>`;
+
+  const locHtml = locParts.length
+    ? `<pre class="trace-pre">${esc(locParts.join('\n\n'))}</pre>`
+    : `<div class="trace-empty-note">// (no trace entries)</div>`;
+
+  return `<div class="trace-split">
+    <div class="trace-side trace-remote">
+      <div class="trace-side-label">Remote</div>
+      ${remHtml}
+    </div>
+    <div class="trace-side trace-local">
+      <div class="trace-side-label">Local</div>
+      ${locHtml}
+    </div>
+  </div>`;
+}
+
+// ── Widget card HTML ──────────────────────────────────────────
+
+function widgetCardHTML(w) {
+  const kind = classify(w);
+  const pillMap = {
+    'value-change': '<span class="pill pill-warn">value diff</span>',
+    'trace-only':   '<span class="pill pill-neutral">trace only</span>',
+    'error':        '<span class="pill pill-danger">error</span>',
+    'identical':    '<span class="pill pill-success">identical</span>',
+  };
+  const pill = pillMap[kind];
+
+  const adds = w.diffs.filter(d=>d.type==='only_in_local').length;
+  const dels = w.diffs.filter(d=>d.type==='only_in_remote').length;
+  const chgs = w.diffs.filter(d=>d.type==='changed').length;
+  const statsHtml = `
+    ${adds ? `<span class="ds-add diff-stats">+${adds}</span>` : ''}
+    ${dels ? `<span class="ds-rem diff-stats">-${dels}</span>` : ''}
+    ${chgs ? `<span class="ds-chg diff-stats pill pill-warn">${chgs} changed</span>` : ''}
+  `;
+
+  const isOpen = kind === 'value-change';
+  const headerClass = `card-header${isOpen ? ' open' : ''}`;
+  const bodyClass   = `card-body${isOpen ? ' open' : ''}`;
+  const cardClass   = `widget-card${kind === 'value-change' ? ' has-value-diff' : ''}`;
+
+  // Error case
+  if (w.remoteError || w.localError) {
+    return `<div class="${cardClass}">
+      <div class="${headerClass}" onclick="toggle(this)">
+        <span class="chevron">▶</span>
+        <span class="widget-name">${esc(w.widget)}</span>
+        <div class="header-right">${pill}</div>
+      </div>
+      <div class="${bodyClass}">
+        <div class="section"><span style="color:var(--text2);font-size:12px">${esc(w.remoteError||w.localError)}</span></div>
+      </div>
+    </div>`;
+  }
+
+  if (w.diffs.length === 0) {
+    return `<div class="${cardClass}">
+      <div class="${headerClass}" onclick="toggle(this)">
+        <span class="chevron">▶</span>
+        <span class="widget-name">${esc(w.widget)}</span>
+        <div class="header-right">${pill}</div>
+      </div>
+      <div class="${bodyClass}">
+        <div class="section"><span style="color:var(--text3);font-size:12px">No diffs — remote and local are identical.</span></div>
+      </div>
+    </div>`;
+  }
+
+  const vcDiffs = w.diffs.filter(d => !isTrace(d.path));
+  const traceMap = groupTraceDiffs(w.diffs);
+
+  let bodyHtml = '';
+
+  // Value change table
+  if (vcDiffs.length) {
+    let rows = '';
+    for (const d of vcDiffs) {
+      const rowClass = d.type === 'changed' ? 'row-changed' : d.type === 'only_in_remote' ? 'row-remote' : 'row-local';
+      const rv = fmt(d.remoteValue);
+      const lv = fmt(d.localValue);
+      rows += `<tr class="${rowClass}">
+        <td class="path-cell">${esc(d.path)}</td>
+        <td class="${rv ? 'val-remote' : 'val-empty'}">${rv ? esc(rv) : '—'}</td>
+        <td class="${lv ? 'val-local'  : 'val-empty'}">${lv ? esc(lv) : '—'}</td>
+      </tr>`;
+    }
+    bodyHtml += `<div class="section">
+      <h3>Style value changes</h3>
+      <table class="vc-table">
+        <thead><tr><th>Path</th><th>Remote</th><th>Local</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }
+
+  // Trace diffs — side-by-side
+  for (const [ns, diffs] of traceMap) {
+    const ta = diffs.filter(d=>d.type==='only_in_local').length;
+    const td = diffs.filter(d=>d.type==='only_in_remote').length;
+    const tc = diffs.filter(d=>d.type==='changed').length;
+    bodyHtml += `<div class="section" style="padding:0">
+      <div class="trace-ns-header">
+        <span class="ns-name">${esc(ns)}.__trace</span>
+        <span class="spacer"></span>
+        ${ta ? `<span class="ds-add diff-stats">+${ta} local-only</span>` : ''}
+        ${td ? `<span class="ds-rem diff-stats">-${td} remote-only</span>` : ''}
+        ${tc ? `<span class="ds-chg pill pill-warn">${tc} changed</span>` : ''}
+      </div>
+      ${traceSplitHTML(diffs)}
+    </div>`;
+  }
+
+  return `<div class="${cardClass}">
+    <div class="${headerClass}" onclick="toggle(this)">
+      <span class="chevron">▶</span>
+      <span class="widget-name">${esc(w.widget)}</span>
+      <div class="header-right">${statsHtml} ${pill}</div>
+    </div>
+    <div class="${bodyClass}">${bodyHtml}</div>
+  </div>`;
+}
+
+// ── Toggle ───────────────────────────────────────────────────
+
+function toggle(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+// ── Render list ──────────────────────────────────────────────
+
+function renderList() {
+  const filterVal = document.getElementById('filter-select').value;
+  const searchVal = document.getElementById('search-box').value.toLowerCase().trim();
+  const list = document.getElementById('widget-list');
+  const empty = document.getElementById('empty-msg');
+
+  const filtered = DATA.filter(w => {
+    if (filterVal !== 'all' && classify(w) !== filterVal) return false;
+    if (searchVal && !w.widget.includes(searchVal)) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    list.innerHTML = filtered.map(widgetCardHTML).join('');
+    empty.style.display = 'none';
+  }
+}
+
+// ── Boot ─────────────────────────────────────────────────────
+
+document.getElementById('gen-date').textContent = new Date().toLocaleString();
+buildStats();
+buildChart();
+renderList();
+
+document.getElementById('filter-select').addEventListener('change', renderList);
+document.getElementById('search-box').addEventListener('input', renderList);
+</script>
+</body>
+</html>

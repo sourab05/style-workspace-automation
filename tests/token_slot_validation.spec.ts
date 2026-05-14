@@ -2,13 +2,14 @@ import { test, expect } from '@playwright/test';
 import path from 'path';
 import fs from 'fs';
 import { TokenSlotTestCase, TokenSlotGenerator } from '../src/playwright/tokenSlotGenerator';
-import { getComputedCss, toHaveSnapshot, gotoCanvas, gotoPreview, waitForSelectorWithRetry } from '../src/playwright/helpers';
+import { getComputedCss, toHaveSnapshot, gotoCanvas, gotoPreview, waitForSelectorWithRetry, evaluatePreviewConsoleCommand } from '../src/playwright/helpers';
 import { widgetXPaths } from '../src/matrix/widget-xpaths';
 import { StudioClient } from '../src/api/studioClient';
 import { Widget } from '../src/matrix/widgets';
 import { TokenMappingService } from '../src/tokens/mappingService';
 import { MobileMapper } from '../wdio/utils/mobileMapper';
 import { getStudioWidgetNameForVariant } from '../wdio/utils/mobileWidgetVariantCsv';
+import { studioWidgetsPropertyAccess } from '../wdio/utils/studioWidgetAccess';
 import data from './testdata/data.json';
 
 /**
@@ -683,21 +684,17 @@ ${canvasStyleCommand}
           const formFieldKey = variantName.endsWith('-disabled') ? 'custom' : 'entestkey';
           let rnCommand: string;
           if (widget === 'cards') {
-            rnCommand = `App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.${stylesKey}.${mappedPath}`;
+            rnCommand = `wm.App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.${stylesKey}.${mappedPath}`;
           } else if (widget === 'formcontrols') {
-            rnCommand = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.${stylesKey}.${mappedPath}`;
+            rnCommand = `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.${stylesKey}.${mappedPath}`;
           } else {
-            rnCommand = `App.appConfig.currentPage.Widgets.${studioWidgetName}._INSTANCE.${stylesKey}.${mappedPath}`;
+            rnCommand = `wm.App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${stylesKey}.${mappedPath}`;
           }
           const previewSelector = (data.style.previewSelectors as Record<string, string>)[widget];
 
           try {
             console.log('   📊 Validating in Preview (RN style command)...');
 
-            const inspectorOverride = widgetXPaths.previewInspector.widgetOverrides?.[widget];
-            const inputSelector = inspectorOverride?.styleCommandInput || widgetXPaths.previewInspector.styleCommandInput;
-            const outputSelector = inspectorOverride?.styleOutputLabel || widgetXPaths.previewInspector.styleOutputLabel;
-            const styleInput = page.locator(inputSelector).first();
             const maxRetries = 2;
             let currentDeployUrl = deployUrl;
 
@@ -720,23 +717,22 @@ ${canvasStyleCommand}
               await new Promise((r) => setTimeout(r, deployReadyWaitMs));
               await gotoPreview(page, widget, currentDeployUrl);
               await waitForSelectorWithRetry(page, previewSelector, { timeout: 45000, retries: 2 });
-              await styleInput.waitFor({ state: 'visible', timeout: 45000 });
 
               if (attempt === 1) {
                 const snapshotName = `preview-${widget}`;
                 previewVisualResult = await toHaveSnapshot(page, `${testId}-preview`, snapshotName);
               }
 
-              console.log(`   🧾 RN command: ${rnCommand}${attempt > 1 ? ` (retry ${attempt}/${maxRetries + 1})` : ''}`);
+              console.log(`   🧾 Console command: ${rnCommand}${attempt > 1 ? ` (retry ${attempt}/${maxRetries + 1})` : ''}`);
 
-              await styleInput.clear();
-              await styleInput.fill(rnCommand);
-              await styleInput.press('Enter');
-              await page.waitForTimeout(2000);
-
-              const styleOutput = page.locator(outputSelector).first();
-              previewActual = await styleOutput.textContent({ timeout: 45000 });
+              previewActual = await evaluatePreviewConsoleCommand(page, rnCommand, {
+                maxWaitMs: 30000,
+                pollIntervalMs: 2000,
+              });
               previewActual = previewActual?.trim() || '';
+              if (!previewActual) {
+                previewActual = 'CONSOLE_ERROR: Preview console returned no value';
+              }
 
               console.log(`   📥 RN style value: ${previewActual}`);
               console.log(`   📋 Preview: RN style '${cssProperty}' → actual: ${previewActual}, expected: ${expectedValue}`);
@@ -757,9 +753,6 @@ ${canvasStyleCommand}
                 console.log(`   ❌ Preview FAIL: ${previewError}`);
               }
             }
-
-            await styleInput.clear();
-            await styleInput.press('Enter');
 
             if (previewVisualResult.imagesAreEqual) {
               console.log(`   ⚠️  Preview: No visual difference detected`);

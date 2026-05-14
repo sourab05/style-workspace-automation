@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Preview Token Console Report</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --border: #2a2d3a;
+    --text: #e2e4ed;
+    --text2: #8b90a8;
+    --text3: #555870;
+    --accent: #6366f1;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --radius: 8px;
+    --mono: 'SF Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 32px 24px;
+  }
+  .page { max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 700; }
+  h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  .meta { color: var(--text2); font-size: 12px; margin-top: 4px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .stat-value { font-size: 28px; font-weight: 700; }
+  .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .stat-ok .stat-value { color: var(--success); }
+  .stat-bad .stat-value { color: var(--danger); }
+  .controls { display: flex; gap: 12px; align-items: center; margin: 16px 0 24px; flex-wrap: wrap; }
+  .controls select {
+    margin-left: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    min-width: 220px;
+  }
+  .widget-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .widget-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .widget-title { font-size: 16px; font-weight: 600; }
+  .widget-meta { font-size: 12px; color: var(--text2); margin-top: 4px; word-break: break-all; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge-ok { background: rgba(34,197,94,.12); color: var(--success); }
+  .badge-bad { background: rgba(239,68,68,.12); color: var(--danger); }
+  .empty {
+    padding: 18px;
+    color: var(--text2);
+    font-size: 13px;
+  }
+  .error {
+    padding: 0 18px 16px;
+    color: #fca5a5;
+    font-size: 13px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th, td {
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+    font-size: 12px;
+  }
+  th { color: var(--text2); font-weight: 600; background: rgba(255,255,255,.02); }
+  td code, .cmd {
+    font-family: var(--mono);
+    font-size: 11px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .reason { color: #fca5a5; }
+  .output { color: var(--text2); }
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .controls select { margin-left: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Preview Token Console Validation</h1>
+  <div class="meta">Generated: __GENERATED_AT__</div>
+  <div class="meta">Preview: __PREVIEW_URL__</div>
+
+  <div class="stats-grid" id="stats"></div>
+
+  <div class="controls">
+    <h2>Failures by widget</h2>
+    <select id="widget-filter">
+      <option value="all">All widgets</option>
+      <option value="failures-only">Widgets with failures only</option>
+    </select>
+  </div>
+
+  <div id="widgets"></div>
+</div>
+
+<script>
+const report = __REPORT_DATA__;
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderStats() {
+  const stats = document.getElementById('stats');
+  const items = [
+    ['Widgets', report.summary.widgets, ''],
+    ['Tokens', report.summary.tokens, ''],
+    ['Passed', report.summary.pass, 'stat-ok'],
+    ['Failed', report.summary.fail, report.summary.fail ? 'stat-bad' : 'stat-ok'],
+  ];
+  stats.innerHTML = items.map(([label, value, cls]) => `
+    <div class="stat-card ${cls}">
+      <div class="stat-value">${value}</div>
+      <div class="stat-label">${label}</div>
+    </div>
+  `).join('');
+}
+
+function renderWidgets(filter) {
+  const root = document.getElementById('widgets');
+  const widgets = [...report.widgets].sort((a, b) => a.widget.localeCompare(b.widget));
+  const visible = widgets.filter((widget) => {
+    if (filter === 'failures-only') return widget.fail > 0 || widget.error;
+    if (filter !== 'all') return widget.widget === filter;
+    return true;
+  });
+
+  if (!visible.length) {
+    root.innerHTML = '<div class="empty">No widgets match the current filter.</div>';
+    return;
+  }
+
+  root.innerHTML = visible.map((widget) => {
+    const badgeClass = widget.fail > 0 || widget.error ? 'badge-bad' : 'badge-ok';
+    const badgeText = widget.fail > 0 || widget.error
+      ? `${widget.fail} failed / ${widget.total}`
+      : `${widget.total} passed`;
+
+    const rows = widget.failures.map((failure, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${escapeHtml(failure.variantName)}</td>
+        <td>${escapeHtml(failure.tokenType)}</td>
+        <td><code>${escapeHtml(failure.propertyPath)}</code></td>
+        <td><code>${escapeHtml(failure.mappedPath)}</code></td>
+        <td class="reason">${escapeHtml(failure.reason)}</td>
+        <td class="output"><code>${escapeHtml(failure.output || '(empty)')}</code></td>
+        <td class="cmd"><code>${escapeHtml(failure.command)}</code></td>
+      </tr>
+    `).join('');
+
+    return `
+      <section class="widget-card" data-widget="${escapeHtml(widget.widget)}">
+        <div class="widget-head">
+          <div>
+            <div class="widget-title">${escapeHtml(widget.widget)}</div>
+            <div class="widget-meta">${escapeHtml(widget.pageUrl || 'Preview page unavailable')}</div>
+          </div>
+          <span class="badge ${badgeClass}">${badgeText}</span>
+        </div>
+        ${widget.error ? `<div class="error">Widget error: ${escapeHtml(widget.error)}</div>` : ''}
+        ${widget.failures.length
+          ? `<table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Variant</th>
+                  <th>Token type</th>
+                  <th>Property</th>
+                  <th>Mapped path</th>
+                  <th>Reason</th>
+                  <th>Output</th>
+                  <th>Console command</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>`
+          : '<div class="empty">All token console commands returned values for this widget.</div>'}
+      </section>
+    `;
+  }).join('');
+}
+
+renderStats();
+const widgetFilter = document.getElementById('widget-filter');
+for (const widget of [...report.widgets].sort((a, b) => a.widget.localeCompare(b.widget))) {
+  const option = document.createElement('option');
+  option.value = widget.widget;
+  option.textContent = widget.widget;
+  widgetFilter.appendChild(option);
+}
+renderWidgets('all');
+widgetFilter.addEventListener('change', (event) => {
+  renderWidgets(event.target.value);
+});
+</script>
+</body>
+</html>

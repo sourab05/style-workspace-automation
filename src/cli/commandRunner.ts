@@ -32,7 +32,19 @@ export async function runCommand(
   let child: ChildProcess;
 
   return new Promise<CommandResult>((resolve, reject) => {
-    const env = { ...process.env, CI: 'false', NO_COLOR: '1' };
+    // Ensure Gradle and Android SDK tools are on PATH if env vars are set
+    const extraPaths = [
+      process.env.GRADLE_HOME ? `${process.env.GRADLE_HOME}/bin` : '',
+      process.env.ANDROID_HOME ? `${process.env.ANDROID_HOME}/cmdline-tools/latest/bin` : '',
+      process.env.ANDROID_HOME ? `${process.env.ANDROID_HOME}/platform-tools` : '',
+    ].filter(Boolean).join(':');
+    const existingPath = process.env.PATH || '';
+    const env = {
+      ...process.env,
+      CI: 'false',
+      NO_COLOR: '1',
+      PATH: extraPaths ? `${extraPaths}:${existingPath}` : existingPath,
+    };
     child = spawn(command, {
       shell: true,
       cwd,
