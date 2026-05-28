@@ -15,6 +15,25 @@ export interface IOSBuildOptions extends BuildOptions {
 }
 
 export class WaveMakerCLI {
+  /** Write android/local.properties so Gradle finds the SDK on CI agents. */
+  private ensureAndroidLocalProperties(projectPath: string, destDir: string): void {
+    const sdkHome = process.env.ANDROID_HOME || process.env.ANDROID_SDK_ROOT;
+    if (!sdkHome) {
+      return;
+    }
+    const sdkDir = sdkHome.replace(/\\/g, '/');
+    const content = `sdk.dir=${sdkDir}\n`;
+    for (const androidDir of [
+      path.join(destDir, 'android'),
+      path.join(projectPath, 'android'),
+    ]) {
+      fs.mkdirSync(androidDir, { recursive: true });
+      const localPropsPath = path.join(androidDir, 'local.properties');
+      fs.writeFileSync(localPropsPath, content);
+      console.log(`[WM CLI] Wrote ${localPropsPath} (sdk.dir=${sdkDir})`);
+    }
+  }
+
   /**
    * Build Android APK using WaveMaker CLI
    */
@@ -31,6 +50,8 @@ export class WaveMakerCLI {
     if (!fs.existsSync(destDir)) {
       fs.mkdirSync(destDir, { recursive: true });
     }
+
+    this.ensureAndroidLocalProperties(projectPath, destDir);
 
     const cmd = `npx @wavemaker-ai/wm-reactnative-cli build android --projectPath "${projectPath}" --dest="${destDir}" --clean`;
 

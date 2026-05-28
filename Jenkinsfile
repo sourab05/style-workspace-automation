@@ -15,8 +15,23 @@ def uploadReportsToS3(Map args = [:]) {
     }
 }
 
+@NonCPS
+def parseJsonText(String jsonText) {
+    return new groovy.json.JsonSlurper().parseText(jsonText)
+}
+
+@NonCPS
+def hasActiveChoicesPlugin() {
+    try {
+        Class.forName('org.biouno.unochoice.DynamicReferenceParameter')
+        return true
+    } catch (ClassNotFoundException ignored) {
+        return false
+    }
+}
+
 def applyWmEnvProfile() {
-    def profiles = readJSON file: 'config/wm-env-profiles.json'
+    def profiles = parseJsonText(readFile('config/wm-env-profiles.json'))
     def envKey = params.WM_ENV
     def profile = profiles[envKey]
     if (!profile) {
@@ -154,15 +169,6 @@ def prepareUploadedMobileApps() {
     echo "   baseline iOS:     ${env.JENKINS_UPLOAD_IOS_BASELINE ?: '(skipped)'}"
 
     sh 'npx ts-node scripts/jenkins-prepare-mobile-apps.ts'
-}
-
-def hasActiveChoicesPlugin() {
-    try {
-        def plugin = jenkins.model.Jenkins.instance?.pluginManager?.getPlugin('uno-choice')
-        return plugin != null && plugin.isEnabled()
-    } catch (Throwable ignored) {
-        return false
-    }
 }
 
 def pipelineParameters() {
@@ -389,10 +395,11 @@ pipeline {
     }
 
     environment {
-        // Android SDK — Jenkins agent must have ANDROID_HOME set or sdk installed at this path.
-        // gradle is resolved via ANDROID_HOME/cmdline-tools or a local gradle wrapper.
-        ANDROID_HOME          = "${env.ANDROID_HOME ?: '/opt/android-sdk'}"
-        GRADLE_HOME           = "${env.GRADLE_HOME ?: '/opt/gradle/gradle-8.7'}"
+        // Android SDK / Gradle — bootstrap via scripts/setup-android-ci.sh when agent lacks them.
+        // .ci-env.sh (sourced before mobile CLI builds) overrides these workspace defaults.
+        ANDROID_HOME          = "${env.ANDROID_HOME ?: "${WORKSPACE}/.ci-tools/android-sdk"}"
+        GRADLE_HOME           = "${env.GRADLE_HOME ?: "${WORKSPACE}/.ci-tools/gradle-8.10.2"}"
+        WM_BUILD_TIMEOUT_MINUTES = '90'
 
         // BrowserStack (BrowserStack plugin credential — auto-splits into _USR and _PSW)
         BROWSERSTACK_CREDS      = credentials('BROWSERSTACK_CREDS')
@@ -535,7 +542,7 @@ pipeline {
 
         // ── MOBILE ────────────────────────────────────────────────────────────
 
-        stage('Mobile — Verify Android Environment') {
+        stage('Setup Android Build Tools') {
             when {
                 expression {
                     env.RUN_MOBILE == 'true' &&
@@ -545,45 +552,8 @@ pipeline {
             }
             steps {
                 sh '''
-                    echo "=== Checking Android build environment ==="
-
-                    # Ensure ANDROID_HOME and Gradle are on PATH
-                    export PATH="${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
-
-                    echo "ANDROID_HOME=${ANDROID_HOME}"
-                    echo "GRADLE_HOME=${GRADLE_HOME}"
-
-                    # Verify gradle is callable
-                    if ! command -v gradle &>/dev/null; then
-                        echo "❌ gradle not found on PATH — attempting to install via sdkman or direct download"
-
-                        # Try sdkman if available
-                        if [ -f "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
-                            source "$HOME/.sdkman/bin/sdkman-init.sh"
-                            sdk install gradle 8.7 || true
-                        else
-                            # Install gradle directly
-                            GRADLE_VERSION=8.7
-                            GRADLE_ZIP="gradle-${GRADLE_VERSION}-bin.zip"
-                            GRADLE_URL="https://services.gradle.org/distributions/${GRADLE_ZIP}"
-                            GRADLE_INSTALL_DIR="/opt/gradle"
-
-                            mkdir -p "${GRADLE_INSTALL_DIR}"
-                            curl -fsSL "${GRADLE_URL}" -o "/tmp/${GRADLE_ZIP}"
-                            unzip -q "/tmp/${GRADLE_ZIP}" -d "${GRADLE_INSTALL_DIR}" || true
-                            rm -f "/tmp/${GRADLE_ZIP}"
-
-                            export GRADLE_HOME="${GRADLE_INSTALL_DIR}/gradle-${GRADLE_VERSION}"
-                            export PATH="${GRADLE_HOME}/bin:${PATH}"
-                        fi
-                    fi
-
-                    gradle --version || echo "⚠️ gradle still not available — build may fail"
-
-                    # Check Java
-                    java -version 2>&1 || echo "⚠️ Java not found — required for Android builds"
-
-                    echo "=== Environment check complete ==="
+                    chmod +x scripts/setup-android-ci.sh
+                    bash scripts/setup-android-ci.sh
                 '''
             }
         }
@@ -611,7 +581,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    export PATH="${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
+                    set -a
+                    # shellcheck disable=SC1091
+                    . scripts/load-ci-env.sh
+                    set +a
                     npx ts-node wdio/specs/mobile.global.setup.ts
                 '''
             }
