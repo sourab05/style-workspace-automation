@@ -124,11 +124,13 @@ const allCapabilities = [
 ];
 
 // Filter capabilities based on platform environment variable
-const platformFilteredCapabilities = platformFilter
+// "both" or empty = use all capabilities (Android + iOS)
+const shouldFilter = platformFilter && platformFilter !== 'both';
+const platformFilteredCapabilities = shouldFilter
   ? allCapabilities.filter(cap => cap.platformName.toLowerCase() === platformFilter)
   : allCapabilities;
 
-if (platformFilter && platformFilteredCapabilities.length === 0) {
+if (shouldFilter && platformFilteredCapabilities.length === 0) {
   console.warn(`⚠️  Warning: Platform filter "${platformFilter}" did not match any capabilities`);
 }
 
