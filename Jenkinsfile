@@ -18,22 +18,26 @@ def uploadReportsToS3(Map args = [:]) {
 def applyWmEnvProfile() {
     def envKey = params.WM_ENV
 
-    // Use node to parse JSON safely (Jenkins sandbox blocks all Groovy map/JSON constructors)
-    def envLine = sh(
-        script: "node scripts/resolve-wm-env.js '${envKey}'",
-        returnStdout: true
-    ).trim()
+    // Use node to parse JSON and write a .env file (Jenkins sandbox blocks all Groovy map operations)
+    sh "node scripts/resolve-wm-env.js '${envKey}' > ${WORKSPACE}/.wm-env-profile"
 
-    envLine.split('\n').each { line ->
-        def parts = line.split('=', 2)
-        if (parts.length == 2 && parts[1]?.trim()) {
-            env[parts[0]] = parts[1]
-        }
-    }
+    // Read individual values using shell grep
     env.WM_ENV = envKey
+    env.STUDIO_BASE_URL = sh(script: "grep '^STUDIO_BASE_URL=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.PROJECT_ID = sh(script: "grep '^PROJECT_ID=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.STUDIO_PROJECT_ID = sh(script: "grep '^STUDIO_PROJECT_ID=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.STUDIO_USERNAME = sh(script: "grep '^STUDIO_USERNAME=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.AUTH_METHOD = sh(script: "grep '^AUTH_METHOD=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.STUDIO_LOGIN_PATH = sh(script: "grep '^STUDIO_LOGIN_PATH=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.STUDIO_DEPLOY_PATH = sh(script: "grep '^STUDIO_DEPLOY_PATH=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.CANVAS_PATH = sh(script: "grep '^CANVAS_PATH=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.PREVIEW_PATH = sh(script: "grep '^PREVIEW_PATH=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    env.RUNTIME_BASE_URL = sh(script: "grep '^RUNTIME_BASE_URL=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
 
-    def credId = env.JENKINS_CRED_ID ?: "WM_${envKey.toUpperCase().replace('-', '_')}_CREDS"
-    env.JENKINS_CRED_ID = ''
+    def credId = sh(script: "grep '^JENKINS_CRED_ID=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    if (!credId) {
+        credId = "WM_${envKey.toUpperCase().replace('-', '_')}_CREDS"
+    }
 
     try {
         withCredentials([usernamePassword(credentialsId: credId, usernameVariable: 'WM_CREDS_USER', passwordVariable: 'WM_CREDS_PASS')]) {
@@ -55,13 +59,13 @@ def applyWmEnvProfile() {
         }
     }
 
-    echo "▶ WM_ENV=${envKey} (${env.PROFILE_LABEL ?: envKey})"
+    def profileLabel = sh(script: "grep '^PROFILE_LABEL=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
+    echo "▶ WM_ENV=${envKey} (${profileLabel ?: envKey})"
     echo "   STUDIO_BASE_URL=${env.STUDIO_BASE_URL}"
     echo "   PROJECT_ID=${env.PROJECT_ID}"
     echo "   STUDIO_PROJECT_ID=${env.STUDIO_PROJECT_ID}"
     echo "   STUDIO_USERNAME=${env.STUDIO_USERNAME}"
     echo "   AUTH_METHOD=${env.AUTH_METHOD ?: '(auto-detect from URL)'}"
-    env.PROFILE_LABEL = ''
 }
 
 def isManualMobileUpload() {
