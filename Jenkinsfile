@@ -15,64 +15,30 @@ def uploadReportsToS3(Map args = [:]) {
     }
 }
 
-@NonCPS
-def parseJsonText(String jsonText) {
-    def parsed = new groovy.json.JsonSlurper().parseText(jsonText)
-    return new HashMap(parsed)
-}
-
-@NonCPS
-def toSerializableMap(obj) {
-    if (obj instanceof Map) {
-        def m = new LinkedHashMap()
-        obj.each { k, v -> m[k] = toSerializableMap(v) }
-        return m
-    }
-    if (obj instanceof List) {
-        return obj.collect { toSerializableMap(it) }
-    }
-    return obj
-}
-
 def applyWmEnvProfile() {
-    def rawProfiles = parseJsonText(readFile('config/wm-env-profiles.json'))
     def envKey = params.WM_ENV
-    def rawProfile = rawProfiles[envKey]
-    if (!rawProfile) {
-        error("Unknown WM_ENV: ${envKey}. Available: ${rawProfiles.keySet().sort().join(', ')}")
-    }
-    def profile = toSerializableMap(rawProfile)
 
-    def interpolate = { String tpl ->
-        if (!tpl) return null
-        return tpl.replaceAll(/\$\{PROJECT_ID\}/, profile.projectId)
-    }
+    // Use node to parse JSON safely (Jenkins sandbox blocks all Groovy map/JSON constructors)
+    def envLine = sh(
+        script: "node scripts/resolve-wm-env.js '${envKey}'",
+        returnStdout: true
+    ).trim()
 
+    envLine.split('\n').each { line ->
+        def parts = line.split('=', 2)
+        if (parts.length == 2 && parts[1]?.trim()) {
+            env[parts[0]] = parts[1]
+        }
+    }
     env.WM_ENV = envKey
-    env.STUDIO_BASE_URL = profile.studioBaseUrl
-    env.PROJECT_ID = profile.projectId
-    env.STUDIO_PROJECT_ID = profile.studioProjectId
-    env.STUDIO_USERNAME = profile.studioUsername
-    env.STUDIO_LOGIN_PATH = profile.studioLoginPath ?: '/login/authenticate'
-    env.STUDIO_DEPLOY_PATH = interpolate(profile.studioDeployPath ?: 'studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy')
-    env.CANVAS_PATH = interpolate(profile.canvasPath ?: 's/page/Main?project-id=${PROJECT_ID}')
-    env.PREVIEW_PATH = profile.previewPath ?: '/preview'
 
-    if (profile.runtimeBaseUrl) {
-        env.RUNTIME_BASE_URL = profile.runtimeBaseUrl
-    }
-    if (profile.authMethod && profile.authMethod != 'auto') {
-        env.AUTH_METHOD = profile.authMethod
-    } else {
-        env.AUTH_METHOD = ''
-    }
-
-    def credId = profile.jenkinsCredentialsId ?: "WM_${envKey.toUpperCase().replace('-', '_')}_CREDS"
+    def credId = env.JENKINS_CRED_ID ?: "WM_${envKey.toUpperCase().replace('-', '_')}_CREDS"
+    env.JENKINS_CRED_ID = ''
 
     try {
         withCredentials([usernamePassword(credentialsId: credId, usernameVariable: 'WM_CREDS_USER', passwordVariable: 'WM_CREDS_PASS')]) {
-            env.STUDIO_USERNAME = WM_CREDS_USER ?: profile.studioUsername
-            env.STUDIO_PASSWORD = WM_CREDS_PASS
+            env.STUDIO_USERNAME = env.WM_CREDS_USER
+            env.STUDIO_PASSWORD = env.WM_CREDS_PASS
         }
     } catch (Exception e) {
         echo "⚠️ Credential '${credId}' not found — trying legacy STUDIO_USERNAME / STUDIO_PASSWORD"
@@ -81,22 +47,21 @@ def applyWmEnvProfile() {
                 string(credentialsId: 'STUDIO_USERNAME', variable: 'LEGACY_STUDIO_USER'),
                 string(credentialsId: 'STUDIO_PASSWORD', variable: 'LEGACY_STUDIO_PASS'),
             ]) {
-                env.STUDIO_USERNAME = LEGACY_STUDIO_USER ?: profile.studioUsername
-                env.STUDIO_PASSWORD = LEGACY_STUDIO_PASS
+                env.STUDIO_USERNAME = env.LEGACY_STUDIO_USER ?: env.STUDIO_USERNAME
+                env.STUDIO_PASSWORD = env.LEGACY_STUDIO_PASS
             }
         } catch (Exception e2) {
-            echo "⚠️ Legacy credentials also not found. STUDIO_USERNAME set from profile; STUDIO_PASSWORD must be provided via credentials."
-            echo "   Create credential '${credId}' (Username with password) or 'STUDIO_USERNAME'+'STUDIO_PASSWORD' (Secret text)."
-            error("No Studio credentials available for WM_ENV=${envKey}. Create Jenkins credential '${credId}' — see docs/JENKINS-CREDENTIALS.md")
+            error("No Studio credentials available for WM_ENV=${envKey}. Create Jenkins credential '${credId}' (Username with password) — see docs/JENKINS-CREDENTIALS.md")
         }
     }
 
-    echo "▶ WM_ENV=${envKey} (${profile.label})"
+    echo "▶ WM_ENV=${envKey} (${env.PROFILE_LABEL ?: envKey})"
     echo "   STUDIO_BASE_URL=${env.STUDIO_BASE_URL}"
     echo "   PROJECT_ID=${env.PROJECT_ID}"
     echo "   STUDIO_PROJECT_ID=${env.STUDIO_PROJECT_ID}"
     echo "   STUDIO_USERNAME=${env.STUDIO_USERNAME}"
     echo "   AUTH_METHOD=${env.AUTH_METHOD ?: '(auto-detect from URL)'}"
+    env.PROFILE_LABEL = ''
 }
 
 def isManualMobileUpload() {
