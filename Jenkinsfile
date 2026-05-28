@@ -17,16 +17,31 @@ def uploadReportsToS3(Map args = [:]) {
 
 @NonCPS
 def parseJsonText(String jsonText) {
-    return new groovy.json.JsonSlurper().parseText(jsonText)
+    def parsed = new groovy.json.JsonSlurper().parseText(jsonText)
+    return new HashMap(parsed)
+}
+
+@NonCPS
+def toSerializableMap(obj) {
+    if (obj instanceof Map) {
+        def m = new LinkedHashMap()
+        obj.each { k, v -> m[k] = toSerializableMap(v) }
+        return m
+    }
+    if (obj instanceof List) {
+        return obj.collect { toSerializableMap(it) }
+    }
+    return obj
 }
 
 def applyWmEnvProfile() {
-    def profiles = parseJsonText(readFile('config/wm-env-profiles.json'))
+    def rawProfiles = parseJsonText(readFile('config/wm-env-profiles.json'))
     def envKey = params.WM_ENV
-    def profile = profiles[envKey]
-    if (!profile) {
-        error("Unknown WM_ENV: ${envKey}. Available: ${profiles.keySet().sort().join(', ')}")
+    def rawProfile = rawProfiles[envKey]
+    if (!rawProfile) {
+        error("Unknown WM_ENV: ${envKey}. Available: ${rawProfiles.keySet().sort().join(', ')}")
     }
+    def profile = toSerializableMap(rawProfile)
 
     def interpolate = { String tpl ->
         if (!tpl) return null
@@ -60,13 +75,19 @@ def applyWmEnvProfile() {
             env.STUDIO_PASSWORD = WM_CREDS_PASS
         }
     } catch (Exception e) {
-        echo "⚠️ Credential '${credId}' not found — falling back to legacy STUDIO_USERNAME / STUDIO_PASSWORD credentials"
-        withCredentials([
-            string(credentialsId: 'STUDIO_USERNAME', variable: 'LEGACY_STUDIO_USER'),
-            string(credentialsId: 'STUDIO_PASSWORD', variable: 'LEGACY_STUDIO_PASS'),
-        ]) {
-            env.STUDIO_USERNAME = LEGACY_STUDIO_USER ?: profile.studioUsername
-            env.STUDIO_PASSWORD = LEGACY_STUDIO_PASS
+        echo "⚠️ Credential '${credId}' not found — trying legacy STUDIO_USERNAME / STUDIO_PASSWORD"
+        try {
+            withCredentials([
+                string(credentialsId: 'STUDIO_USERNAME', variable: 'LEGACY_STUDIO_USER'),
+                string(credentialsId: 'STUDIO_PASSWORD', variable: 'LEGACY_STUDIO_PASS'),
+            ]) {
+                env.STUDIO_USERNAME = LEGACY_STUDIO_USER ?: profile.studioUsername
+                env.STUDIO_PASSWORD = LEGACY_STUDIO_PASS
+            }
+        } catch (Exception e2) {
+            echo "⚠️ Legacy credentials also not found. STUDIO_USERNAME set from profile; STUDIO_PASSWORD must be provided via credentials."
+            echo "   Create credential '${credId}' (Username with password) or 'STUDIO_USERNAME'+'STUDIO_PASSWORD' (Secret text)."
+            error("No Studio credentials available for WM_ENV=${envKey}. Create Jenkins credential '${credId}' — see docs/JENKINS-CREDENTIALS.md")
         }
     }
 
