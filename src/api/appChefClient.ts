@@ -124,7 +124,7 @@ export class AppChefClient {
 
   // ── Step 1: analyzeZip ───────────────────────────────────────────────────
 
-  async analyzeZip(zipPath: string): Promise<{ bundleId: string; displayName: string; iconFileId?: number }> {
+  async analyzeZip(zipPath: string): Promise<{ bundleId: string; displayName: string; iconFileId: number; iconFile: any }> {
     console.log('[AppChef] Analyzing ZIP...');
     const form = new FormData();
     form.append('file', fs.createReadStream(zipPath), path.basename(zipPath));
@@ -137,14 +137,15 @@ export class AppChefClient {
       throw new Error(`[AppChef] analyzeZip failed: ${JSON.stringify(resp.data)}`);
     }
 
-    // Response contains name (bundle ID) and displayName — use these for all subsequent calls
     const bundleId    = resp.data.name as string;
     const displayName = resp.data.displayName as string;
-    const iconFileId  = resp.data.file?.id as number | undefined;
+    const iconFile    = resp.data.file;
+    const iconFileId  = iconFile?.id as number;
 
     if (!bundleId) throw new Error('[AppChef] analyzeZip: missing name (bundle ID) in response');
+    if (!iconFileId) throw new Error('[AppChef] analyzeZip: missing icon file ID in response');
     console.log(`[AppChef] ZIP analysis OK — bundle=${bundleId} displayName=${displayName} iconId=${iconFileId}`);
-    return { bundleId, displayName, iconFileId };
+    return { bundleId, displayName, iconFileId, iconFile };
   }
 
   // ── Step 2: uploadFile ────────────────────────────────────────────────────
@@ -265,7 +266,9 @@ export class AppChefClient {
   // ── Step 4: saveApp ───────────────────────────────────────────────────────
 
   async saveApp(opts: {
-    fileId: number;
+    cordovaZipFileId: number;
+    iconFileId: number;
+    iconFile?: any;
     bundleId: string;
     displayName: string;
     version: string;
@@ -277,23 +280,26 @@ export class AppChefClient {
   }): Promise<string> {
     console.log('[AppChef] Saving app record...');
 
-    const platformCode = opts.platform === 'both' ? 3 : opts.platform === 'ios' ? 2 : 1;
+    // Match the exact payload structure the AppChef UI sends:
+    // - icon/file = icon from analyzeZip response
+    // - cordovaZip = uploaded ZIP file ID
+    // - platform = null (AppChef derives from cert config)
     const body: any = {
       id: opts.existingId ?? null,
       name: opts.bundleId,
       description: '',
-      icon: opts.fileId,
+      icon: opts.iconFileId,
       owner: null,
       appId: opts.existingAppId ?? null,
       displayName: opts.displayName,
       defaultBuildConfig: null,
       type: 'REACT_NATIVE',
-      file: { id: opts.fileId },
+      file: opts.iconFile || { id: opts.iconFileId },
       buildTaskByDefaultBuildConfig: {
         id: null,
-        platform: platformCode,
+        platform: null,
         lastUpdatedOn: Date.now(),
-        appId: opts.existingAppId ?? null,
+        appId: null,
         cordovaIosVersion: null,
         cordovaAndroidVersion: null,
         iosOutput: null,
@@ -302,7 +308,7 @@ export class AppChefClient {
         log: null,
         status: 3,
         cordovaVersion: null,
-        cordovaZip: opts.fileId,
+        cordovaZip: opts.cordovaZipFileId,
         buildType: 1,
         iosCertificateId: opts.iosCertId ?? null,
         androidCertificateId: opts.androidCertId ?? -1,
@@ -314,6 +320,13 @@ export class AppChefClient {
         buildEndedOn: null,
         androidPackageType: 'apk',
         retryCount: 0,
+        buildTaskStatus: null,
+        fileByAndroidOutput: null,
+        fileByCordovaZip: null,
+        fileByIosOutput: null,
+        fileByLog: null,
+        buildTypeByBuildType: null,
+        appByAppId: null,
       },
     };
 
@@ -491,12 +504,13 @@ export class AppChefClient {
 
     await this.login(opts.username, opts.password);
 
-    // analyzeZip returns bundleId + displayName from the ZIP itself — no need to hardcode them
+    // analyzeZip returns bundleId + displayName + icon file from the ZIP itself
     const analyzed = await this.analyzeZip(opts.zipPath);
     const bundleId    = opts.bundleId    || analyzed.bundleId;
     const displayName = opts.displayName || analyzed.displayName;
 
-    const fileId = await this.uploadFile(opts.zipPath);
+    // Upload the ZIP — this becomes the cordovaZip file ID
+    const cordovaZipFileId = await this.uploadFile(opts.zipPath);
     const existing = await this.findAppByName(bundleId);
 
     // For iOS builds, resolve and unlock the certificate
@@ -509,7 +523,9 @@ export class AppChefClient {
     }
 
     const appId = await this.saveApp({
-      fileId,
+      cordovaZipFileId,
+      iconFileId: analyzed.iconFileId,
+      iconFile: analyzed.iconFile,
       bundleId,
       displayName,
       version,
