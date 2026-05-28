@@ -493,7 +493,7 @@ pipeline {
                         echo "============================================"
                         MOBILE_PLATFORM=${MOBILE_PLATFORM} \
                         MOBILE_STRICT_WIDGET_WAIT=true \
-                        wdio run wdio/config/wdio.browserstack.conf.ts \
+                        npx wdio run wdio/config/wdio.browserstack.conf.ts \
                             --spec "${SPEC_GLOB}" || echo "⚠️  Batch ${BATCH_NUM} had failures (continuing)"
                     }
 
@@ -512,7 +512,7 @@ pipeline {
         stage('Mobile — Generate Allure Report') {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
-                sh 'allure generate --clean allure-results -o allure-report'
+                sh 'npx allure generate --clean allure-results -o allure-report || echo "allure generate skipped (using Jenkins Allure plugin instead)"'
             }
             post {
                 always {
