@@ -189,10 +189,11 @@ export const config: Options.Testrunner = {
   // Capabilities - filtered based on PLATFORM environment variable
   capabilities: filteredCapabilities,
 
-  // Parallel widget specs are heavy; default to 1 BS session per worker unless overridden.
+  // Each spec file manages its own BrowserStack sessions (standalone remote()).
+  // Run multiple spec files in parallel — BrowserStack plan limit is typically 5-25.
   maxInstances: process.env.RUN_LOCAL === 'true'
     ? 1
-    : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '1', 10),
+    : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '5', 10),
 
   onWorkerStart: async function (cid, caps, specs, args, execArgv) {
     const { MobileWidgetPage } = await import('../pages/MobileWidget.page');
