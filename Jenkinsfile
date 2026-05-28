@@ -455,6 +455,15 @@ pipeline {
                 }
             }
             steps {
+                script {
+                    // AppChef always uses WMO credentials regardless of WM_ENV
+                    if (isAppChefMobileBuild()) {
+                        withCredentials([usernamePassword(credentialsId: 'WM_WMO_CREDS', usernameVariable: 'WMO_USER', passwordVariable: 'WMO_PASS')]) {
+                            env.WMO_USERNAME = env.WMO_USER
+                            env.WMO_PASSWORD = env.WMO_PASS
+                        }
+                    }
+                }
                 sh '''
                     set -a
                     if [ "${MOBILE_BUILD_METHOD}" = "cli" ]; then
