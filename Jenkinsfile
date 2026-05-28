@@ -156,6 +156,15 @@ def prepareUploadedMobileApps() {
     sh 'npx ts-node scripts/jenkins-prepare-mobile-apps.ts'
 }
 
+def hasActiveChoicesPlugin() {
+    try {
+        def plugin = jenkins.model.Jenkins.instance?.pluginManager?.getPlugin('uno-choice')
+        return plugin != null && plugin.isEnabled()
+    } catch (Throwable ignored) {
+        return false
+    }
+}
+
 def pipelineParameters() {
     def uploadUiScript = '''
 (function () {
@@ -252,7 +261,7 @@ def pipelineParameters() {
 
     def activeChoiceScript = "return '<script>' + ${groovy.json.JsonOutput.toJson(uploadUiScript)} + '</script>'"
 
-    return [
+    def params = [
         [
             $class: 'ChoiceParameterDefinition',
             name: 'WM_ENV',
@@ -330,11 +339,14 @@ def pipelineParameters() {
             name: 'UPLOAD_IOS_BASELINE_IPA',
             description: 'Manual upload: baseline iOS IPA (only when SKIP_VISUAL_VERIFICATION is unchecked)'
         ],
-        [
+    ]
+
+    if (hasActiveChoicesPlugin()) {
+        params.add([
             $class: 'DynamicReferenceParameter',
             choiceType: 'ET_FORMATTED_HTML',
             name: 'MOBILE_UPLOAD_HELPER',
-            description: 'Dynamic upload field visibility (requires Uno-Choice plugin). Helper only - no value submitted.',
+            description: 'Dynamic upload field visibility (Active Choices plugin). Helper only - no value submitted.',
             omitValueField: true,
             referencedParameters: 'RUN_TARGET,MOBILE_APP_SOURCE,SKIP_VISUAL_VERIFICATION',
             script: [
@@ -342,7 +354,7 @@ def pipelineParameters() {
                 fallbackScript: [
                     classpath: [],
                     sandbox: true,
-                    script: 'return "<p><b>Tip:</b> Install the <i>Uno-Choice</i> plugin to show only the APK/IPA fields you need. All upload fields stay visible until then.</p>"'
+                    script: 'return "<p>Active Choices upload helper failed to load.</p>"'
                 ],
                 script: [
                     classpath: [],
@@ -350,8 +362,10 @@ def pipelineParameters() {
                     script: activeChoiceScript
                 ]
             ]
-        ]
-    ]
+        ])
+    }
+
+    return params
 }
 
 properties([parameters(pipelineParameters())])
