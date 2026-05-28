@@ -52,9 +52,10 @@ def pipelineParameters() {
         [
             $class: 'ChoiceParameterDefinition',
             name: 'MOBILE_APP_SOURCE',
-            choices: ['Build from Studio (CLI)', 'Upload APK/IPA manually'],
+            choices: ['Build from Studio (CLI)', 'Build with AppChef', 'Upload APK/IPA manually'],
             description: '''Mobile app source (BrowserStack runs only):
-  Build from Studio (CLI) - downloads RN project, applies tokens, builds APK/IPA via WaveMaker CLI
+  Build from Studio (CLI) - RN ZIP from Studio, build APK/IPA locally via wm-reactnative-cli
+  Build with AppChef - RN ZIP from Studio, build APK/IPA on WaveMaker Online AppChef (WM_ENV=wmo)
   Upload APK/IPA manually - upload pre-built apps below (skips Studio mobile build)'''
         ],
         [

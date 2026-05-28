@@ -10,6 +10,7 @@ import type { BrowserStackAppUploadResponse } from '../services/browserstack.ser
 import { BatchTokenMerger, TokenVariantPair } from '../utils/batch-token-merger';
 import { RnProjectManager } from '../../src/api/rnProjectManager';
 import { WaveMakerCLI } from '../../src/cli/wavemakerCli';
+import { AppChefClient } from '../../src/api/appChefClient';
 import { isLocalEnv } from '../utils/envFlags';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
 import { getPropertyPathsForType } from '../utils/mobileTokenDistributor';
@@ -804,9 +805,12 @@ export default async function mobileGlobalSetup() {
       console.warn('⚠️ Failed to publish revert state:', err.message);
     }
 
-    // Check if baseline apps already exist
+    // Check if baseline build should be skipped (visual verification disabled)
     const baselineAppsPath = path.join(cacheDir, 'mobile-baseline-apps.json');
-    let skipBaselineBuild = false;
+    let skipBaselineBuild = process.env.SKIP_VISUAL_VERIFICATION === 'true';
+    if (skipBaselineBuild) {
+      console.log('\n⏭️  SKIP_VISUAL_VERIFICATION=true — skipping baseline build entirely (token value checks only)');
+    }
     let baselineApps: { android?: string; ios?: string } = {};
 
     if (fs.existsSync(baselineAppsPath)) {
@@ -853,60 +857,86 @@ export default async function mobileGlobalSetup() {
       fileServiceUrl: `${baseUrl}/file-service`
     });
 
-    // Initialize WaveMaker CLI (needed for both baseline and actual builds)
+    // Build method: Jenkins sets MOBILE_BUILD_METHOD=cli|appchef; MOBILE_APP_SOURCE is fallback
+    const buildMethod = (
+      process.env.MOBILE_BUILD_METHOD ||
+      (process.env.MOBILE_APP_SOURCE === 'Build with AppChef' ? 'appchef' : 'cli')
+    ).toLowerCase();
+    const useAppChef = buildMethod === 'appchef';
+    console.log(`\n🔧 Mobile build method: ${useAppChef ? 'AppChef' : 'WaveMaker CLI'} (MOBILE_BUILD_METHOD=${buildMethod})`);
+
+    // Initialize WaveMaker CLI (needed for CLI builds)
     const wmCli = new WaveMakerCLI();
+
+    /** Build APK/IPA using the configured method (CLI or AppChef). */
+    const buildApps = async (opts: {
+      label: string;
+      projectPath?: string;        // CLI only
+      zipPath?: string;            // AppChef only
+      destDir: string;
+      platform: 'android' | 'ios' | 'both';
+    }): Promise<{ apkPath?: string; ipaPath?: string }> => {
+      if (useAppChef) {
+        const appChef = new AppChefClient();
+        return appChef.buildFromZip({
+          zipPath: opts.zipPath!,
+          bundleId: process.env.APPCHEF_BUNDLE_ID || 'com.wavemaker.styleworkspaceautomation',
+          displayName: process.env.APPCHEF_DISPLAY_NAME || 'StyleWorkSpaceAutomation',
+          version: process.env.APPCHEF_VERSION || '0.0.1',
+          platform: opts.platform,
+          destDir: opts.destDir,
+          username: process.env.WMO_USERNAME || process.env.STUDIO_USERNAME || '',
+          password: process.env.WMO_PASSWORD || process.env.STUDIO_PASSWORD || '',
+        });
+      }
+
+      // CLI build
+      const result: { apkPath?: string; ipaPath?: string } = {};
+      if (opts.platform !== 'ios') {
+        try {
+          result.apkPath = await wmCli.buildAndroid({ projectPath: opts.projectPath!, destDir: path.join(opts.destDir, 'build-out-android') });
+        } catch (e: any) { console.error(`❌ ${opts.label} Android CLI build failed:`, e?.message || e); }
+      }
+      if (opts.platform !== 'android') {
+        try {
+          result.ipaPath = await wmCli.buildIOS({
+            projectPath: opts.projectPath!, destDir: path.join(opts.destDir, 'build-out-ios'),
+            certificatePath: process.env.IOS_P12_CERT_PATH,
+            certificatePassword: process.env.IOS_P12_PASSWORD,
+            provisioningProfilePath: process.env.IOS_PROVISION_PROFILE_PATH,
+          });
+        } catch (e: any) { console.error(`❌ ${opts.label} iOS CLI build failed:`, e?.message || e); }
+      }
+      return result;
+    };
+
+    const mobilePlatform: 'android' | 'ios' | 'both' =
+      runAndroid && runIOS ? 'both' : runIOS ? 'ios' : 'android';
 
     if (!skipBaselineBuild) {
       // 1.3 Download and build baseline APK and IPA
       console.log('\n📱 Step 1.3: Downloading RN project and building baseline apps...');
 
-      // Download and prepare baseline project (allow override via *_BASELINE)
       const baselineDir = path.join(process.cwd(), process.env.MOBILE_BUILD_DIR || 'mobile-builds', 'baseline');
-      
-      // Clean entire baseline directory before building to ensure fresh start
       ensureCleanDir(baselineDir);
-      
-      // ALWAYS use fresh RN project (no ZIP download)
-      const baselineProjectPath = await rnManager.prepareProject(baselineDir);
-      console.log('🚫 Skipped ZIP download → Using fresh RN baseline project');
 
-      // Use separate build-out directories for Android and iOS to prevent
-      // the iOS CLI "empty dest folder" prompt from wiping the APK.
-      const baselineAndroidBuildOutDir = path.join(baselineDir, 'build-out-android');
-      const baselineIosBuildOutDir = path.join(baselineDir, 'build-out-ios');
-      if (runAndroid) ensureCleanDir(baselineAndroidBuildOutDir);
-      if (runIOS) ensureCleanDir(baselineIosBuildOutDir);
-
-      // Initialize WaveMaker CLI
-      const wmCli = new WaveMakerCLI();
-
-      // Build baseline APK and IPA independently per platform
       let baselineApkPath: string | undefined;
       let baselineIpaPath: string | undefined;
 
-      if (runAndroid) {
-        try {
-          baselineApkPath = await wmCli.buildAndroid({
-            projectPath: baselineProjectPath,
-            destDir: baselineAndroidBuildOutDir,
-          });
-        } catch (e: any) {
-          console.error('❌ Baseline Android build failed:', e?.message || e);
-        }
-      }
-
-      if (runIOS) {
-        try {
-          baselineIpaPath = await wmCli.buildIOS({
-            projectPath: baselineProjectPath,
-            destDir: baselineIosBuildOutDir,
-            certificatePath: process.env.IOS_P12_CERT_PATH,
-            certificatePassword: process.env.IOS_P12_PASSWORD,
-            provisioningProfilePath: process.env.IOS_PROVISION_PROFILE_PATH,
-          });
-        } catch (e: any) {
-          console.error('❌ Baseline iOS build failed:', e?.message || e);
-        }
+      if (useAppChef) {
+        // For AppChef we need the RN ZIP — download it via RnProjectManager
+        const baselineZipPath = await rnManager.downloadProject(
+          await rnManager.buildNativeMobileApp('development'), baselineDir
+        );
+        const built = await buildApps({ label: 'Baseline', zipPath: baselineZipPath, destDir: baselineDir, platform: mobilePlatform });
+        baselineApkPath = built.apkPath;
+        baselineIpaPath = built.ipaPath;
+      } else {
+        const baselineProjectPath = await rnManager.prepareProject(baselineDir);
+        console.log('🚫 Skipped ZIP download → Using fresh RN baseline project');
+        const built = await buildApps({ label: 'Baseline', projectPath: baselineProjectPath, destDir: baselineDir, platform: mobilePlatform });
+        baselineApkPath = built.apkPath;
+        baselineIpaPath = built.ipaPath;
       }
 
       if (!baselineApkPath && !baselineIpaPath) {
@@ -1088,43 +1118,21 @@ export default async function mobileGlobalSetup() {
     console.log('🚀 Triggering and polling for new RN build (With Tokens)...');
     const zipReadyUrl = await rnManager.buildNativeMobileApp('development');
     const actualZipPath = await rnManager.downloadProject(zipReadyUrl, actualDir);
-    // 3️⃣ Extract ZIP → <actualDir>/rn-project (clean, single extraction)
-    const actualProjectPath = await rnManager.extractZip(actualZipPath, path.join(actualDir, 'rn-project'));
-    console.log('📂 Extracted RN project with applied tokens:', actualProjectPath);
 
-    // Use separate build-out directories for Android and iOS
-    const actualAndroidBuildOutDir = path.join(actualDir, 'build-out-android');
-    const actualIosBuildOutDir = path.join(actualDir, 'build-out-ios');
-    if (runAndroid) ensureCleanDir(actualAndroidBuildOutDir);
-    if (runIOS) ensureCleanDir(actualIosBuildOutDir);
-
-    // Build actual APK and IPA independently per platform
     let actualApkPath: string | undefined;
     let actualIpaPath: string | undefined;
 
-    if (runAndroid) {
-      try {
-        actualApkPath = await wmCli.buildAndroid({
-          projectPath: actualProjectPath,
-          destDir: actualAndroidBuildOutDir,
-        });
-      } catch (e: any) {
-        console.error('❌ actual Android build failed:', e?.message || e);
-      }
-    }
-
-    if (runIOS) {
-      try {
-        actualIpaPath = await wmCli.buildIOS({
-          projectPath: actualProjectPath,
-          destDir: actualIosBuildOutDir,
-          certificatePath: process.env.IOS_P12_CERT_PATH,
-          certificatePassword: process.env.IOS_P12_PASSWORD,
-          provisioningProfilePath: process.env.IOS_PROVISION_PROFILE_PATH,
-        });
-      } catch (e: any) {
-        console.error('❌ actual iOS build failed:', e?.message || e);
-      }
+    if (useAppChef) {
+      const built = await buildApps({ label: 'Actual', zipPath: actualZipPath, destDir: actualDir, platform: mobilePlatform });
+      actualApkPath = built.apkPath;
+      actualIpaPath = built.ipaPath;
+    } else {
+      // 3️⃣ Extract ZIP → <actualDir>/rn-project (clean, single extraction)
+      const actualProjectPath = await rnManager.extractZip(actualZipPath, path.join(actualDir, 'rn-project'));
+      console.log('📂 Extracted RN project with applied tokens:', actualProjectPath);
+      const built = await buildApps({ label: 'Actual', projectPath: actualProjectPath, destDir: actualDir, platform: mobilePlatform });
+      actualApkPath = built.apkPath;
+      actualIpaPath = built.ipaPath;
     }
 
     if (!actualApkPath && !actualIpaPath) {

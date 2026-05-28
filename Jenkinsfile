@@ -76,6 +76,14 @@ def isCliMobileBuild() {
     return params.MOBILE_APP_SOURCE == 'Build from Studio (CLI)'
 }
 
+def isAppChefMobileBuild() {
+    return params.MOBILE_APP_SOURCE == 'Build with AppChef'
+}
+
+def isStudioMobileBuild() {
+    return isCliMobileBuild() || isAppChefMobileBuild()
+}
+
 def prepareUploadedMobileApps() {
     if (!isManualMobileUpload()) {
         return
@@ -205,9 +213,10 @@ def pipelineParameters() {
         [
             $class: 'ChoiceParameterDefinition',
             name: 'MOBILE_APP_SOURCE',
-            choices: ['Build from Studio (CLI)', 'Upload APK/IPA manually'],
+            choices: ['Build from Studio (CLI)', 'Build with AppChef', 'Upload APK/IPA manually'],
             description: '''Mobile app source (BrowserStack runs only):
-  Build from Studio (CLI) - downloads RN project, applies tokens, builds APK/IPA via WaveMaker CLI
+  Build from Studio (CLI) - RN ZIP from Studio, build APK/IPA locally via wm-reactnative-cli (needs Android SDK on agent)
+  Build with AppChef - RN ZIP from Studio, build APK/IPA on WaveMaker Online AppChef (use WM_ENV=wmo)
   Upload APK/IPA manually - upload pre-built apps below (skips Studio mobile build)'''
         ],
         [
@@ -350,7 +359,15 @@ pipeline {
                         env.MOBILE_PLATFORM = 'both'
                     }
 
-                    echo "▶ WM_ENV=${params.WM_ENV}  |  RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}  |  MOBILE_APP_SOURCE=${params.MOBILE_APP_SOURCE}  |  S3_VERSION=${params.S3_VERSION ?: '(not set — S3 upload skipped)'}  |  SKIP_VISUAL_VERIFICATION=${params.SKIP_VISUAL_VERIFICATION}"
+                    if (isAppChefMobileBuild()) {
+                        env.MOBILE_BUILD_METHOD = 'appchef'
+                    } else if (isCliMobileBuild()) {
+                        env.MOBILE_BUILD_METHOD = 'cli'
+                    } else {
+                        env.MOBILE_BUILD_METHOD = ''
+                    }
+
+                    echo "▶ WM_ENV=${params.WM_ENV}  |  RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}  |  MOBILE_APP_SOURCE=${params.MOBILE_APP_SOURCE}  |  MOBILE_BUILD_METHOD=${env.MOBILE_BUILD_METHOD ?: '(manual upload)'}  |  S3_VERSION=${params.S3_VERSION ?: '(not set — S3 upload skipped)'}  |  SKIP_VISUAL_VERIFICATION=${params.SKIP_VISUAL_VERIFICATION}"
                 }
             }
         }
@@ -431,18 +448,19 @@ pipeline {
             }
         }
 
-        stage('Mobile — Setup (CLI Build)') {
+        stage('Mobile — Setup (CLI / AppChef)') {
             when {
                 expression {
-                    env.RUN_MOBILE == 'true' &&
-                    params.MOBILE_APP_SOURCE == 'Build from Studio (CLI)'
+                    env.RUN_MOBILE == 'true' && isStudioMobileBuild()
                 }
             }
             steps {
                 sh '''
                     set -a
-                    # shellcheck disable=SC1091
-                    . scripts/load-ci-env.sh
+                    if [ "${MOBILE_BUILD_METHOD}" = "cli" ]; then
+                      # shellcheck disable=SC1091
+                      . scripts/load-ci-env.sh
+                    fi
                     set +a
                     npx ts-node wdio/specs/mobile.global.setup.ts
                 '''
