@@ -462,11 +462,32 @@ export class AppChefClient {
   }
 
   async downloadBuild(buildTaskId: string, platform: 'android' | 'ios', destPath: string, directUrl?: string): Promise<string> {
-    // Prefer the direct S3 URL from fileByAndroidOutput/fileByIosOutput (no auth needed),
-    // fall back to the authenticated downloadOutput endpoint.
-    const url = directUrl || this.downloadUrl(buildTaskId, platform);
-    console.log(`[AppChef] Downloading ${platform} build → ${destPath}`);
     fs.mkdirSync(path.dirname(destPath), { recursive: true });
+
+    // S3 direct URLs are pre-signed — must NOT send WMO cookies (causes 403).
+    // Authenticated downloadOutput endpoint needs the session cookie.
+    const isS3Url = directUrl?.includes('.s3.') || directUrl?.includes('amazonaws.com');
+
+    if (directUrl && isS3Url) {
+      console.log(`[AppChef] Downloading ${platform} via S3 direct URL → ${destPath}`);
+      const resp = await axios.get(directUrl, {
+        responseType: 'stream',
+        maxRedirects: 5,
+        // No auth headers for S3
+      });
+      await new Promise<void>((resolve, reject) => {
+        const writer = fs.createWriteStream(destPath);
+        resp.data.pipe(writer);
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
+      console.log(`[AppChef] ✅ Downloaded ${platform} → ${destPath}`);
+      return destPath;
+    }
+
+    // Fall back to authenticated downloadOutput endpoint
+    const url = directUrl || this.downloadUrl(buildTaskId, platform);
+    console.log(`[AppChef] Downloading ${platform} via downloadOutput → ${destPath}`);
 
     const resp = await axios.get(url, {
       headers: this.authHeaders(),
