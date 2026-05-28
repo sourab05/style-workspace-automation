@@ -480,23 +480,53 @@ pipeline {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh '''
-                    rm -rf allure-results
-                    mkdir -p allure-results
-
-                    echo "🚀 Running mobile token validation on BrowserStack (MOBILE_PLATFORM=${MOBILE_PLATFORM})"
-
-                    MOBILE_STRICT_WIDGET_WAIT=true \
-                    npx wdio run wdio/config/wdio.browserstack.conf.ts \
-                        --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
-                        || echo "⚠️  WDIO run completed with failures"
+                    rm -rf allure-results allure-results-android allure-results-ios
+                    mkdir -p allure-results allure-results-android allure-results-ios
                 '''
+                script {
+                    def runAndroidTests = env.MOBILE_PLATFORM == 'android' || env.MOBILE_PLATFORM == 'both'
+                    def runIosTests = env.MOBILE_PLATFORM == 'ios' || env.MOBILE_PLATFORM == 'both'
+                    def branches = [:]
+
+                    if (runAndroidTests) {
+                        branches['Android'] = {
+                            sh '''
+                                echo "🤖 Running Android token validation on BrowserStack"
+                                MOBILE_PLATFORM=android MOBILE_STRICT_WIDGET_WAIT=true \
+                                ALLURE_RESULTS_DIR=allure-results-android \
+                                npx wdio run wdio/config/wdio.browserstack.conf.ts \
+                                    --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
+                                    || echo "⚠️  Android WDIO run completed with failures"
+                            '''
+                        }
+                    }
+                    if (runIosTests) {
+                        branches['iOS'] = {
+                            sh '''
+                                echo "🍎 Running iOS token validation on BrowserStack"
+                                MOBILE_PLATFORM=ios MOBILE_STRICT_WIDGET_WAIT=true \
+                                ALLURE_RESULTS_DIR=allure-results-ios \
+                                npx wdio run wdio/config/wdio.browserstack.conf.ts \
+                                    --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
+                                    || echo "⚠️  iOS WDIO run completed with failures"
+                            '''
+                        }
+                    }
+                    parallel branches
+                }
+                sh 'echo "✅ Android + iOS test runs completed"'
             }
         }
 
         stage('Mobile — Generate Allure Report') {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
-                sh 'npx allure generate --clean allure-results -o allure-report || echo "allure generate skipped (using Jenkins Allure plugin instead)"'
+                sh '''
+                    mkdir -p allure-results
+                    cp -r allure-results-android/* allure-results/ 2>/dev/null || true
+                    cp -r allure-results-ios/* allure-results/ 2>/dev/null || true
+                    npx allure generate --clean allure-results -o allure-report || echo "allure generate skipped (using Jenkins Allure plugin instead)"
+                '''
             }
             post {
                 always {

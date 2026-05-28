@@ -165,7 +165,7 @@ export const config: Options.Testrunner = {
     [
       'allure',
       {
-        outputDir: 'allure-results',
+        outputDir: process.env.ALLURE_RESULTS_DIR || 'allure-results',
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: true,
       },
