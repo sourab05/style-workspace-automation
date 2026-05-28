@@ -1,4 +1,5 @@
 // playwright.config.ts
+import './src/utils/bootstrap-env';
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({

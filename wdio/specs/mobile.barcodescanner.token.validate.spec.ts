@@ -6,7 +6,7 @@ import { MobileWidgetPage } from '../pages/MobileWidget.page';
 import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
-import { isLocalEnv } from '../utils/envFlags';
+import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
 import type { Widget } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
 import { getWidgetKey } from '../../src/matrix/generator';
@@ -151,12 +151,13 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
         });
     }
 
-    // Global afterEach for counting
+    // Global afterEach for counting (token validation tests only, active platforms only)
     afterEach(function () {
-        // Exclude the screenshot comparison test from token statistics
-        if (this.currentTest?.title?.includes('baseline vs actual screenshot')) {
-            return;
-        }
+        const title = this.currentTest?.title ?? '';
+        if (title.includes('baseline vs actual screenshot')) return;
+        if (!title.includes(': validate ')) return;
+        if (title.startsWith('Android:') && !shouldRunAndroid) return;
+        if (title.startsWith('iOS:') && !shouldRunIOS) return;
 
         if (this.currentTest?.state === 'passed') {
             passedTests++;
@@ -174,6 +175,11 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
             console.log('⏭ Skipping Android baseline screenshot (MOBILE_PLATFORM excludes android)');
             this.skip();
         }
+        if (skipBaselineScreenshot()) {
+            console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
+            this.skip();
+        }
+
 
         const screenshotName = 'barcodescanner-page';
         const screenshotHelpers = new ScreenshotHelpers();
@@ -230,6 +236,11 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
             console.log('⏭ Skipping iOS baseline screenshot (MOBILE_PLATFORM excludes ios)');
             this.skip();
         }
+        if (skipBaselineScreenshot()) {
+            console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
+            this.skip();
+        }
+
 
         const screenshotName = 'barcodescanner-page';
         const screenshotHelpers = new ScreenshotHelpers();
@@ -289,8 +300,8 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
         const { tokenRef, variantName, studioWidgetName, propertyPath } = pair;
 
         describe(`Token Validate: ${tokenRef} Property: ${propertyPath.join('.')}`, function () {
-            it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
-                if (!shouldRunAndroid) this.skip();
+            if (shouldRunAndroid) {
+              it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
                 // Ensure session exists
                 if (!androidBrowser) {
@@ -298,6 +309,7 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                     const widgetPageWarmup = new MobileWidgetPage();
                     await widgetPageWarmup.navigateToWidget(androidBrowser, widgetKey);
                     await widgetPageWarmup.waitForWidget(androidBrowser, widgetKey);
+          await widgetPageWarmup.warmStylesCache(androidBrowser, widgetKey, variantName);
                 }
 
                 const browser = androidBrowser!;
@@ -306,7 +318,10 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                 const verifier = new MobileVerificationHelper(widgetPage, screenshotHelpers);
 
                 console.log(`\n🤖 [Android] Testing ${variantName} | Token=${tokenRef} | Property=${propertyPath.join('.')}`);
-                await widgetPage.waitForWidget(browser, widgetKey);
+                if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'android')) {
+                  await widgetPage.waitForWidget(browser, widgetKey);
+                }
+
 
                 await verifier.verifyTokenApplication(
                     browser,
@@ -319,9 +334,10 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                     propertyPath
                 );
             });
+            }
 
-            it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
-                if (!shouldRunIOS) this.skip();
+            if (shouldRunIOS) {
+              it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
                 // Ensure session exists
                 if (!iosBrowser) {
@@ -329,6 +345,7 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                     const widgetPageWarmup = new MobileWidgetPage();
                     await widgetPageWarmup.navigateToWidget(iosBrowser, widgetKey);
                     await widgetPageWarmup.waitForWidget(iosBrowser, widgetKey);
+            await widgetPageWarmup.warmStylesCache(iosBrowser, widgetKey, variantName);
                 }
 
                 const browser = iosBrowser!;
@@ -337,7 +354,10 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                 const verifier = new MobileVerificationHelper(widgetPage, screenshotHelpers);
 
                 console.log(`\n🍎 [iOS] Testing ${variantName} | Token=${tokenRef} | Property=${propertyPath.join('.')}`);
-                await widgetPage.waitForWidget(browser, widgetKey);
+                if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'ios')) {
+                  await widgetPage.waitForWidget(browser, widgetKey);
+                }
+
 
                 await verifier.verifyTokenApplication(
                     browser,
@@ -350,6 +370,7 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                     propertyPath
                 );
             });
+            }
 
             // Attach artifacts after each test
             afterEach(function () {
@@ -420,64 +441,70 @@ describe('Mobile Token Validation - Barcode Scanner Widget', function () {
                 }
             });
         });
+    });
 
-        // ---------------------------------------------------------------------------
-        // Cleanup & summary
-        // ---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // Cleanup & summary (once per suite)
+    // ---------------------------------------------------------------------------
 
-        after(async function () {
-            if (androidBrowser) {
-                await androidBrowser.deleteSession();
-                console.log('🧹 Closed Android token validation session');
-            }
-            if (iosBrowser) {
-                await iosBrowser.deleteSession();
-                console.log('🧹 Closed iOS token validation session');
-            }
+    after(async function () {
+        if (androidBrowser) {
+            await androidBrowser.deleteSession();
+            console.log('🧹 Closed Android token validation session');
+        }
+        if (iosBrowser) {
+            await iosBrowser.deleteSession();
+            console.log('🧹 Closed iOS token validation session');
+        }
 
-            const outputDir = path.join(process.cwd(), 'artifacts', 'token-validation-reports');
-            const { MobileWidgetPage } = require('../pages/MobileWidget.page');
-            const { PayloadConfigComparator } = require('../utils/payloadConfigComparator');
+        const outputDir = path.join(process.cwd(), 'artifacts', 'token-validation-reports');
+        const { MobileWidgetPage } = require('../pages/MobileWidget.page');
+        const { PayloadConfigComparator } = require('../utils/payloadConfigComparator');
 
-            // ========================================
-            // PAYLOAD vs CONFIGURATION COMPARISON
-            // ========================================
-            console.log('\n🔍 Comparing payload against configuration...');
-            const payloadComparison = PayloadConfigComparator.compare(widgetKey, appliedPayload);
-            const payloadReport = PayloadConfigComparator.generateReport(payloadComparison);
+        // ========================================
+        // PAYLOAD vs CONFIGURATION COMPARISON
+        // ========================================
+        console.log('\n🔍 Comparing payload against configuration...');
+        const payloadComparison = PayloadConfigComparator.compare(widgetKey, appliedPayload);
+        const payloadReport = PayloadConfigComparator.generateReport(payloadComparison);
 
-            // Save payload comparison report
-            const payloadReportPath = path.join(outputDir, "android", `${widgetKey}-android-payload-comparison.txt`);
-            const platformDir = path.join(outputDir, "android"); if (!fs.existsSync(platformDir)) fs.mkdirSync(platformDir, { recursive: true });
-            fs.writeFileSync(payloadReportPath, payloadReport);
+        // Save payload comparison report
+        const payloadReportPath = path.join(outputDir, "android", `${widgetKey}-android-payload-comparison.txt`);
+        const platformDir = path.join(outputDir, "android"); if (!fs.existsSync(platformDir)) fs.mkdirSync(platformDir, { recursive: true });
+        fs.writeFileSync(payloadReportPath, payloadReport);
 
-            console.log(`✅ Payload comparison saved to: ${payloadReportPath}`);
-            console.log(payloadReport);
+        console.log(`✅ Payload comparison saved to: ${payloadReportPath}`);
+        console.log(payloadReport);
 
-            // ========================================
-            // TEST RESULTS COMPARISON
-            // ========================================
-            console.log('\n📊 Generating test results comparison table...');
-            MobileWidgetPage.resultTracker.saveComparisonTable(widgetKey, 'android', outputDir);
-            MobileWidgetPage.resultTracker.exportToJson(outputDir);
+        // ========================================
+        // TEST RESULTS COMPARISON
+        // ========================================
+        console.log('\n📊 Generating test results comparison table...');
+        MobileWidgetPage.resultTracker.saveComparisonTable(widgetKey, 'android', outputDir);
+        MobileWidgetPage.resultTracker.exportToJson(outputDir);
 
-            console.log('\n' + '='.repeat(80));
-            console.log('📱 Mobile Barcode Scanner Token Validation Tests Complete');
-            console.log('='.repeat(80));
+        console.log('\n' + '='.repeat(80));
+        console.log('📱 Mobile Barcode Scanner Token Validation Tests Complete');
+        console.log('='.repeat(80));
 
-            const platforms = [
-                shouldRunAndroid ? 'Android' : null,
-                shouldRunIOS ? 'iOS' : null,
-            ].filter(Boolean).join(' + ');
+        const platforms = [
+            shouldRunAndroid ? 'Android' : null,
+            shouldRunIOS ? 'iOS' : null,
+        ].filter(Boolean).join(' + ');
 
-            const platformCount = (shouldRunAndroid ? 1 : 0) + (shouldRunIOS ? 1 : 0);
+        const platformCount = (shouldRunAndroid ? 1 : 0) + (shouldRunIOS ? 1 : 0);
 
-            console.log(`✅ Tested ${appliedPairs.length} applied token pairs for widget: ${widgetKey}`);
-            console.log(`✅ Platforms: ${platforms}`);
-            console.log(`✅ Total tests: ${appliedPairs.length * platformCount}`);
-            console.log(`✅ Passed tests: ${passedTests}`);
-            console.log(`❌ Failed tests: ${failedTests}`);
-            console.log('='.repeat(80) + '\n');
-        });
+
+        const expectedTokenTests = appliedPairs.length * platformCount;
+
+        console.log(`✅ Tested ${appliedPairs.length} applied token pairs for widget: ${widgetKey}`);
+        console.log(`✅ Platforms: ${platforms}`);
+        console.log(`✅ Total token tests: ${expectedTokenTests}`);
+        console.log(`✅ Passed: ${passedTests}`);
+        console.log(`❌ Failed: ${failedTests}`);
+        if (passedTests + failedTests !== expectedTokenTests) {
+            console.warn(`⚠️  Counter mismatch: passed+failed=${passedTests + failedTests}, expected=${expectedTokenTests}`);
+        }
+        console.log('='.repeat(80) + '\n');
     });
 });

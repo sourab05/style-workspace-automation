@@ -144,6 +144,9 @@ const filteredCapabilities = platformFilteredCapabilities.filter((cap) => {
   return false;
 });
 
+const sharedBeforeTest = sharedConfig.beforeTest;
+const sharedAfterTest = sharedConfig.afterTest;
+
 export const config: Options.Testrunner = {
   ...sharedConfig,
 
@@ -154,12 +157,26 @@ export const config: Options.Testrunner = {
   // Enable verbose logging for BrowserStack
   logLevel: 'debug',
 
+  // Specs use createIOSSession/createAndroidSession (standalone remote), not the WDIO worker browser.
+  reporters: [
+    'spec',
+    [
+      'allure',
+      {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+      },
+    ],
+  ],
+
   // BrowserStack service
   services: [
     ['browserstack', {
       browserstackLocal: false,
       buildIdentifier: `Mobile-Token-Validation-${Date.now()}`,
-      testObservability: true,
+      // Observability hooks touch the WDIO worker session; specs use standalone remote() instead.
+      testObservability: process.env.BROWSERSTACK_TEST_OBSERVABILITY === 'true',
       testObservabilityOptions: {
         projectName: 'Style Workspace Automation',
         buildName: `Mobile Build ${new Date().toISOString()}`
@@ -170,10 +187,45 @@ export const config: Options.Testrunner = {
   // Capabilities - filtered based on PLATFORM environment variable
   capabilities: filteredCapabilities,
 
-  // Override max instances for BrowserStack (respect RUN_LOCAL to prevent crashes)
+  // Parallel widget specs are heavy; default to 1 BS session per worker unless overridden.
   maxInstances: process.env.RUN_LOCAL === 'true'
     ? 1
-    : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '5', 10),
+    : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '1', 10),
+
+  onWorkerStart: async function (cid, caps, specs, args, execArgv) {
+    const { MobileWidgetPage } = await import('../pages/MobileWidget.page');
+    MobileWidgetPage.clearStylesObjectCache();
+    if (typeof sharedConfig.onWorkerStart === 'function') {
+      await sharedConfig.onWorkerStart(cid, caps, specs, args, execArgv);
+    }
+  },
+
+  beforeTest: async function (test, context) {
+    try {
+      if (typeof sharedBeforeTest === 'function') {
+        await sharedBeforeTest(test, context);
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (!/session not started|session has been terminated/i.test(message)) {
+        throw err;
+      }
+      console.warn(`   ⚠️ beforeTest skipped (no WDIO worker session): ${test?.title || ''}`);
+    }
+  },
+
+  afterTest: async function (test, context, result) {
+    try {
+      if (typeof sharedAfterTest === 'function') {
+        await sharedAfterTest(test, context, result);
+      }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (!/session not started|session has been terminated/i.test(message)) {
+        throw err;
+      }
+    }
+  },
 
   // BrowserStack specific hooks
   onPrepare: async function (config, capabilities) {

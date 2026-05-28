@@ -279,6 +279,10 @@ export function generateVariantPayload(
   if (item.widget === 'picture' && item.appearance === 'thumbnail') {
     structureType = 'appearance-mapping';
   }
+  // Chips: filled.primary only → appearances.filled.variantGroups.status.primary
+  if (item.widget === 'chips') {
+    structureType = 'standard-variant';
+  }
 
   const groupName = getVariantGroup(item.variant);
 

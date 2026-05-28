@@ -32,16 +32,47 @@ const resolveBrowserStackApp = (
 
 export async function createAndroidSession(options: CreateSessionOptions): Promise<Browser> {
   const { sessionName, type, runLocal, widgetKey, baselineApps, actualApps } = options;
-  
+
+  const baselinePathLocal =
+    process.env.ANDROID_BASELINE_APK_PATH || baselineApps.android || '';
+  const actualPathLocal =
+    process.env.ANDROID_ACTUAL_APK_PATH || actualApps.android || '';
+
   // For BrowserStack, ONLY use cached bs:// URLs, ignore env vars completely
   const appPath = runLocal
-    ? (type === 'baseline'
-        ? (process.env.ANDROID_BASELINE_APK_PATH || baselineApps.android)
-        : (process.env.ANDROID_ACTUAL_APK_PATH || actualApps.android))
-    : (type === 'baseline'
-        ? resolveBrowserStackApp(baselineApps as any, 'android')
-        : resolveBrowserStackApp(actualApps as any, 'android'));
-  
+    ? type === 'baseline'
+      ? baselinePathLocal
+      : actualPathLocal
+    : type === 'baseline'
+      ? resolveBrowserStackApp(baselineApps as any, 'android')
+      : resolveBrowserStackApp(actualApps as any, 'android');
+
+  if (runLocal) {
+    const pathSource =
+      type === 'baseline'
+        ? process.env.ANDROID_BASELINE_APK_PATH
+          ? 'ANDROID_BASELINE_APK_PATH'
+          : 'cache baselineApps.android'
+        : process.env.ANDROID_ACTUAL_APK_PATH
+          ? 'ANDROID_ACTUAL_APK_PATH'
+          : 'cache actualApps.android';
+    console.log(`[sessionFactory] Android ${type} (${widgetKey}) ← ${appPath || '(empty)'} [${pathSource}]`);
+
+    if (type === 'actual') {
+      if (!appPath?.trim()) {
+        throw new Error(
+          'Android ACTUAL session has an empty app path. Set ANDROID_ACTUAL_APK_PATH in .env or re-run `npm run test:mobile:setup` so .test-cache/mobile-actual-apps.json has local.android.',
+        );
+      }
+      if (baselinePathLocal && appPath === baselinePathLocal) {
+        throw new Error(
+          `Android ACTUAL resolved to the same path as BASELINE (${appPath}). ` +
+            'Fix ANDROID_ACTUAL_APK_PATH (often it was copied from baseline) or refresh mobile-actual-apps.json with the Phase-3 actual APK.',
+        );
+      }
+    }
+  }
+
   if (!runLocal && !appPath.startsWith('bs://')) {
     throw new Error(`BrowserStack requires a bs:// app URL. Got: ${appPath || '(empty)'}`);
   }

@@ -18,7 +18,8 @@
   "include": [
     "src",
     "tests",
-    "playwright.config.ts , wdio/**/*.ts"
+    "playwright.config.ts",
+    "wdio/**/*.ts"
   ],
   "exclude": [
     "node_modules",

@@ -10,10 +10,18 @@ dotenv.config();
 
 const region = process.env.AWS_REGION || "us-west-2";
 const bucketName = process.env.S3_BUCKET_NAME || "wm-qa-automation";
-const reportDir = path.join(process.cwd(), "allure-report");
+const reportDir = path.resolve(
+  process.cwd(),
+  process.env.ALLURE_REPORT_DIR || process.env.ALLURE_REPORT_PATH || "allure-report"
+);
 const platform = process.env.PLATFORM || process.env.S3_REPORT_PLATFORM || "android";
 const defaultPrefix = buildS3ReportPath({ platform });
-const s3Prefix = process.env.S3_PATH_PREFIX || defaultPrefix;
+// Full S3 prefix override (e.g. react_native/releases/WM-AI-Beta-2/Style Workspace)
+const s3Prefix = (
+  process.env.S3_REPORT_PREFIX ||
+  process.env.S3_PATH_PREFIX ||
+  defaultPrefix
+).replace(/\\/g, "/").replace(/\/+$/, "");
 
 if (!bucketName) {
     console.error("❌ S3_BUCKET_NAME is not defined in .env");

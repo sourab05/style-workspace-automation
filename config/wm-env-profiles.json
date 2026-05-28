@@ -1,0 +1,80 @@
+{
+  "stage-ai": {
+    "label": "Stage AI — https://stage-platform.wavemaker.ai/",
+    "studioBaseUrl": "https://stage-platform.wavemaker.ai/",
+    "projectId": "WMPRJ2c9180879d41cfdf019d482aa382004c",
+    "studioProjectId": "proj-63018b81-3847-4142-8862-743531a4c17f",
+    "studioUsername": "testuser1.rn@wavemaker.com",
+    "authMethod": "platformdb",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_STAGE_AI_CREDS"
+  },
+  "stage-ai-jeevan": {
+    "label": "Stage AI — jeevan.inaparti@wavemaker.com (stage-platform.wavemaker.ai)",
+    "studioBaseUrl": "https://stage-platform.wavemaker.ai/",
+    "projectId": "WMPRJ2c9180879c721827019c757fb4ee0023",
+    "studioProjectId": "proj-16e948d2-47b1-45e4-ba46-e64babd60f33",
+    "studioUsername": "jeevan.inaparti@wavemaker.com",
+    "authMethod": "platformdb",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_STAGE_AI_JEEVAN_CREDS"
+  },
+  "stage": {
+    "label": "Stage — https://stage-studio.wavemakeronline.com/",
+    "studioBaseUrl": "https://stage-studio.wavemakeronline.com/",
+    "projectId": "WMPRJ2c9180879b8c2464019b8ca78bde000e",
+    "studioProjectId": "proj-71823062-f485-4f48-8b76-8227cd1a991d",
+    "studioUsername": "jeevan.sourab@wavemaker.com",
+    "authMethod": "wavemaker",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_STAGE_CREDS"
+  },
+  "dev": {
+    "label": "Dev — https://dev-studio.wavemakeronline.com/ (jeevan.inaparti@wavemaker.com)",
+    "studioBaseUrl": "https://dev-studio.wavemakeronline.com/",
+    "projectId": "WMPRJ2c91808e9b382f28019b4b3d6faf1157",
+    "studioProjectId": "proj-6de7872a-e7a2-4c43-a59c-8d3d2993684e",
+    "studioUsername": "jeevan.inaparti@wavemaker.com",
+    "authMethod": "wavemaker",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_DEV_CREDS"
+  },
+  "wmo": {
+    "label": "WMO — https://www.wavemakeronline.com/ (jeevan.inaparti@wavemaker.com)",
+    "studioBaseUrl": "https://www.wavemakeronline.com/",
+    "projectId": "WMPRJ2c9180889ad75b5a019b01f3c0120213",
+    "studioProjectId": "proj-2e5115b7-5d6b-43ac-ad7e-db748032a15f",
+    "studioUsername": "jeevan.inaparti@wavemaker.com",
+    "authMethod": "wavemaker",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_WMO_CREDS"
+  },
+  "preprod": {
+    "label": "Preprod — https://stage-studio.wavemakeronline.com/ (jeevan.inaparti@wavemaker.com)",
+    "studioBaseUrl": "https://stage-studio.wavemakeronline.com/",
+    "projectId": "WMPRJ2c91808e9d97d113019d9a6ce22f0011",
+    "studioProjectId": "proj-394af63a-d527-4ce8-9bf3-1429f2a3c1fb",
+    "studioUsername": "jeevan.inaparti@wavemaker.com",
+    "authMethod": "wavemaker",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_PREPROD_CREDS"
+  }
+}

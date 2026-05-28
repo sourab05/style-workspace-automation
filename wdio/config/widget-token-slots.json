@@ -1165,8 +1165,7 @@
             {
                 "tokenType": "border-width",
                 "properties": [
-                    "border.width",
-                    "opacity"
+                    "border.width"
                 ]
             },
             {

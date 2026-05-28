@@ -93,6 +93,8 @@ export function getPropertyPathsForType(
             return [['box-shadow']];
         case 'opacity':
             return [['opacity']];
+        case 'icon':
+            return splitAll(['font-size', 'height', 'min-width', 'width']);
         default:
             return [['background-color']];
     }

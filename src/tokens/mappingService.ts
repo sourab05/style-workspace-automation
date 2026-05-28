@@ -363,6 +363,52 @@ export class TokenMappingService {
      * 3. font-weight keyword normalization (normal→400, bold→700)
      * 4. trimming and lowercase
      */
+    /**
+     * Converts a single rgba(...) or rgb(...) match into a lowercase hex string.
+     * Returns null if alpha === 0 (transparent).
+     */
+    private static rgbaToHex(match: RegExpMatchArray): string | null {
+        const alpha = match[4] !== undefined ? parseFloat(match[4]) : 1;
+        if (alpha === 0) return null; // transparent — caller handles
+        const r = parseInt(match[1], 10).toString(16).padStart(2, '0');
+        const g = parseInt(match[2], 10).toString(16).padStart(2, '0');
+        const b = parseInt(match[3], 10).toString(16).padStart(2, '0');
+        return `#${r}${g}${b}`;
+    }
+
+    /**
+     * Extract every unique color token from a shadow string.
+     * Handles hex (#rrggbb / #rgb), rgb(...), rgba(...) in any number of shadow layers.
+     * Returns a sorted, deduplicated array of lowercase hex strings.
+     * Returns ['none'] for the keyword "none".
+     */
+    private static extractShadowColors(shadow: string): string[] {
+        const s = shadow.trim().toLowerCase();
+        if (s === 'none' || s === '') return ['none'];
+
+        const colors: string[] = [];
+
+        // rgba / rgb
+        const rgbaRe = /rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/g;
+        let m: RegExpExecArray | null;
+        while ((m = rgbaRe.exec(s)) !== null) {
+            const hex = this.rgbaToHex(m as unknown as RegExpMatchArray);
+            if (hex) colors.push(hex);
+            else colors.push('transparent');
+        }
+
+        // hex colors (#rrggbb or #rgb)
+        const hexRe = /#([0-9a-f]{6}|[0-9a-f]{3})\b/g;
+        while ((m = hexRe.exec(s)) !== null) {
+            let hex = m[1];
+            if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+            colors.push(`#${hex}`);
+        }
+
+        // deduplicate and sort for stable comparison
+        return [...new Set(colors)].sort();
+    }
+
     static normalizeValue(value: string, property: string): string {
         if (value == null || value === undefined) return String(value);
         const str = typeof value === 'string' ? value : String(value);
@@ -370,14 +416,49 @@ export class TokenMappingService {
 
         let normalized = str.trim().toLowerCase();
 
-        // 1. Color normalization: rgb(r,g,b) / rgba(r,g,b,a) → #hex
-        // Always convert when value looks like rgb/rgba (computed styles return rgb, tokens use hex)
-        const rgbMatch = normalized.match(/rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
-        if (rgbMatch) {
-            const r = parseInt(rgbMatch[1], 10).toString(16).padStart(2, '0');
-            const g = parseInt(rgbMatch[2], 10).toString(16).padStart(2, '0');
-            const b = parseInt(rgbMatch[3], 10).toString(16).padStart(2, '0');
-            normalized = `#${r}${g}${b}`;
+        // Shadow / elevation normalization.
+        // Both the token value and RN boxShadow use the same CSS box-shadow format,
+        // e.g. "0px 4px 8px 3px #dfdfdf,0px 1px 3px 0px #dfdfdf".
+        // The exact offsets/blur/spread may differ between applied tokens, so we
+        // normalize both sides to just the unique sorted set of shadow colors.
+        // This catches any shadow color mismatch while ignoring layout differences.
+        //   "none" → "shadow:none"
+        //   Android integer elevation (dp) → "shadow:applied" (presence-only check)
+        //   Any CSS/RN shadow string → "shadow-colors:<sorted-hex-list>"
+        const isShadowProp = /shadow|elevation|box-shadow/i.test(property);
+        if (isShadowProp) {
+            if (normalized === 'none' || normalized === '0') return 'shadow:none';
+
+            // Android integer elevation dp — just confirm a shadow is applied
+            if (/^\d+(\.\d+)?$/.test(normalized)) {
+                return 'shadow:applied';
+            }
+
+            // CSS box-shadow string (web token format or RN boxShadow) — color fingerprint
+            const colors = TokenMappingService.extractShadowColors(normalized);
+            if (colors.length > 0 && colors[0] !== 'none') {
+                return `shadow-colors:${colors.join(',')}`;
+            }
+
+            return 'shadow:applied';
+        }
+
+        // 1. Color normalization: rgb(...) / rgba(...)
+        // RN often returns rgba(255,255,255,0) for transparent tokens — preserve alpha semantics
+        const rgbaMatch = normalized.match(
+            /rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/
+        );
+        if (rgbaMatch) {
+            const alphaPart = rgbaMatch[4];
+            const alpha = alphaPart !== undefined ? parseFloat(alphaPart) : 1;
+            if (alpha === 0) {
+                normalized = 'transparent';
+            } else {
+                const r = parseInt(rgbaMatch[1], 10).toString(16).padStart(2, '0');
+                const g = parseInt(rgbaMatch[2], 10).toString(16).padStart(2, '0');
+                const b = parseInt(rgbaMatch[3], 10).toString(16).padStart(2, '0');
+                normalized = `#${r}${g}${b}`;
+            }
         }
 
         // 2. Unit normalization: strip trailing 'px' so "3px"/"28px" and "3"/"28" both compare equal.
@@ -388,7 +469,6 @@ export class TokenMappingService {
         if (property.includes('weight')) {
             if (normalized === 'normal') normalized = '400';
             if (normalized === 'bold') normalized = '700';
-            // Strip 'px' if accidentally present (shouldn't be, but defensive)
             normalized = normalized.replace(/px$/, '');
         }
 

@@ -3,6 +3,7 @@ import { ScreenshotHelpers } from './screenshot.helpers';
 import type { Widget } from '../../src/matrix/widgets';
 import allure from '@wdio/allure-reporter';
 import fs from 'fs';
+import { shouldSkipVisualVerification } from '../utils/envFlags';
 
 export class MobileVerificationHelper {
     constructor(
@@ -44,12 +45,21 @@ export class MobileVerificationHelper {
         allure.addArgument('Widget', widget);
         allure.addArgument('Platform', platform);
 
+        const skipVisual = shouldSkipVisualVerification();
+
         // --- 1. Visual Verification ---
         let visualPassed = false;
         let visualResult: any = null;
-        let diffSummary = 'N/A';
+        let diffSummary = skipVisual ? 'SKIPPED' : 'N/A';
 
         await allure.step('Visual Verification', async () => {
+            if (skipVisual) {
+                allure.addArgument('Visual Verdict', 'SKIPPED');
+                allure.addArgument('Verification Mode', 'Style tokens only (visual skipped)');
+                console.log(`   ⏭  Visual verification skipped — verifying style token values only (SKIP_VISUAL_VERIFICATION=true)`);
+                return;
+            }
+
             try {
                 const screenshotBuffer = Buffer.from(await browser.takeScreenshot(), 'base64');
                 const actualPath = await this.screenshotHelpers.saveActual(screenshotBuffer, platform, uniqueSnapshotName);
@@ -121,12 +131,26 @@ export class MobileVerificationHelper {
         // --- 3. Final Verdict & Report (Playwright Alignment) ---
         const sr = styleResult as StyleVerificationResult | null;
         const stylesPassed = sr?.passed || false;
-        const isPartialMatch = !visualPassed && stylesPassed;
+        const isPartialMatch = !skipVisual && !visualPassed && stylesPassed;
         const overallPass = stylesPassed; // Style is source of truth for PASS, Visual is for WARNING
 
-        const verdict = overallPass ? (isPartialMatch ? '⚠️ PARTIAL PASS' : '✅ PASS') : '❌ FAIL';
+        const verdictLabel = overallPass
+            ? (isPartialMatch ? '⚠️ PARTIAL PASS' : skipVisual ? '✅ PASS (style tokens only)' : '✅ PASS')
+            : (skipVisual ? '❌ FAIL (style tokens only)' : '❌ FAIL');
 
-        const report = `Style Validation Verdict: ${verdict}
+        const visualLine = skipVisual
+            ? `📊 VISUAL VERIFICATION: ⏭ SKIPPED (SKIP_VISUAL_VERIFICATION=true)
+   Screenshot comparison was not run for this token.`
+            : `📊 VISUAL VERIFICATION: ${visualPassed ? '✅ PASS (Diff detected)' : '❌ FAIL (No diff detected)'}
+   Visual Diff: ${diffSummary}
+   Match Threshold: 0.03 (3%)
+   Result: ${visualResult?.match ? 'DIFFERENT' : 'IDENTICAL'}`;
+
+        const modeLine = skipVisual
+            ? `ℹ️  VERIFICATION MODE: Style token values only — visual/screenshot checks disabled.`
+            : '';
+
+        const report = `Style Validation Verdict: ${verdictLabel}
 =========================================
 Token: ${tokenRef}
 Widget: ${widget}
@@ -134,11 +158,8 @@ Variant: ${snapshotName}
 Property Path: ${propertyPath?.join('.') || 'Full Object'}
 RN Command Suffix: ${sr?.commandSuffix || 'N/A'}
 Full Style Command: ${sr?.fullCommand || 'N/A'}
-
-📊 VISUAL VERIFICATION: ${visualPassed ? '✅ PASS (Diff detected)' : '❌ FAIL (No diff detected)'}
-   Visual Diff: ${diffSummary}
-   Match Threshold: 0.03 (3%)
-   Result: ${visualResult?.match ? 'DIFFERENT' : 'IDENTICAL'}
+${modeLine ? `\n${modeLine}\n` : ''}
+${visualLine}
 
 🎨 STYLE VERIFICATION: ${stylesPassed ? '✅ PASS' : '❌ FAIL'}
    Expected: ${sr?.expectedValue || 'N/A'}

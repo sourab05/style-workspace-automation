@@ -6,10 +6,11 @@ import { MobileWidgetPage } from '../pages/MobileWidget.page';
 import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
-import { isLocalEnv } from '../utils/envFlags';
+import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
 import { createAndroidSession, createIOSSession } from '../utils/sessionFactory';
 import type { Widget } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
+import { getWidgetKey } from '../../src/matrix/generator';
 
 const widgetKey: Widget = 'modal-dialog';
 type Browser = WebdriverIO.Browser;
@@ -29,13 +30,13 @@ describe('Mobile Token Validation - Modal Widget', function () {
   console.log(`\n📦 [Test Data] Baseline App: ${baselineApps.android}`);
   console.log(`📦 [Test Data] Actual App:   ${actualApps.android}`);
 
-  const batchPayloadPath = path.join(process.cwd(), '.test-cache/batch-payload-modal.json');
+  const batchPayloadPath = path.join(process.cwd(), `.test-cache/batch-payload-${widgetKey}.json`);
   if (!fs.existsSync(batchPayloadPath)) {
     throw new Error(`Missing batch payload file: ${batchPayloadPath}`);
   }
   const appliedPayload = JSON.parse(fs.readFileSync(batchPayloadPath, 'utf-8'));
 
-  const csvPath = path.join(process.cwd(), 'tests/testdata/mobile/modal-widget-variants.csv');
+  const csvPath = path.join(process.cwd(), `tests/testdata/mobile/${widgetKey}-widget-variants.csv`);
   if (!fs.existsSync(csvPath)) {
     throw new Error(`Missing variant mapping CSV: ${csvPath}`);
   }
@@ -91,10 +92,11 @@ describe('Mobile Token Validation - Modal Widget', function () {
     }
   }
 
-  if (appliedPayload.modal?.mapping) {
+  const payloadRootKey = getWidgetKey(widgetKey);
+  if (appliedPayload[payloadRootKey]?.mapping) {
     const appearance = widgetConfig.appearances[0];
     const variant = widgetConfig.variants[appearance]?.[0] || 'standard';
-    extractTokens(appliedPayload.modal.mapping, appearance, variant, []);
+    extractTokens(appliedPayload[payloadRootKey].mapping, appearance, variant, []);
   }
 
   console.log(`📦 [Test Data] Total Applied Token Pairs: ${appliedPairs.length}`);
@@ -141,6 +143,11 @@ describe('Mobile Token Validation - Modal Widget', function () {
       console.log('⏭ Skipping Android baseline screenshot');
       this.skip();
     }
+    if (skipBaselineScreenshot()) {
+      console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
+      this.skip();
+    }
+
 
     const screenshotName = 'modal-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -195,6 +202,11 @@ describe('Mobile Token Validation - Modal Widget', function () {
       console.log('⏭ Skipping iOS baseline screenshot');
       this.skip();
     }
+    if (skipBaselineScreenshot()) {
+      console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
+      this.skip();
+    }
+
 
     const screenshotName = 'modal-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -248,14 +260,15 @@ describe('Mobile Token Validation - Modal Widget', function () {
     const { tokenRef, variantName, studioWidgetName, propertyPath } = pair;
 
     describe(`Token Validate: ${tokenRef} Property: ${propertyPath.join('.')}`, function () {
-      it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
-        if (!shouldRunAndroid) this.skip();
+      if (shouldRunAndroid) {
+        it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
         if (!androidBrowser) {
           androidBrowser = await createAndroid(`Android Token Tests - ${widgetKey}`, 'actual');
           const widgetPageWarmup = new MobileWidgetPage();
           await widgetPageWarmup.navigateToWidget(androidBrowser, widgetKey);
           await widgetPageWarmup.waitForWidget(androidBrowser, widgetKey);
+          await widgetPageWarmup.warmStylesCache(androidBrowser, widgetKey, variantName);
         }
 
         const browser = androidBrowser!;
@@ -264,7 +277,10 @@ describe('Mobile Token Validation - Modal Widget', function () {
         const verifier = new MobileVerificationHelper(widgetPage, screenshotHelpers);
 
         console.log(`\n🤖 [Android] Testing ${variantName} | Token=${tokenRef} | Property=${propertyPath.join('.')}`);
-        await widgetPage.waitForWidget(browser, widgetKey);
+        if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'android')) {
+          await widgetPage.waitForWidget(browser, widgetKey);
+        }
+
 
         await verifier.verifyTokenApplication(
           browser,
@@ -277,7 +293,7 @@ describe('Mobile Token Validation - Modal Widget', function () {
           propertyPath
         );
       });
-
+      }
       afterEach(function () {
         try {
           const tokenShortName = tokenRef
@@ -323,14 +339,15 @@ describe('Mobile Token Validation - Modal Widget', function () {
         }
       });
 
-      it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
-        if (!shouldRunIOS) this.skip();
+      if (shouldRunIOS) {
+        it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
         if (!iosBrowser) {
           iosBrowser = await createIOS(`iOS Token Tests - ${widgetKey}`, 'actual');
           const widgetPageWarmup = new MobileWidgetPage();
           await widgetPageWarmup.navigateToWidget(iosBrowser, widgetKey);
           await widgetPageWarmup.waitForWidget(iosBrowser, widgetKey);
+            await widgetPageWarmup.warmStylesCache(iosBrowser, widgetKey, variantName);
         }
 
         const browser = iosBrowser!;
@@ -339,19 +356,23 @@ describe('Mobile Token Validation - Modal Widget', function () {
         const verifier = new MobileVerificationHelper(widgetPage, screenshotHelpers);
 
         console.log(`\n🍎 [iOS] Testing ${variantName} | Token=${tokenRef} | Property=${propertyPath.join('.')}`);
-        await widgetPage.waitForWidget(browser, widgetKey);
+        if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'ios')) {
+          await widgetPage.waitForWidget(browser, widgetKey);
+        }
+
 
         await verifier.verifyTokenApplication(
-          browser,
-          'ios',
-          widgetKey,
-          variantName,
-          tokenRef,
-          {},
-          studioWidgetName,
-          propertyPath
+            browser,
+            'ios',
+            widgetKey,
+            variantName,
+            tokenRef,
+            {},
+            'modal-page',
+            propertyPath
         );
       });
+      }
     });
   });
 
@@ -395,11 +416,14 @@ describe('Mobile Token Validation - Modal Widget', function () {
 
     const platformCount = (shouldRunAndroid ? 1 : 0) + (shouldRunIOS ? 1 : 0);
 
+
+    const expectedTokenTests = appliedPairs.length * platformCount;
+
     console.log(`✅ Tested ${appliedPairs.length} applied token pairs for widget: ${widgetKey}`);
     console.log(`✅ Platforms: ${platforms}`);
-    console.log(`✅ Total tests: ${appliedPairs.length * platformCount}`);
-    console.log(`✅ Passed tests: ${passedTests}`);
-    console.log(`❌ Failed tests: ${failedTests}`);
+    console.log(`✅ Total token tests: ${expectedTokenTests}`);
+    console.log(`✅ Passed: ${passedTests}`);
+    console.log(`❌ Failed: ${failedTests}`);
     console.log('='.repeat(80) + '\n');
   });
 });

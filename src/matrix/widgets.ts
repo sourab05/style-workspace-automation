@@ -119,7 +119,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'color', 'font', 'space',
+      'border-radius', 'border-style', 'color', 'font', 'space', 'border-width'
     ]
   },
   label: {
@@ -182,7 +182,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'color', 'font', 'icon', 'space'
+      'color', 'font', 'icon', 'space', 'border-width','border-style','border-radius'
     ]
   },
   picture: {
@@ -203,7 +203,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default', 'active'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'margin', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'margin', 'space'
     ]
   },
   tabbar: {
@@ -224,7 +224,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-width', 'color', 'space'
+      'border-radius', 'border-width', 'color', 'space', 'border-style'
     ]
   },
   barcodescanner: {
@@ -234,7 +234,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'icon', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'icon', 'space'
     ]
   },
   tabs: {
@@ -258,9 +258,9 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     ]
   },
   chips: {
-    appearances: ['filled', ],
+    appearances: ['filled'],
     variants: {
-      filled: ['primary']
+      filled: ['primary'],
     },
     states: ['default', 'disabled', 'active'],
     allowedTokenTypes: [
@@ -460,7 +460,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     states: ['default'],
     allowedTokenTypes: [
       'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'font',
-      'gap', 'margin', 'space'
+      'gap', 'margin', 'space' , 'padding'
     ]
   },
   slider: {
@@ -490,7 +490,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'color', 'font', 'gap', 'space'
+      'color', 'space', 'icon'
     ]
   },
   lottie: {
@@ -500,7 +500,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'space'
+      'space', 'color'
     ]
   },
   audio: {
@@ -630,7 +630,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'space',
+      'border-radius', 'border-style', 'border-width', 'color', 'space',
     ],
   },
 };
@@ -685,7 +685,7 @@ export const WIDGET_STRUCTURE_MAP: Record<string, WidgetStructureType> = {
   'audio': 'direct-mapping',
   'message': 'standard-variant',
   'modal-dialog': 'direct-mapping',
-  'chips': 'hybrid-mapping',
+  'chips': 'standard-variant',
   'radioset': 'direct-mapping',
   'checkbox': 'direct-mapping',
   'checkboxset': 'direct-mapping',

@@ -359,6 +359,18 @@ function isTokenCompatibleWithProperty(tokenRef: string, propertyPath: string[])
     return propertyName === 'opacity' || fullPathString.includes('opacity');
   }
 
+  // Icon size tokens (font-size, height, width, min-width)
+  if (tokenType === 'icon') {
+    return (
+      propertyName === 'font-size' ||
+      propertyName === 'height' ||
+      propertyName === 'min-width' ||
+      propertyName === 'width' ||
+      propertyName === 'size' ||
+      tokenRef.includes('icon.size')
+    );
+  }
+
   // Default: allow if we're not sure
   return true;
 }
@@ -391,6 +403,20 @@ export default async function mobileGlobalSetup() {
     .filter(Boolean)
     .join(' + ') || 'none (check MOBILE_PLATFORM env)'}`);
   console.log(`🔁 Execution mode: ${runLocal ? 'LOCAL (RUN_LOCAL=true)' : 'BrowserStack'}`);
+
+  if (process.env.USE_UPLOADED_MOBILE_APPS === 'true') {
+    const baselineCache = path.join(cacheDir, 'mobile-baseline-apps.json');
+    const actualCache = path.join(cacheDir, 'mobile-actual-apps.json');
+    if (!fs.existsSync(baselineCache) || !fs.existsSync(actualCache)) {
+      throw new Error(
+        'USE_UPLOADED_MOBILE_APPS=true but cache files are missing. Run jenkins-prepare-mobile-apps.ts first.',
+      );
+    }
+    console.log('\n⏭️  USE_UPLOADED_MOBILE_APPS=true — skipping Studio CLI mobile build');
+    console.log(`   baseline cache: ${baselineCache}`);
+    console.log(`   actual cache:   ${actualCache}`);
+    return;
+  }
 
   // Precomputed batch (generated at start)
   let preSelectedTokens: Array<{ file: string; tokenRef: string; tokenType: string }> = [];

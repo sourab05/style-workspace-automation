@@ -6,7 +6,7 @@ import { MobileWidgetPage } from '../pages/MobileWidget.page';
 import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
-import { isLocalEnv } from '../utils/envFlags';
+import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
 import type { Widget, Appearance } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
 
@@ -158,12 +158,13 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
         });
     }
 
-    // Global afterEach for counting
+    // Global afterEach for counting (token validation tests only, active platforms only)
     afterEach(function () {
-        // Exclude the screenshot comparison test from token statistics
-        if (this.currentTest?.title?.includes('baseline vs actual screenshot')) {
-            return;
-        }
+        const title = this.currentTest?.title ?? '';
+        if (title.includes('baseline vs actual screenshot')) return;
+        if (!title.includes(': validate ')) return;
+        if (title.startsWith('Android:') && !shouldRunAndroid) return;
+        if (title.startsWith('iOS:') && !shouldRunIOS) return;
 
         if (this.currentTest?.state === 'passed') {
             passedTests++;
@@ -178,6 +179,11 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
             console.log('⏭ Skipping Android baseline screenshot (MOBILE_PLATFORM excludes android)');
             this.skip();
         }
+        if (skipBaselineScreenshot()) {
+            console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
+            this.skip();
+        }
+
 
         const screenshotName = `${widgetKey}-page`;
         const screenshotHelpers = new ScreenshotHelpers();
@@ -234,6 +240,11 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
             console.log('⏭ Skipping iOS baseline screenshot (MOBILE_PLATFORM excludes ios)');
             this.skip();
         }
+        if (skipBaselineScreenshot()) {
+            console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
+            this.skip();
+        }
+
 
         const screenshotName = `${widgetKey}-page`;
         const screenshotHelpers = new ScreenshotHelpers();
@@ -290,8 +301,8 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
         const { tokenRef, variantName, studioWidgetName, propertyPath } = pair;
 
         describe(`Token Validate: ${tokenRef} Property: ${propertyPath.join('.')}`, function () {
-            it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
-                if (!shouldRunAndroid) this.skip();
+            if (shouldRunAndroid) {
+              it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
                 // Ensure session exists
                 if (!androidBrowser) {
@@ -299,6 +310,7 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
                     const widgetPageWarmup = new MobileWidgetPage();
                     await widgetPageWarmup.navigateToWidget(androidBrowser, widgetKey);
                     await ensureBottomsheetVisible(androidBrowser, widgetPageWarmup);
+          await widgetPageWarmup.warmStylesCache(androidBrowser, widgetKey, variantName);
                 }
 
                 const browser = androidBrowser!;
@@ -307,7 +319,9 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
                 const verifier = new MobileVerificationHelper(widgetPage, screenshotHelpers);
 
                 console.log(`\n🤖 [Android] Testing ${variantName} | Token=${tokenRef} | Property=${propertyPath.join('.')}`);
-                await ensureBottomsheetVisible(browser, widgetPage);
+                if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'android')) {
+                  await ensureBottomsheetVisible(browser, widgetPage);
+                }
 
                 await verifier.verifyTokenApplication(
                     browser,
@@ -320,9 +334,10 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
                     propertyPath
                 );
             });
+            }
 
-            it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
-                if (!shouldRunIOS) this.skip();
+            if (shouldRunIOS) {
+              it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
                 // Ensure session exists
                 if (!iosBrowser) {
@@ -330,6 +345,7 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
                     const widgetPageWarmup = new MobileWidgetPage();
                     await widgetPageWarmup.navigateToWidget(iosBrowser, widgetKey);
                     await ensureBottomsheetVisible(iosBrowser, widgetPageWarmup);
+            await widgetPageWarmup.warmStylesCache(iosBrowser, widgetKey, variantName);
                 }
 
                 const browser = iosBrowser!;
@@ -338,7 +354,9 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
                 const verifier = new MobileVerificationHelper(widgetPage, screenshotHelpers);
 
                 console.log(`\n🍎 [iOS] Testing ${variantName} | Token=${tokenRef} | Property=${propertyPath.join('.')}`);
-                await ensureBottomsheetVisible(browser, widgetPage);
+                if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'ios')) {
+                  await ensureBottomsheetVisible(browser, widgetPage);
+                }
 
                 await verifier.verifyTokenApplication(
                     browser,
@@ -351,6 +369,7 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
                     propertyPath
                 );
             });
+            }
 
             // Attach artifacts after each test
             afterEach(function () {
@@ -446,14 +465,17 @@ describe('Mobile Token Validation - Bottomsheet Widget', function () {
         ].filter(Boolean).join(' + ');
 
         const platformCount = (shouldRunAndroid ? 1 : 0) + (shouldRunIOS ? 1 : 0);
+
+
+        const expectedTokenTests = appliedPairs.length * platformCount;
         // User prefers total to match token count
         const totalTests = appliedPairs.length * platformCount;
 
         console.log(`✅ Tested ${appliedPairs.length} applied token pairs for widget: ${widgetKey}`);
         console.log(`✅ Platforms: ${platforms}`);
         console.log(`✅ Total tests: ${totalTests}`);
-        console.log(`✅ Passed tests: ${passedTests}`);
-        console.log(`❌ Failed tests: ${failedTests}`);
+        console.log(`✅ Passed: ${passedTests}`);
+        console.log(`❌ Failed: ${failedTests}`);
         console.log('='.repeat(80) + '\n');
     });
 });

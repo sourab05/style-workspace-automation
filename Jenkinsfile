@@ -1,3 +1,161 @@
+def uploadReportsToS3(Map args = [:]) {
+    def nonFatal = args.nonFatal == true
+    if (!env.S3_BUCKET_NAME?.trim()) {
+        return
+    }
+    if (!params.S3_VERSION?.trim()) {
+        echo '⚠️ S3_VERSION is empty — skipping S3 report upload. Set the build parameter to upload under react_native/releases/<version>/Style Workspace/...'
+        return
+    }
+    def cmd = 'npx ts-node scripts/generate-and-upload-reports.ts'
+    if (nonFatal) {
+        sh "${cmd} || echo \"S3 upload skipped or failed (non-fatal)\""
+    } else {
+        sh cmd
+    }
+}
+
+def applyWmEnvProfile() {
+    def profiles = readJSON file: 'config/wm-env-profiles.json'
+    def envKey = params.WM_ENV
+    def profile = profiles[envKey]
+    if (!profile) {
+        error("Unknown WM_ENV: ${envKey}. Available: ${profiles.keySet().sort().join(', ')}")
+    }
+
+    def interpolate = { String tpl ->
+        if (!tpl) return null
+        return tpl.replaceAll(/\$\{PROJECT_ID\}/, profile.projectId)
+    }
+
+    env.WM_ENV = envKey
+    env.STUDIO_BASE_URL = profile.studioBaseUrl
+    env.PROJECT_ID = profile.projectId
+    env.STUDIO_PROJECT_ID = profile.studioProjectId
+    env.STUDIO_USERNAME = profile.studioUsername
+    env.STUDIO_LOGIN_PATH = profile.studioLoginPath ?: '/login/authenticate'
+    env.STUDIO_DEPLOY_PATH = interpolate(profile.studioDeployPath ?: 'studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy')
+    env.CANVAS_PATH = interpolate(profile.canvasPath ?: 's/page/Main?project-id=${PROJECT_ID}')
+    env.PREVIEW_PATH = profile.previewPath ?: '/preview'
+
+    if (profile.runtimeBaseUrl) {
+        env.RUNTIME_BASE_URL = profile.runtimeBaseUrl
+    }
+    if (profile.authMethod && profile.authMethod != 'auto') {
+        env.AUTH_METHOD = profile.authMethod
+    } else {
+        env.AUTH_METHOD = ''
+    }
+
+    def credId = profile.jenkinsCredentialsId ?: "WM_${envKey.toUpperCase().replace('-', '_')}_CREDS"
+
+    try {
+        withCredentials([usernamePassword(credentialsId: credId, usernameVariable: 'WM_CREDS_USER', passwordVariable: 'WM_CREDS_PASS')]) {
+            env.STUDIO_USERNAME = WM_CREDS_USER ?: profile.studioUsername
+            env.STUDIO_PASSWORD = WM_CREDS_PASS
+        }
+    } catch (Exception e) {
+        echo "⚠️ Credential '${credId}' not found — falling back to legacy STUDIO_USERNAME / STUDIO_PASSWORD credentials"
+        withCredentials([
+            string(credentialsId: 'STUDIO_USERNAME', variable: 'LEGACY_STUDIO_USER'),
+            string(credentialsId: 'STUDIO_PASSWORD', variable: 'LEGACY_STUDIO_PASS'),
+        ]) {
+            env.STUDIO_USERNAME = LEGACY_STUDIO_USER ?: profile.studioUsername
+            env.STUDIO_PASSWORD = LEGACY_STUDIO_PASS
+        }
+    }
+
+    echo "▶ WM_ENV=${envKey} (${profile.label})"
+    echo "   STUDIO_BASE_URL=${env.STUDIO_BASE_URL}"
+    echo "   PROJECT_ID=${env.PROJECT_ID}"
+    echo "   STUDIO_PROJECT_ID=${env.STUDIO_PROJECT_ID}"
+    echo "   STUDIO_USERNAME=${env.STUDIO_USERNAME}"
+    echo "   AUTH_METHOD=${env.AUTH_METHOD ?: '(auto-detect from URL)'}"
+}
+
+def isManualMobileUpload() {
+    return params.MOBILE_APP_SOURCE == 'Upload APK/IPA manually'
+}
+
+def isCliMobileBuild() {
+    return params.MOBILE_APP_SOURCE == 'Build from Studio (CLI)'
+}
+
+def prepareUploadedMobileApps() {
+    if (!isManualMobileUpload()) {
+        return
+    }
+
+    def mobileBuildDir = (env.MOBILE_BUILD_DIR?.trim() ?: 'mobile-builds').replaceFirst(/^\\.\\//, '')
+    def androidApkRel = 'android/app/build/outputs/apk/debug/app-debug.apk'
+    def iosIpaRel = 'output/ios/app-debug.ipa'
+
+    def copyUpload = { paramName, destPath ->
+        def fileName = params[paramName]?.trim()
+        if (!fileName) {
+            return null
+        }
+        sh """
+            set -e
+            mkdir -p "\$(dirname '${destPath}')"
+            cp '${env.WORKSPACE}/${fileName}' '${destPath}'
+            ls -lh '${destPath}'
+        """
+        return destPath
+    }
+
+    def needsBaseline = !params.SKIP_VISUAL_VERIFICATION
+    def runAndroid = env.MOBILE_PLATFORM == 'android' || env.MOBILE_PLATFORM == 'both'
+    def runIos = env.MOBILE_PLATFORM == 'ios' || env.MOBILE_PLATFORM == 'both'
+
+    def actualAndroidPath = "${env.WORKSPACE}/${mobileBuildDir}/actual/build-out-android/${androidApkRel}"
+    def actualIosPath = "${env.WORKSPACE}/${mobileBuildDir}/actual/build-out-ios/${iosIpaRel}"
+    def baselineAndroidPath = "${env.WORKSPACE}/${mobileBuildDir}/baseline/build-out-android/${androidApkRel}"
+    def baselineIosPath = "${env.WORKSPACE}/${mobileBuildDir}/baseline/build-out-ios/${iosIpaRel}"
+
+    env.JENKINS_UPLOAD_ANDROID_ACTUAL = copyUpload('UPLOAD_ANDROID_ACTUAL_APK', actualAndroidPath) ?: ''
+    env.JENKINS_UPLOAD_IOS_ACTUAL = copyUpload('UPLOAD_IOS_ACTUAL_IPA', actualIosPath) ?: ''
+
+    if (needsBaseline) {
+        env.JENKINS_UPLOAD_ANDROID_BASELINE = copyUpload('UPLOAD_ANDROID_BASELINE_APK', baselineAndroidPath) ?: ''
+        env.JENKINS_UPLOAD_IOS_BASELINE = copyUpload('UPLOAD_IOS_BASELINE_IPA', baselineIosPath) ?: ''
+    } else {
+        env.JENKINS_UPLOAD_ANDROID_BASELINE = ''
+        env.JENKINS_UPLOAD_IOS_BASELINE = ''
+        echo '⏭ Baseline APK/IPA upload disabled (SKIP_VISUAL_VERIFICATION=true) — only actual apps are required'
+    }
+
+    if (runAndroid && !env.JENKINS_UPLOAD_ANDROID_ACTUAL?.trim()) {
+        error('Manual upload mode: UPLOAD_ANDROID_ACTUAL_APK is required for Android mobile runs.')
+    }
+    if (runIos && !env.JENKINS_UPLOAD_IOS_ACTUAL?.trim()) {
+        error('Manual upload mode: UPLOAD_IOS_ACTUAL_IPA is required for iOS mobile runs.')
+    }
+    if (needsBaseline) {
+        if (runAndroid && !env.JENKINS_UPLOAD_ANDROID_BASELINE?.trim()) {
+            error('Manual upload mode with visual verification: UPLOAD_ANDROID_BASELINE_APK is required.')
+        }
+        if (runIos && !env.JENKINS_UPLOAD_IOS_BASELINE?.trim()) {
+            error('Manual upload mode with visual verification: UPLOAD_IOS_BASELINE_IPA is required.')
+        }
+    }
+
+    env.ANDROID_ACTUAL_APK_PATH = env.JENKINS_UPLOAD_ANDROID_ACTUAL
+    env.ANDROID_BASELINE_APK_PATH = env.JENKINS_UPLOAD_ANDROID_BASELINE
+    env.IOS_IPA_PATH = env.JENKINS_UPLOAD_IOS_ACTUAL
+    env.IOS_BASELINE_IPA_PATH = env.JENKINS_UPLOAD_IOS_BASELINE
+    env.USE_UPLOADED_MOBILE_APPS = 'true'
+    env.JENKINS_REQUIRE_BASELINE_UPLOAD = needsBaseline ? 'true' : 'false'
+
+    echo "📁 Uploaded apps stored under ${mobileBuildDir}/"
+    echo "   actual Android:   ${env.JENKINS_UPLOAD_ANDROID_ACTUAL ?: '(none)'}"
+    echo "   actual iOS:       ${env.JENKINS_UPLOAD_IOS_ACTUAL ?: '(none)'}"
+    echo "   baseline Android: ${env.JENKINS_UPLOAD_ANDROID_BASELINE ?: '(skipped)'}"
+    echo "   baseline iOS:     ${env.JENKINS_UPLOAD_IOS_BASELINE ?: '(skipped)'}"
+
+    sh 'npx ts-node scripts/jenkins-prepare-mobile-apps.ts'
+}
+
 pipeline {
     agent any
 
@@ -13,6 +171,25 @@ pipeline {
 
     // ─── Single dropdown — pick exactly what you want to run ─────────────────
     parameters {
+        choice(
+            name: 'WM_ENV',
+            choices: [
+                'stage-ai',
+                'stage-ai-jeevan',
+                'stage',
+                'dev',
+                'wmo',
+                'preprod'
+            ],
+            description: '''Target WaveMaker environment (URL, project IDs, username, auth, paths set automatically):
+  stage-ai        → https://stage-platform.wavemaker.ai/ (testuser1.rn)
+  stage-ai-jeevan → https://stage-platform.wavemaker.ai/ (jeevan.inaparti)
+  stage           → https://stage-studio.wavemakeronline.com/
+  dev             → https://dev-studio.wavemakeronline.com/
+  wmo             → https://www.wavemakeronline.com/
+  preprod         → https://stage-studio.wavemakeronline.com/
+  Jenkins credential per env: WM_<ENV>_CREDS (Username with password), e.g. WM_STAGE_AI_JEEVAN_CREDS'''
+        )
         choice(
             name: 'RUN_TARGET',
             choices: [
@@ -34,6 +211,44 @@ pipeline {
             defaultValue: '',
             description: 'Optional: comma-separated widgets to test (empty = all). e.g. button,accordion,label'
         )
+        string(
+            name: 'S3_VERSION',
+            defaultValue: '',
+            description: '''Release version folder for S3 report uploads (required for upload).
+  e.g. WM-AI-Beta-2, 12.0.0
+  Path: s3://<bucket>/react_native/releases/<S3_VERSION>/Style Workspace/<platform>/<date-time>'''
+        )
+        booleanParam(
+            name: 'SKIP_VISUAL_VERIFICATION',
+            defaultValue: true,
+            description: 'Mobile WDIO: skip baseline screenshots and visual diff (token value checks only). Uncheck to run full visual verification.'
+        )
+        choice(
+            name: 'MOBILE_APP_SOURCE',
+            choices: [
+                'Build from Studio (CLI)',
+                'Upload APK/IPA manually'
+            ],
+            description: '''Mobile app source (BrowserStack runs only):
+  Build from Studio (CLI) — downloads RN project, applies tokens, builds APK/IPA via WaveMaker CLI
+  Upload APK/IPA manually — upload pre-built apps in parameters below (skips Studio mobile build)'''
+        )
+        file(
+            name: 'UPLOAD_ANDROID_ACTUAL_APK',
+            description: 'Manual upload: Android APK → mobile-builds/actual/build-out-android/.../app-debug.apk'
+        )
+        file(
+            name: 'UPLOAD_IOS_ACTUAL_IPA',
+            description: 'Manual upload: iOS IPA → mobile-builds/actual/build-out-ios/output/ios/app-debug.ipa'
+        )
+        file(
+            name: 'UPLOAD_ANDROID_BASELINE_APK',
+            description: 'Manual upload: baseline Android APK → mobile-builds/baseline/... (only when SKIP_VISUAL_VERIFICATION is unchecked)'
+        )
+        file(
+            name: 'UPLOAD_IOS_BASELINE_IPA',
+            description: 'Manual upload: baseline iOS IPA → mobile-builds/baseline/... (only when SKIP_VISUAL_VERIFICATION is unchecked)'
+        )
     }
 
     tools {
@@ -41,20 +256,10 @@ pipeline {
     }
 
     environment {
-        // Studio / Auth — forced to Platform DB REST login (API-based, no browser/Google OAuth).
-        // AUTH_METHOD=platformdb bypasses domain-based Google auth detection so Jenkins
-        // uses STUDIO_USERNAME + STUDIO_PASSWORD via /login/authenticate directly.
-        AUTH_METHOD           = 'platformdb'
-
         // Android SDK — Jenkins agent must have ANDROID_HOME set or sdk installed at this path.
         // gradle is resolved via ANDROID_HOME/cmdline-tools or a local gradle wrapper.
         ANDROID_HOME          = "${env.ANDROID_HOME ?: '/opt/android-sdk'}"
         GRADLE_HOME           = "${env.GRADLE_HOME ?: '/opt/gradle/gradle-8.7'}"
-        STUDIO_BASE_URL       = credentials('STUDIO_BASE_URL')
-        PROJECT_ID            = credentials('PROJECT_ID')
-        STUDIO_PROJECT_ID     = credentials('STUDIO_PROJECT_ID')
-        STUDIO_USERNAME       = credentials('STUDIO_USERNAME')
-        STUDIO_PASSWORD       = credentials('STUDIO_PASSWORD')
 
         // BrowserStack (BrowserStack plugin credential — auto-splits into _USR and _PSW)
         BROWSERSTACK_CREDS      = credentials('BROWSERSTACK_CREDS')
@@ -68,7 +273,10 @@ pipeline {
         S3_BUCKET_NAME        = credentials('S3_BUCKET_NAME')
 
         TEST_WIDGETS          = "${params.TEST_WIDGETS}"
+        S3_REPORT_VERSION     = "${params.S3_VERSION}"
         RUN_LOCAL             = 'false'
+        MOBILE_BUILD_DIR      = './mobile-builds'
+        SKIP_VISUAL_VERIFICATION = "${params.SKIP_VISUAL_VERIFICATION}"
         // Standard CI flag so Playwright config can apply CI-specific options (forbidOnly, trace, etc.)
         CI                    = 'true'
     }
@@ -77,8 +285,40 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                deleteDir()
-                checkout scm
+                script {
+                    // File parameters land in workspace before stages run; deleteDir() would wipe them.
+                    def uploadParamNames = [
+                        'UPLOAD_ANDROID_ACTUAL_APK',
+                        'UPLOAD_IOS_ACTUAL_IPA',
+                        'UPLOAD_ANDROID_BASELINE_APK',
+                        'UPLOAD_IOS_BASELINE_IPA',
+                    ]
+                    def stashedUploads = []
+                    uploadParamNames.each { paramName ->
+                        def fileName = params[paramName]?.trim()
+                        if (fileName && fileExists(fileName)) {
+                            stash name: "upload-${paramName}", includes: fileName
+                            stashedUploads << paramName
+                            echo "📦 Stashed upload for ${paramName}: ${fileName}"
+                        }
+                    }
+
+                    deleteDir()
+                    checkout scm
+
+                    stashedUploads.each { paramName ->
+                        unstash "upload-${paramName}"
+                        echo "📦 Restored upload for ${paramName}: ${params[paramName]}"
+                    }
+                }
+            }
+        }
+
+        stage('Resolve WM Environment') {
+            steps {
+                script {
+                    applyWmEnvProfile()
+                }
             }
         }
 
@@ -111,7 +351,7 @@ pipeline {
                         env.MOBILE_PLATFORM = 'both'
                     }
 
-                    echo "▶ RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}"
+                    echo "▶ WM_ENV=${params.WM_ENV}  |  RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}  |  MOBILE_APP_SOURCE=${params.MOBILE_APP_SOURCE}  |  S3_VERSION=${params.S3_VERSION ?: '(not set — S3 upload skipped)'}  |  SKIP_VISUAL_VERIFICATION=${params.SKIP_VISUAL_VERIFICATION}"
                 }
             }
         }
@@ -143,7 +383,6 @@ pipeline {
             when { expression { env.RUN_WEB == 'true' } }
             steps {
                 sh '''
-                    PW_WORKERS=8 \
                     SLOT_VERIFY_TARGET=${SLOT_VERIFY_TARGET} \
                     xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
                     npx playwright test tests/token_slot_validation.spec.ts
@@ -164,7 +403,13 @@ pipeline {
         // ── MOBILE ────────────────────────────────────────────────────────────
 
         stage('Mobile — Verify Android Environment') {
-            when { expression { env.RUN_MOBILE == 'true' && !params.RUN_TARGET.contains('iOS only') } }
+            when {
+                allOf(
+                    expression { env.RUN_MOBILE == 'true' },
+                    expression { params.MOBILE_APP_SOURCE == 'Build from Studio (CLI)' },
+                    expression { !params.RUN_TARGET.contains('iOS only') }
+                )
+            }
             steps {
                 sh '''
                     echo "=== Checking Android build environment ==="
@@ -210,8 +455,27 @@ pipeline {
             }
         }
 
-        stage('Mobile — Setup') {
-            when { expression { env.RUN_MOBILE == 'true' } }
+        stage('Mobile — Prepare Uploaded Apps') {
+            when {
+                allOf(
+                    expression { env.RUN_MOBILE == 'true' },
+                    expression { params.MOBILE_APP_SOURCE == 'Upload APK/IPA manually' }
+                )
+            }
+            steps {
+                script {
+                    prepareUploadedMobileApps()
+                }
+            }
+        }
+
+        stage('Mobile — Setup (CLI Build)') {
+            when {
+                allOf(
+                    expression { env.RUN_MOBILE == 'true' },
+                    expression { params.MOBILE_APP_SOURCE == 'Build from Studio (CLI)' }
+                )
+            }
             steps {
                 sh '''
                     export PATH="${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
@@ -236,6 +500,7 @@ pipeline {
                         echo "  BATCH ${BATCH_NUM}: ${SPEC_GLOB}"
                         echo "============================================"
                         MOBILE_PLATFORM=${MOBILE_PLATFORM} \
+                        MOBILE_STRICT_WIDGET_WAIT=true \
                         wdio run wdio/config/wdio.browserstack.conf.ts \
                             --spec "${SPEC_GLOB}" || echo "⚠️  Batch ${BATCH_NUM} had failures (continuing)"
                     }
@@ -274,24 +539,18 @@ pipeline {
     post {
         success {
             script {
-                if (env.S3_BUCKET_NAME?.trim()) {
-                    sh 'npx ts-node scripts/generate-and-upload-reports.ts'
-                }
+                uploadReportsToS3()
             }
         }
         failure {
             script {
-                if (env.S3_BUCKET_NAME?.trim()) {
-                    sh 'npx ts-node scripts/generate-and-upload-reports.ts || echo "S3 upload skipped or failed (non-fatal for failed build)"'
-                }
+                uploadReportsToS3(nonFatal: true)
             }
             echo 'Build failed — check Playwright / Allure report above.'
         }
         unstable {
             script {
-                if (env.S3_BUCKET_NAME?.trim()) {
-                    sh 'npx ts-node scripts/generate-and-upload-reports.ts || echo "S3 upload skipped or failed (non-fatal for unstable build)"'
-                }
+                uploadReportsToS3(nonFatal: true)
             }
         }
     }

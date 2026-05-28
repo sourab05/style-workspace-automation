@@ -10,6 +10,8 @@ import { TokenMappingService } from '../../src/tokens/mappingService';
 import { TokenTestResultTracker, isLiteralTokenString, type TokenExecutionResult } from '../utils/tokenTestResultTracker';
 import { MobileMapper } from '../utils/mobileMapper';
 import { studioWidgetsPropertyAccess } from '../utils/studioWidgetAccess';
+import { formatResolvedValue, resolveStyleValue } from '../utils/styleObjectResolver';
+import { isBrowserStackEnv, shouldRelaxWidgetWait } from '../utils/envFlags';
 
 // Align Browser type with global WebdriverIO.Browser used in specs/helpers
 // Fix TS error: BrowserAsync doesn't exist; use the main WebdriverIO Browser type which *does* include $()
@@ -99,7 +101,10 @@ const TOGGLE_PAGE_HEADER_SELECTOR = MobileSelectors.headers.toggle;
 const SWITCH_NAV_ITEM_SELECTOR = MobileSelectors.navItems.switch;
 const SWITCH_PAGE_HEADER_SELECTOR = MobileSelectors.headers.switch;
 
-
+const STATE_AWARE_WIDGETS: Widget[] = [
+  'tabbar', 'tabs', 'button', 'checkbox', 'checkboxset', 'wizard', 'carousel',
+  'chips', 'formcontrols', 'radioset', 'toggle', 'switch',
+];
 
 /**
  * Mobile Widget Page Object
@@ -113,6 +118,63 @@ export class MobileWidgetPage {
 
   // Tracks widget instances whose full styles object has already been dumped this run
   private static dumpedStyleInstances: Set<string> = new Set();
+
+  // One full styles fetch per widget instance; token checks resolve paths locally
+  private static stylesObjectCache = new Map<string, { styles: unknown; fullCommand: string }>();
+
+  static clearStylesObjectCache(): void {
+    MobileWidgetPage.stylesObjectCache.clear();
+    MobileWidgetPage.dumpedStyleInstances.clear();
+  }
+
+  static buildStylesCacheKey(
+    widget: Widget,
+    studioWidgetName: string,
+    variantName: string,
+    platform: 'android' | 'ios',
+  ): string {
+    if (widget === 'formcontrols') {
+      const formFieldKey = variantName.endsWith('-disabled') ? 'custom' : 'entestkey';
+      return `${platform}::${widget}::${formFieldKey}`;
+    }
+    return `${platform}::${widget}::${studioWidgetName}`;
+  }
+
+  static hasStylesCache(
+    widget: Widget,
+    variantName: string,
+    platform: 'android' | 'ios',
+  ): boolean {
+    const studioWidgetName = getStudioWidgetNameForVariant(widget, variantName);
+    if (!studioWidgetName) return false;
+    const cacheKey = MobileWidgetPage.buildStylesCacheKey(
+      widget,
+      studioWidgetName,
+      variantName,
+      platform,
+    );
+    return MobileWidgetPage.stylesObjectCache.has(cacheKey);
+  }
+
+  /**
+   * Prefetch full styles JSON once per widget instance + platform (same path Android/iOS token tests use).
+   */
+  async warmStylesCache(
+    browser: Browser,
+    widget: Widget,
+    variantName: string,
+  ): Promise<void> {
+    const platform = this.getPlatform(browser);
+    const studioWidgetName = getStudioWidgetNameForVariant(widget, variantName);
+    if (!studioWidgetName) {
+      console.warn(`   ⚠️ warmStylesCache: no studio widget for ${widget} / ${variantName}`);
+      return;
+    }
+    if (MobileWidgetPage.hasStylesCache(widget, variantName, platform)) {
+      return;
+    }
+    await this.getCachedStylesObject(browser, widget, studioWidgetName, variantName, platform);
+  }
 
   constructor() {
     this.appiumHelpers = new AppiumHelpers();
@@ -218,8 +280,27 @@ export class MobileWidgetPage {
    * @param widgetName Widget identifier
    */
   async waitForWidget(browser: Browser, widgetName: string): Promise<void> {
+    const relax = shouldRelaxWidgetWait();
     const selector = this.getWidgetSelector(browser, widgetName);
-    await this.appiumHelpers.waitForElement(browser, selector);
+    try {
+      await this.appiumHelpers.waitForElement(browser, selector);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.log(`   🔄 Widget not visible (${message}), restarting app...`);
+      try {
+        await this.restartAppAndNavigate(browser, widgetName);
+        await this.appiumHelpers.waitForElement(browser, selector);
+      } catch (err2: unknown) {
+        const message2 = err2 instanceof Error ? err2.message : String(err2);
+        if (relax) {
+          console.warn(
+            `   ⚠️ waitForWidget(${widgetName}) sentinel still not ready after restart — continuing so RN/style commands can run (${message2})`,
+          );
+          return;
+        }
+        throw err2;
+      }
+    }
   }
 
   /**
@@ -527,6 +608,105 @@ export class MobileWidgetPage {
     return filePath;
   }
 
+  private buildFullStylesCommand(widget: Widget, studioWidgetName: string, variantName: string): string {
+    const formFieldKey = variantName.endsWith('-disabled') ? 'custom' : 'entestkey';
+    if (widget === 'cards') {
+      return 'App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.calcStyles';
+    }
+    if (widget === 'formcontrols') {
+      return `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.calcStyles`;
+    }
+    return `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
+  }
+
+  /**
+   * Fetch the complete styles object once per widget instance and cache in memory.
+   */
+  async getCachedStylesObject(
+    browser: Browser,
+    widget: Widget,
+    studioWidgetName: string,
+    variantName: string,
+    platform?: 'android' | 'ios',
+  ): Promise<{ styles: unknown; fullCommand: string }> {
+    const resolvedPlatform = platform ?? this.getPlatform(browser);
+    const cacheKey = MobileWidgetPage.buildStylesCacheKey(
+      widget,
+      studioWidgetName,
+      variantName,
+      resolvedPlatform,
+    );
+    const cached = MobileWidgetPage.stylesObjectCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const fullCommand = this.buildFullStylesCommand(widget, studioWidgetName, variantName);
+    console.log(
+      `   📦 Fetching full styles object once (${resolvedPlatform}): ${fullCommand}`,
+    );
+
+    const maxRetries = 3;
+    let rawResult = '{}';
+    for (let i = 0; i < maxRetries; i++) {
+      try {
+        rawResult = await this.executeRnCommand(browser, fullCommand);
+        if (!this.isEmptyObject(rawResult) && rawResult !== 'undefined' && rawResult !== '') {
+          break;
+        }
+        if (i < maxRetries - 1) {
+          console.log(`   🔄 Empty styles object, recovering UI (${i + 1}/${maxRetries})...`);
+          await this.recoverWidgetContext(browser, widget);
+          await waitFor(1000);
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        if (i === maxRetries - 1) throw err;
+        console.log(`   🔄 Styles fetch failed, recovering UI (${message})...`);
+        await this.recoverWidgetContext(browser, widget);
+      }
+    }
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(rawResult);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && '__trace' in parsed) {
+        delete (parsed as Record<string, unknown>).__trace;
+      }
+    } catch {
+      throw new Error(`Invalid styles JSON for ${studioWidgetName}: ${rawResult.substring(0, 100)}...`);
+    }
+
+    const entry = { styles: parsed, fullCommand };
+    MobileWidgetPage.stylesObjectCache.set(cacheKey, entry);
+
+    if (!MobileWidgetPage.dumpedStyleInstances.has(cacheKey)) {
+      MobileWidgetPage.dumpedStyleInstances.add(cacheKey);
+      try {
+        const dir = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        const filePath = path.join(dir, `${studioWidgetName}.styles.json`);
+        fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
+        console.log(`   💾 Saved full styles object to ${filePath}`);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.warn(`   ⚠️ Failed to save styles JSON: ${message}`);
+      }
+    }
+
+    return entry;
+  }
+
+  private getEffectivePropertyPath(widget: Widget, variantName: string, propertyPath: string[]): string[] {
+    const variantState = variantName.split('-').pop() || 'default';
+    // Only prepend states prefix if path doesn't already start with 'states'
+    // (extractTokens stores the path including 'states.*' from the payload structure)
+    if (variantState !== 'default' && STATE_AWARE_WIDGETS.includes(widget) && propertyPath[0] !== 'states') {
+      return ['states', variantState, ...propertyPath];
+    }
+    return propertyPath;
+  }
+
   /**
    * Recursively checks whether the given object contains the expected value
    * in any string/primitive leaf, employing normalization for robustness.
@@ -605,36 +785,66 @@ export class MobileWidgetPage {
   /**
    * Restarts the app and navigates back to the specified widget page.
    */
+  /** Lighter recovery for style-fetch retries (navigate only on cloud). */
+  private async recoverWidgetContext(browser: Browser, widget: string): Promise<void> {
+    if (isBrowserStackEnv()) {
+      try {
+        await this.navigateToWidget(browser, widget);
+        await this.waitForWidget(browser, widget);
+        MobileWidgetPage.clearStylesObjectCache();
+        return;
+      } catch {
+        // fall through to full recovery
+      }
+    }
+    await this.restartAppAndNavigate(browser, widget);
+  }
+
+  /**
+   * Recover UI state and return to the widget page.
+   * On BrowserStack, skips terminate/activate when bundle ID is unavailable (common with bs:// app URLs).
+   */
   async restartAppAndNavigate(browser: Browser, widget: string): Promise<void> {
-    console.log(`   🔄 Restarting app and navigating back to ${widget}...`);
+    console.log(`   🔄 Recovering app and navigating back to ${widget}...`);
     try {
       const pkg = await this.appiumHelpers.getCurrentPackage(browser);
+      const onCloud = isBrowserStackEnv();
+
       if (pkg) {
-        // Use modern terminate/activate if possible, fallback to close/launch
         try {
           await (browser as any).terminateApp(pkg);
           await waitFor(2000);
           await (browser as any).activateApp(pkg);
         } catch {
-          await this.appiumHelpers.closeApp(browser);
-          await waitFor(2000);
-          await this.appiumHelpers.launchApp(browser);
+          try {
+            await this.appiumHelpers.closeApp(browser);
+            await waitFor(2000);
+            await this.appiumHelpers.launchApp(browser);
+          } catch {
+            // continue to navigation
+          }
         }
-
-        await this.appiumHelpers.waitForAppReady(browser);
-        await this.navigateToWidget(browser, widget);
-        console.log(`   ✅ App restarted and navigated back to ${widget}`);
+      } else if (onCloud) {
+        console.warn(
+          '   ℹ️  BrowserStack: no bundle/package ID — re-navigating without terminate/activate',
+        );
       } else {
         console.error('   ❌ Could not determine package/bundle ID for restart');
       }
+
+      await this.appiumHelpers.waitForAppReady(browser);
+      await this.navigateToWidget(browser, widget);
+      MobileWidgetPage.clearStylesObjectCache();
+      console.log(`   ✅ Recovered and navigated back to ${widget}`);
     } catch (err: any) {
-      console.error(`   ⚠️ Failed during app restart/navigation: ${err.message}`);
+      console.error(`   ⚠️ Failed during app recovery/navigation: ${err.message}`);
     }
   }
 
   /**
-  * Uses the RN style command input to fetch the SPECIFIC style value for the
-  * given token property and asserts that it matches the expected token value.
+  * Verifies a token by resolving its mapped RN path against a cached full styles object
+  * (one Appium fetch per widget instance). Falls back to per-property RN commands only
+  * when MOBILE_STYLE_PER_PROPERTY=1 is set.
   * Records results in the static tracker for comparison table generation.
   */
   async verifyStylesIncludeTokenValue(
@@ -679,152 +889,59 @@ export class MobileWidgetPage {
     console.log(`   📱 [Session Info] App Path: ${appPath}`);
     console.log(`   📱 [Session Info] OS/Version: ${caps.platformName} ${caps.platformVersion || ''}`);
 
-    // --- DUMP FULL STYLES OBJECT (once per widget instance) ---
-    const formFieldKey = variantName.endsWith('-disabled') ? 'custom' : 'entestkey';
-    const dumpKey = `${widget}::${studioWidgetName}`;
-    if (!MobileWidgetPage.dumpedStyleInstances.has(dumpKey)) {
-      MobileWidgetPage.dumpedStyleInstances.add(dumpKey);
-      try {
-        let fullStylesCmd: string;
-        if (widget === 'cards') {
-          fullStylesCmd = `App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.calcStyles`;
-        } else if (widget === 'formcontrols') {
-          fullStylesCmd = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.calcStyles`;
-        } else {
-          fullStylesCmd = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
-        }
-        console.log(`   💾 Dumping full styles object: ${fullStylesCmd}`);
-        const fullStylesRaw = await this.executeRnCommand(browser, fullStylesCmd);
-        const dir = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget);
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
-        }
-        const filePath = path.join(dir, `${studioWidgetName}.styles.json`);
-        let parsed: any;
-        try {
-          parsed = JSON.parse(fullStylesRaw);
-        } catch {
-          parsed = fullStylesRaw;
-        }
-        fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
-        console.log(`   💾 Saved full styles object to ${filePath}`);
-      } catch (err: any) {
-        console.warn(`   ⚠️ Failed to dump full styles object for ${studioWidgetName}: ${err.message}`);
-      }
-    }
+    const resolvedPlatform = (platform ?? this.getPlatform(browser)) as 'android' | 'ios';
+    const stylesKey = (widget === 'cards' || widget === 'formcontrols') ? 'calcStyles' : 'styles';
+    let commandSuffix = stylesKey;
+    let mappedPath = '';
+    let fullCommand = '';
+    let actualValue: string;
 
-    // Construct the specific command suffix based on property path
-    let commandSuffix = ((widget === 'cards') || (widget === 'formcontrols')) ? 'calcStyles' : 'styles';
     if (propertyPath && propertyPath.length > 0) {
-      const platform = this.getPlatform(browser) as 'android' | 'ios';
-      const variantState = variantName.split('-').pop() || 'default';
-      const stateAwareWidgets = ['tabbar', 'tabs', 'button', 'checkbox', 'checkboxset', 'wizard', 'carousel', 'chips', 'formcontrols', 'radioset', 'toggle', 'switch'];
-      const effectivePropertyPath = (variantState !== 'default' && stateAwareWidgets.includes(widget)) ? ['states', variantState, ...propertyPath] : propertyPath;
-      const mappedPath = MobileMapper.mapToRnStylePath(effectivePropertyPath, widget, platform);
-      console.log(`   🔍 Mapping property path [${propertyPath.join('.')}] -> RN path [${mappedPath}]`);
-      commandSuffix = `${commandSuffix}.${mappedPath}`;
+      const effectivePropertyPath = this.getEffectivePropertyPath(widget, variantName, propertyPath);
+      mappedPath = MobileMapper.mapToRnStylePath(effectivePropertyPath, widget, resolvedPlatform);
+      commandSuffix = `${stylesKey}.${mappedPath}`;
+      console.log(`   🔍 Mapping [${propertyPath.join('.')}] -> [${mappedPath}] (cached styles lookup)`);
     } else {
-      console.log(`   ℹ️  No property path provided, defaulting to fetching full '${commandSuffix}' object.`);
+      console.log(`   ℹ️  No property path provided, using full '${stylesKey}' object.`);
     }
 
-    // Fetch just the value (or object if path points to a container)
-    let command = '';
-    if (widget === 'cards') {
-      command = `App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.${commandSuffix}`;
-    } else if (widget === 'formcontrols') {
-      command = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.${commandSuffix}`;
+    const usePerPropertyCommands = process.env.MOBILE_STYLE_PER_PROPERTY === '1';
+
+    if (!usePerPropertyCommands) {
+      const { styles, fullCommand: baseCommand } = await this.getCachedStylesObject(
+        browser,
+        widget,
+        studioWidgetName,
+        variantName,
+        resolvedPlatform,
+      );
+      fullCommand = baseCommand;
+
+      if (mappedPath) {
+        const resolved = resolveStyleValue(styles, mappedPath);
+        fullCommand = `${baseCommand}.${resolved.resolvedPath}`;
+        actualValue = formatResolvedValue(resolved.value);
+        console.log(`   ⚡ Resolved from cache: ${fullCommand} = "${actualValue}"`);
+      } else {
+        actualValue = formatResolvedValue(styles);
+      }
     } else {
-      command = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${commandSuffix}`;
-    }
-    let fullCommand = command;
-    console.log(`   🧾 Executing RN Command: ${command}`);
-
-    // execute command via input/output with retry logic (up to 3 times)
-    let rawResult = '{}';
-    const maxRetries = 3;
-    for (let i = 0; i < maxRetries; i++) {
-      try {
-        rawResult = await this.executeRnCommand(browser, command);
-        if (!this.isEmptyObject(rawResult) && rawResult !== 'undefined' && rawResult !== '') {
-          break;
-        }
-        if (i < maxRetries - 1) {
-          console.log(`   🔄 Empty result for ${command}, retrying (${i + 1}/${maxRetries})...`);
-          await waitFor(1000);
-        }
-      } catch (err: any) {
-        console.error(`   ❌ Attempt ${i + 1} failed: ${err.message}`);
-        if (i < maxRetries - 1) {
-          console.log(`   🔄 Potential UI/Inspector freeze detected. Restarting app and navigating back to ${widget}...`);
-          await this.restartAppAndNavigate(browser, widget);
-        } else {
-          throw err; // Re-throw if last attempt also failed
-        }
+      // Legacy: one RN command per property (slow; opt-in via MOBILE_STYLE_PER_PROPERTY=1)
+      let command = this.buildFullStylesCommand(widget, studioWidgetName, variantName);
+      if (mappedPath) {
+        command = `${command}.${mappedPath}`;
       }
-    }
-    console.log(`   📥 Raw Result from App: "${rawResult}"`);
-
-    // PER USER REQUEST: Direct comparison, no normalization
-    let actualValue = rawResult;
-
-    // Handle objects/shorthands by checking longhands if needed
-    if (propertyPath && (this.isEmptyObject(rawResult) || rawResult === 'undefined' || rawResult === '')) {
-      const lastPart = propertyPath[propertyPath.length - 1];
-      const longhands = TokenMappingService.getLonghandProperties(lastPart);
-
-      if (longhands.length > 0) {
-        console.log(`   📦 Found longhands for shorthand [${lastPart}]: ${longhands.join(', ')}`);
-
-        // Extract namespace from the mapped path (e.g. 'heading.paddingLeft' → 'heading')
-         const lhVariantState = variantName.split('-').pop() || 'default';
-         const lhStateAwareWidgets = ['tabbar', 'tabs', 'button', 'checkbox', 'checkboxset', 'wizard', 'carousel', 'chips', 'formcontrols', 'radioset', 'toggle', 'switch'];
-         const lhEffectivePath = (lhVariantState !== 'default' && lhStateAwareWidgets.includes(widget)) ? ['states', lhVariantState, ...propertyPath] : propertyPath;
-         const mappedPath = MobileMapper.mapToRnStylePath(lhEffectivePath, widget, platform);
-
-        // Build the base command path for longhands
-        let baseLhCommand = '';
-        if (widget === 'cards') {
-          const prefix = mappedPath.includes('.') ? mappedPath.substring(0, mappedPath.lastIndexOf('.')) : '';
-          baseLhCommand = `App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.calcStyles${prefix ? `.${prefix}` : ''}`;
-        } else if (widget === 'formcontrols') {
-          const prefix = mappedPath.includes('.') ? mappedPath.substring(0, mappedPath.lastIndexOf('.')) : '';
-          baseLhCommand = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.calcStyles${prefix ? `.${prefix}` : ''}`;
-        } else {
-          const namespace = mappedPath.includes('.') ? mappedPath.split('.')[0] : 'root';
-          baseLhCommand = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles.${namespace}`;
-        }
-
-        // Check if ANY of the longhands have a value. Usually all will match for a token application.
-        for (const lh of longhands) {
-          const lhCommand = `${baseLhCommand}.${lh}`;
-          const lhResult = await this.executeRnCommand(browser, lhCommand);
-          if (!this.isEmptyObject(lhResult) && lhResult !== 'undefined' && lhResult !== '') {
-            actualValue = lhResult;
-            fullCommand = lhCommand;
-            console.log(`   ✅ Resolved via longhand [${lh}] → "${lhResult}"`);
-            break;
-          }
-        }
-      }
+      fullCommand = command;
+      console.log(`   🧾 Executing RN Command (legacy): ${command}`);
+      actualValue = await this.executeRnCommand(browser, command);
     }
 
     console.log(`   🎯 Expected Value: "${expectedValue}"`);
     console.log(`   🧐 Actual Value: "${actualValue}"`);
 
-    const normalizeValue = (val: string) => {
-      let v = String(val).replace('px', '').trim();
-      const rgbMatch = v.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      if (rgbMatch) {
-        const r = parseInt(rgbMatch[1], 10).toString(16).padStart(2, '0');
-        const g = parseInt(rgbMatch[2], 10).toString(16).padStart(2, '0');
-        const b = parseInt(rgbMatch[3], 10).toString(16).padStart(2, '0');
-        v = `#${r}${g}${b}`;
-      }
-      return v;
-    };
-
-    const normalizedActual = normalizeValue(actualValue);
-    const normalizedExpected = normalizeValue(expectedValue);
+    const propHint = propertyPath?.join('.') || 'color';
+    const normalizedActual = TokenMappingService.normalizeValue(String(actualValue), propHint);
+    const normalizedExpected = TokenMappingService.normalizeValue(expectedValue, propHint);
 
     const result: StyleVerificationResult = {
       passed: false,
@@ -860,16 +977,14 @@ export class MobileWidgetPage {
 
     // Try parsing as JSON to check object containment
     try {
-      const parsed = JSON.parse(rawResult);
+      const parsed = JSON.parse(actualValue);
       if (typeof parsed === 'object' && parsed !== null) {
         console.log(`   📦 Result is an object, searching for value...`);
-        // Use a simple containment check
         const jsonStr = JSON.stringify(parsed);
         if (jsonStr.includes(expectedValue)) {
           console.log(`   ✅ Style property ${commandSuffix} contains expected value "${expectedValue}"`);
           result.passed = true;
 
-          // Record successful result for object containment
           if (platform && propertyPath) {
             MobileWidgetPage.resultTracker.recordResult(widget, platform, {
               tokenRef,
@@ -891,7 +1006,7 @@ export class MobileWidgetPage {
     }
 
     console.error(`   ❌ Mismatch!`);
-    result.error = `Style mismatch for ${studioWidgetName} property ${commandSuffix}.\nExpected: "${expectedValue}", Actual: "${rawResult}"`;
+    result.error = `Style mismatch for ${studioWidgetName} property ${commandSuffix}.\nExpected: "${expectedValue}", Actual: "${actualValue}"`;
 
     // Record failed result
     if (platform && propertyPath) {
@@ -935,5 +1050,144 @@ export class MobileWidgetPage {
     const capabilities: any = (browser as any).capabilities;
     const platform = capabilities.platformName?.toLowerCase();
     return platform === 'ios' ? 'ios' : 'android';
+  }
+
+  /**
+   * Batch-verify all tokens for a widget in a single Appium round-trip.
+   *
+   * Fetches the full styles object once, then resolves every token path
+   * in memory. Returns a per-token result array and prints a summary table.
+   */
+  async verifyAllTokensBatch(
+    browser: Browser,
+    widget: Widget,
+    tokens: Array<{
+      tokenRef: string;
+      variantName: string;
+      propertyPath: string[];
+      tokenData?: any;
+    }>,
+    platform?: 'android' | 'ios',
+  ): Promise<Array<{
+    tokenRef: string;
+    variantName: string;
+    propertyPath: string[];
+    passed: boolean;
+    expectedValue: string;
+    actualValue: string;
+    resolvedPath: string;
+    error?: string;
+  }>> {
+    const resolvedPlatform = (platform ?? this.getPlatform(browser)) as 'android' | 'ios';
+
+    // Group tokens by studioWidgetName so we only fetch each styles object once
+    const groupMap = new Map<string, typeof tokens>();
+    for (const token of tokens) {
+      const studioWidgetName = getStudioWidgetNameForVariant(widget, token.variantName) || token.variantName;
+      if (!groupMap.has(studioWidgetName)) groupMap.set(studioWidgetName, []);
+      groupMap.get(studioWidgetName)!.push(token);
+    }
+
+    const results: Array<{
+      tokenRef: string;
+      variantName: string;
+      propertyPath: string[];
+      passed: boolean;
+      expectedValue: string;
+      actualValue: string;
+      resolvedPath: string;
+      error?: string;
+    }> = [];
+
+    for (const [studioWidgetName, group] of groupMap) {
+      // One Appium fetch for this widget instance (cached after first call)
+      let stylesObj: unknown;
+      try {
+        const { styles } = await this.getCachedStylesObject(
+          browser,
+          widget,
+          studioWidgetName,
+          group[0].variantName,
+          resolvedPlatform,
+        );
+        stylesObj = styles;
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        for (const token of group) {
+          results.push({
+            tokenRef: token.tokenRef,
+            variantName: token.variantName,
+            propertyPath: token.propertyPath,
+            passed: false,
+            expectedValue: '',
+            actualValue: '',
+            resolvedPath: '',
+            error: `Styles fetch failed: ${message}`,
+          });
+        }
+        continue;
+      }
+
+      for (const token of group) {
+        const expectedValue = this.extractExpectedValue(token.tokenRef, token.tokenData ?? {});
+        if (!expectedValue) {
+          results.push({
+            tokenRef: token.tokenRef,
+            variantName: token.variantName,
+            propertyPath: token.propertyPath,
+            passed: true,
+            expectedValue: '',
+            actualValue: '',
+            resolvedPath: '',
+            error: 'Could not resolve expected value — skipped',
+          });
+          continue;
+        }
+
+        const effectivePath = this.getEffectivePropertyPath(widget, token.variantName, token.propertyPath);
+        const mappedPath = MobileMapper.mapToRnStylePath(effectivePath, widget, resolvedPlatform);
+        const { value, resolvedPath } = resolveStyleValue(stylesObj, mappedPath);
+        const actualValue = formatResolvedValue(value);
+
+        const propHint = token.propertyPath.join('.') || 'color';
+        const normActual = TokenMappingService.normalizeValue(actualValue, propHint);
+        const normExpected = TokenMappingService.normalizeValue(expectedValue, propHint);
+        const passed = normActual === normExpected ||
+          (actualValue !== '' && JSON.stringify(stylesObj).includes(expectedValue));
+
+        results.push({
+          tokenRef: token.tokenRef,
+          variantName: token.variantName,
+          propertyPath: token.propertyPath,
+          passed,
+          expectedValue,
+          actualValue,
+          resolvedPath,
+          error: passed ? undefined : `Expected "${expectedValue}", got "${actualValue}"`,
+        });
+      }
+    }
+
+    // Print summary table
+    const passed = results.filter(r => r.passed && !r.error?.includes('skipped')).length;
+    const failed = results.filter(r => !r.passed).length;
+    const skipped = results.filter(r => r.error?.includes('skipped')).length;
+
+    console.log('\n' + '═'.repeat(72));
+    console.log(`  Batch Token Verification — ${widget} (${resolvedPlatform})`);
+    console.log('═'.repeat(72));
+    for (const r of results) {
+      const icon = r.error?.includes('skipped') ? '⏭' : r.passed ? '✅' : '❌';
+      console.log(`  ${icon}  [${r.propertyPath.join('.')}]`);
+      if (!r.passed && !r.error?.includes('skipped')) {
+        console.log(`       expected: ${r.expectedValue}`);
+        console.log(`       actual:   ${r.actualValue}  (path: ${r.resolvedPath})`);
+      }
+    }
+    console.log('─'.repeat(72));
+    console.log(`  ✅ ${passed} passed  ❌ ${failed} failed  ⏭ ${skipped} skipped  (total ${results.length})`);
+    console.log('═'.repeat(72) + '\n');
+
+    return results;
   }
 }

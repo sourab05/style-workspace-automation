@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './bootstrap-env';
 
 const GOOGLE_AUTH_DOMAINS = ['stage-platform.wavemaker.ai'];
 

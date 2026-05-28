@@ -22,19 +22,41 @@ export interface BrowserStackDevice {
  * BrowserStack Service
  * Handles app upload, management, and device queries for BrowserStack
  */
+function parsePositiveInt(value: string | undefined, fallback: number): number {
+  const parsed = Number.parseInt(value ?? '', 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function isRetryableUploadError(error: any): boolean {
+  const code = error?.code;
+  if (code === 'ECONNABORTED' || code === 'ETIMEDOUT' || code === 'ECONNRESET' || code === 'ENOTFOUND') {
+    return true;
+  }
+  const status = error?.response?.status;
+  return typeof status === 'number' && status >= 500;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export class BrowserStackService {
   private client: AxiosInstance;
   private username: string;
   private accessKey: string;
-  
+  private uploadTimeoutMs: number;
+  private uploadRetries: number;
+
   constructor() {
     this.username = process.env.BROWSERSTACK_USERNAME || '';
     this.accessKey = process.env.BROWSERSTACK_ACCESS_KEY || '';
-    
+    this.uploadTimeoutMs = parsePositiveInt(process.env.BROWSERSTACK_UPLOAD_TIMEOUT_MS, 900_000);
+    this.uploadRetries = parsePositiveInt(process.env.BROWSERSTACK_UPLOAD_RETRIES, 3);
+
     if (!this.username || !this.accessKey) {
       throw new Error('BrowserStack credentials not found. Please set BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY environment variables.');
     }
-    
+
     this.client = axios.create({
       baseURL: 'https://api-cloud.browserstack.com',
       auth: {
@@ -42,9 +64,12 @@ export class BrowserStackService {
         password: this.accessKey
       },
       headers: {
-        'Accept': 'application/json'
+        Accept: 'application/json'
       },
-      timeout: 300000 // 5 minutes for uploads
+      // Non-upload API calls use a shorter default; uploads pass per-request timeout.
+      timeout: 60_000,
+      maxBodyLength: Infinity,
+      maxContentLength: Infinity
     });
   }
   
@@ -71,23 +96,54 @@ export class BrowserStackService {
       console.log(`   Size: ${fileSize} MB`);
       
       const startTime = Date.now();
-      
-      // Create form data
-      const form = new FormData();
-      form.append('file', fs.createReadStream(appPath));
-      form.append('custom_id', `${platform}-${Date.now()}`);
-      
-      // Upload to BrowserStack
-      const response = await this.client.post<BrowserStackAppUploadResponse>(
-        '/app-automate/upload',
-        form,
-        {
-          headers: {
-            ...form.getHeaders()
-          }
-        }
+      console.log(
+        `   Upload timeout: ${(this.uploadTimeoutMs / 1000).toFixed(0)}s (set BROWSERSTACK_UPLOAD_TIMEOUT_MS to override)`
       );
-      
+
+      let lastError: any;
+      let response: { data: BrowserStackAppUploadResponse } | undefined;
+
+      for (let attempt = 1; attempt <= this.uploadRetries; attempt++) {
+        const form = new FormData();
+        form.append('file', fs.createReadStream(appPath));
+        form.append('custom_id', `${platform}-${Date.now()}`);
+
+        try {
+          if (attempt > 1) {
+            console.log(`   Retry ${attempt}/${this.uploadRetries}...`);
+          }
+
+          response = await this.client.post<BrowserStackAppUploadResponse>(
+            '/app-automate/upload',
+            form,
+            {
+              headers: {
+                ...form.getHeaders()
+              },
+              timeout: this.uploadTimeoutMs,
+              maxBodyLength: Infinity,
+              maxContentLength: Infinity
+            }
+          );
+          break;
+        } catch (error: any) {
+          lastError = error;
+          const retryable = isRetryableUploadError(error);
+          if (!retryable || attempt === this.uploadRetries) {
+            throw error;
+          }
+          const waitMs = attempt * 10_000;
+          console.warn(
+            `   Upload attempt ${attempt} failed (${error.message}); retrying in ${waitMs / 1000}s...`
+          );
+          await sleep(waitMs);
+        }
+      }
+
+      if (!response) {
+        throw lastError ?? new Error('BrowserStack upload failed with no response');
+      }
+
       const duration = ((Date.now() - startTime) / 1000).toFixed(2);
       
       console.log(`✅ App uploaded successfully to BrowserStack`);

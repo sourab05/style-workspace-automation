@@ -81,6 +81,9 @@ importers:
       '@wdio/cli':
         specifier: ^8.27.0
         version: 8.46.0
+      '@wdio/globals':
+        specifier: ^8.27.0
+        version: 8.46.0
       '@wdio/local-runner':
         specifier: ^8.27.0
         version: 8.46.0

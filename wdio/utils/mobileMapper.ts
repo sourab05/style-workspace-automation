@@ -1327,15 +1327,24 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      }
 
      // 9. last-slide specific mappings
-     if (top === 'last-slide') {
-       if (second === 'background') return 'lastSlide.backgroundColor';
-       if (second === 'border') {
-         if (third === 'color') return 'lastSlide.borderColor';
-         if (third === 'width') return 'lastSlide.borderWidth';
-         if (third === 'radius') return 'lastSlide.borderTopLeftRadius';
-         if (third === 'style') return 'lastSlide.borderStyle';
+    if (top === 'last-slide') {
+      if (second === 'background') return 'lastSlide.backgroundColor';
+      if (second === 'border') {
+        if (third === 'color') return 'lastSlide.borderColor';
+        if (third === 'width') return 'lastSlide.borderWidth';
+        if (third === 'radius') return 'lastSlide.borderTopLeftRadius';
+        if (third === 'style') return 'lastSlide.borderStyle';
+      }
+      if (second === 'padding') return 'lastSlide.paddingTop';
+    }
+
+     // 10. Root-level padding -> root.paddingTop
+     if (top === 'padding') {
+       if (second) {
+         const dir = second.charAt(0).toUpperCase() + second.slice(1);
+         return `root.padding${dir}`;
        }
-       if (second === 'padding') return 'lastSlide.paddingTop';
+       return 'root.paddingTop';
      }
 
      return `root.${TokenMappingService.mapToComputedProperty(currentPath[currentPath.length - 1])}`;
@@ -2248,6 +2257,10 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'height') return 'progressBar.height';
     if (top === 'margin') return 'progressBar.margin';
     if (top === 'radius') return 'progressBar.borderTopLeftRadius';  // Also applies to other border radius properties
+    if (top === 'padding') {
+      if (second) return `root.padding${second.charAt(0).toUpperCase() + second.slice(1)}`;
+      return 'root.paddingTop';
+    }
 
     return `root.${TokenMappingService.mapToComputedProperty(propertyPath[propertyPath.length - 1])}`;
   }
@@ -2383,7 +2396,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     // Border properties
     if (top === 'border') {
-      if (second === 'radius') return 'root.borderTopLeftRadius';
+      if (second === 'radius') return 'popover.borderBottomLeftRadius';
       if (second === 'color') return 'popover.borderColor';
       if (second === 'width') return 'popover.borderWidth';
       if (second === 'style') return 'popover.borderStyle';
@@ -2757,6 +2770,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (pathStr === 'width') return 'root.width';
     if (pathStr === 'min-height') return 'root.minHeight';
+    if (top === 'padding') return 'root.paddingTop';
 
     if (top === 'view') {
       if (second === 'border' && third === 'width') return 'calendar.borderTopWidth';
@@ -2771,14 +2785,14 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'border' && third === 'style') return 'calendarHeader.borderStyle';
       if (second === 'border' && third === 'color') return 'calendarHeader.borderColor';
       if (second === 'border' && third === 'radius') return 'calendarHeader.borderTopLeftRadius';
-      if (second === 'border' && third === 'width')  return 'calendarHeader.borderTopWidth';
+      if (second === 'border' && third === 'width')  return 'calendarHeader.borderWidth';
       if (second === 'padding') return 'calendarHeader.paddingTop';
     }
 
     if (top === 'weekday') {
       if (second === 'padding') return 'weekDay.paddingTop';
       if (second === 'background-color') return 'weekDay.backgroundColor';
-      if (second === 'border' && third === 'width') return 'weekDay.borderTopWidth';
+      if (second === 'border' && third === 'width') return 'weekDay.borderWidth';
       if (second === 'border' && third === 'style') return 'weekDay.borderStyle';
       if (second === 'border' && third === 'color') return 'weekDay.borderColor';
       if (second === 'border' && third === 'width')  return 'weekDay.borderWidth';
@@ -3133,6 +3147,12 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (pathStr === 'ripple-color' || pathStr === 'ripple.color') {
       return 'button.root.rippleColor';
     }
+
+    // Padding
+    if (top === 'padding') {
+      if (second) return `root.padding${second.charAt(0).toUpperCase() + second.slice(1)}`;
+      return 'root.paddingTop';
+    }
   }
   // ============================================================================
   // CURRENCY-SPECIFIC MAPPINGS
@@ -3229,7 +3249,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (pathStr === 'background' || pathStr === 'background-color') return 'button.root.backgroundColor';
     if (top === 'border' && second === 'color') return 'button.root.borderColor';
     if (top === 'border' && second === 'width')  return 'button.root.borderWidth';
-    if (top === 'border' && second === 'radius') return 'button.root.bordeTopLeftRadius';
+    if (top === 'border' && second === 'radius') return 'button.root.borderTopLeftRadius';
     if (pathStr === 'color') return 'button.icon.icon.color';
     if (pathStr === 'padding') return 'button.root.paddingTop';
     if (pathStr === 'min-height') return 'button.root.minHeight';
@@ -3310,8 +3330,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (pfSecond === 'radius') return 'root.borderTopLeftRadius';
     }
     if (top === 'padding') {
-      if (pfSecond === 'block') return 'header.paddingBlock';
-      if (pfSecond === 'inline') return 'header.paddingInline';
+      if (pfSecond === 'block') return 'root.paddingBlock';
+      if (pfSecond === 'inline') return 'root.paddingInline'
     }
   }
 

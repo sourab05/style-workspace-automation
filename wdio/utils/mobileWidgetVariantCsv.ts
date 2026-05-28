@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { Widget } from '../../src/matrix/widgets';
+import { normalizeStudioWidgetInstanceKey } from './studioWidgetAccess';
 
 /**
  * Simple CSV loader for per-page mobile widget variant mapping.
@@ -60,7 +61,7 @@ export function loadWidgetVariantRows(widget: Widget): WidgetVariantCsvRow[] {
 
     rows.push({
       variantName: variantNameRaw.trim(),
-      studioWidgetName: studioWidgetNameRaw.trim(),
+      studioWidgetName: normalizeStudioWidgetInstanceKey(studioWidgetNameRaw.trim()),
     });
   }
 

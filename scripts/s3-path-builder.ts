@@ -1,8 +1,8 @@
 /**
  * Builds S3 path prefix for Style Workspace reports:
- * releases/<version>/<projectname>/<platform>/<date-time>
+ * react_native/releases/<version>/<projectname>/<platform>/<date-time>
  *
- * Example: wm-qa-automation/releases/12.0.0/Style Workspace/android/2025-02-24-14-30-45
+ * Example: wm-qa-automation/react_native/releases/WM-AI-Beta-2/Style Workspace/android/2025-02-24-14-30-45
  */
 
 export interface S3PathOptions {
@@ -15,11 +15,12 @@ export interface S3PathOptions {
 }
 
 const DEFAULT_PROJECT = "Style Workspace";
-const BASE_PATH = "releases";
+const BASE_PATH = process.env.S3_RELEASES_BASE || "react_native/releases";
 
 function getVersion(options: S3PathOptions): string {
     if (options.version) return options.version;
-    if (process.env.S3_REPORT_VERSION) return process.env.S3_REPORT_VERSION;
+    const fromEnv = process.env.S3_VERSION?.trim() || process.env.S3_REPORT_VERSION?.trim();
+    if (fromEnv) return fromEnv;
     return "12.0.0";
 }
 

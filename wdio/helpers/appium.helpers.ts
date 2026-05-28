@@ -207,15 +207,42 @@ export class AppiumHelpers {
    * @returns Package ID
    */
   async getCurrentPackage(browser: WebdriverIO.Browser): Promise<string> {
-    const capabilities: any = browser.capabilities;
-    const platform = capabilities.platformName?.toLowerCase();
-    
+    const capabilities: any = browser.capabilities || {};
+    const platform = (capabilities.platformName || '').toString().toLowerCase();
+
     if (platform === 'android') {
-      return await browser.execute('mobile: getCurrentPackage') as string;
-    } else if (platform === 'ios') {
-      return capabilities['appium:bundleId'] || '';
+      try {
+        const pkg = (await browser.execute('mobile: getCurrentPackage')) as string;
+        if (pkg) return pkg;
+      } catch {
+        // fall through to caps
+      }
+      return (
+        capabilities['appium:appPackage'] ||
+        capabilities['appium:bundleId'] ||
+        process.env.ANDROID_APP_PACKAGE ||
+        ''
+      );
     }
-    
+
+    if (platform === 'ios') {
+      const fromCaps =
+        capabilities['appium:bundleId'] ||
+        process.env.IOS_BUNDLE_ID ||
+        '';
+      if (fromCaps) return fromCaps;
+
+      try {
+        const info = await browser.execute('mobile: activeAppInfo');
+        if (info && typeof info === 'object') {
+          const bundleId = (info as { bundleId?: string }).bundleId;
+          if (bundleId) return bundleId;
+        }
+      } catch {
+        // Session may be booting; activeAppInfo unavailable on some clouds
+      }
+    }
+
     return '';
   }
   
