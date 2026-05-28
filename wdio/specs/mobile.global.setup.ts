@@ -1073,6 +1073,26 @@ export default async function mobileGlobalSetup() {
 
     const perWidgetMerger = new BatchTokenMerger();
 
+    const applyWithRetry = async (widgetKey: string, payload: Record<string, any>, maxRetries = 3) => {
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          await client.updateComponentOverride(widgetKey, payload);
+          return;
+        } catch (err: any) {
+          const isRetryable = err?.code === 'ECONNRESET' || err?.code === 'ETIMEDOUT' ||
+            err?.code === 'ECONNABORTED' || err?.message?.includes('ECONNRESET') ||
+            [502, 503, 504].includes(err?.response?.status);
+          if (attempt < maxRetries && isRetryable) {
+            const delayMs = attempt * 5000;
+            console.warn(`   ⚠️  ${err.code || err.message} on attempt ${attempt}/${maxRetries}, retrying in ${delayMs}ms...`);
+            await new Promise(r => setTimeout(r, delayMs));
+          } else {
+            throw err;
+          }
+        }
+      }
+    };
+
     for (const [widget, pairsForWidget] of pairsByWidget.entries()) {
       console.log(`\n🧩 Applying tokens for widget: ${widget} (pairs: ${pairsForWidget.length})`);
       const widgetPayload = perWidgetMerger.mergePayloads(pairsForWidget, generateVariantPayload);
@@ -1084,10 +1104,10 @@ export default async function mobileGlobalSetup() {
 
       if (widget === 'formcontrols' as any) {
         const studioKey = getWidgetKey(widget as any);
-        await client.updateComponentOverride(studioKey, widgetPayload);
+        await applyWithRetry(studioKey, widgetPayload);
         console.log(`✅ Tokens applied for widget: ${widget} (Studio key: ${studioKey})`);
       } else {
-        await client.updateComponentOverride(widget, widgetPayload);
+        await applyWithRetry(widget, widgetPayload);
         console.log(`✅ Tokens applied for widget: ${widget}`);
       }
     }
