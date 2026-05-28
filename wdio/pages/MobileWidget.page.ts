@@ -153,7 +153,9 @@ export class MobileWidgetPage {
       variantName,
       platform,
     );
-    return MobileWidgetPage.stylesObjectCache.has(cacheKey);
+    if (MobileWidgetPage.stylesObjectCache.has(cacheKey)) return true;
+    const diskPath = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget, `${studioWidgetName}.styles.json`);
+    return fs.existsSync(diskPath);
   }
 
   /**
@@ -639,6 +641,20 @@ export class MobileWidgetPage {
     const cached = MobileWidgetPage.stylesObjectCache.get(cacheKey);
     if (cached) {
       return cached;
+    }
+
+    // Try loading from disk cache before hitting BrowserStack
+    const diskPath = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget, `${studioWidgetName}.styles.json`);
+    if (fs.existsSync(diskPath)) {
+      try {
+        const diskData = JSON.parse(fs.readFileSync(diskPath, 'utf-8'));
+        const diskEntry = { styles: diskData, fullCommand: `[loaded from disk: ${diskPath}]` };
+        MobileWidgetPage.stylesObjectCache.set(cacheKey, diskEntry);
+        console.log(`   💾 Loaded styles from disk cache: ${diskPath}`);
+        return diskEntry;
+      } catch (err) {
+        console.warn(`   ⚠️ Failed to load disk cache ${diskPath}, fetching from device...`);
+      }
     }
 
     const fullCommand = this.buildFullStylesCommand(widget, studioWidgetName, variantName);
