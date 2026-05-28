@@ -480,31 +480,15 @@ pipeline {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh '''
-                    # Clear previous results once before all batches
                     rm -rf allure-results
                     mkdir -p allure-results
 
-                    run_batch() {
-                        local BATCH_NUM=$1
-                        local SPEC_GLOB=$2
-                        echo ""
-                        echo "============================================"
-                        echo "  BATCH ${BATCH_NUM}: ${SPEC_GLOB}"
-                        echo "============================================"
-                        MOBILE_PLATFORM=${MOBILE_PLATFORM} \
-                        MOBILE_STRICT_WIDGET_WAIT=true \
-                        npx wdio run wdio/config/wdio.browserstack.conf.ts \
-                            --spec "${SPEC_GLOB}" || echo "⚠️  Batch ${BATCH_NUM} had failures (continuing)"
-                    }
+                    echo "🚀 Running mobile token validation on BrowserStack (MOBILE_PLATFORM=${MOBILE_PLATFORM})"
 
-                    run_batch 1 "wdio/specs/mobile.{accordion,accordion-pane,anchor,audio,barcodescanner,bottomsheet,button,button-group,calendar,camera}.token.validate.spec.ts"
-                    run_batch 2 "wdio/specs/mobile.{cards,carousel,checkbox,checkboxset,chips,container,currency,datetime,dropdown-menu,fileupload}.token.validate.spec.ts"
-                    run_batch 3 "wdio/specs/mobile.{form-wrapper,formcontrols,icon,label,list,login,lottie,message,modal,navbar}.token.validate.spec.ts"
-                    run_batch 4 "wdio/specs/mobile.{panel,panel-footer,picture,popover,progress-bar,progress-circle,radioset,rating,search,select}.token.validate.spec.ts"
-                    run_batch 5 "wdio/specs/mobile.{slider,spinner,switch,tabbar,tabs,tile,toggle,video,webview,wizard}.token.validate.spec.ts"
-
-                    echo ""
-                    echo "✅ All 5 batches complete. allure-results accumulated."
+                    MOBILE_STRICT_WIDGET_WAIT=true \
+                    npx wdio run wdio/config/wdio.browserstack.conf.ts \
+                        --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
+                        || echo "⚠️  WDIO run completed with failures"
                 '''
             }
         }
