@@ -36,10 +36,24 @@ export function skipVisualVerification(): boolean {
 
 /**
  * Skip section-1 baseline vs actual screenshot tests (baseline APK + page screenshots).
- * True when SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT is set.
+ * True when SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT is set,
+ * or when no baseline apps were built (empty cache).
  */
 export function skipBaselineScreenshot(): boolean {
-  return shouldSkipVisualVerification() || isTruthyEnv('SKIP_BASELINE_SCREENSHOT');
+  if (shouldSkipVisualVerification() || isTruthyEnv('SKIP_BASELINE_SCREENSHOT')) return true;
+  // Also skip if no baseline apps exist in the cache
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const cachePath = path.join(process.cwd(), '.test-cache', 'mobile-baseline-apps.json');
+    if (!fs.existsSync(cachePath)) return true;
+    const cached = JSON.parse(fs.readFileSync(cachePath, 'utf-8'));
+    const bs = cached.browserstack || {};
+    const hasAndroid = !!(bs.android || cached.android);
+    const hasIos = !!(bs.ios || cached.ios);
+    if (!hasAndroid && !hasIos) return true;
+  } catch { /* fall through */ }
+  return false;
 }
 
 /**

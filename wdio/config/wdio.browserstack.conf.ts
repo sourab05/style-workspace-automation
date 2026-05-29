@@ -190,10 +190,11 @@ export const config: Options.Testrunner = {
   capabilities: filteredCapabilities,
 
   // Each spec file manages its own BrowserStack sessions (standalone remote()).
-  // Run multiple spec files in parallel — BrowserStack plan limit is typically 5-25.
+  // When Android + iOS run as parallel Jenkins branches, total sessions = maxInstances × 2.
+  // Default to 2 per branch (4 total) to stay within typical BrowserStack plan limits.
   maxInstances: process.env.RUN_LOCAL === 'true'
     ? 1
-    : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '5', 10),
+    : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '2', 10),
 
   onWorkerStart: async function (cid, caps, specs, args, execArgv) {
     const { MobileWidgetPage } = await import('../pages/MobileWidget.page');
