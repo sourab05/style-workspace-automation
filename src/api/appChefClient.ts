@@ -41,9 +41,34 @@ export class AppChefClient {
     });
   }
 
+  /**
+   * Retry a function once on failure with a delay between attempts.
+   */
+  private async withRetry<T>(label: string, fn: () => Promise<T>, maxAttempts = 2, delayMs = 5000): Promise<T> {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        return await fn();
+      } catch (err: any) {
+        const status = err?.response?.status;
+        const code = err?.code;
+        if (attempt < maxAttempts) {
+          console.warn(`[AppChef] ${label} failed (attempt ${attempt}/${maxAttempts}, status=${status ?? code ?? err?.message}), retrying in ${delayMs}ms...`);
+          await new Promise(r => setTimeout(r, delayMs));
+        } else {
+          throw err;
+        }
+      }
+    }
+    throw new Error(`[AppChef] ${label} failed after ${maxAttempts} attempts`);
+  }
+
   // ── Auth ─────────────────────────────────────────────────────────────────
 
   async login(username: string, password: string): Promise<void> {
+    return this.withRetry('login', () => this._doLogin(username, password));
+  }
+
+  private async _doLogin(username: string, password: string): Promise<void> {
     console.log('[AppChef] Step 1/3: Logging in to WMO...');
 
     // ─── Step 1: WMO global login → auth_cookie ──────────────────────────────
@@ -125,51 +150,55 @@ export class AppChefClient {
   // ── Step 1: analyzeZip ───────────────────────────────────────────────────
 
   async analyzeZip(zipPath: string): Promise<{ bundleId: string; displayName: string; iconFileId: number; iconFile: any }> {
-    console.log('[AppChef] Analyzing ZIP...');
-    const form = new FormData();
-    form.append('file', fs.createReadStream(zipPath), path.basename(zipPath));
-    form.append('type', 'REACT_NATIVE');
+    return this.withRetry('analyzeZip', async () => {
+      console.log('[AppChef] Analyzing ZIP...');
+      const form = new FormData();
+      form.append('file', fs.createReadStream(zipPath), path.basename(zipPath));
+      form.append('type', 'REACT_NATIVE');
 
-    const resp = await this.http.post('/analyzeZip', form, {
-      headers: { ...this.authHeaders(), ...form.getHeaders() },
+      const resp = await this.http.post('/analyzeZip', form, {
+        headers: { ...this.authHeaders(), ...form.getHeaders() },
+      });
+      if (!resp.data || resp.data.error) {
+        throw new Error(`[AppChef] analyzeZip failed: ${JSON.stringify(resp.data)}`);
+      }
+
+      const bundleId    = resp.data.name as string;
+      const displayName = resp.data.displayName as string;
+      const iconFile    = resp.data.file;
+      const iconFileId  = iconFile?.id as number;
+
+      if (!bundleId) throw new Error('[AppChef] analyzeZip: missing name (bundle ID) in response');
+      if (!iconFileId) throw new Error('[AppChef] analyzeZip: missing icon file ID in response');
+      console.log(`[AppChef] ZIP analysis OK — bundle=${bundleId} displayName=${displayName} iconId=${iconFileId}`);
+      return { bundleId, displayName, iconFileId, iconFile };
     });
-    if (!resp.data || resp.data.error) {
-      throw new Error(`[AppChef] analyzeZip failed: ${JSON.stringify(resp.data)}`);
-    }
-
-    const bundleId    = resp.data.name as string;
-    const displayName = resp.data.displayName as string;
-    const iconFile    = resp.data.file;
-    const iconFileId  = iconFile?.id as number;
-
-    if (!bundleId) throw new Error('[AppChef] analyzeZip: missing name (bundle ID) in response');
-    if (!iconFileId) throw new Error('[AppChef] analyzeZip: missing icon file ID in response');
-    console.log(`[AppChef] ZIP analysis OK — bundle=${bundleId} displayName=${displayName} iconId=${iconFileId}`);
-    return { bundleId, displayName, iconFileId, iconFile };
   }
 
   // ── Step 2: uploadFile ────────────────────────────────────────────────────
 
   async uploadFile(zipPath: string): Promise<number> {
-    console.log('[AppChef] Uploading ZIP file...');
-    const form = new FormData();
-    form.append('name', '');
-    form.append('path', 'apps/cordova');
-    form.append('isPublic', 'false');
-    form.append('file', fs.createReadStream(zipPath), path.basename(zipPath));
+    return this.withRetry('uploadFile', async () => {
+      console.log('[AppChef] Uploading ZIP file...');
+      const form = new FormData();
+      form.append('name', '');
+      form.append('path', 'apps/cordova');
+      form.append('isPublic', 'false');
+      form.append('file', fs.createReadStream(zipPath), path.basename(zipPath));
 
-    const resp = await this.http.post('/uploadFile', form, {
-      headers: { ...this.authHeaders(), ...form.getHeaders() },
-      maxBodyLength: Infinity,
-      maxContentLength: Infinity,
+      const resp = await this.http.post('/uploadFile', form, {
+        headers: { ...this.authHeaders(), ...form.getHeaders() },
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
+      });
+
+      const fileId: number | undefined = resp.data?.id ?? resp.data?.fileId;
+      if (!fileId) {
+        throw new Error(`[AppChef] uploadFile returned no file ID: ${JSON.stringify(resp.data)}`);
+      }
+      console.log(`[AppChef] File uploaded — ID=${fileId}`);
+      return fileId;
     });
-
-    const fileId: number | undefined = resp.data?.id ?? resp.data?.fileId;
-    if (!fileId) {
-      throw new Error(`[AppChef] uploadFile returned no file ID: ${JSON.stringify(resp.data)}`);
-    }
-    console.log(`[AppChef] File uploaded — ID=${fileId}`);
-    return fileId;
   }
 
   // ── Step 3: find existing app ─────────────────────────────────────────────
@@ -330,23 +359,25 @@ export class AppChefClient {
       },
     };
 
-    let resp;
-    try {
-      resp = await this.http.post('/saveApp', body, {
-        headers: { ...this.authHeaders(), 'Content-Type': 'application/json' },
-      });
-    } catch (err: any) {
-      const errBody = err?.response?.data;
-      console.error(`[AppChef] saveApp failed (${err?.response?.status}):`, JSON.stringify(errBody, null, 2));
-      throw err;
-    }
+    return this.withRetry('saveApp', async () => {
+      let resp;
+      try {
+        resp = await this.http.post('/saveApp', body, {
+          headers: { ...this.authHeaders(), 'Content-Type': 'application/json' },
+        });
+      } catch (err: any) {
+        const errBody = err?.response?.data;
+        console.error(`[AppChef] saveApp failed (${err?.response?.status}):`, JSON.stringify(errBody, null, 2));
+        throw err;
+      }
 
-    const appId: string = resp.data?.appId ?? resp.data?.id;
-    if (!appId) {
-      throw new Error(`[AppChef] saveApp returned no appId: ${JSON.stringify(resp.data)}`);
-    }
-    console.log(`[AppChef] App saved — appId=${appId}`);
-    return String(appId);
+      const appId: string = resp.data?.appId ?? resp.data?.id;
+      if (!appId) {
+        throw new Error(`[AppChef] saveApp returned no appId: ${JSON.stringify(resp.data)}`);
+      }
+      console.log(`[AppChef] App saved — appId=${appId}`);
+      return String(appId);
+    });
   }
 
   // ── Step 5: poll buildTasks ───────────────────────────────────────────────
@@ -469,29 +500,31 @@ export class AppChefClient {
   }
 
   async downloadBuild(buildTaskId: string, platform: 'android' | 'ios', destPath: string, _directUrl?: string): Promise<string> {
-    fs.mkdirSync(path.dirname(destPath), { recursive: true });
+    return this.withRetry(`downloadBuild(${platform})`, async () => {
+      fs.mkdirSync(path.dirname(destPath), { recursive: true });
 
-    // Always use the authenticated downloadOutput endpoint — the S3 direct URLs
-    // are pre-signed and expire quickly (403 after expiry). downloadOutput streams
-    // the file via the AppChef backend using the SESSION cookie.
-    const url = this.downloadUrl(buildTaskId, platform);
-    console.log(`[AppChef] Downloading ${platform} via downloadOutput → ${destPath}`);
+      // Always use the authenticated downloadOutput endpoint — the S3 direct URLs
+      // are pre-signed and expire quickly (403 after expiry). downloadOutput streams
+      // the file via the AppChef backend using the SESSION cookie.
+      const url = this.downloadUrl(buildTaskId, platform);
+      console.log(`[AppChef] Downloading ${platform} via downloadOutput → ${destPath}`);
 
-    const resp = await axios.get(url, {
-      headers: this.authHeaders(),
-      responseType: 'stream',
-      maxRedirects: 5,
+      const resp = await axios.get(url, {
+        headers: this.authHeaders(),
+        responseType: 'stream',
+        maxRedirects: 5,
+      });
+
+      await new Promise<void>((resolve, reject) => {
+        const writer = fs.createWriteStream(destPath);
+        resp.data.pipe(writer);
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
+
+      console.log(`[AppChef] ✅ Downloaded ${platform} → ${destPath}`);
+      return destPath;
     });
-
-    await new Promise<void>((resolve, reject) => {
-      const writer = fs.createWriteStream(destPath);
-      resp.data.pipe(writer);
-      writer.on('finish', resolve);
-      writer.on('error', reject);
-    });
-
-    console.log(`[AppChef] ✅ Downloaded ${platform} → ${destPath}`);
-    return destPath;
   }
 
   // ── Full build flow ────────────────────────────────────────────────────────

@@ -877,17 +877,31 @@ export default async function mobileGlobalSetup() {
       platform: 'android' | 'ios' | 'both';
     }): Promise<{ apkPath?: string; ipaPath?: string }> => {
       if (useAppChef) {
-        const appChef = new AppChefClient();
-        return appChef.buildFromZip({
-          zipPath: opts.zipPath!,
-          bundleId: process.env.APPCHEF_BUNDLE_ID || 'com.wavemaker.styleworkspaceautomation',
-          displayName: process.env.APPCHEF_DISPLAY_NAME || 'StyleWorkSpaceAutomation',
-          version: process.env.APPCHEF_VERSION || '0.0.1',
-          platform: opts.platform,
-          destDir: opts.destDir,
-          username: process.env.WMO_USERNAME || process.env.STUDIO_USERNAME || '',
-          password: process.env.WMO_PASSWORD || process.env.STUDIO_PASSWORD || '',
-        });
+        const maxAttempts = 2;
+        for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+          try {
+            const appChef = new AppChefClient();
+            return await appChef.buildFromZip({
+              zipPath: opts.zipPath!,
+              bundleId: process.env.APPCHEF_BUNDLE_ID || 'com.wavemaker.styleworkspaceautomation',
+              displayName: process.env.APPCHEF_DISPLAY_NAME || 'StyleWorkSpaceAutomation',
+              version: process.env.APPCHEF_VERSION || '0.0.1',
+              platform: opts.platform,
+              destDir: opts.destDir,
+              username: process.env.WMO_USERNAME || process.env.STUDIO_USERNAME || '',
+              password: process.env.WMO_PASSWORD || process.env.STUDIO_PASSWORD || '',
+            });
+          } catch (err: any) {
+            if (attempt < maxAttempts) {
+              console.warn(`⚠️  ${opts.label} AppChef build failed (attempt ${attempt}/${maxAttempts}): ${err?.message || err}`);
+              console.warn('   Retrying full AppChef build in 10s...');
+              await new Promise(r => setTimeout(r, 10_000));
+            } else {
+              throw err;
+            }
+          }
+        }
+        throw new Error(`${opts.label} AppChef build failed after ${maxAttempts} attempts`);
       }
 
       // CLI build
