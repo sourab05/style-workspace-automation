@@ -1,8 +1,8 @@
 /**
  * Builds S3 path prefix for Style Workspace reports:
- * react_native/releases/<version>/<projectname>/<platform>/<date-time>
+ * react_native/releases/<version>/<projectname>/<platform>/SWS<PlatformName>
  *
- * Example: wm-qa-automation/react_native/releases/WM-AI-Beta-2/Style Workspace/android/2025-02-24-14-30-45
+ * Example: wm-qa-automation/react_native/releases/WM-AI-Beta-2/Style Workspace/android/SWSAndroid
  */
 
 export interface S3PathOptions {
@@ -24,16 +24,12 @@ function getVersion(options: S3PathOptions): string {
     return "12.0.0";
 }
 
-function getDateTime(): string {
-    const d = new Date();
-    return [
-        d.getFullYear(),
-        String(d.getMonth() + 1).padStart(2, "0"),
-        String(d.getDate()).padStart(2, "0"),
-        String(d.getHours()).padStart(2, "0"),
-        String(d.getMinutes()).padStart(2, "0"),
-        String(d.getSeconds()).padStart(2, "0"),
-    ].join("-");
+function capitalizeFirst(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+}
+
+function buildReportName(platform: string): string {
+    return `SWS${capitalizeFirst(platform)}`;
 }
 
 /**
@@ -43,7 +39,7 @@ export function buildS3ReportPath(options: S3PathOptions = {}): string {
     const platform = options.platform || process.env.S3_REPORT_PLATFORM || process.env.PLATFORM || "canvas";
     const version = getVersion(options);
     const projectName = options.projectName || process.env.S3_REPORT_PROJECT || DEFAULT_PROJECT;
-    const dateTime = process.env.S3_REPORT_DATETIME || getDateTime();
+    const reportName = process.env.S3_REPORT_NAME || buildReportName(platform);
 
-    return [BASE_PATH, version, projectName, platform, dateTime].filter(Boolean).join("/");
+    return [BASE_PATH, version, projectName, platform, reportName].filter(Boolean).join("/");
 }

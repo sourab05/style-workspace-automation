@@ -28,7 +28,7 @@ function run(cmd: string, desc: string): boolean {
 
 function main() {
     console.log("🚀 Generate and upload reports to S3 (latest path)");
-    console.log("   Path: releases/<version>/Style Workspace/<platform>/<date-time>");
+    console.log("   Path: releases/<version>/Style Workspace/<platform>/SWS<PlatformName>");
 
     let uploaded = false;
 
