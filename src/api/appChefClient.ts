@@ -330,9 +330,16 @@ export class AppChefClient {
       },
     };
 
-    const resp = await this.http.post('/saveApp', body, {
-      headers: { ...this.authHeaders(), 'Content-Type': 'application/json' },
-    });
+    let resp;
+    try {
+      resp = await this.http.post('/saveApp', body, {
+        headers: { ...this.authHeaders(), 'Content-Type': 'application/json' },
+      });
+    } catch (err: any) {
+      const errBody = err?.response?.data;
+      console.error(`[AppChef] saveApp failed (${err?.response?.status}):`, JSON.stringify(errBody, null, 2));
+      throw err;
+    }
 
     const appId: string = resp.data?.appId ?? resp.data?.id;
     if (!appId) {
@@ -513,7 +520,6 @@ export class AppChefClient {
 
     // Upload the ZIP — this becomes the cordovaZip file ID
     const cordovaZipFileId = await this.uploadFile(opts.zipPath);
-    const existing = await this.findAppByName(bundleId);
 
     // For iOS builds, resolve and unlock the certificate
     let iosCertId = opts.iosCertId;
@@ -524,6 +530,9 @@ export class AppChefClient {
       iosCertId = certId;
     }
 
+    // Always create a fresh app record (id:null, appId:null) — this matches the
+    // proven AppChef UI flow. Reusing an existing app record (id set) causes the
+    // server to return 500 on /saveApp.
     const appId = await this.saveApp({
       cordovaZipFileId,
       iconFileId: analyzed.iconFileId,
@@ -531,8 +540,8 @@ export class AppChefClient {
       bundleId,
       displayName,
       version,
-      existingId: existing?.id,
-      existingAppId: existing?.appId,
+      existingId: null,
+      existingAppId: null,
       platform: opts.platform,
       androidCertId: opts.androidCertId,
       iosCertId,
