@@ -282,6 +282,14 @@ export class MobileWidgetPage {
    * @param widgetName Widget identifier
    */
   async waitForWidget(browser: Browser, widgetName: string): Promise<void> {
+    // When only validating style tokens (no screenshots), skip the selector wait.
+    // RN console commands work as long as the page JS is loaded — the widget
+    // element doesn't need to be visually rendered on screen.
+    if (process.env.SKIP_VISUAL_VERIFICATION === 'true') {
+      await waitFor(2000);
+      return;
+    }
+
     const relax = shouldRelaxWidgetWait();
     const selector = this.getWidgetSelector(browser, widgetName);
     try {
