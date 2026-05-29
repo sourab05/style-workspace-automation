@@ -783,19 +783,18 @@ export default async function mobileGlobalSetup() {
     const widgetsToReset = Object.keys(WIDGET_CONFIG);
     console.log(`   Resetting overrides for ${widgetsToReset.length} widgets: ${widgetsToReset.join(', ')}`);
 
-    for (const widget of widgetsToReset) {
-      try {
-        if (widget === 'formcontrols') {
-          const studioKey = getWidgetKey(widget as any);
-          await client.updateComponentOverride(studioKey, {});
-          console.log(`   ✓ Reverted styles for ${widget} (Studio key: ${studioKey})`);
-        } else {
-          await client.updateComponentOverride(widget, {});
-          console.log(`   ✓ Reverted styles for ${widget}`);
-        }
-      } catch (err: any) {
-        console.warn(`   ⚠️ Failed to revert styles for ${widget}:`, err.message);
-      }
+    const resetResults = await Promise.allSettled(
+      widgetsToReset.map(async (widget) => {
+        const key = widget === 'formcontrols' ? getWidgetKey(widget as any) : widget;
+        await client.updateComponentOverride(key, {});
+        return widget === 'formcontrols' ? `${widget} (Studio key: ${key})` : widget;
+      })
+    );
+    const succeeded = resetResults.filter(r => r.status === 'fulfilled');
+    const failed = resetResults.filter(r => r.status === 'rejected');
+    console.log(`   ✓ Reverted styles for ${succeeded.length}/${widgetsToReset.length} widgets in parallel`);
+    for (const f of failed) {
+      console.warn(`   ⚠️ Failed to revert: ${(f as PromiseRejectedResult).reason?.message}`);
     }
 
     try {
