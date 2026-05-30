@@ -156,8 +156,7 @@ export const config: Options.Testrunner = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
 
-  // Enable verbose logging for BrowserStack
-  logLevel: 'debug',
+  logLevel: 'info',
 
   // Specs use createIOSSession/createAndroidSession (standalone remote), not the WDIO worker browser.
   reporters: [

@@ -1285,6 +1285,9 @@ export default async function mobileGlobalSetup() {
         });
         console.log(`   ✅ ${platform} session created for styles pre-fetch`);
 
+        // Give the app enough time to fully boot before navigating
+        await new Promise(r => setTimeout(r, 10000));
+
         const widgetPage = new MobileWidgetPage();
         let fetched = 0;
         let skipped = 0;
@@ -1298,7 +1301,6 @@ export default async function mobileGlobalSetup() {
 
           try {
             await widgetPage.navigateToWidget(browser, entry.widget as any);
-            await widgetPage.waitForWidget(browser, entry.widget as any);
             await widgetPage.saveStylesJson(browser, entry.widget as any, entry.studioWidgetName);
             fetched++;
             if (fetched % 10 === 0) {
