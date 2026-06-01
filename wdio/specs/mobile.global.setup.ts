@@ -376,6 +376,69 @@ function isTokenCompatibleWithProperty(tokenRef: string, propertyPath: string[])
   return true;
 }
 
+function isRetryableStudioError(err: any): boolean {
+  return err?.code === 'ECONNRESET' || err?.code === 'ETIMEDOUT' ||
+    err?.code === 'ECONNABORTED' || err?.message?.includes('timeout') ||
+    err?.message?.includes('ECONNRESET') ||
+    [502, 503, 504].includes(err?.response?.status);
+}
+
+async function applyComponentOverrideWithRetry(
+  client: StudioClient,
+  componentKey: string,
+  payload: unknown,
+  maxRetries = 3,
+): Promise<void> {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await client.updateComponentOverride(componentKey, payload);
+      return;
+    } catch (err: any) {
+      if (attempt < maxRetries && isRetryableStudioError(err)) {
+        const delayMs = attempt * 5000;
+        console.warn(
+          `   ⚠️  ${componentKey}: ${err.code || err.message} (attempt ${attempt}/${maxRetries}), retrying in ${delayMs}ms...`,
+        );
+        await new Promise(r => setTimeout(r, delayMs));
+      } else {
+        throw err;
+      }
+    }
+  }
+}
+
+/** Run async tasks with a fixed concurrency cap (sequential when concurrency=1). */
+async function runWithConcurrency<T>(
+  items: T[],
+  concurrency: number,
+  fn: (item: T) => Promise<void>,
+): Promise<{ succeeded: number; failed: Array<{ item: T; error: Error }> }> {
+  const failed: Array<{ item: T; error: Error }> = [];
+  let succeeded = 0;
+  let index = 0;
+  const limit = Math.max(1, concurrency);
+
+  const worker = async () => {
+    while (index < items.length) {
+      const current = index++;
+      const item = items[current];
+      try {
+        await fn(item);
+        succeeded++;
+      } catch (err: any) {
+        failed.push({ item, error: err instanceof Error ? err : new Error(String(err?.message || err)) });
+      }
+    }
+  };
+
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, () => worker()));
+  return { succeeded, failed };
+}
+
+function resolveStudioComponentKey(widget: string): string {
+  return widget === 'formcontrols' ? getWidgetKey(widget as any) : widget;
+}
+
 
 export default async function mobileGlobalSetup() {
   console.log('\n' + '='.repeat(80));
@@ -783,18 +846,26 @@ export default async function mobileGlobalSetup() {
     const widgetsToReset = Object.keys(WIDGET_CONFIG);
     console.log(`   Resetting overrides for ${widgetsToReset.length} widgets: ${widgetsToReset.join(', ')}`);
 
-    const resetResults = await Promise.allSettled(
-      widgetsToReset.map(async (widget) => {
-        const key = widget === 'formcontrols' ? getWidgetKey(widget as any) : widget;
-        await client.updateComponentOverride(key, {});
-        return widget === 'formcontrols' ? `${widget} (Studio key: ${key})` : widget;
-      })
+    const revertConcurrency = parseInt(process.env.STUDIO_REVERT_CONCURRENCY || '3', 10);
+    console.log(`   Concurrency: ${revertConcurrency} (set STUDIO_REVERT_CONCURRENCY=1 for sequential)`);
+
+    const { succeeded, failed } = await runWithConcurrency(
+      widgetsToReset,
+      revertConcurrency,
+      async (widget) => {
+        const studioKey = resolveStudioComponentKey(widget);
+        await applyComponentOverrideWithRetry(client, studioKey, {});
+        if (widget === 'formcontrols') {
+          console.log(`   ✓ Reverted styles for ${widget} (Studio key: ${studioKey})`);
+        } else {
+          console.log(`   ✓ Reverted styles for ${widget}`);
+        }
+      },
     );
-    const succeeded = resetResults.filter(r => r.status === 'fulfilled');
-    const failed = resetResults.filter(r => r.status === 'rejected');
-    console.log(`   ✓ Reverted styles for ${succeeded.length}/${widgetsToReset.length} widgets in parallel`);
-    for (const f of failed) {
-      console.warn(`   ⚠️ Failed to revert: ${(f as PromiseRejectedResult).reason?.message}`);
+
+    console.log(`   ✓ Reverted styles for ${succeeded}/${widgetsToReset.length} widgets`);
+    for (const { item, error } of failed) {
+      console.warn(`   ⚠️ Failed to revert styles for ${item}:`, error.message);
     }
 
     try {
@@ -1086,26 +1157,6 @@ export default async function mobileGlobalSetup() {
 
     const perWidgetMerger = new BatchTokenMerger();
 
-    const applyWithRetry = async (widgetKey: string, payload: Record<string, any>, maxRetries = 3) => {
-      for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        try {
-          await client.updateComponentOverride(widgetKey, payload);
-          return;
-        } catch (err: any) {
-          const isRetryable = err?.code === 'ECONNRESET' || err?.code === 'ETIMEDOUT' ||
-            err?.code === 'ECONNABORTED' || err?.message?.includes('ECONNRESET') ||
-            [502, 503, 504].includes(err?.response?.status);
-          if (attempt < maxRetries && isRetryable) {
-            const delayMs = attempt * 5000;
-            console.warn(`   ⚠️  ${err.code || err.message} on attempt ${attempt}/${maxRetries}, retrying in ${delayMs}ms...`);
-            await new Promise(r => setTimeout(r, delayMs));
-          } else {
-            throw err;
-          }
-        }
-      }
-    };
-
     for (const [widget, pairsForWidget] of pairsByWidget.entries()) {
       console.log(`\n🧩 Applying tokens for widget: ${widget} (pairs: ${pairsForWidget.length})`);
       const widgetPayload = perWidgetMerger.mergePayloads(pairsForWidget, generateVariantPayload);
@@ -1117,10 +1168,10 @@ export default async function mobileGlobalSetup() {
 
       if (widget === 'formcontrols' as any) {
         const studioKey = getWidgetKey(widget as any);
-        await applyWithRetry(studioKey, widgetPayload);
+        await applyComponentOverrideWithRetry(client, studioKey, widgetPayload);
         console.log(`✅ Tokens applied for widget: ${widget} (Studio key: ${studioKey})`);
       } else {
-        await applyWithRetry(widget, widgetPayload);
+        await applyComponentOverrideWithRetry(client, widget, widgetPayload);
         console.log(`✅ Tokens applied for widget: ${widget}`);
       }
     }

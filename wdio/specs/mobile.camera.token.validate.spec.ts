@@ -7,6 +7,7 @@ import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
 import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
+import { baselineScreenshotIt } from '../utils/mobileSpecGating';
 import { createAndroidSession, createIOSSession } from '../utils/sessionFactory';
 import type { Widget } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
@@ -125,13 +126,9 @@ describe('Mobile Token Validation - Camera Widget', function () {
     }
   });
 
-  it('Android baseline vs actual screenshot (camera page)', async function () {
-    if (!shouldRunAndroid) { console.log('⏭ Skipping Android baseline screenshot'); this.skip(); }
-    if (skipBaselineScreenshot()) {
-      console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-      this.skip();
-    }
-
+  baselineScreenshotIt('android')('Android baseline vs actual screenshot (camera page)', async function () {
+    
+    
 
     const screenshotName = 'camera-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -163,13 +160,9 @@ describe('Mobile Token Validation - Camera Widget', function () {
     } catch (err: any) { console.error(`Android actual screenshot failed: ${err?.message || err}`); throw err; }
   });
 
-  it('iOS baseline vs actual screenshot (camera page)', async function () {
-    if (!shouldRunIOS) { console.log('⏭ Skipping iOS baseline screenshot'); this.skip(); }
-    if (skipBaselineScreenshot()) {
-      console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-      this.skip();
-    }
-
+  baselineScreenshotIt('ios')('iOS baseline vs actual screenshot (camera page)', async function () {
+    
+    
 
     const screenshotName = 'camera-page';
     const screenshotHelpers = new ScreenshotHelpers();

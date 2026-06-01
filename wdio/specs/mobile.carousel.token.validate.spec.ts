@@ -7,6 +7,7 @@ import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
 import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
+import { baselineScreenshotIt } from '../utils/mobileSpecGating';
 import type { Widget, Appearance } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
 
@@ -162,15 +163,7 @@ describe('Mobile Token Validation - Carousel Widget', function () {
     });
 
     // Baseline vs Actual screenshot comparison
-    it(`Android baseline vs actual screenshot (${widgetKey} page)`, async function () {
-        if (!shouldRunAndroid) this.skip();
-        if (skipBaselineScreenshot()) {
-            console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-            this.skip();
-        }
-
-
-        const screenshotName = `${widgetKey}-page`;
+    baselineScreenshotIt('android')(`Android baseline vs actual screenshot (${widgetKey} page)`, async function () {const screenshotName = `${widgetKey}-page`;
         const screenshotHelpers = new ScreenshotHelpers();
         const widgetPage = new MobileWidgetPage();
 
@@ -200,16 +193,9 @@ describe('Mobile Token Validation - Carousel Widget', function () {
         }
     });
 
-    it(`iOS baseline vs actual screenshot (${widgetKey} page)`, async function () {
-        if (!shouldRunIOS) {
-            console.log('⏭ Skipping iOS baseline screenshot (MOBILE_PLATFORM excludes ios)');
-            this.skip();
-        }
-        if (skipBaselineScreenshot()) {
-            console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-            this.skip();
-        }
-
+    baselineScreenshotIt('ios')(`iOS baseline vs actual screenshot (${widgetKey} page)`, async function () {
+        
+        
 
         const screenshotName = `${widgetKey}-page`;
         const screenshotHelpers = new ScreenshotHelpers();

@@ -909,6 +909,11 @@ export class MobileWidgetPage {
       }
     }
 
+    // Full styles JSON is rendered in the inspector output label and can cover the whole screen,
+    // hiding back/home navigation. Restart so later navigation (back button, home links) works.
+    console.log('   🔄 Restarting app after styles fetch (output covers navigation UI)...');
+    await this.restartAppAndNavigate(browser, widget, { preserveStylesCache: true });
+
     return entry;
   }
 
@@ -1023,7 +1028,11 @@ export class MobileWidgetPage {
    * Recover UI state and return to the widget page.
    * On BrowserStack, skips terminate/activate when bundle ID is unavailable (common with bs:// app URLs).
    */
-  async restartAppAndNavigate(browser: Browser, widget: string): Promise<void> {
+  async restartAppAndNavigate(
+    browser: Browser,
+    widget: string,
+    options?: { preserveStylesCache?: boolean },
+  ): Promise<void> {
     console.log(`   🔄 Recovering app and navigating back to ${widget}...`);
     try {
       const pkg = await this.appiumHelpers.getCurrentPackage(browser);
@@ -1045,15 +1054,24 @@ export class MobileWidgetPage {
         }
       } else if (onCloud) {
         console.warn(
-          '   ℹ️  BrowserStack: no bundle/package ID — re-navigating without terminate/activate',
+          '   ℹ️  BrowserStack: no bundle/package ID — trying closeApp/launchApp fallback',
         );
+        try {
+          await this.appiumHelpers.closeApp(browser);
+          await waitFor(2000);
+          await this.appiumHelpers.launchApp(browser);
+        } catch {
+          console.warn('   ⚠️ closeApp/launchApp fallback failed — re-navigating in-place');
+        }
       } else {
         console.error('   ❌ Could not determine package/bundle ID for restart');
       }
 
       await this.appiumHelpers.waitForAppReady(browser);
       await this.navigateToWidget(browser, widget);
-      MobileWidgetPage.clearStylesObjectCache();
+      if (!options?.preserveStylesCache) {
+        MobileWidgetPage.clearStylesObjectCache();
+      }
       console.log(`   ✅ Recovered and navigated back to ${widget}`);
     } catch (err: any) {
       console.error(`   ⚠️ Failed during app recovery/navigation: ${err.message}`);

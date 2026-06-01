@@ -7,6 +7,7 @@ import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
 import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
+import { baselineScreenshotIt } from '../utils/mobileSpecGating';
 import { createAndroidSession, createIOSSession } from '../utils/sessionFactory';
 import type { Widget } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
@@ -158,16 +159,9 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
   // 1) Baseline vs Actual screenshot comparison
   // ---------------------------------------------------------------------------
 
-  it('Android baseline vs actual screenshot (Accordion page)', async function () {
-    if (!shouldRunAndroid) {
-      console.log('⏭ Skipping Android baseline screenshot (MOBILE_PLATFORM excludes android)');
-      this.skip();
-    }
-    if (skipBaselineScreenshot()) {
-      console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-      this.skip();
-    }
-
+  baselineScreenshotIt('android')('Android baseline vs actual screenshot (Accordion page)', async function () {
+    
+    
 
     const screenshotName = 'accordion-pane-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -217,16 +211,9 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
     }
   });
 
-  it('iOS baseline vs actual screenshot (Accordion Pane page)', async function () {
-    if (!shouldRunIOS) {
-      console.log('⏭ Skipping iOS baseline screenshot (MOBILE_PLATFORM excludes ios)');
-      this.skip();
-    }
-    if (skipBaselineScreenshot()) {
-      console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-      this.skip();
-    }
-
+  baselineScreenshotIt('ios')('iOS baseline vs actual screenshot (Accordion Pane page)', async function () {
+    
+    
 
     const screenshotName = 'accordion-pane-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -305,7 +292,6 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
           await widgetPage.waitForWidget(browser, widgetKey);
         }
 
-
         await verifier.verifyTokenApplication(
           browser,
           'android',
@@ -382,7 +368,6 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
           await widgetPage.waitForWidget(browser, widgetKey);
         }
 
-
         await verifier.verifyTokenApplication(
             browser,
             'ios',
@@ -396,7 +381,6 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
       });
       }
     });
-
 
   });
 
@@ -444,7 +428,6 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
     ].filter(Boolean).join(' + ');
 
     const platformCount = (shouldRunAndroid ? 1 : 0) + (shouldRunIOS ? 1 : 0);
-
 
     const expectedTokenTests = appliedPairs.length * platformCount;
 

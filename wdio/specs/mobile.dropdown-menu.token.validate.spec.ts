@@ -7,6 +7,7 @@ import { ScreenshotHelpers } from '../helpers/screenshot.helpers';
 import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
 import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
+import { baselineScreenshotIt } from '../utils/mobileSpecGating';
 import type { Widget } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
 
@@ -169,16 +170,9 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
   // 1) Baseline vs Actual screenshot comparison
   // ---------------------------------------------------------------------------
 
-  it('Android baseline vs actual screenshot (Dropdown Menu page)', async function () {
-    if (!shouldRunAndroid) {
-      console.log('⏭ Skipping Android baseline screenshot (MOBILE_PLATFORM excludes android)');
-      this.skip();
-    }
-    if (skipBaselineScreenshot()) {
-      console.log('⏭ Skipping Android baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-      this.skip();
-    }
-
+  baselineScreenshotIt('android')('Android baseline vs actual screenshot (Dropdown Menu page)', async function () {
+    
+    
 
     const screenshotName = 'dropdown-menu-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -230,16 +224,9 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
     }
   });
 
-  it('iOS baseline vs actual screenshot (dropdown-menu page)', async function () {
-    if (!shouldRunIOS) {
-      console.log('⏭ Skipping iOS baseline screenshot (MOBILE_PLATFORM excludes ios)');
-      this.skip();
-    }
-    if (skipBaselineScreenshot()) {
-      console.log('⏭ Skipping iOS baseline screenshot (SKIP_VISUAL_VERIFICATION or SKIP_BASELINE_SCREENSHOT)');
-      this.skip();
-    }
-
+  baselineScreenshotIt('ios')('iOS baseline vs actual screenshot (dropdown-menu page)', async function () {
+    
+    
 
     const screenshotName = 'dropdown-menu-page';
     const screenshotHelpers = new ScreenshotHelpers();
@@ -320,7 +307,6 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
         if (!MobileWidgetPage.hasStylesCache(widgetKey, variantName, 'android')) {
           await widgetPage.waitForWidget(browser, widgetKey);
         }
-
 
         await verifier.verifyTokenApplication(
           browser,
@@ -404,7 +390,6 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
         }
       });
 
-
       if (shouldRunIOS) {
         it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
@@ -427,7 +412,6 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
           await widgetPage.waitForWidget(browser, widgetKey);
         }
 
-
         await verifier.verifyTokenApplication(
           browser,
           'ios',
@@ -441,7 +425,6 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
       });
       }
     });
-
 
   });
 
@@ -495,7 +478,6 @@ describe('Mobile Token Validation - Dropdown Menu Widget', function () {
     ].filter(Boolean).join(' + ');
 
     const platformCount = (shouldRunAndroid ? 1 : 0) + (shouldRunIOS ? 1 : 0);
-
 
     const expectedTokenTests = appliedPairs.length * platformCount;
 
