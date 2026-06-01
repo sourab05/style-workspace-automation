@@ -69,7 +69,10 @@ async function main() {
     const cordovaZipFileId = await (client as any).uploadFile(TEST_ZIP);
     console.log(`  cordovaZipFileId: ${cordovaZipFileId}`);
 
-    // Always create fresh (id:null, appId:null) — the fix we just made
+    const iosCert = await client.resolveIosCertificate({ certId: 1255, unlockPassword: 'wavemaker123' });
+    console.log(`  resolved : id=${iosCert?.id} name="${iosCert?.name}"`);
+
+    // Always create fresh (id:null, appId:null) — include iOS cert like the AppChef UI
     const appId = await client.saveApp({
       cordovaZipFileId,
       iconFileId: analyzed.iconFileId,
@@ -79,9 +82,10 @@ async function main() {
       version: '0.0.1',
       existingId: null,
       existingAppId: null,
-      platform: 'android',
+      platform: 'both',
       androidCertId: undefined,
-      iosCertId: undefined,
+      iosCertId: iosCert?.id,
+      iosCertName: iosCert?.name,
     });
     console.log(`  appId returned: ${appId}`);
     console.log('[Test] ✅ saveApp (new record) OK');

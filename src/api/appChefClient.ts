@@ -10,6 +10,11 @@ const BUILD_TIMEOUT_MS = 45 * 60 * 1000;
 const DEFAULT_IOS_CERT_ID = 1255;
 const DEFAULT_IOS_CERT_PASSWORD = 'wavemaker123';
 
+export interface IosCertificateRef {
+  id: number;
+  name: string;
+}
+
 export interface AppChefBuildResult {
   apkUrl?: string;
   ipaUrl?: string;
@@ -268,28 +273,26 @@ export class AppChefClient {
   }
 
   /**
-   * Find the first available iOS certificate and unlock it.
-   * Returns the certificate ID to pass to saveApp.
+   * Resolve + unlock the iOS signing certificate before saveApp.
+   * AppChef UI always sends iosCertificateId + iosCertificateName in saveApp.
    */
-  async resolveIosCertificate(opts?: { certId?: number; unlockPassword?: string }): Promise<number | null> {
-    const password = opts?.unlockPassword || process.env.APPCHEF_IOS_CERT_PASSWORD || 'wavemaker123';
+  async resolveIosCertificate(opts?: { certId?: number; unlockPassword?: string }): Promise<IosCertificateRef | null> {
+    const password = opts?.unlockPassword || process.env.APPCHEF_IOS_CERT_PASSWORD || DEFAULT_IOS_CERT_PASSWORD;
+    const certId = opts?.certId ?? (Number(process.env.APPCHEF_IOS_CERT_ID) || DEFAULT_IOS_CERT_ID);
 
-    if (opts?.certId) {
-      await this.unlockIosCertificate(opts.certId, password);
-      return opts.certId;
-    }
-
-    // Auto-discover: find the first certificate
-    const certs = await this.listIosCertificates();
-    if (certs.length === 0) {
-      console.warn('[AppChef] ⚠️  No iOS certificates found — iOS builds will fail');
+    if (!certId || Number.isNaN(certId)) {
+      console.warn('[AppChef] ⚠️  No iOS certificate ID configured — iOS builds will fail');
       return null;
     }
 
-    const cert = certs[0];
-    console.log(`[AppChef] Found iOS certificate: id=${cert.id} name="${cert.name}"`);
-    await this.unlockIosCertificate(cert.id, password);
-    return cert.id;
+    await this.unlockIosCertificate(certId, password);
+    const cert = await this.getIosCertificate(certId);
+    if (!cert?.id) {
+      throw new Error(`[AppChef] iOS certificate id=${certId} not found after unlock`);
+    }
+
+    console.log(`[AppChef] Using iOS certificate: id=${cert.id} name="${cert.name}" locked=${cert.locked}`);
+    return { id: cert.id as number, name: String(cert.name ?? '') };
   }
 
   // ── Step 4: saveApp ───────────────────────────────────────────────────────
@@ -306,8 +309,18 @@ export class AppChefClient {
     platform: 'android' | 'ios' | 'both';
     androidCertId?: number;
     iosCertId?: number;
+    iosCertName?: string;
   }): Promise<string> {
+    if (opts.platform !== 'android' && !opts.iosCertId) {
+      throw new Error(
+        '[AppChef] saveApp requires iosCertId for iOS/both builds — unlock certificate first (iosCertificateId was null in broken builds)',
+      );
+    }
+
     console.log('[AppChef] Saving app record...');
+    if (opts.iosCertId) {
+      console.log(`[AppChef]   iOS cert: id=${opts.iosCertId} name="${opts.iosCertName ?? '(missing name)'}"`);
+    }
 
     // Match the exact payload structure the AppChef UI sends:
     // - icon/file = icon from analyzeZip response
@@ -340,6 +353,7 @@ export class AppChefClient {
         cordovaZip: opts.cordovaZipFileId,
         buildType: 1,
         iosCertificateId: opts.iosCertId ?? null,
+        iosCertificateName: opts.iosCertName ?? null,
         androidCertificateId: opts.androidCertId ?? -1,
         androidCertificateName: opts.androidCertId ? undefined : '__DEBUG',
         version: opts.version,
@@ -554,13 +568,26 @@ export class AppChefClient {
     // Upload the ZIP — this becomes the cordovaZip file ID
     const cordovaZipFileId = await this.uploadFile(opts.zipPath);
 
-    // For iOS builds, resolve and unlock the certificate
+    // For iOS builds, unlock certificate and capture id + name (matches AppChef UI saveApp payload).
     let iosCertId = opts.iosCertId;
-    if (opts.platform !== 'android' && !iosCertId) {
-      const certId = Number(process.env.APPCHEF_IOS_CERT_ID) || DEFAULT_IOS_CERT_ID;
-      const certPass = process.env.APPCHEF_IOS_CERT_PASSWORD || DEFAULT_IOS_CERT_PASSWORD;
-      await this.unlockIosCertificate(certId, certPass);
-      iosCertId = certId;
+    let iosCertName: string | undefined;
+    if (opts.platform !== 'android') {
+      if (iosCertId) {
+        const certPass = process.env.APPCHEF_IOS_CERT_PASSWORD || DEFAULT_IOS_CERT_PASSWORD;
+        await this.unlockIosCertificate(iosCertId, certPass);
+        const cert = await this.getIosCertificate(iosCertId);
+        iosCertName = cert?.name ? String(cert.name) : undefined;
+      } else {
+        const resolved = await this.resolveIosCertificate({
+          certId: Number(process.env.APPCHEF_IOS_CERT_ID) || DEFAULT_IOS_CERT_ID,
+          unlockPassword: process.env.APPCHEF_IOS_CERT_PASSWORD || DEFAULT_IOS_CERT_PASSWORD,
+        });
+        if (!resolved) {
+          throw new Error('[AppChef] iOS build requested but no iOS certificate could be resolved');
+        }
+        iosCertId = resolved.id;
+        iosCertName = resolved.name;
+      }
     }
 
     // Always create a fresh app record (id:null, appId:null) — this matches the
@@ -578,6 +605,7 @@ export class AppChefClient {
       platform: opts.platform,
       androidCertId: opts.androidCertId,
       iosCertId,
+      iosCertName,
     });
 
     const builds = await this.pollBuildTasks(appId, opts.platform);
