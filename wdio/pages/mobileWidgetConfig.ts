@@ -22,6 +22,7 @@ const DEFAULT_VARIANT_FOR_WIDGET: Partial<Record<Widget, string>> = {
   'accordion-pane': 'accordion-pane-standard-standard-default',
   label: 'label-default-h1-default',
   panel: 'panel-default-primary-default',
+  'panel-footer': 'panel-footer-standard-standard-default',
   cards: 'cards-default-standard-default',
   formcontrols: 'formcontrols-standard-standard-default',
   'form-wrapper': 'form-wrapper-standard-standard-default',
@@ -63,6 +64,8 @@ const DEFAULT_VARIANT_FOR_WIDGET: Partial<Record<Widget, string>> = {
   fileupload: 'fileupload-standard-standard-default',
   currency: 'currency-standard-standard-default',
   select: 'select-standard-standard-default',
+  camera: 'camera-standard-standard-default',
+  datetime: 'datetime-standard-standard-default',
 };
 
 function resolveWidgetSelector(widget: Widget, platform: 'android' | 'ios'): string {
@@ -108,6 +111,10 @@ export const MOBILE_WIDGET_SELECTORS: Partial<Record<Widget, { android: string; 
   panel: {
     android: resolveWidgetSelector('panel', 'android'),
     ios: resolveWidgetSelector('panel', 'ios'),
+  },
+  'panel-footer': {
+    android: resolveWidgetSelector('panel-footer', 'android'),
+    ios: resolveWidgetSelector('panel-footer', 'ios'),
   },
   cards: {
     android: resolveWidgetSelector('cards', 'android'),
@@ -273,6 +280,14 @@ export const MOBILE_WIDGET_SELECTORS: Partial<Record<Widget, { android: string; 
     android: resolveWidgetSelector('select', 'android'),
     ios: resolveWidgetSelector('select', 'ios'),
   },
+  camera: {
+    android: resolveWidgetSelector('camera', 'android'),
+    ios: resolveWidgetSelector('camera', 'ios'),
+  },
+  datetime: {
+    android: resolveWidgetSelector('datetime', 'android'),
+    ios: resolveWidgetSelector('datetime', 'ios'),
+  },
 };
 
 /**
@@ -288,4 +303,16 @@ export function getMobileSelectorForVariant(
 ): string | null {
   const platformMap = mobileWidgetSelectors[platform] as Record<string, string>;
   return platformMap[variantName] || null;
+}
+
+/** Widget-level page-ready sentinel (platform-specific) for navigation checks. */
+export function getWidgetPageReadySelector(widget: Widget, platform: 'android' | 'ios'): string {
+  return resolveWidgetSelector(widget, platform);
+}
+
+/** Widgets rendered on the Main/home page — stay on home; do not tap a nav link. */
+export const HOME_PAGE_WIDGETS: ReadonlySet<Widget> = new Set(['tabbar', 'navbar']);
+
+export function isHomePageWidget(widget: string): widget is Widget {
+  return HOME_PAGE_WIDGETS.has(widget as Widget);
 }

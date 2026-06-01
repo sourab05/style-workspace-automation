@@ -4,6 +4,7 @@ import type { Widget } from '../../src/matrix/widgets';
 import allure from '@wdio/allure-reporter';
 import fs from 'fs';
 import { shouldSkipVisualVerification } from '../utils/envFlags';
+import { MobileSessionDeadError, MobileSessionGuard } from '../utils/mobileSessionGuard';
 
 export class MobileVerificationHelper {
     constructor(
@@ -32,6 +33,12 @@ export class MobileVerificationHelper {
         baselineName?: string, // Optional: Name of the generic baseline to compare against
         propertyPath?: string[] // Optional: Specific property path to verify
     ): Promise<void> {
+        if (MobileSessionGuard.isDead(browser)) {
+            throw new MobileSessionDeadError(
+                `Skipping token ${tokenRef} — ${platform} session already terminated`,
+            );
+        }
+
         const tokenShortName = tokenRef
             .replace(/[{}\.@]/g, '-')
             .replace(/-value$/, '')

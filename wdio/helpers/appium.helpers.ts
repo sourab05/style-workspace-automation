@@ -99,18 +99,7 @@ export class AppiumHelpers {
    * @param distance Swipe distance (0-1, default 0.5)
    */
   async swipeUp(browser: WebdriverIO.Browser, distance: number = 0.5): Promise<void> {
-    const { width, height } = await browser.getWindowSize();
-    const startX = width / 2;
-    const startY = height * 0.8;
-    const endY = height * (0.8 - distance);
-    
-    await browser.touchPerform([
-      { action: 'press', options: { x: startX, y: startY } },
-      { action: 'wait', options: { ms: 500 } },
-      { action: 'moveTo', options: { x: startX, y: endY } },
-      { action: 'release' }
-    ]);
-    
+    await this.swipe(browser, 'up', distance);
     console.log(`✓ Swiped up (distance: ${distance})`);
   }
   
@@ -120,19 +109,121 @@ export class AppiumHelpers {
    * @param distance Swipe distance (0-1, default 0.5)
    */
   async swipeDown(browser: WebdriverIO.Browser, distance: number = 0.5): Promise<void> {
-    const { width, height } = await browser.getWindowSize();
-    const startX = width / 2;
-    const startY = height * 0.2;
-    const endY = height * (0.2 + distance);
-    
-    await browser.touchPerform([
-      { action: 'press', options: { x: startX, y: startY } },
-      { action: 'wait', options: { ms: 500 } },
-      { action: 'moveTo', options: { x: startX, y: endY } },
-      { action: 'release' }
-    ]);
-    
+    await this.swipe(browser, 'down', distance);
     console.log(`✓ Swiped down (distance: ${distance})`);
+  }
+
+  /**
+   * W3C touch swipe (works on Appium 2 / UiAutomator2 / XCUITest).
+   */
+  async swipe(browser: WebdriverIO.Browser, direction: 'up' | 'down', distance: number = 0.5): Promise<void> {
+    const { width, height } = await browser.getWindowSize();
+    const startX = Math.floor(width / 2);
+    const startY = direction === 'up'
+      ? Math.floor(height * (0.75 + (0.25 * (1 - distance))))
+      : Math.floor(height * (0.25 - (0.25 * (1 - distance))));
+    const endY = direction === 'up'
+      ? Math.floor(height * (0.25 - (0.25 * (1 - distance))))
+      : Math.floor(height * (0.75 + (0.25 * (1 - distance))));
+
+    await browser.performActions([{
+      type: 'pointer',
+      id: 'finger1',
+      parameters: { pointerType: 'touch' },
+      actions: [
+        { type: 'pointerMove', duration: 0, x: startX, y: startY },
+        { type: 'pointerDown', button: 0 },
+        { type: 'pause', duration: 250 },
+        { type: 'pointerMove', duration: 450, x: startX, y: endY },
+        { type: 'pointerUp', button: 0 },
+      ],
+    }]);
+    await browser.releaseActions();
+  }
+
+  /**
+   * Returns true when the element exists and is displayed.
+   */
+  async isElementDisplayed(browser: WebdriverIO.Browser, selector: string): Promise<boolean> {
+    try {
+      const element = await browser.$(selector);
+      if (!(await element.isExisting())) return false;
+      return await element.isDisplayed();
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Android UiScrollable helper for accessibility-id nav links on scrollable home pages.
+   */
+  private async androidScrollToAccessibilityId(
+    browser: WebdriverIO.Browser,
+    accessibilityId: string,
+  ): Promise<boolean> {
+    try {
+      const scrollSelector =
+        `android=new UiScrollable(new UiSelector().scrollable(true)).` +
+        `scrollIntoView(new UiSelector().description("${accessibilityId}"))`;
+      const element = await browser.$(scrollSelector);
+      return await element.isDisplayed();
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Swipes until an element becomes visible (or max swipes exhausted).
+   * Tries swipe-up first (scroll down), then swipe-down to recover overscroll.
+   */
+  async swipeUntilElementVisible(
+    browser: WebdriverIO.Browser,
+    selector: string,
+    options: {
+      maxSwipes?: number;
+      pauseMs?: number;
+      swipeDistance?: number;
+    } = {},
+  ): Promise<boolean> {
+    const maxSwipes = options.maxSwipes ?? 8;
+    const pauseMs = options.pauseMs ?? 600;
+    const swipeDistance = options.swipeDistance ?? 0.55;
+
+    if (await this.isElementDisplayed(browser, selector)) {
+      return true;
+    }
+
+    const caps: any = browser.capabilities || {};
+    const platform = (caps.platformName || caps.platform || '').toString().toLowerCase();
+    const accessibilityId = selector.startsWith('~') ? selector.slice(1) : '';
+
+    if (platform === 'android' && accessibilityId) {
+      const scrolled = await this.androidScrollToAccessibilityId(browser, accessibilityId);
+      if (scrolled || await this.isElementDisplayed(browser, selector)) {
+        console.log(`✓ Nav link visible after UiScrollable: ~${accessibilityId}`);
+        return true;
+      }
+    }
+
+    for (let i = 0; i < maxSwipes; i++) {
+      await this.swipe(browser, 'up', swipeDistance);
+      await browser.pause(pauseMs);
+      if (await this.isElementDisplayed(browser, selector)) {
+        console.log(`✓ Element visible after ${i + 1} swipe(s): ${selector}`);
+        return true;
+      }
+    }
+
+    for (let i = 0; i < Math.min(maxSwipes, 4); i++) {
+      await this.swipe(browser, 'down', swipeDistance);
+      await browser.pause(pauseMs);
+      if (await this.isElementDisplayed(browser, selector)) {
+        console.log(`✓ Element visible after reverse swipe ${i + 1}: ${selector}`);
+        return true;
+      }
+    }
+
+    return false;
   }
   
   /**
@@ -198,6 +289,82 @@ export class AppiumHelpers {
       console.log('✓ Keyboard hidden');
     } catch (error) {
       // Keyboard might not be visible, ignore error
+    }
+  }
+
+  /**
+   * Commits/dismisses the focused mobile soft keyboard after text entry.
+   *
+   * The RN style console evaluates when the keyboard action is submitted on
+   * some devices, and the open keyboard can cover the output label on others.
+   */
+  async submitKeyboardAction(browser: WebdriverIO.Browser, context: string = 'input'): Promise<void> {
+    const caps: any = browser.capabilities || {};
+    const platform = (caps.platformName || caps.platform || '').toString().toLowerCase();
+
+    if (platform === 'android') {
+      try {
+        await (browser as any).execute('mobile: performEditorAction', { action: 'done' });
+        await browser.pause(500);
+        console.log(`✓ Submitted Android keyboard action for ${context}`);
+        return;
+      } catch {
+        // Fall back to the physical Enter key code.
+      }
+
+      try {
+        await (browser as any).pressKeyCode(66);
+        await browser.pause(500);
+        console.log(`✓ Pressed Android Enter key for ${context}`);
+        return;
+      } catch {
+        // Last resort below.
+      }
+
+      try {
+        await browser.hideKeyboard();
+        await browser.pause(500);
+        console.log(`✓ Hid Android keyboard for ${context}`);
+      } catch {
+        console.warn(`   ⚠️ Could not dismiss Android keyboard for ${context}`);
+      }
+      return;
+    }
+
+    if (platform === 'ios') {
+      const keyboardButtons = ['~Done', '~Return', '~OK', '~Ok', '~Go', '~Search'];
+      for (const selector of keyboardButtons) {
+        try {
+          const button = await browser.$(selector);
+          if (await button.isExisting() && await button.isDisplayed()) {
+            await button.click();
+            await browser.pause(500);
+            console.log(`✓ Pressed iOS keyboard button ${selector} for ${context}`);
+            return;
+          }
+        } catch {
+          // Try the next keyboard button label.
+        }
+      }
+
+      for (const keyName of ['Done', 'Return']) {
+        try {
+          await (browser as any).hideKeyboard('pressKey', keyName);
+          await browser.pause(500);
+          console.log(`✓ Hid iOS keyboard with ${keyName} for ${context}`);
+          return;
+        } catch {
+          // Try the next iOS hide strategy.
+        }
+      }
+
+      try {
+        await browser.hideKeyboard();
+        await browser.pause(500);
+        console.log(`✓ Hid iOS keyboard for ${context}`);
+      } catch {
+        console.warn(`   ⚠️ Could not dismiss iOS keyboard for ${context}`);
+      }
     }
   }
   

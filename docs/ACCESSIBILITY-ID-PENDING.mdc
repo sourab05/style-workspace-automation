@@ -1,0 +1,285 @@
+# Accessibility ID — Pending Work (iOS + Android)
+
+**Companion to:** [ACCESSIBILITY-ID-FAILURES-BUILD-74.mdc](./ACCESSIBILITY-ID-FAILURES-BUILD-74.mdc)  
+**Last updated:** After progress-bar + progress-circle Inspector updates (Android + iOS).
+
+**Goal:** Fill in `Actual` columns from Appium Inspector, then update `MobileSelectors.ts`, `widget-xpaths.ts`, and (if needed) `MobileWidget.page.ts`.
+
+---
+
+## How to read this doc
+
+| Column | Meaning |
+|--------|---------|
+| **Nav** | Home scroll link: `~{widget}_link_caption` |
+| **Style in** | RN console input (default `~exinput_i`; bottomsheet/modal `~exinput1_i`) |
+| **Style out** | RN console output (default `~label2_caption`; panel/bottomsheet iOS may need indexed xpath) |
+| **Page ready** | Element that confirms widget page loaded (must **not** be `~exinput_i` unless that is the only stable sentinel) |
+| ✅ | Inspector-verified + code updated |
+| 🟡 | Partial / assumed / matrix set but not re-verified |
+| 🔴 | Build #74 blocker or known bad config |
+| ⚠️ | Shared nav or placeholder selector |
+
+**Paste format (one row per widget × platform):**
+
+```
+widget | platform | actual_nav | actual_style_in | actual_style_out | actual_page_ready
+```
+
+---
+
+## Completed (Inspector verified in codebase)
+
+| Widget | iOS page ready | Android page ready | Notes |
+|--------|----------------|-------------------|--------|
+| modal-dialog | `~dialog1_icon_caption` | `~dialog1_icon_caption` | Style in: `~exinput1_i` |
+| chips | `~chips1_chip0` | `~chips1_chip0` | |
+| datetime | `~datetime` | `~datetime1_l` | |
+| message | `~message2_caption` | `~message2_caption` | |
+| panel | `~panel1_header_title` | `~panel1_header_title` 🟡 | iOS style out: `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` |
+| checkboxset | `checkboxset1_0` xpath | `~Option 1` 🟡 | iOS only verified |
+| checkbox | `~checkbox1_l` | `~checkbox1_checkbox_icon` 🟡 | iOS verified |
+| toggle | `~toggle1_a` | `Home` ⚠️ placeholder 🟡 | iOS verified |
+| accordion-pane | `~accordion1_header0` | same | ✅ shared nav with accordion |
+| panel | `~panel1_header_title` | same | iOS verified |
+| panel-footer | `~panel1_header_title` | same | ✅ shared nav with panel |
+| barcodescanner | `~barcodescanner1_button_icon_icon` | same | ✅ verified |
+| radioset | `~radioset1_caption0` | `~radioset1_radio0` 🟡 | iOS only verified |
+| bottomsheet | `~bottomsheet1_scorllview` | ScrollView `bottomsheet1_scorllview` 🟡 | iOS style out: indexed xpath; style in `~exinput1_i` |
+| button | `~button1_caption` | `~button1_caption` | |
+| button-group | `~button1_caption` | `~button1_caption` | ✅ verified |
+| tabs | `~tabs1_headers_0_title` | `~tabs1_headers_0_title` | ✅ verified |
+| formcontrols | `~custom_i` | `~custom_i` | ✅ verified (iOS style out: indexed xpath) |
+| camera | `~camera1_button_icon_icon` | `~camera1_button_icon_icon` | ✅ verified |
+| container | `~mobile_navbar1_title` | `~mobile_navbar1_title` | ✅ verified |
+| slider | `~anchor1_caption` | `~anchor1_caption` | ✅ verified |
+| tile | partial | partial | 🟡 style out ✓; page ready ⬜ |
+| cards | `~mobile_navbar1_title` | `~mobile_navbar1_title` | |
+| progress-bar | `~progress_bar1_progressbar` | `~progress_bar1_progressbar` | |
+| progress-circle | `~progress_circle1_progresscircle` | `~progress_circle1_progresscircle` | |
+| tabbar | `~mobile_tabbar1` | `~mobile_tabbar1` | Main: `~exinput_i` / `~label2_caption` ✅ |
+| navbar | `~mobile_navbar1_title` | `~mobile_navbar1_title` | Main: `~exinput_i` / `~label2_caption` ✅ |
+| login | `loggedInUserForm1_submit_formAction_a` | same | Not re-verified this sprint |
+| form-wrapper | `~entestkey_i` (header) | same | Shared nav with formcontrols ⚠️ |
+
+**Count:** 26 widgets verified in code (+ tile partial); tabbar + navbar Main style console confirmed.
+
+---
+
+## progress-bar & progress-circle — ✅ verified (Android + iOS)
+
+| Layer | progress-bar | progress-circle |
+|-------|--------------|-----------------|
+| Nav link | `~progressbar_link_caption` | `~progresscircle_link_caption` |
+| Style input | `~exinput_i` | `~exinput_i` |
+| Style output | `~label2_caption` | `~label2_caption` |
+| Page ready | `~progress_bar1_progressbar` | `~progress_circle1_progresscircle` |
+
+**Was wrong:** iOS used `~exinput_i`; Android used `Home` TextView placeholder.
+
+**Files updated:** `MobileSelectors.ts`, `widget-xpaths.ts` (all standard + filled variants on both platforms).
+
+### tabbar & navbar — style console on Main (Android + iOS) ✅
+
+| Widget | Page ready | Style in (Main) | Style out (Main) |
+|--------|------------|-----------------|------------------|
+| tabbar | `~mobile_tabbar1` | `~exinput_i` | `~label2_caption` |
+| navbar | `~mobile_navbar1_title` | `~exinput_i` | `~label2_caption` |
+
+No code change — defaults in `MobileSelectors.inspector` already correct.
+
+---
+
+## iOS — pending widgets
+
+### Priority 1 — Build #74 blockers (do first)
+
+*(none — tabs and formcontrols verified)*
+
+### Priority 2 — iOS 🔴 (exinput / broken)
+
+| Widget | Current page ready | Notes |
+|--------|-------------------|--------|
+| carousel | `~carousel1_prev_icon_icon` | + 199 mapping failures |
+| tile | `~exinput_i` / Android `Home` ⚠️ | 🟡 style out done; page ready pending |
+
+### Priority 3 — Matrix candidate, not verified
+
+accordion · label (`~label9_caption`) · list (`~mobile_navbar1_title`) · picture (`~picture1_picture`) · switch (`~switch1_label0`)
+
+### Priority 4 — Still `~exinput_i` page ready (lower volume)
+
+anchor · audio · calendar · currency · dropdown-menu · fileupload · icon · lottie · popover · rating · search · select · spinner · video · webview · wizard
+
+### Shared nav (same RN page — verified ✅)
+
+| Widget | Nav | Shares with |
+|--------|-----|-------------|
+| accordion-pane | `~accordion_link_caption` | accordion |
+| panel-footer | `~panel_link_caption` | panel |
+| form-wrapper | `~formc_link_caption` | formcontrols ⬜ |
+
+**iOS pending count:** ~37 widgets (excluding 16 done)
+
+**Suggested order:** carousel → icon → search → currency → picture
+
+---
+
+## Android — pending widgets
+
+### Priority 1 — Build #74 blockers (Sprint 2)
+
+| Widget | Build #74 | Current page ready | Action |
+|--------|-----------|-------------------|--------|
+| **picture** | Nav 6× | `~picture1_picture` | Confirm nav + page ready |
+| **modal-dialog** | Nav 82× (IDs ✓) | `~dialog1_icon_caption` | Re-confirm nav after swipe fix |
+| **select** | Nav 3× + mapping | `~exinput_i` ❌ | |
+| **currency** | Nav 3× | `~exinput_i` ❌ | |
+| **list** | 3 broken | `~mobile_navbar1_title` | Confirm all IDs |
+
+### Priority 2 — `Home` TextView placeholder (wrong page ready)
+
+All need real accessibility IDs in `widget-xpaths.ts` **android** section:
+
+| Widget | Current (wrong) |
+|--------|-----------------|
+| **container** | `//android.widget.TextView[@text="Home"]` |
+| **toggle** | same |
+| **wizard** | same |
+| **webview** | same |
+| **spinner** | same |
+| **search** | same |
+| **dropdown-menu** | same |
+| **tile** | same |
+
+### Priority 3 — iOS fixed, Android not re-verified
+
+| Widget | Android page ready | iOS (done) |
+|--------|-------------------|------------|
+| checkboxset | `~Option 1` | `checkboxset1_0` xpath ✅ |
+| radioset | `~radioset1_radio0` | `~radioset1_caption0` ✅ |
+| panel | `~panel1_header_title` 🟡 | ✅ verified |
+| bottomsheet | ScrollView xpath 🟡 | ✅ verified |
+
+### Priority 4 — No matrix entry (fallback)
+
+video (`~video`)
+
+### Priority 5 — Matrix candidate, not verified
+
+accordion · carousel · checkbox · label · switch
+
+### Priority 6 — Still `~exinput_i` page ready
+
+anchor · audio · calendar · fileupload · icon · lottie · popover · rating · slider
+
+**Android pending count:** ~36–38 widgets (excluding 13 done + progress widgets)
+
+**Suggested order:** picture → checkboxset → radioset → bottomsheet → panel → then all `Home` placeholder widgets
+
+---
+
+## Combined pending matrix (quick reference)
+
+Legend: ✅ done · 🔴 blocker · ⚠️ bad/placeholder · 🟡 partial · ⬜ pending verify
+
+| Widget | iOS page ready (config) | Android page ready (config) | iOS | Android |
+|--------|-------------------------|----------------------------|-----|---------|
+| accordion | `~accordion1_header0` | `~accordion1_header0` | 🟡 | 🟡 |
+| accordion-pane | `~accordion1_header0` | same | ✅ | ✅ |
+| panel-footer | `~panel1_header_title` | same | ✅ | ✅ |
+| anchor | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| audio | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| barcodescanner | `~barcodescanner1_button_icon_icon` | same | ✅ | ✅ |
+| bottomsheet | `~bottomsheet1_scorllview` | ScrollView xpath | ✅ | 🟡 |
+| button | `~button1_caption` | `~button1_caption` | ✅ | ✅ |
+| button-group | `~button1_caption` | `~button1_caption` | ✅ | ✅ |
+| calendar | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| camera | `~camera1_button_icon_icon` | same | ✅ | ✅ |
+| cards | `~mobile_navbar1_title` | same | ✅ | ✅ |
+| carousel | `~carousel1_prev_icon_icon` | ViewGroup xpath | 🔴 | ⬜ |
+| checkbox | `~checkbox1_l` | `~checkbox1_checkbox_icon` | ✅ | ⬜ |
+| checkboxset | checkboxset1_0 xpath | `~Option 1` | ✅ | 🟡 |
+| chips | `~chips1_chip0` | same | ✅ | ✅ |
+| container | `~mobile_navbar1_title` | same | ✅ | ✅ |
+| currency | `~exinput_i` | `~exinput_i` | ⬜ | 🟡 nav |
+| datetime | `~datetime` | `~datetime1_l` | ✅ | ✅ |
+| dropdown-menu | `~exinput_i` | `Home` ⚠️ | ⬜ | ⬜ |
+| fileupload | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| form-wrapper | `~entestkey_i` | same | ⬜ ⚠️ | ⬜ ⚠️ |
+| formcontrols | `~custom_i` | `~custom_i` | ✅ | ✅ |
+| icon | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| label | `~label9_caption` | label xpath | ⬜ | ⬜ |
+| list | `~mobile_navbar1_title` | same | ⬜ | 🟡 |
+| login | special header | same | ⬜ | ⬜ |
+| lottie | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| message | `~message2_caption` | same | ✅ | ✅ |
+| modal-dialog | `~dialog1_icon_caption` | same | ✅ | ✅ |
+| navbar | `~mobile_navbar1_title` | same | ✅ | ✅ |
+| panel | `~panel1_header_title` | same | ✅ | 🟡 |
+| panel-footer | `~panel1_header_title` | same | ✅ | ✅ |
+| picture | `~picture1_picture` | same | ⬜ | 🟡 nav |
+| popover | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| **progress-bar** | `~progress_bar1_progressbar` | same | ✅ | ✅ |
+| **progress-circle** | `~progress_circle1_progresscircle` | same | ✅ | ✅ |
+| radioset | `~radioset1_caption0` | `~radioset1_radio0` | ✅ | 🟡 |
+| rating | `~exinput_i` | `~exinput_i` | ⬜ | ⬜ |
+| search | `~exinput_i` | `Home` ⚠️ | ⬜ | ⬜ |
+| select | `~exinput_i` | `~exinput_i` | ⬜ | 🟡 nav |
+| slider | `~anchor1_caption` | `~anchor1_caption` | ✅ | ✅ |
+| spinner | `~exinput_i` | `Home` ⚠️ | ⬜ | ⬜ |
+| switch | `~switch1_label0` | same | ⬜ | ⬜ |
+| tabbar | `~mobile_tabbar1` | same | ✅ | ✅ |
+| tabs | `~tabs1_headers_0_title` | `~tabs1_headers_0_title` | ✅ | ✅ |
+| tile | `~exinput_i` | `Home` ⚠️ | 🟡 | 🟡 |
+| toggle | `~toggle1_a` | `Home` ⚠️ | ✅ | ⬜ |
+| video | `~video` fallback | same | ⬜ | ⬜ |
+| webview | `~exinput_i` | `Home` ⚠️ | ⬜ | ⬜ |
+| wizard | `~exinput_i` | `Home` ⚠️ | ⬜ | ⬜ |
+
+---
+
+## Global elements (verify once per platform)
+
+| Element | Config ID | iOS verified? | Android verified? |
+|---------|-----------|---------------|-------------------|
+| Home title | `~mobile_navbar1_title` | ☐ | ☐ |
+| Back button | `~mobile_navbar1_backbtn_icon` | ☐ | ☐ |
+| Style input (default) | `~exinput_i` | ✓ Main (tabbar/navbar) | ✓ Main (tabbar/navbar) |
+| Style output (default) | `~label2_caption` | ✓ Main (tabbar/navbar) | ✓ Main (tabbar/navbar) |
+| bottomsheet input | `~exinput1_i` | ✅ | 🟡 |
+| modal-dialog input | `~exinput1_i` | ✅ | ✅ |
+
+---
+
+## Quick-fill CSV
+
+```csv
+widget,platform,actual_nav,actual_style_in,actual_style_out,actual_page_ready
+checkbox,ios,,,,
+checkbox,android,,,,
+toggle,ios,,,,
+toggle,android,,,,
+tabs,ios,~tabs_link_caption,~exinput_i,~label2_caption,~tabs1_headers_0_title
+tabs,android,~tabs_link_caption,~exinput_i,~label2_caption,~tabs1_headers_0_title
+formcontrols,android,~formc_link_caption,~exinput_i,~label2_caption,~custom_i
+formcontrols,ios,~formc_link_caption,~exinput_i,(//XCUIElementTypeStaticText[@name="label2_caption"])[2],~custom_i
+camera,android,~camera_link_caption,~exinput_i,~label2_caption,~camera1_button_icon_icon
+camera,ios,~camera_link_caption,~exinput_i,~label2_caption,~camera1_button_icon_icon
+slider,android,~slider_link_caption,~exinput_i,~label2_caption,~anchor1_caption
+slider,ios,~slider_link_caption,~exinput_i,~label2_caption,~anchor1_caption
+tile,android,~tile_link_caption,~exinput_i,~label2_caption,
+tile,ios,~tile_link_caption,~exinput_i,(//XCUIElementTypeStaticText[@name="label2_caption"])[2],
+```
+
+---
+
+## Summary
+
+| | iOS | Android |
+|---|-----|---------|
+| **Done (verified in code)** | 16 | 13 (+ 2 partial) |
+| **Pending Inspector paste** | ~37 | ~36–38 |
+| **progress-bar / progress-circle** | ✅ `~progress_bar1_progressbar` | ✅ `~progress_circle1_progresscircle` |
+
+After each paste batch, update code + run widget token spec on BrowserStack to confirm nav → page ready → style fetch chain completes in &lt;8s without 30s timeouts.

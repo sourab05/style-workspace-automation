@@ -1,0 +1,781 @@
+# Accessibility ID Failures — Jenkins Build #74
+
+**Source:** Jenkins log `#74.txt` + Allure report (commit `3b846e1`)  
+**Scope:** Test execution phase only (Phase 4 pre-fetch excluded — already reverted)  
+**Goal:** Fix accessibility IDs first, then reduce timeouts (30s → 5–8s) and retries (3 → 1–2).
+
+**Last doc update:** Post–build #74 code fixes (navigation flow, home-page widgets, modal-dialog IDs).
+
+**Pending work tracker:** [ACCESSIBILITY-ID-PENDING.mdc](./ACCESSIBILITY-ID-PENDING.mdc) — iOS + Android pending widgets, progress-bar/progress-circle detail.
+
+---
+
+## Fixes applied since build #74 (in codebase)
+
+| Fix | File(s) | Status |
+|-----|---------|--------|
+| Back-to-home before nav link during recovery | `MobileWidget.page.ts` | ✅ Done |
+| Swipe until nav link visible (Android UiScrollable + W3C swipe) | `appium.helpers.ts` | ✅ Done |
+| Widget-specific page-ready sentinel (not blanket `~exinput_i`) | `MobileWidget.page.ts`, `widget-xpaths.ts` | ✅ Done |
+| Skip nav when already on target widget page | `MobileWidget.page.ts` | ✅ Done |
+| **Home-page widgets** — tabbar + navbar verify on Main only (no nav link tap) | `mobileWidgetConfig.ts`, `MobileWidget.page.ts` | ✅ Done |
+| Back button selector | `MobileSelectors.common.backButton` → `~mobile_navbar1_backbtn_icon` | ✅ Done |
+| Dead session fast-fail (mark dead → fail fast on later tokens) | `wdio/utils/mobileSessionGuard.ts` | ✅ Done |
+| **modal-dialog** IDs verified (Inspector) — page ready `~dialog1_icon_caption` | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **chips** IDs verified — page ready `~chips1_chip0` (header was `~exinput_i`) | `MobileSelectors.ts` | ✅ Done |
+| **datetime** page-ready matrix — Android `~datetime1_l`, iOS `~datetime` | `widget-xpaths.ts`, `mobileWidgetConfig.ts` | ✅ Done |
+| **message** IDs verified — page ready `~message2_caption` (was `~exinput_i`) | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **panel** iOS — page ready `~panel1_header_title`, indexed style output xpath | `MobileSelectors.ts`, `widget-xpaths.ts`, `MobileWidget.page.ts` | ✅ Done |
+| **checkboxset** iOS — page ready `checkboxset1_0` xpath (was `~Option 1`) | `widget-xpaths.ts` | ✅ Done |
+| **radioset** iOS — page ready `~radioset1_caption0` (was `~radioset1_radio0`) | `widget-xpaths.ts` | ✅ Done |
+| **bottomsheet** iOS — page ready `~bottomsheet1_scorllview`, indexed style output xpath | `MobileSelectors.ts`, `MobileWidget.page.ts` | ✅ Done |
+| **button** — page ready `~button1_caption` (Android + iOS) | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **cards** — page ready `~mobile_navbar1_title` (header was `~exinput_i`) | `MobileSelectors.ts` | ✅ Done |
+| **progress-bar** — page ready `~progress_bar1_progressbar` (Android + iOS) | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **progress-circle** — page ready `~progress_circle1_progresscircle` (Android + iOS) | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **checkbox** iOS — page ready `~checkbox1_l` (was `~checkbox1_checkbox_icon`) | `widget-xpaths.ts` | ✅ Done |
+| **toggle** iOS — page ready `~toggle1_a` (was `~exinput_i`) | `widget-xpaths.ts` | ✅ Done |
+| **tabbar + navbar** — style console on Main: `~exinput_i` / `~label2_caption` verified | docs only (defaults already correct) | ✅ Done |
+| **accordion-pane** — same IDs as accordion (shared nav ✓) | `MobileSelectors.ts` | ✅ Done |
+| **panel-footer** — same IDs as panel (shared nav ✓); page ready `~panel1_header_title` | `MobileSelectors.ts`, `widget-xpaths.ts`, `mobileWidgetConfig.ts` | ✅ Done |
+| **barcodescanner** — page ready `~barcodescanner1_button_icon_icon` (Android + iOS) | `MobileSelectors.ts` | ✅ Done |
+| **button-group** — page ready `~button1_caption` (Android + iOS) | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **tabs** — nav + page ready verified (Android + iOS): `~tabs1_headers_0_title` | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **formcontrols** — page ready `~custom_i` (Android + iOS); iOS style out indexed xpath | `MobileSelectors.ts`, `widget-xpaths.ts`, `MobileWidget.page.ts` | ✅ Done |
+| **camera** — page ready `~camera1_button_icon_icon` (Android + iOS); matrix added | `MobileSelectors.ts`, `widget-xpaths.ts`, `mobileWidgetConfig.ts` | ✅ Done |
+| **container** — page ready `~mobile_navbar1_title` (Android + iOS); Android `Home` placeholder removed | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **slider** — page ready `~anchor1_caption` (Android + iOS) | `MobileSelectors.ts`, `widget-xpaths.ts` | ✅ Done |
+| **tile** — iOS style out indexed xpath (Android `~label2_caption`); page ready ⬜ pending | `MobileSelectors.ts`, `MobileWidget.page.ts` | 🟡 Partial |
+| Removed legacy `modal` alias (use `modal-dialog` only) | `MobileSelectors.ts` | ✅ Done |
+| `SKIP_VISUAL_VERIFICATION` short-circuit in `waitForWidget` | `MobileWidget.page.ts` | ✅ Done (commit `3b846e1`) |
+| Phase 4 pre-fetch (broken — `browser is not defined`) | `mobile.global.setup.ts` | ❌ Reverted |
+
+### Home-page widgets (`HOME_PAGE_WIDGETS`)
+
+Tabbar and navbar live on **Main/home** — same as preview scripts (`tabbar: 'Main'`, `navbar: 'Main'`).
+
+```
+navigateToWidget('tabbar' | 'navbar')
+  → ensure on home (back if needed)
+  → wait ~mobile_navbar1_title
+  → wait widget sentinel (~mobile_tabbar1 or ~mobile_navbar1_title)
+  → style console still uses ~exinput_i on Main
+  → NEVER tap ~tabbar_link_caption / ~navbar_link_caption
+```
+
+### modal-dialog — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~modaldialog_link_caption` | ✓ |
+| Style input | `~exinput1_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~dialog1_icon_caption` | ✓ (was wrongly `~exinput_i`) |
+
+### chips — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~chips_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~chips1_chip0` | ✓ (header was wrongly `~exinput_i`) |
+
+### datetime — verified IDs (Android + iOS)
+
+| Layer | Android | iOS | Verified |
+|-------|---------|-----|----------|
+| Nav link | `~datetime_link_caption` | `~datetime_link_caption` | ✓ |
+| Style input | `~exinput_i` | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | `~label2_caption` | ✓ |
+| Page ready | `~datetime1_l` | `~datetime` | ✓ (Android was fallback `~datetime`) |
+
+### message — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~message_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~message2_caption` | ✓ (was wrongly `~exinput_i`) |
+
+### panel — verified IDs (iOS; Android style out / page ready assumed same until confirmed)
+
+| Layer | iOS | Verified |
+|-------|-----|----------|
+| Nav link | `~panel_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ (multiple `label2_caption` on page) |
+| Page ready | `~panel1_header_title` | ✓ (was wrongly `~mobile_navbar1_title`) |
+
+### checkboxset — verified IDs (iOS; Android page ready unchanged)
+
+| Layer | iOS | Verified |
+|-------|-----|----------|
+| Nav link | `~checkboxset_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `//XCUIElementTypeStaticText[@name="checkboxset1_0"]` | ✓ (was wrongly `~Option 1`) |
+
+### radioset — verified IDs (iOS; Android unchanged)
+
+| Layer | iOS | Verified |
+|-------|-----|----------|
+| Nav link | `~radioset_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~radioset1_caption0` | ✓ (was wrongly `~radioset1_radio0`) |
+
+### bottomsheet — verified IDs (iOS)
+
+| Layer | iOS | Verified |
+|-------|-----|----------|
+| Nav link | `~bottomsheet_link_caption` | ✓ |
+| Style input | `~exinput1_i` | ✓ |
+| Style output | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ (multiple `label2_caption` on page) |
+| Page ready | `~bottomsheet1_scorllview` | ✓ (header was wrongly `~exinput_i`) |
+
+### button — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~button_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~button1_caption` | ✓ (header was wrongly `~exinput_i`; Android was ViewGroup xpath) |
+
+### button-group — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~buttongroup_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~button1_caption` | ✓ (header was wrongly `~exinput_i`) |
+
+### tabs — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~tabs_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~tabs1_headers_0_title` | ✓ (header was wrongly `~exinput_i`; was Build #74 Android nav 52× blocker) |
+
+### formcontrols — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~formc_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | Android `~label2_caption` / iOS `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ |
+| Page ready | `~custom_i` | ✓ (header was `~exinput_i`; iOS matrix was broken `~`) |
+
+### camera — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~camera_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~camera1_button_icon_icon` | ✓ (header was `~exinput_i`; matrix was missing — fallback `~camera`) |
+
+### container — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~container_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~mobile_navbar1_title` | ✓ (header was `~exinput_i`; Android was `Home` placeholder) |
+
+### slider — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~slider_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~anchor1_caption` | ✓ (header was wrongly `~exinput_i`) |
+
+### tile — partial verified (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~tile_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | Android `~label2_caption` / iOS `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ |
+| Page ready | ⬜ pending Inspector | Android still `Home` placeholder; iOS `~exinput_i` |
+
+### cards — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~cards_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~mobile_navbar1_title` | ✓ (header was wrongly `~exinput_i`) |
+
+### progress-bar — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~progressbar_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~progress_bar1_progressbar` | ✓ (was wrongly `~exinput_i` / Android `Home` placeholder) |
+
+### progress-circle — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~progresscircle_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~progress_circle1_progresscircle` | ✓ (was wrongly `~exinput_i` / Android `Home` placeholder) |
+
+### checkbox — verified IDs (iOS; Android unchanged)
+
+| Layer | iOS | Verified |
+|-------|-----|----------|
+| Nav link | `~checkbox_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~checkbox1_l` | ✓ (was wrongly `~checkbox1_checkbox_icon`) |
+
+### toggle — verified IDs (iOS; Android unchanged)
+
+| Layer | iOS | Verified |
+|-------|-----|----------|
+| Nav link | `~toggle_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~toggle1_a` | ✓ (was wrongly `~exinput_i`) |
+
+### accordion-pane — verified IDs (same as accordion; shared nav intentional)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~accordion_link_caption` | ✓ (shared with accordion — same page) |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~accordion1_header0` | ✓ |
+
+### panel-footer — verified IDs (same as panel; shared nav intentional)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~panel_link_caption` | ✓ (shared with panel — same page) |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` (iOS: panel indexed xpath) | ✓ |
+| Page ready | `~panel1_header_title` | ✓ (was fallback `~panel-footer`) |
+
+### barcodescanner — verified IDs (Android + iOS)
+
+| Layer | ID | Verified |
+|-------|-----|----------|
+| Nav link | `~barcodescanner_link_caption` | ✓ |
+| Style input | `~exinput_i` | ✓ |
+| Style output | `~label2_caption` | ✓ |
+| Page ready | `~barcodescanner1_button_icon_icon` | ✓ |
+
+### tabbar & navbar — verified style console on Main (Android + iOS)
+
+Home-page widgets — no nav link tap. Style fetch runs on **Main** using default inspector IDs.
+
+| Widget | Page ready | Style input (Main) | Style output (Main) | Verified |
+|--------|------------|--------------------|---------------------|----------|
+| tabbar | `~mobile_tabbar1` | `~exinput_i` | `~label2_caption` | ✓ |
+| navbar | `~mobile_navbar1_title` | `~exinput_i` | `~label2_caption` | ✓ |
+
+---
+
+## Why accessibility IDs cause retries and timeouts
+
+Each token test follows this chain (updated flow):
+
+```
+navigateToWidget()
+  → [home-page widgets] stay on Main — no nav link tap
+  → [other widgets] ensure home → swipe until ~{widget}_link_caption → tap
+  → wait widget-specific page-ready sentinel (from widget-xpaths, not ~exinput_i)
+getCachedStylesObject()
+  → wait for style input (~exinput_i or ~exinput1_i for modal/bottomsheet)
+  → read ~label2_caption
+  → on failure: recoverWidgetContext() → back-to-home → re-navigate
+  → session dies → MobileSessionGuard marks dead → later tokens fail fast
+```
+
+**One missing or slow accessibility ID → 30s wait × 3 retries × recovery loops → minutes per widget.**
+
+Fix the IDs first. Timeout/retry tuning only helps after elements are findable within a few seconds.
+
+---
+
+## Selector layers (configured in `MobileSelectors.ts`)
+
+| Layer | Accessibility ID | Used for |
+|-------|------------------|----------|
+| Home header | `~mobile_navbar1_title` | Confirm app is on Main/home |
+| Back button | `~mobile_navbar1_backbtn_icon` | Return to home during recovery |
+| Nav link | `~{widget}_link_caption` | Tap widget on home scroll list (**not used for tabbar/navbar**) |
+| Page header | Widget-specific (see `headers` + `widget-xpaths.ts`) | Confirm widget page loaded |
+| Style console input | `~exinput_i` (default) | Type RN style commands |
+| Style console input (special) | `~exinput1_i` | bottomsheet, modal-dialog |
+| Style output | `~label2_caption` | Read JSON result |
+| Form-wrapper header | `~entestkey_i` | form-wrapper page header only |
+| Login header | `loggedInUserForm1_submit_formAction_a` | login page header (no `~` prefix) |
+
+**Home-page page-ready sentinels:**
+
+| Widget | Page ready ID | Nav link used? |
+|--------|---------------|----------------|
+| tabbar | `~mobile_tabbar1` | No — verify on Main |
+| navbar | `~mobile_navbar1_title` | No — verify on Main |
+| modal-dialog | `~dialog1_icon_caption` | Yes — `~modaldialog_link_caption` |
+
+**Known design issue (remaining):** Many widgets still use `~exinput_i` as page header in `MobileSelectors.headers` until Inspector IDs are filled in. Code prefers widget-specific sentinels from `widget-xpaths.ts` when header is still `~exinput_i`.
+
+**Build #74 nav/home failures during recovery:** Partially addressed by back-to-home + swipe-until-visible. Tabbar/navbar nav failures (51× / 58×) were largely **wrong flow** (tapping nav link for a widget already on Main).
+
+---
+
+## Fix priority tiers
+
+### Tier 1 — Style console (blocks ALL token validation)
+
+These cause `Styles fetch failed … ~exinput_i still not displayed after 30000ms` and session cascades.
+
+| Priority | Widget | Platform | Configured input ID | Configured output ID | Log events | Allure broken |
+|----------|--------|----------|---------------------|----------------------|------------|---------------|
+| P0 | **tabbar** | iOS | `~exinput_i` | `~label2_caption` | 33 exinput timeouts, 116 session cascades | 64 | ✅ Home-page flow + Main style console verified |
+| P0 | **navbar** | iOS | `~exinput_i` | `~label2_caption` | 54 exinput timeouts, 34 session cascades | 40 | ✅ Home-page flow + Main style console verified |
+| P0 | **chips** | iOS | `~exinput_i` | `~label2_caption` | 49 exinput timeouts | 30 |
+| P0 | **checkboxset** | iOS | `~exinput_i` | `~label2_caption` | 46 exinput timeouts | 21 |
+| P0 | **panel** | iOS | `~exinput_i` | `~label2_caption` | 28 exinput timeouts | 22 |
+| P0 | **radioset** | iOS | `~exinput_i` | `~label2_caption` | 40 exinput timeouts | 20 |
+| P0 | **datetime** | Both | `~exinput_i` | `~label2_caption` | iOS 38, Android 7 | 23 + 23 |
+| P0 | **message** | Both | `~exinput_i` | `~label2_caption` | iOS 42, Android 10 | 21 + 21 |
+| P0 | **cards** | iOS | `~exinput_i` | `~label2_caption` | 26 exinput timeouts | 10 |
+| P0 | **button** | Both | `~exinput_i` | `~label2_caption` | iOS 29, Android 9 | 11 + 8 |
+| P0 | **modal-dialog** | Both | `~exinput1_i` | `~label2_caption` | 123 exinput1 failures (Android) | 41 | ✅ **Page ready fixed** — `~dialog1_icon_caption`; nav/style IDs verified |
+| P0 | **bottomsheet** | iOS | `~exinput1_i` (input) / `~exinput_i` (header) | `~label2_caption` | 1 exinput + header mismatch | 16 |
+
+### Tier 2 — Nav link (blocks reaching widget page)
+
+Failures: `{widget} link selector not found`. Test never reaches widget page.
+
+| Priority | Widget | Platform | Configured nav ID | Log nav failures | Allure broken |
+|----------|--------|----------|-------------------|------------------|---------------|
+| P1 | **modal-dialog** | Android | `~modaldialog_link_caption` | 82 | 41 | ✅ Nav ID verified on device |
+| P1 | **tabs** | Android | `~tabs_link_caption` | 52 | 26 | ✅ **Fixed** — page ready `~tabs1_headers_0_title` (was `~exinput_i`) |
+| P1 | **tabbar** | iOS | ~~`~tabbar_link_caption`~~ N/A | 51 | 64 | ✅ **Fixed** — no nav tap; was false-positive nav failures |
+| P1 | **navbar** | iOS | ~~`~navbar_link_caption`~~ N/A | 58 | 40 | ✅ **Fixed** — no nav tap; was false-positive nav failures |
+| P1 | **chips** | iOS | `~chips_link_caption` | 58 | 30 |
+| P1 | **datetime** | iOS | `~datetime_link_caption` | 46 | 23 |
+| P1 | **message** | iOS | `~message_link_caption` | 42 | 21 |
+| P1 | **panel** | iOS | `~panel_link_caption` | 44 | 22 |
+| P1 | **checkboxset** | iOS | `~checkboxset_link_caption` | 42 | 21 |
+| P1 | **radioset** | iOS | `~radioset_link_caption` | 40 | 20 |
+| P1 | **button** | Both | `~button_link_caption` | iOS 22, Android 16 | 11 + 8 |
+| P1 | **progress-bar** | Android | `~progressbar_link_caption` | 14 | 7 |
+| P1 | **progress-circle** | Android | `~progresscircle_link_caption` | (via broken tests) | 11 |
+| P1 | **picture** | Android | `~picture_link_caption` | 6 | 3 |
+| P1 | **select** | Android | `~select_link_caption` | 3 | — |
+| P1 | **currency** | Android | `~currency_link_caption` | 3 | — |
+
+### Tier 3 — Home header (non-fatal but adds 30s per recovery)
+
+| ID | Platform | Notes |
+|----|----------|-------|
+| `~mobile_navbar1_title` | Both | ✅ Partially fixed — back-to-home + skip long home wait on recovery; home-page widgets skip nav entirely |
+
+### Tier 4 — Shared nav IDs (same RN page — verified where noted)
+
+| Widget | Nav link | Shares with | Page ready | Status |
+|--------|----------|-------------|------------|--------|
+| **accordion-pane** | `~accordion_link_caption` | accordion | `~accordion1_header0` | ✅ Verified |
+| **panel-footer** | `~panel_link_caption` | panel | `~panel1_header_title` | ✅ Verified |
+| **form-wrapper** | `~formc_link_caption` | formcontrols | `~entestkey_i` | ⬜ Not re-verified |
+| **modal-dialog** | `~modaldialog_link_caption` | — | `~dialog1_icon_caption` | ✅ Verified |
+
+---
+
+## Full widget checklist
+
+Configured IDs from `wdio/pages/selectors/MobileSelectors.ts`.  
+**Status key:** 🔴 blocking (exinput timeout / broken tests) · 🟡 nav fails · 🟢 no blocking issues in log · ⚪ not enough data
+
+| Widget | Nav link ID | Page header ID | Style input ID | Android | iOS | Notes |
+|--------|-------------|----------------|----------------|---------|-----|-------|
+| accordion | `~accordion_link_caption` | **`~accordion1_header0`** | `~exinput_i` | 🟢 | 🟡 | Low failure count |
+| accordion-pane | `~accordion_link_caption` | **`~accordion1_header0`** | `~exinput_i` | 🟡 | 🟡 | ✅ Same page as accordion (shared nav verified) |
+| anchor | `~anchor_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| audio | `~audio_link_caption` | `~exinput_i` | `~exinput_i` | 🟢 | 🟢 | |
+| barcodescanner | `~barcodescanner_link_caption` | **`~barcodescanner1_button_icon_icon`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready verified both platforms |
+| bottomsheet | `~bottomsheet_link_caption` | **`~bottomsheet1_scorllview`** | **`~exinput1_i`** | 🟡 | 🟡 | ✅ iOS header + style output fixed |
+| button | `~button_link_caption` | **`~button1_caption`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed both platforms |
+| button-group | `~buttongroup_link_caption` | **`~button1_caption`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed both platforms |
+| calendar | `~calendar_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| camera | `~camera_link_caption` | **`~camera1_button_icon_icon`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready + matrix fixed both platforms |
+| cards | `~cards_link_caption` | **`~mobile_navbar1_title`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed (header was `~exinput_i`) |
+| carousel | `~carousel_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🔴 | iOS exinput; 199 FAILED (mapping, not selector) |
+| checkbox | `~checkbox_link_caption` | iOS `~checkbox1_l` / Android `~checkbox1_checkbox_icon` | `~exinput_i` | 🟡 | 🟡 | ✅ iOS page ready fixed |
+| checkboxset | `~checkboxset_link_caption` | iOS `checkboxset1_0` / Android `~Option 1` | `~exinput_i` | 🟡 | 🟡 | ✅ iOS page ready fixed |
+| chips | `~chips_link_caption` | **`~chips1_chip0`** | `~exinput_i` | 🟢 | 🟡 | ✅ IDs verified; page ready fixed (build #74 iOS worst) |
+| container | `~container_link_caption` | `~exinput_i` | `~exinput_i` | 🟢 | 🔴 | iOS exinput 13× |
+| currency | `~currency_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | Android nav 3× |
+| datetime | `~datetime_link_caption` | Android `~datetime1_l` / iOS `~datetime` | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready matrix added (build #74 both broken) |
+| dropdown-menu | `~dropdownmenu_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| fileupload | `~fileupload_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| form-wrapper | `~formc_link_caption` | **`~entestkey_i`** | `~exinput_i` | 🟡 | 🟡 | Special header ID |
+| formcontrols | `~formc_link_caption` | **`~custom_i`** | `~exinput_i` | 🟡 | 🟡 | ✅ All IDs verified both platforms |
+| icon | `~icon_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| label | `~label_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| list | `~list_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | Android broken 3 |
+| login | `~login_link_caption` | **`loggedInUserForm1_submit_formAction_a`** | `~exinput_i` | 🟡 | 🟢 | Non-standard header |
+| lottie | `~lottie_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| message | `~message_link_caption` | **`~message2_caption`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed (build #74 both broken) |
+| modal-dialog | `~modaldialog_link_caption` | **`~dialog1_icon_caption`** | **`~exinput1_i`** | 🟡 | 🟡 | ✅ IDs verified; page ready fixed (build #74: Android nav 82×) |
+| navbar | *(home page — no nav)* | **`~mobile_navbar1_title`** | `~exinput_i` | 🟡 | 🟡 | ✅ Home-page + Main style console verified |
+| panel | `~panel_link_caption` | **`~panel1_header_title`** | `~exinput_i` | 🟡 | 🟡 | ✅ iOS page ready + style output xpath fixed |
+| panel-footer | `~panel_link_caption` | **`~panel1_header_title`** | `~exinput_i` | 🟡 | 🟡 | ✅ Same page as panel (shared nav verified) |
+| picture | `~picture_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| popover | `~popover_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| progress-bar | `~progressbar_link_caption` | **`~progress_bar1_progressbar`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed both platforms |
+| progress-circle | `~progresscircle_link_caption` | **`~progress_circle1_progresscircle`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed both platforms |
+| radioset | `~radioset_link_caption` | iOS `~radioset1_caption0` / Android `~radioset1_radio0` | `~exinput_i` | 🟡 | 🟡 | ✅ iOS page ready fixed |
+| rating | `~rating_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| search | `~search_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| select | `~select_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | 48 FAILED (mapping) |
+| slider | `~slider_link_caption` | **`~anchor1_caption`** | `~exinput_i` | 🟡 | 🟡 | ✅ Page ready fixed both platforms |
+| spinner | `~spinner_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| switch | `~switch_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| tabbar | *(home page — no nav)* | **`~mobile_tabbar1`** | `~exinput_i` | 🟡 | 🟡 | ✅ Home-page + Main style console verified |
+| tabs | `~tabs_link_caption` | **`~tabs1_headers_0_title`** | `~exinput_i` | 🟡 | 🟡 | ✅ All IDs verified both platforms |
+| tile | `~tile_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🔴 | 🟡 iOS style out fixed; page ready pending |
+| toggle | `~toggle_link_caption` | iOS `~toggle1_a` / Android `Home` ⚠️ | `~exinput_i` | ⬜ | 🟡 | ✅ iOS page ready fixed |
+| video | `~video_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+| webview | `~webview_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟡 | |
+| wizard | `~wizard_link_caption` | `~exinput_i` | `~exinput_i` | 🟡 | 🟢 | |
+
+---
+
+## Recommended fix order
+
+Work top-down. Verify each ID on a real BrowserStack session (Appium Inspector or `browser.$('~id').isDisplayed()`).
+
+### Sprint 1 — iOS style console (fixes ~370 broken tests)
+
+1. ~~tabbar, navbar~~ → **home-page flow + Main style console verified** (`~exinput_i` / `~label2_caption`)  
+2. chips, checkboxset, panel, radioset  
+3. datetime, message, cards, button, checkbox, toggle  
+4. bottomsheet (`~exinput1_i` input + fix page-ready header — should not use `~exinput_i`)
+
+**For each widget:** Open widget page on iOS → confirm style input + `~label2_caption`. Update `MobileSelectors.ts` / `widget-xpaths.ts` if IDs differ.
+
+### Sprint 2 — Android nav + special inputs (fixes ~100 broken tests)
+
+1. ~~modal-dialog~~ → **IDs verified**; re-run spec to confirm nav 82× resolved  
+2. ~~tabs~~ → **All IDs verified** (`~tabs1_headers_0_title` page ready)  
+3. progress-bar, progress-circle, picture, button  
+
+### Sprint 3 — Shared / suspicious IDs
+
+1. ~~accordion-pane~~ → **same as accordion** (shared nav verified)  
+2. ~~panel-footer~~ → **same as panel** (shared nav verified)  
+3. form-wrapper header `~entestkey_i` vs style input `~exinput_i`  
+4. login header `loggedInUserForm1_submit_formAction_a`
+
+### Sprint 4 — Navigation flow ✅ DONE (in code)
+
+- ✅ Back-to-home before tapping nav link during recovery  
+- ✅ Widget-specific page-ready sentinel (via `getPageHeaderSelector` + `widget-xpaths.ts`)  
+- ✅ Skip navigation when already on target widget / home-page widget  
+- ✅ Swipe until nav link visible (`swipeUntilElementVisible`)  
+- ✅ Home-page widgets: tabbar + navbar (`HOME_PAGE_WIDGETS`)  
+- ✅ Dead session fast-fail (`mobileSessionGuard.ts`) — partial; spec-level skip still optional
+
+---
+
+## After accessibility IDs are fixed
+
+Only then apply timeout/retry reductions in `MobileWidget.page.ts` and `appium.helpers.ts`:
+
+| Setting | Current | Recommended |
+|---------|---------|-------------|
+| `exinput_i` waitForDisplayed | 30000ms | 5000–8000ms |
+| Style output wait | 15000ms | 5000ms |
+| `getCachedStylesObject` retries | 3 | 1–2 |
+| Mocha test timeout | 300000ms (5 min) | 60000ms (1 min) |
+| Recovery on dead session | re-navigate blindly | ✅ `MobileSessionGuard` marks dead; ⏳ spec skip/recreate optional |
+
+---
+
+## Files to update when fixing IDs
+
+| File | What to change |
+|------|----------------|
+| `wdio/pages/selectors/MobileSelectors.ts` | `navItems`, `headers`, `inspector`, `common.backButton` |
+| `src/matrix/widget-xpaths.ts` | Mobile widget sentinel selectors (`mobileWidgetSelectors`) |
+| `wdio/pages/mobileWidgetConfig.ts` | `HOME_PAGE_WIDGETS`, `getWidgetPageReadySelector()` |
+| `wdio/pages/MobileWidget.page.ts` | `navigateToWidget`, recovery, style fetch |
+| `wdio/helpers/appium.helpers.ts` | `swipeUntilElementVisible()` |
+| `wdio/utils/mobileSessionGuard.ts` | Dead session tracking |
+
+---
+
+## Verification checklist (per widget)
+
+```
+[ ] Home page: ~mobile_navbar1_title visible
+[ ] Home page: ~{widget}_link_caption visible and tappable (skip for tabbar/navbar — home-page widgets)
+[ ] Widget page: style input visible (~exinput_i or ~exinput1_i)
+[ ] Widget page: ~label2_caption visible after entering a test command
+[ ] Page ready: widget-specific sentinel (not ~exinput_i unless it is the widget element)
+[ ] Android: repeat above
+[ ] iOS: repeat above
+```
+
+---
+
+*Generated from Jenkins build #74 log analysis. Updated after post–#74 code fixes. Re-run after each selector fix batch and update status columns.*
+
+---
+
+## Inspector checklist — all 50 widgets (fill from Appium Inspector)
+
+**Instructions**
+1. Open BrowserStack session on the **Jenkins build app** (Android + iOS).
+2. On **Home**: confirm home title + nav link for each widget (swipe if needed).
+3. On **Widget page**: confirm style console input, output label, and one always-visible widget element.
+4. If configured ID matches device → write `✓`. If wrong/missing → write the **actual** accessibility ID (with `~` prefix if accessibility id).
+5. Paste filled rows back in chat — we update `MobileSelectors.ts` in batches.
+
+**Global elements (verify once per platform)**
+
+| Element | Configured ID | Android actual | iOS actual |
+|---------|---------------|----------------|------------|
+| Home title | `~mobile_navbar1_title` | | |
+| Back button | `~mobile_navbar1_backbtn_icon` | | |
+| Style input (default) | `~exinput_i` | | |
+| Style input (bottomsheet only) | `~exinput1_i` | | |
+| Style input (modal-dialog only) | `~exinput1_i` | | |
+| Style output (all widgets) | `~label2_caption` | | |
+
+**Legend:** ⚠️ = suspected wrong/shared ID in config · 🔴 = build #74 blocking · 🟡 = nav failures · `(fallback)` = no mobile matrix entry, code uses `~{widget}`
+
+---
+
+| # | Widget | Sprint | Platform | Nav link (config) | Actual nav | Style input (config) | Actual input | Style output (config) | Actual output | Page ready (config) | Actual page ready | Notes |
+|---|--------|--------|----------|-------------------|------------|----------------------|--------------|----------------------|---------------|---------------------|-------------------|-------|
+| 1 | accordion | — | Android | `~accordion_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~accordion1_header0` | | |
+| 1 | accordion | — | iOS | `~accordion_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~accordion1_header0` | | |
+| 2 | accordion-pane | 3 | Android | `~accordion_link_caption` | ✓ shared | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~accordion1_header0` | ✓ | ✅ verified |
+| 2 | accordion-pane | 3 | iOS | `~accordion_link_caption` | ✓ shared | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~accordion1_header0` | ✓ | ✅ verified |
+| 3 | anchor | — | Android | `~anchor_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 3 | anchor | — | iOS | `~anchor_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 4 | audio | — | Android | `~audio_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 4 | audio | — | iOS | `~audio_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 5 | barcodescanner | — | Android | `~barcodescanner_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~barcodescanner1_button_icon_icon` | ✓ | ✅ verified |
+| 5 | barcodescanner | — | iOS | `~barcodescanner_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~barcodescanner1_button_icon_icon` | ✓ | ✅ verified |
+| 6 | bottomsheet | 1 | Android | `~bottomsheet_link_caption` | | `~exinput1_i` | | `~label2_caption` | | ScrollView `bottomsheet1_scorllview` | | 🟡 not re-verified |
+| 6 | bottomsheet | 1 | iOS | `~bottomsheet_link_caption` | | `~exinput1_i` | | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | | `~bottomsheet1_scorllview` | | ✅ verified |
+| 7 | button | 1 | Android | `~button_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~button1_caption` | | ✅ verified |
+| 7 | button | 1 | iOS | `~button_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~button1_caption` | | ✅ verified |
+| 8 | button-group | — | Android | `~buttongroup_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~button1_caption` | | ✅ verified |
+| 8 | button-group | — | iOS | `~buttongroup_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~button1_caption` | | ✅ verified |
+| 9 | calendar | — | Android | `~calendar_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 9 | calendar | — | iOS | `~calendar_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 10 | camera | — | Android | `~camera_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~camera1_button_icon_icon` | ✓ | ✅ verified |
+| 10 | camera | — | iOS | `~camera_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~camera1_button_icon_icon` | ✓ | ✅ verified |
+| 11 | cards | 1 | Android | `~cards_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~mobile_navbar1_title` | | ✅ verified |
+| 11 | cards | 1 | iOS | `~cards_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~mobile_navbar1_title` | | ✅ verified |
+| 12 | carousel | — | Android | `~carousel_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.view.ViewGroup[@resource-id="carousel_item_1"]` | | 199 FAILED = mapping not selector |
+| 12 | carousel | — | iOS | `~carousel_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~carousel1_prev_icon_icon` | | |
+| 13 | checkbox | 1 | Android | `~checkbox_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~checkbox1_checkbox_icon` | | |
+| 13 | checkbox | 1 | iOS | `~checkbox_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~checkbox1_l` | | ✅ verified |
+| 14 | checkboxset | 1 | Android | `~checkboxset_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~Option 1` | | 🟡 not re-verified |
+| 14 | checkboxset | 1 | iOS | `~checkboxset_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//XCUIElementTypeStaticText[@name="checkboxset1_0"]` | | ✅ verified |
+| 15 | chips | 1 | Android | `~chips_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~chips1_chip0` | | ✅ verified |
+| 15 | chips | 1 | iOS | `~chips_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~chips1_chip0` | | ✅ verified |
+| 16 | container | — | Android | `~container_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 16 | container | — | iOS | `~container_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 17 | currency | — | Android | `~currency_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | 🟡 Android nav 3× |
+| 17 | currency | — | iOS | `~currency_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 18 | datetime | 1 | Android | `~datetime_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~datetime1_l` | | ✅ verified |
+| 18 | datetime | 1 | iOS | `~datetime_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~datetime` | | ✅ verified |
+| 19 | dropdown-menu | — | Android | `~dropdownmenu_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 19 | dropdown-menu | — | iOS | `~dropdownmenu_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 20 | fileupload | — | Android | `~fileupload_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 20 | fileupload | — | iOS | `~fileupload_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 21 | form-wrapper | 3 | Android | `~formc_link_caption` ⚠️ | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | Header override: `~entestkey_i` |
+| 21 | form-wrapper | 3 | iOS | `~formc_link_caption` ⚠️ | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | Header override: `~entestkey_i` |
+| 22 | formcontrols | — | Android | `~formc_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~custom_i` | ✓ | ✅ verified |
+| 22 | formcontrols | — | iOS | `~formc_link_caption` | ✓ | `~exinput_i` | ✓ | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ | `~custom_i` | ✓ | ✅ verified |
+| 23 | icon | — | Android | `~icon_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 23 | icon | — | iOS | `~icon_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 24 | label | — | Android | `~label_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@content-desc="label1_caption"…]` | | |
+| 24 | label | — | iOS | `~label_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~label9_caption` | | |
+| 25 | list | — | Android | `~list_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~mobile_navbar1_title` | | |
+| 25 | list | — | iOS | `~list_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~mobile_navbar1_title` | | |
+| 26 | login | 3 | Android | `~login_link_caption` | | `~exinput_i` | | `~label2_caption` | | `loggedInUserForm1_submit_formAction_a` | | No `~` on header |
+| 26 | login | 3 | iOS | `~login_link_caption` | | `~exinput_i` | | `~label2_caption` | | `loggedInUserForm1_submit_formAction_a` | | No `~` on header |
+| 27 | lottie | — | Android | `~lottie_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 27 | lottie | — | iOS | `~lottie_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 28 | message | 1 | Android | `~message_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~message2_caption` | | ✅ verified |
+| 28 | message | 1 | iOS | `~message_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~message2_caption` | | ✅ verified |
+| 29 | modal-dialog | 2 | Android | `~modaldialog_link_caption` | ✓ | `~exinput1_i` | ✓ | `~label2_caption` | ✓ | `~dialog1_icon_caption` | ✓ | ✅ Verified |
+| 29 | modal-dialog | 2 | iOS | `~modaldialog_link_caption` | ✓ | `~exinput1_i` | ✓ | `~label2_caption` | ✓ | `~dialog1_icon_caption` | ✓ | ✅ Verified |
+| 30 | navbar | 1 | Android | *(home — no nav)* | N/A | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~mobile_navbar1_title` | ✓ | ✅ verified |
+| 30 | navbar | 1 | iOS | *(home — no nav)* | N/A | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~mobile_navbar1_title` | ✓ | ✅ verified |
+| 31 | panel | 1 | Android | `~panel_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~panel1_header_title` | | 🟡 assumed same ID |
+| 31 | panel | 1 | iOS | `~panel_link_caption` | | `~exinput_i` | | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | | `~panel1_header_title` | | ✅ verified |
+| 32 | panel-footer | 3 | Android | `~panel_link_caption` | ✓ shared | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~panel1_header_title` | ✓ | ✅ verified |
+| 32 | panel-footer | 3 | iOS | `~panel_link_caption` | ✓ shared | `~exinput_i` | ✓ | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ | `~panel1_header_title` | ✓ | ✅ verified |
+| 33 | picture | 2 | Android | `~picture_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~picture1_picture` | | 🟡 Android nav 6× |
+| 33 | picture | 2 | iOS | `~picture_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~picture1_picture` | | |
+| 34 | popover | — | Android | `~popover_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 34 | popover | — | iOS | `~popover_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 35 | progress-bar | 2 | Android | `~progressbar_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~progress_bar1_progressbar` | | ✅ verified |
+| 35 | progress-bar | 2 | iOS | `~progressbar_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~progress_bar1_progressbar` | | ✅ verified |
+| 36 | progress-circle | 2 | Android | `~progresscircle_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~progress_circle1_progresscircle` | | ✅ verified |
+| 36 | progress-circle | 2 | iOS | `~progresscircle_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~progress_circle1_progresscircle` | | ✅ verified |
+| 37 | radioset | 1 | Android | `~radioset_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~radioset1_radio0` | | 🟡 not re-verified |
+| 37 | radioset | 1 | iOS | `~radioset_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~radioset1_caption0` | | ✅ verified |
+| 38 | rating | — | Android | `~rating_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 38 | rating | — | iOS | `~rating_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 39 | search | — | Android | `~search_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 39 | search | — | iOS | `~search_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 40 | select | — | Android | `~select_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | 🟡 nav 3×; 48 FAILED = mapping |
+| 40 | select | — | iOS | `~select_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 41 | slider | — | Android | `~slider_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~anchor1_caption` | ✓ | ✅ verified |
+| 41 | slider | — | iOS | `~slider_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~anchor1_caption` | ✓ | ✅ verified |
+| 42 | spinner | — | Android | `~spinner_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 42 | spinner | — | iOS | `~spinner_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 43 | switch | — | Android | `~switch_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~switch1_label0` | | |
+| 43 | switch | — | iOS | `~switch_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~switch1_label0` | | |
+| 44 | tabbar | 1 | Android | *(home — no nav)* | N/A | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~mobile_tabbar1` | ✓ | ✅ verified |
+| 44 | tabbar | 1 | iOS | *(home — no nav)* | N/A | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~mobile_tabbar1` | ✓ | ✅ verified |
+| 45 | tabs | 2 | Android | `~tabs_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~tabs1_headers_0_title` | ✓ | ✅ verified |
+| 45 | tabs | 2 | iOS | `~tabs_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `~tabs1_headers_0_title` | ✓ | ✅ verified |
+| 46 | tile | — | Android | `~tile_link_caption` | ✓ | `~exinput_i` | ✓ | `~label2_caption` | ✓ | `//android.widget.TextView[@text="Home"]` ⚠️ | | 🟡 style out ✓; page ready pending |
+| 46 | tile | — | iOS | `~tile_link_caption` | ✓ | `~exinput_i` | ✓ | `(//XCUIElementTypeStaticText[@name="label2_caption"])[2]` | ✓ | `~exinput_i` | | 🟡 style out ✓; page ready pending |
+| 47 | toggle | 1 | Android | `~toggle_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 47 | toggle | 1 | iOS | `~toggle_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~toggle1_a` | | ✅ verified |
+| 48 | video | — | Android | `~video_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~video` (fallback) | | No mobile matrix entry |
+| 48 | video | — | iOS | `~video_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~video` (fallback) | | |
+| 49 | webview | — | Android | `~webview_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 49 | webview | — | iOS | `~webview_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+| 50 | wizard | — | Android | `~wizard_link_caption` | | `~exinput_i` | | `~label2_caption` | | `//android.widget.TextView[@text="Home"]` ⚠️ placeholder | | |
+| 50 | wizard | — | iOS | `~wizard_link_caption` | | `~exinput_i` | | `~label2_caption` | | `~exinput_i` | | |
+
+---
+
+**Quick-fill CSV** (paste into spreadsheet — columns: widget, platform, actual_nav, actual_input, actual_output, actual_page_ready)
+
+```csv
+widget,platform,actual_nav,actual_input,actual_output,actual_page_ready
+accordion,android,,,,
+accordion,ios,,,,
+accordion-pane,android,,,,
+accordion-pane,ios,,,,
+anchor,android,,,,
+anchor,ios,,,,
+audio,android,,,,
+audio,ios,,,,
+barcodescanner,android,,,,
+barcodescanner,ios,,,,
+bottomsheet,android,,,,
+bottomsheet,ios,,,,
+button,android,,,,
+button,ios,,,,
+button-group,android,,,,
+button-group,ios,,,,
+calendar,android,,,,
+calendar,ios,,,,
+camera,android,~camera_link_caption,~exinput_i,~label2_caption,~camera1_button_icon_icon
+camera,ios,~camera_link_caption,~exinput_i,~label2_caption,~camera1_button_icon_icon
+cards,android,,,,
+cards,ios,,,,
+carousel,android,,,,
+carousel,ios,,,,
+checkbox,android,,,,
+checkbox,ios,,,,
+checkboxset,android,,,,
+checkboxset,ios,,,,
+chips,android,,,,
+chips,ios,,,,
+container,android,,,,
+container,ios,,,,
+currency,android,,,,
+currency,ios,,,,
+datetime,android,,,,
+datetime,ios,,,,
+dropdown-menu,android,,,,
+dropdown-menu,ios,,,,
+fileupload,android,,,,
+fileupload,ios,,,,
+form-wrapper,android,,,,
+form-wrapper,ios,,,,
+formcontrols,android,~formc_link_caption,~exinput_i,~label2_caption,~custom_i
+formcontrols,ios,~formc_link_caption,~exinput_i,(//XCUIElementTypeStaticText[@name="label2_caption"])[2],~custom_i
+icon,android,,,,
+icon,ios,,,,
+label,android,,,,
+label,ios,,,,
+list,android,,,,
+list,ios,,,,
+login,android,,,,
+login,ios,,,,
+lottie,android,,,,
+lottie,ios,,,,
+message,android,,,,
+message,ios,,,,
+modal-dialog,android,,,,
+modal-dialog,ios,,,,
+navbar,android,,,,
+navbar,ios,,,,
+panel,android,,,,
+panel,ios,,,,
+panel-footer,android,,,,
+panel-footer,ios,,,,
+picture,android,,,,
+picture,ios,,,,
+popover,android,,,,
+popover,ios,,,,
+progress-bar,android,,,,
+progress-bar,ios,,,,
+progress-circle,android,,,,
+progress-circle,ios,,,,
+radioset,android,,,,
+radioset,ios,,,,
+rating,android,,,,
+rating,ios,,,,
+search,android,,,,
+search,ios,,,,
+select,android,,,,
+select,ios,,,,
+slider,android,~slider_link_caption,~exinput_i,~label2_caption,~anchor1_caption
+slider,ios,~slider_link_caption,~exinput_i,~label2_caption,~anchor1_caption
+spinner,android,,,,
+spinner,ios,,,,
+switch,android,,,,
+switch,ios,,,,
+tabbar,android,,,,
+tabbar,ios,,,,
+tabs,android,~tabs_link_caption,~exinput_i,~label2_caption,~tabs1_headers_0_title
+tabs,ios,~tabs_link_caption,~exinput_i,~label2_caption,~tabs1_headers_0_title
+tile,android,~tile_link_caption,~exinput_i,~label2_caption,
+tile,ios,~tile_link_caption,~exinput_i,(//XCUIElementTypeStaticText[@name="label2_caption"])[2],
+toggle,android,,,,
+toggle,ios,,,,
+video,android,,,,
+video,ios,,,,
+webview,android,,,,
+webview,ios,,,,
+wizard,android,,,,
+wizard,ios,,,,
+```
+
+**Suggested fill order:** Sprint 1 iOS — chips → checkboxset → panel → radioset → datetime → message → cards → button → checkbox → toggle → bottomsheet (tabbar/navbar/modal-dialog done). Then Sprint 2 Android: tabs → progress-bar → progress-circle → picture → button.

@@ -285,6 +285,7 @@ pipeline {
         RUN_LOCAL             = 'false'
         MOBILE_BUILD_DIR      = './mobile-builds'
         SKIP_VISUAL_VERIFICATION = "${params.SKIP_VISUAL_VERIFICATION}"
+        // BrowserStack plan: max 2 parallel sessions — see Mobile stage for per-run maxInstances.
         // Standard CI flag so Playwright config can apply CI-specific options (forbidOnly, trace, etc.)
         CI                    = 'true'
     }
@@ -486,35 +487,47 @@ pipeline {
                 script {
                     def runAndroidTests = env.MOBILE_PLATFORM == 'android' || env.MOBILE_PLATFORM == 'both'
                     def runIosTests = env.MOBILE_PLATFORM == 'ios' || env.MOBILE_PLATFORM == 'both'
+                    def bothPlatforms = runAndroidTests && runIosTests
+                    // Both platforms in parallel: 1 spec worker each → same spec on Android+iOS (2 BS sessions).
+                    // Single platform: 2 spec workers → up to 2 BS sessions.
+                    def bsMaxInstances = bothPlatforms ? '1' : '2'
+                    echo "▶ BrowserStack maxInstances=${bsMaxInstances} per WDIO run (both platforms=${bothPlatforms})"
+
                     def branches = [:]
 
                     if (runAndroidTests) {
                         branches['Android'] = {
-                            sh '''
-                                echo "🤖 Running Android token validation on BrowserStack"
+                            sh """
+                                echo "🤖 Running Android token validation on BrowserStack (maxInstances=${bsMaxInstances})"
                                 MOBILE_PLATFORM=android MOBILE_STRICT_WIDGET_WAIT=true \
+                                BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
                                 ALLURE_RESULTS_DIR=allure-results-android \
                                 npx wdio run wdio/config/wdio.browserstack.conf.ts \
                                     --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
                                     || echo "⚠️  Android WDIO run completed with failures"
-                            '''
+                            """
                         }
                     }
                     if (runIosTests) {
                         branches['iOS'] = {
-                            sh '''
-                                echo "🍎 Running iOS token validation on BrowserStack"
+                            sh """
+                                echo "🍎 Running iOS token validation on BrowserStack (maxInstances=${bsMaxInstances})"
                                 MOBILE_PLATFORM=ios MOBILE_STRICT_WIDGET_WAIT=true \
+                                BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
                                 ALLURE_RESULTS_DIR=allure-results-ios \
                                 npx wdio run wdio/config/wdio.browserstack.conf.ts \
                                     --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
                                     || echo "⚠️  iOS WDIO run completed with failures"
-                            '''
+                            """
                         }
                     }
-                    parallel branches
+                    if (branches.size() == 1) {
+                        branches.values()[0].call()
+                    } else {
+                        parallel branches
+                    }
                 }
-                sh 'echo "✅ Android + iOS test runs completed"'
+                sh 'echo "✅ Mobile test runs completed"'
             }
         }
 

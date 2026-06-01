@@ -1,7 +1,12 @@
 import { AppiumHelpers } from '../helpers/appium.helpers';
 import fs from 'fs';
 import path from 'path';
-import { MOBILE_WIDGET_SELECTORS, getMobileSelectorForVariant } from './mobileWidgetConfig';
+import {
+  MOBILE_WIDGET_SELECTORS,
+  getMobileSelectorForVariant,
+  getWidgetPageReadySelector,
+  isHomePageWidget,
+} from './mobileWidgetConfig';
 import { getStudioWidgetNameForVariant } from '../utils/mobileWidgetVariantCsv';
 import { MobileSelectors } from './selectors/MobileSelectors';
 import { enterText, waitFor } from '../utils/Utils';
@@ -12,6 +17,7 @@ import { MobileMapper } from '../utils/mobileMapper';
 import { studioWidgetsPropertyAccess } from '../utils/studioWidgetAccess';
 import { formatResolvedValue, resolveStyleValue } from '../utils/styleObjectResolver';
 import { isBrowserStackEnv, shouldRelaxWidgetWait } from '../utils/envFlags';
+import { MobileSessionDeadError, MobileSessionGuard } from '../utils/mobileSessionGuard';
 
 // Align Browser type with global WebdriverIO.Browser used in specs/helpers
 // Fix TS error: BrowserAsync doesn't exist; use the main WebdriverIO Browser type which *does* include $()
@@ -34,10 +40,33 @@ const STYLE_COMMAND_INPUT_SELECTOR = MobileSelectors.inspector.styleCommandInput
 const STYLE_OUTPUT_LABEL_SELECTOR = MobileSelectors.inspector.styleOutputLabel;
 
 // Helper: returns correct style output label for widget type
-function getStyleOutputSelector(widget: string) {
-  if (widget === 'panel') return MobileSelectors.inspector.panelStyleOutputLabel;
+function getStyleOutputSelector(widget: string, platform?: 'android' | 'ios') {
+  if (widget === 'panel') {
+    return platform === 'ios'
+      ? MobileSelectors.inspector.panelStyleOutputLabelIos
+      : MobileSelectors.inspector.panelStyleOutputLabel;
+  }
+  if (widget === 'bottomsheet') {
+    return platform === 'ios'
+      ? MobileSelectors.inspector.bottomsheetStyleOutputLabelIos
+      : MobileSelectors.inspector.bottomsheetStyleOutputLabel;
+  }
   if (widget === 'label') return MobileSelectors.inspector.labelStyleOutputLabel;
-  if (widget === 'formcontrols') return MobileSelectors.inspector.formcontrolsStyleOutputLabel;
+  if (widget === 'formcontrols') {
+    return platform === 'ios'
+      ? MobileSelectors.inspector.formcontrolsStyleOutputLabelIos
+      : MobileSelectors.inspector.formcontrolsStyleOutputLabel;
+  }
+  if (widget === 'tile') {
+    return platform === 'ios'
+      ? MobileSelectors.inspector.tileStyleOutputLabelIos
+      : MobileSelectors.inspector.tileStyleOutputLabel;
+  }
+  if (widget === 'datetime') {
+    return platform === 'ios'
+      ? MobileSelectors.inspector.datetimeStyleOutputLabelIos
+      : MobileSelectors.inspector.datetimeStyleOutputLabel;
+  }
   return MobileSelectors.inspector.styleOutputLabel;
 }
 
@@ -49,7 +78,7 @@ function getStyleInputSelector(widget: string) {
 }
 
 // Helper: derive widget type from a studioWidgetName (label6, panel1, etc.) or from an RN command
-function getWidgetTypeFromStudioNameOrCommand(input: string): 'label' | 'panel' | 'bottomsheet' | 'modal-dialog' | 'formcontrols' | 'other' {
+function getWidgetTypeFromStudioNameOrCommand(input: string): 'label' | 'panel' | 'bottomsheet' | 'modal-dialog' | 'formcontrols' | 'tile' | 'datetime' | 'other' {
   const s = (input || '').toLowerCase();
   // RN command example: App.appConfig.currentPage.Widgets.panel1._INSTANCE.styles...
   // or studioWidgetName: panel1
@@ -58,11 +87,14 @@ function getWidgetTypeFromStudioNameOrCommand(input: string): 'label' | 'panel' 
   if (s.includes('widgets.bottomsheet') || s.startsWith('bottomsheet')) return 'bottomsheet';
   if (s.includes('widgets.dialog') || s.startsWith('dialog') || s.includes('widgets.modal') || s.startsWith('modal')) return 'modal-dialog';
   if (s.includes('widgets.formcontrols') || s.startsWith('formcontrols') || s.endsWith('_formlabel')) return 'formcontrols';
+  if (s.includes('widgets.tile') || s.startsWith('tile')) return 'tile';
+  if (s.includes('widgets.datetime') || s.startsWith('datetime')) return 'datetime';
   return 'other';
 }
 
 // Navigation selectors
 const HOME_HEADER_SELECTOR = MobileSelectors.common.homeHeader;
+const BACK_BUTTON_SELECTOR = MobileSelectors.common.backButton;
 const HAMBURGER_MENU_SELECTOR = MobileSelectors.common.hamburgerMenu;
 const BUTTON_NAV_ITEM_SELECTOR = MobileSelectors.navItems.button;
 const BUTTON_PAGE_HEADER_SELECTOR = MobileSelectors.headers.button;
@@ -218,60 +250,215 @@ export class MobileWidgetPage {
   }
 
   /**
-   * Navigates to widget screen.
-   *
-   * Placeholder implementation for button widget using generic selectors:
-   *  1) verify home header visible
-   *  2) tap hamburger menu
-   *  3) tap button nav item
-   *  4) verify button widget page header visible
+   * Platform-aware page-ready selector: explicit header overrides, else widget matrix sentinel.
    */
-  async navigateToWidget(browser: Browser, widgetName: string): Promise<void> {
-    console.log(`\n🧭 Navigating to widget: ${widgetName}`);
+  private getPageHeaderSelector(browser: Browser, widgetName: string): string {
+    const explicit = (MobileSelectors.headers as Record<string, string>)[widgetName];
+    if (explicit && explicit !== '~exinput_i') {
+      return explicit;
+    }
+    return getWidgetPageReadySelector(widgetName as Widget, this.getPlatform(browser));
+  }
 
-    // Wait for app to be ready
-    await this.appiumHelpers.waitForAppReady(browser);
+  private async isHomePageVisible(browser: Browser): Promise<boolean> {
+    return this.appiumHelpers.isElementDisplayed(browser, HOME_HEADER_SELECTOR);
+  }
 
-    const navSelector = (MobileSelectors.navItems as Record<string, string>)[widgetName];
-    const headerSelector = (MobileSelectors.headers as Record<string, string>)[widgetName];
+  private async isOnWidgetPage(browser: Browser, widgetName: string): Promise<boolean> {
+    if (isHomePageWidget(widgetName)) {
+      return this.isOnHomePageWidget(browser, widgetName);
+    }
+    const pageHeaderSelector = this.getPageHeaderSelector(browser, widgetName);
+    if (pageHeaderSelector === HOME_HEADER_SELECTOR) {
+      return false;
+    }
+    return this.appiumHelpers.isElementDisplayed(browser, pageHeaderSelector);
+  }
 
-    if (navSelector) {
-      // Step 1: verify home header is visible
+  /** Main-page widgets (e.g. tabbar): home screen + widget sentinel visible. */
+  private async isOnHomePageWidget(browser: Browser, widgetName: string): Promise<boolean> {
+    if (!(await this.isHomePageVisible(browser))) {
+      return false;
+    }
+    const widgetSelector = this.getPageHeaderSelector(browser, widgetName);
+    if (widgetSelector === HOME_HEADER_SELECTOR) {
+      return true;
+    }
+    return this.appiumHelpers.isElementDisplayed(browser, widgetSelector);
+  }
+
+  /**
+   * Main-page widgets (tabbar, navbar) live on the Main/home screen — verify there, never tap a nav link.
+   */
+  private async navigateToHomePageWidget(
+    browser: Browser,
+    widgetName: string,
+    options?: { fromRecovery?: boolean },
+  ): Promise<void> {
+    console.log(`   🏠 ${widgetName} is a home-page widget — verifying on Main (no nav link tap)`);
+
+    await this.ensureOnHomePage(browser);
+
+    if (await this.isHomePageVisible(browser)) {
+      console.log('   ✅ Home header is visible');
+    } else if (!options?.fromRecovery) {
       try {
         const homeHeader = await (browser as any).$(HOME_HEADER_SELECTOR);
         await homeHeader.waitForDisplayed({ timeout: 30000 });
         console.log('   ✅ Home header is visible');
       } catch {
-        console.warn('   ⚠️ Home header selector not found (placeholder selector in use)');
+        console.warn('   ⚠️ Home header not found on Main page');
       }
+    }
 
-      // Step 2: tap widget link on home page
+    const widgetSelector = this.getPageHeaderSelector(browser, widgetName);
+    if (widgetSelector !== HOME_HEADER_SELECTOR) {
       try {
-        const widgetLink = await (browser as any).$(navSelector);
-        await widgetLink.waitForDisplayed({ timeout: 30000 });
-        await widgetLink.click();
-        console.log(`   ✅ Tapped ${widgetName} link`);
+        const widgetEl = await (browser as any).$(widgetSelector);
+        await widgetEl.waitForDisplayed({ timeout: 30000 });
+        console.log(`   ✅ ${widgetName} visible on home page (${widgetSelector})`);
       } catch {
-        console.error(`${widgetName} link selector not found (placeholder selector in use)`);
+        console.warn(`   ⚠️ ${widgetName} not visible on home page: ${widgetSelector}`);
       }
+    }
 
-      // Step 3: verify header is visible on widget page (if configured)
-      if (headerSelector) {
-        try {
-          const pageHeader = await (browser as any).$(headerSelector);
-          await pageHeader.waitForDisplayed({ timeout: 30000 });
-          console.log(`   ✅ ${widgetName} widget page header is visible`);
-        } catch {
-          console.warn(`   ⚠️ ${widgetName} page header selector not found (placeholder selector in use)`);
-        }
-      }
+    console.log(`✓ Ready to verify ${widgetName} on home page`);
+  }
 
-      console.log(`✓ Navigated to widget: ${widgetName}`);
+  /**
+   * Returns to home before tapping a nav link (recovery often leaves us on a widget page).
+   */
+  private async ensureOnHomePage(browser: Browser): Promise<void> {
+    if (await this.isHomePageVisible(browser)) {
       return;
     }
 
-    console.warn(`   ⚠️ No home link selector configured for widget: ${widgetName}`);
-    console.log(`✓ Navigated to widget: ${widgetName}`);
+    const platform = this.getPlatform(browser);
+    const maxAttempts = 5;
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      if (await this.isHomePageVisible(browser)) {
+        console.log('   ✅ Returned to home page');
+        return;
+      }
+
+      try {
+        const backBtn = await (browser as any).$(BACK_BUTTON_SELECTOR);
+        if (await backBtn.isExisting() && await backBtn.isDisplayed()) {
+          await backBtn.click();
+          await waitFor(1000);
+          continue;
+        }
+      } catch {
+        // try platform back next
+      }
+
+      if (platform === 'android') {
+        try {
+          await (browser as any).back();
+          await waitFor(1000);
+        } catch {
+          break;
+        }
+      } else {
+        try {
+          await (browser as any).back();
+          await waitFor(1000);
+        } catch {
+          break;
+        }
+      }
+    }
+
+    if (!(await this.isHomePageVisible(browser))) {
+      console.warn('   ⚠️ Could not confirm home page after back navigation');
+    }
+  }
+
+  private async tapNavLink(browser: Browser, navSelector: string, widgetName: string): Promise<void> {
+    const visible = await this.appiumHelpers.swipeUntilElementVisible(browser, navSelector, {
+      maxSwipes: 10,
+      pauseMs: 700,
+    });
+    if (!visible) {
+      throw new Error(`${widgetName} nav link not visible after swiping: ${navSelector}`);
+    }
+    const widgetLink = await (browser as any).$(navSelector);
+    await widgetLink.waitForDisplayed({ timeout: 10000 });
+    await widgetLink.click();
+  }
+
+  /**
+   * Navigates to widget screen.
+   *
+   * Flow:
+   *  1) skip if already on target widget page
+   *  2) ensure home page (back navigation during recovery)
+   *  3) verify home header
+   *  4) swipe until nav link visible, then tap
+   *  5) verify widget-specific page-ready sentinel (not ~exinput_i)
+   */
+  async navigateToWidget(
+    browser: Browser,
+    widgetName: string,
+    options?: { fromRecovery?: boolean },
+  ): Promise<void> {
+    return MobileSessionGuard.run(browser, async () => {
+      console.log(`\n🧭 Navigating to widget: ${widgetName}`);
+
+      await this.appiumHelpers.waitForAppReady(browser);
+
+      if (isHomePageWidget(widgetName)) {
+        if (await this.isOnHomePageWidget(browser, widgetName)) {
+          console.log(`   ℹ️ Already on home with ${widgetName} — skipping navigation`);
+          return;
+        }
+        await this.navigateToHomePageWidget(browser, widgetName, options);
+        return;
+      }
+
+      const navSelector = (MobileSelectors.navItems as Record<string, string>)[widgetName];
+      if (!navSelector) {
+        console.warn(`   ⚠️ No home link selector configured for widget: ${widgetName}`);
+        console.log(`✓ Navigated to widget: ${widgetName}`);
+        return;
+      }
+
+      if (await this.isOnWidgetPage(browser, widgetName)) {
+        console.log(`   ℹ️ Already on ${widgetName} page — skipping navigation`);
+        return;
+      }
+
+      await this.ensureOnHomePage(browser);
+
+      if (await this.isHomePageVisible(browser)) {
+        console.log('   ✅ Home header is visible');
+      } else if (!options?.fromRecovery) {
+        try {
+          const homeHeader = await (browser as any).$(HOME_HEADER_SELECTOR);
+          await homeHeader.waitForDisplayed({ timeout: 30000 });
+          console.log('   ✅ Home header is visible');
+        } catch {
+          console.warn('   ⚠️ Home header not found — continuing to nav link');
+        }
+      } else {
+        console.log('   ℹ️ Recovery navigation — skipping long home header wait');
+      }
+
+      await this.tapNavLink(browser, navSelector, widgetName);
+      console.log(`   ✅ Tapped ${widgetName} link`);
+
+      const pageHeaderSelector = this.getPageHeaderSelector(browser, widgetName);
+      try {
+        const pageHeader = await (browser as any).$(pageHeaderSelector);
+        await pageHeader.waitForDisplayed({ timeout: 30000 });
+        console.log(`   ✅ ${widgetName} page ready (${pageHeaderSelector})`);
+      } catch {
+        console.warn(`   ⚠️ ${widgetName} page ready selector not found: ${pageHeaderSelector}`);
+      }
+
+      console.log(`✓ Navigated to widget: ${widgetName}`);
+    });
   }
 
 
@@ -539,7 +726,7 @@ export class MobileWidgetPage {
 
     const input = await (browser as any).$(STYLE_COMMAND_INPUT_SELECTOR);
     // Select correct output label for this widget type
-    const outputSelector = getStyleOutputSelector(widgetType);
+    const outputSelector = getStyleOutputSelector(widgetType, this.getPlatform(browser));
     console.log(`   🧭 [OutputLabel] widgetType='${widgetType}', studioWidgetName='${studioWidgetName}', selector='${outputSelector}'`);
     const output = await (browser as any).$(outputSelector);
 
@@ -548,9 +735,9 @@ export class MobileWidgetPage {
     await input.clearValue();
     await input.click();
     await input.setValue(command);
-    await (browser as any).keys('Enter');
+    await this.appiumHelpers.submitKeyboardAction(browser, 'style command');
 
-    // 2. Wait for the label to be populated with data
+    // 2. Wait for the output label after the keyboard action commits/dismisses.
     // A brief pause allows the RN bridge to update the UI label
     await waitFor(2000);
     await output.waitForDisplayed({ timeout: 15000 });
@@ -563,7 +750,7 @@ export class MobileWidgetPage {
     try {
       await input.click();
       await input.clearValue();
-      await (browser as any).keys('Enter');
+      await this.appiumHelpers.submitKeyboardAction(browser, 'style command cleanup');
       console.log('   🧹 Input field cleared.');
     } catch (err) {
       console.warn('   ⚠️ Cleanup failed, but data was already captured.');
@@ -639,6 +826,7 @@ export class MobileWidgetPage {
     variantName: string,
     platform?: 'android' | 'ios',
   ): Promise<{ styles: unknown; fullCommand: string }> {
+    MobileSessionGuard.assertAlive(browser);
     const resolvedPlatform = platform ?? this.getPlatform(browser);
     const cacheKey = MobileWidgetPage.buildStylesCacheKey(
       widget,
@@ -684,6 +872,9 @@ export class MobileWidgetPage {
           await waitFor(1000);
         }
       } catch (err: unknown) {
+        if (err instanceof MobileSessionDeadError) {
+          throw err;
+        }
         const message = err instanceof Error ? err.message : String(err);
         if (i === maxRetries - 1) throw err;
         console.log(`   🔄 Styles fetch failed, recovering UI (${message})...`);
@@ -770,38 +961,36 @@ export class MobileWidgetPage {
    * Helper to execute arbitrary RN command via the input/output UI
    */
   async executeRnCommand(browser: Browser, command: string): Promise<string> {
-    const widgetType = getWidgetTypeFromStudioNameOrCommand(command);
-    const inputSelector = getStyleInputSelector(widgetType);
-    const outputSelector = getStyleOutputSelector(widgetType);
+    return MobileSessionGuard.run(browser, async () => {
+      const widgetType = getWidgetTypeFromStudioNameOrCommand(command);
+      const inputSelector = getStyleInputSelector(widgetType);
+      const outputSelector = getStyleOutputSelector(widgetType, this.getPlatform(browser));
 
-    const input = await (browser as any).$(inputSelector);
-    console.log(`   🧭 [Input/Output] widgetType='${widgetType}', command='${command}', inputSelector='${inputSelector}', outputSelector='${outputSelector}'`);
-    const output = await (browser as any).$(outputSelector);
+      const input = await (browser as any).$(inputSelector);
+      console.log(`   🧭 [Input/Output] widgetType='${widgetType}', command='${command}', inputSelector='${inputSelector}', outputSelector='${outputSelector}'`);
+      const output = await (browser as any).$(outputSelector);
 
-    await input.waitForDisplayed({ timeout: 30000 });
+      await input.waitForDisplayed({ timeout: 30000 });
 
-    // Clear and set value with better focus logic
-    await input.click();
-    await input.setValue('');
-    await input.setValue(command);
-
-    // Submit via Enter
-    await (browser as any).keys('Enter');
-
-    // Wait for output to be non-empty or change
-    await waitFor(1500);
-    await output.waitForDisplayed({ timeout: 15000 });
-
-    const result = await output.getText().catch(() => '');
-
-    // Cleanup: Clear input so it doesn't affect next command if UI persists
-    try {
       await input.click();
       await input.setValue('');
-      await (browser as any).keys('Enter');
-    } catch { }
+      await input.setValue(command);
 
-    return result;
+      await this.appiumHelpers.submitKeyboardAction(browser, 'RN style command');
+
+      await waitFor(1500);
+      await output.waitForDisplayed({ timeout: 15000 });
+
+      const result = await output.getText().catch(() => '');
+
+      try {
+        await input.click();
+        await input.setValue('');
+        await this.appiumHelpers.submitKeyboardAction(browser, 'RN style command cleanup');
+      } catch { }
+
+      return result;
+    });
   }
 
 
@@ -811,13 +1000,19 @@ export class MobileWidgetPage {
    */
   /** Lighter recovery for style-fetch retries (navigate only on cloud). */
   private async recoverWidgetContext(browser: Browser, widget: string): Promise<void> {
+    if (MobileSessionGuard.isDead(browser)) {
+      throw new MobileSessionDeadError();
+    }
     if (isBrowserStackEnv()) {
       try {
-        await this.navigateToWidget(browser, widget);
+        await this.navigateToWidget(browser, widget, { fromRecovery: true });
         await this.waitForWidget(browser, widget);
         MobileWidgetPage.clearStylesObjectCache();
         return;
-      } catch {
+      } catch (err: unknown) {
+        if (err instanceof MobileSessionDeadError) {
+          throw err;
+        }
         // fall through to full recovery
       }
     }

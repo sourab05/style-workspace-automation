@@ -189,8 +189,8 @@ export const config: Options.Testrunner = {
   capabilities: filteredCapabilities,
 
   // Each spec file manages its own BrowserStack sessions (standalone remote()).
-  // When Android + iOS run as parallel Jenkins branches, total sessions = maxInstances × 2.
-  // Default to 2 per branch (4 total) to stay within typical BrowserStack plan limits.
+  // Jenkins: both platforms → parallel branches with maxInstances=1 each (same spec on Android+iOS, 2 BS slots).
+  // Single platform → maxInstances=2 (two spec files in parallel).
   maxInstances: process.env.RUN_LOCAL === 'true'
     ? 1
     : parseInt(process.env.BROWSERSTACK_MAX_INSTANCES || '2', 10),
