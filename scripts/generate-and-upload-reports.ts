@@ -52,10 +52,34 @@ function main() {
         }
     }
 
-    // Allure: generate from allure-results if exists, then upload
+    // Allure: generate from platform result dirs if present, then upload
     const allureResults = path.join(ROOT, "allure-results");
+    const allureResultsAndroid = path.join(ROOT, "allure-results-android");
+    const allureResultsIos = path.join(ROOT, "allure-results-ios");
     const allureReport = path.join(ROOT, "allure-report");
-    if (fs.existsSync(allureResults)) {
+    const hasAndroidResults =
+        fs.existsSync(allureResultsAndroid) &&
+        fs.readdirSync(allureResultsAndroid).length > 0;
+    const hasIosResults =
+        fs.existsSync(allureResultsIos) &&
+        fs.readdirSync(allureResultsIos).length > 0;
+
+    if (hasAndroidResults && hasIosResults) {
+        run(
+            "allure generate --clean allure-results-android allure-results-ios -o allure-report",
+            "Generate combined Allure report (android + ios)",
+        );
+    } else if (hasAndroidResults) {
+        run(
+            "allure generate --clean allure-results-android -o allure-report",
+            "Generate Allure report (android)",
+        );
+    } else if (hasIosResults) {
+        run(
+            "allure generate --clean allure-results-ios -o allure-report",
+            "Generate Allure report (ios)",
+        );
+    } else if (fs.existsSync(allureResults)) {
         run("allure generate --clean allure-results -o allure-report", "Generate Allure report");
     }
     if (fs.existsSync(allureReport)) {

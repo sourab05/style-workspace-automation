@@ -535,10 +535,36 @@ pipeline {
             when { expression { env.RUN_MOBILE == 'true' } }
             steps {
                 sh '''
+                    set -e
+                    has_android=false
+                    has_ios=false
+                    if [ -d allure-results-android ] && [ "$(ls -A allure-results-android 2>/dev/null)" ]; then
+                      has_android=true
+                    fi
+                    if [ -d allure-results-ios ] && [ "$(ls -A allure-results-ios 2>/dev/null)" ]; then
+                      has_ios=true
+                    fi
+
                     mkdir -p allure-results
-                    cp -r allure-results-android/* allure-results/ 2>/dev/null || true
-                    cp -r allure-results-ios/* allure-results/ 2>/dev/null || true
-                    npx allure generate --clean allure-results -o allure-report || echo "allure generate skipped (using Jenkins Allure plugin instead)"
+                    if [ "$has_android" = true ] && [ "$has_ios" = true ]; then
+                      echo "📊 Generating combined Allure report (android + ios result dirs)"
+                      cp -r allure-results-android/* allure-results/ 2>/dev/null || true
+                      cp -r allure-results-ios/* allure-results/ 2>/dev/null || true
+                      npx allure generate --clean allure-results-android allure-results-ios -o allure-report \
+                        || npx allure generate --clean allure-results -o allure-report \
+                        || echo "allure generate skipped (using Jenkins Allure plugin instead)"
+                    elif [ "$has_android" = true ]; then
+                      cp -r allure-results-android/* allure-results/ 2>/dev/null || true
+                      npx allure generate --clean allure-results-android -o allure-report \
+                        || echo "allure generate skipped (using Jenkins Allure plugin instead)"
+                    elif [ "$has_ios" = true ]; then
+                      cp -r allure-results-ios/* allure-results/ 2>/dev/null || true
+                      npx allure generate --clean allure-results-ios -o allure-report \
+                        || echo "allure generate skipped (using Jenkins Allure plugin instead)"
+                    else
+                      npx allure generate --clean allure-results -o allure-report \
+                        || echo "allure generate skipped (using Jenkins Allure plugin instead)"
+                    fi
                 '''
             }
             post {
