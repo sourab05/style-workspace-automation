@@ -14,8 +14,7 @@ const reportDir = path.resolve(
   process.cwd(),
   process.env.ALLURE_REPORT_DIR || process.env.ALLURE_REPORT_PATH || "allure-report"
 );
-const platform = process.env.PLATFORM || process.env.S3_REPORT_PLATFORM || "android";
-const defaultPrefix = buildS3ReportPath({ platform });
+const defaultPrefix = buildS3ReportPath({ kind: "mobile" });
 // Full S3 prefix override (e.g. react_native/releases/WM-AI-Beta-2/Style Workspace)
 const s3Prefix = (
   process.env.S3_REPORT_PREFIX ||

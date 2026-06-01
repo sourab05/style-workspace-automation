@@ -172,6 +172,21 @@ export class MobileWidgetPage {
     return `${platform}::${widget}::${studioWidgetName}`;
   }
 
+  /** Platform-scoped disk path so parallel Android/iOS Jenkins jobs do not cross-contaminate. */
+  static getStylesDiskPath(
+    widget: Widget,
+    studioWidgetName: string,
+    platform: 'android' | 'ios',
+  ): string {
+    return path.join(
+      process.cwd(),
+      'artifacts',
+      'mobile-styles',
+      widget,
+      `${studioWidgetName}.${platform}.styles.json`,
+    );
+  }
+
   static hasStylesCache(
     widget: Widget,
     variantName: string,
@@ -186,7 +201,7 @@ export class MobileWidgetPage {
       platform,
     );
     if (MobileWidgetPage.stylesObjectCache.has(cacheKey)) return true;
-    const diskPath = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget, `${studioWidgetName}.styles.json`);
+    const diskPath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, platform);
     return fs.existsSync(diskPath);
   }
 
@@ -251,10 +266,14 @@ export class MobileWidgetPage {
 
   /**
    * Platform-aware page-ready selector: explicit header overrides, else widget matrix sentinel.
+   * ~exinput_i is the Main style console — only a valid page-ready for tabbar/navbar on home.
    */
   private getPageHeaderSelector(browser: Browser, widgetName: string): string {
     const explicit = (MobileSelectors.headers as Record<string, string>)[widgetName];
-    if (explicit && explicit !== '~exinput_i') {
+    if (explicit) {
+      if (explicit === STYLE_COMMAND_INPUT_SELECTOR && !isHomePageWidget(widgetName)) {
+        return getWidgetPageReadySelector(widgetName as Widget, this.getPlatform(browser));
+      }
       return explicit;
     }
     return getWidgetPageReadySelector(widgetName as Widget, this.getPlatform(browser));
@@ -269,22 +288,28 @@ export class MobileWidgetPage {
       return this.isOnHomePageWidget(browser, widgetName);
     }
     const pageHeaderSelector = this.getPageHeaderSelector(browser, widgetName);
-    if (pageHeaderSelector === HOME_HEADER_SELECTOR) {
-      return false;
-    }
     return this.appiumHelpers.isElementDisplayed(browser, pageHeaderSelector);
   }
 
-  /** Main-page widgets (e.g. tabbar): home screen + widget sentinel visible. */
+  /** tabbar / navbar only — home screen + widget sentinel visible (no nav link tap). */
   private async isOnHomePageWidget(browser: Browser, widgetName: string): Promise<boolean> {
+    if (!isHomePageWidget(widgetName)) {
+      return false;
+    }
     if (!(await this.isHomePageVisible(browser))) {
       return false;
     }
     const widgetSelector = this.getPageHeaderSelector(browser, widgetName);
-    if (widgetSelector === HOME_HEADER_SELECTOR) {
-      return true;
+    if (widgetName === 'navbar') {
+      return (
+        widgetSelector === HOME_HEADER_SELECTOR ||
+        await this.appiumHelpers.isElementDisplayed(browser, widgetSelector)
+      );
     }
-    return this.appiumHelpers.isElementDisplayed(browser, widgetSelector);
+    if (widgetName === 'tabbar') {
+      return this.appiumHelpers.isElementDisplayed(browser, widgetSelector);
+    }
+    return false;
   }
 
   /**
@@ -376,9 +401,10 @@ export class MobileWidgetPage {
   }
 
   private async tapNavLink(browser: Browser, navSelector: string, widgetName: string): Promise<void> {
+    const platform = this.getPlatform(browser);
     const visible = await this.appiumHelpers.swipeUntilElementVisible(browser, navSelector, {
-      maxSwipes: 10,
-      pauseMs: 700,
+      maxSwipes: platform === 'ios' ? 20 : 10,
+      pauseMs: platform === 'ios' ? 900 : 700,
     });
     if (!visible) {
       throw new Error(`${widgetName} nav link not visible after swiping: ${navSelector}`);
@@ -396,7 +422,7 @@ export class MobileWidgetPage {
    *  2) ensure home page (back navigation during recovery)
    *  3) verify home header
    *  4) swipe until nav link visible, then tap
-   *  5) verify widget-specific page-ready sentinel (not ~exinput_i)
+   *  5) verify widget-specific page-ready sentinel
    */
   async navigateToWidget(
     browser: Browser,
@@ -798,7 +824,8 @@ export class MobileWidgetPage {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    const filePath = path.join(dir, `${studioWidgetName}.styles.json`);
+    const platform = this.getPlatform(browser);
+    const filePath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, platform);
     fs.writeFileSync(filePath, JSON.stringify(styles, null, 2), 'utf-8');
 
     console.log(`   💾 Saved styles JSON for ${studioWidgetName} to ${filePath}`);
@@ -839,8 +866,8 @@ export class MobileWidgetPage {
       return cached;
     }
 
-    // Try loading from disk cache before hitting BrowserStack
-    const diskPath = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget, `${studioWidgetName}.styles.json`);
+    // Try loading from disk cache before hitting BrowserStack (platform-scoped only).
+    const diskPath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, resolvedPlatform);
     if (fs.existsSync(diskPath)) {
       try {
         const diskData = JSON.parse(fs.readFileSync(diskPath, 'utf-8'));
@@ -900,7 +927,7 @@ export class MobileWidgetPage {
       try {
         const dir = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget);
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        const filePath = path.join(dir, `${studioWidgetName}.styles.json`);
+        const filePath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, resolvedPlatform);
         fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
         console.log(`   💾 Saved full styles object to ${filePath}`);
       } catch (err: unknown) {

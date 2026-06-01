@@ -108,7 +108,7 @@ export const MobileSelectors = {
         container: '~mobile_navbar1_title',
         tile: '~exinput_i',
         'button-group': '~button1_caption',
-        anchor: '~exinput_i',
+        anchor: '~anchor1_caption',
         webview: '~exinput_i',
         spinner: '~exinput_i',
         search: '~exinput_i',

@@ -173,6 +173,44 @@ export class AppiumHelpers {
   }
 
   /**
+   * iOS scroll helper — uses mobile:scroll + predicate before manual swipes.
+   */
+  private async iosScrollToAccessibilityId(
+    browser: WebdriverIO.Browser,
+    accessibilityId: string,
+  ): Promise<boolean> {
+    const selector = `~${accessibilityId}`;
+    if (await this.isElementDisplayed(browser, selector)) {
+      return true;
+    }
+
+    try {
+      for (let i = 0; i < 18; i++) {
+        await browser.execute('mobile: scroll', { direction: 'down' });
+        await browser.pause(450);
+        if (await this.isElementDisplayed(browser, selector)) {
+          return true;
+        }
+      }
+    } catch {
+      // Fall through to manual swipes in swipeUntilElementVisible.
+    }
+
+    try {
+      const pred = `-ios predicate string:name == "${accessibilityId}"`;
+      const element = await browser.$(pred);
+      if (await element.isExisting()) {
+        await element.scrollIntoView();
+        return await this.isElementDisplayed(browser, selector);
+      }
+    } catch {
+      // ignore
+    }
+
+    return false;
+  }
+
+  /**
    * Swipes until an element becomes visible (or max swipes exhausted).
    * Tries swipe-up first (scroll down), then swipe-down to recover overscroll.
    */
@@ -201,6 +239,14 @@ export class AppiumHelpers {
       const scrolled = await this.androidScrollToAccessibilityId(browser, accessibilityId);
       if (scrolled || await this.isElementDisplayed(browser, selector)) {
         console.log(`✓ Nav link visible after UiScrollable: ~${accessibilityId}`);
+        return true;
+      }
+    }
+
+    if (platform === 'ios' && accessibilityId) {
+      const scrolled = await this.iosScrollToAccessibilityId(browser, accessibilityId);
+      if (scrolled || await this.isElementDisplayed(browser, selector)) {
+        console.log(`✓ Nav link visible after iOS scroll: ~${accessibilityId}`);
         return true;
       }
     }

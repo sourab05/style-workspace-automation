@@ -10,6 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import '../src/utils/bootstrap-env';
 import { BrowserStackService, BrowserStackAppUploadResponse } from '../wdio/services/browserstack.service';
+import { validateMobileAppArtifact } from '../wdio/utils/validateMobileAppArtifact';
 
 type Platform = 'android' | 'ios';
 
@@ -39,15 +40,14 @@ async function resolveBsApp(
   bsService: BrowserStackService,
 ): Promise<{ bsUrl: string; local: string; meta?: BrowserStackAppUploadResponse } | null> {
   if (!localPath) return null;
-  if (!fs.existsSync(localPath)) {
-    throw new Error(`${label}: file not found at ${localPath}`);
-  }
 
   if (isTruthy('JENKINS_DRY_RUN')) {
     const fakeUrl = `bs://dry-run-${platform}-${path.basename(localPath)}`;
-    console.log(`🧪 ${label}: DRY_RUN — skipping BrowserStack upload (${localPath})`);
+    console.log(`🧪 ${label}: DRY_RUN — skipping validation/upload (${localPath})`);
     return { bsUrl: fakeUrl, local: localPath };
   }
+
+  validateMobileAppArtifact(platform, localPath, label);
 
   console.log(`☁️  ${label}: uploading ${localPath} to BrowserStack...`);
   const upload = await bsService.uploadAppWithMeta(platform, localPath);

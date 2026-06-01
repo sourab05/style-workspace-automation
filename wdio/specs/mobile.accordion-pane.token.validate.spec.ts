@@ -8,6 +8,7 @@ import { MobileVerificationHelper } from '../helpers/mobileVerification.helper';
 import { loadMobileTestData } from '../utils/mobileTestData';
 import { isLocalEnv, skipBaselineScreenshot } from '../utils/envFlags';
 import { baselineScreenshotIt } from '../utils/mobileSpecGating';
+import { warmupMobileTokenSession } from '../utils/mobileSessionWarmup';
 import { createAndroidSession, createIOSSession } from '../utils/sessionFactory';
 import type { Widget } from '../../src/matrix/widgets';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
@@ -275,11 +276,11 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
         it(`Android: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
         if (!androidBrowser) {
-          androidBrowser = await createAndroid(`Android Token Tests - ${widgetKey}`, 'actual');
-          const widgetPageWarmup = new MobileWidgetPage();
-          await widgetPageWarmup.navigateToWidget(androidBrowser, widgetKey);
-          await widgetPageWarmup.waitForWidget(androidBrowser, widgetKey);
-          await widgetPageWarmup.warmStylesCache(androidBrowser, widgetKey, variantName);
+          androidBrowser = await warmupMobileTokenSession(
+            () => createAndroid(`Android Token Tests - ${widgetKey}`, 'actual'),
+            widgetKey,
+            variantName,
+          );
         }
 
         const browser = androidBrowser!;
@@ -351,11 +352,11 @@ describe('Mobile Token Validation - Accordion Pane Widget', function () {
         it(`iOS: validate ${tokenRef} @ ${variantName} [${propertyPath.join('.')}]`, async function () {
 
         if (!iosBrowser) {
-          iosBrowser = await createIOS(`iOS Token Tests - ${widgetKey}`, 'actual');
-          const widgetPageWarmup = new MobileWidgetPage();
-          await widgetPageWarmup.navigateToWidget(iosBrowser, widgetKey);
-          await widgetPageWarmup.waitForWidget(iosBrowser, widgetKey);
-            await widgetPageWarmup.warmStylesCache(iosBrowser, widgetKey, variantName);
+          iosBrowser = await warmupMobileTokenSession(
+            () => createIOS(`iOS Token Tests - ${widgetKey}`, 'actual'),
+            widgetKey,
+            variantName,
+          );
         }
 
         const browser = iosBrowser!;

@@ -12,6 +12,7 @@ import { RnProjectManager } from '../../src/api/rnProjectManager';
 import { WaveMakerCLI } from '../../src/cli/wavemakerCli';
 import { AppChefClient } from '../../src/api/appChefClient';
 import { isLocalEnv } from '../utils/envFlags';
+import { validateMobileAppArtifact } from '../utils/validateMobileAppArtifact';
 import { WIDGET_CONFIG } from '../../src/matrix/widgets';
 import { getPropertyPathsForType } from '../utils/mobileTokenDistributor';
 // Utility to ensure a build output directory is clean before each run
@@ -1048,6 +1049,7 @@ export default async function mobileGlobalSetup() {
 
         if (baselineApkPath) {
           try {
+            validateMobileAppArtifact('android', baselineApkPath, 'Baseline Android');
             const upload = await bsService.uploadAppWithMeta('android', baselineApkPath);
             baselineBrowserStack.android = upload.app_url;
             baselineMeta.android = upload;
@@ -1058,6 +1060,7 @@ export default async function mobileGlobalSetup() {
 
         if (baselineIpaPath) {
           try {
+            validateMobileAppArtifact('ios', baselineIpaPath, 'Baseline iOS');
             const upload = await bsService.uploadAppWithMeta('ios', baselineIpaPath);
             baselineBrowserStack.ios = upload.app_url;
             baselineMeta.ios = upload;
@@ -1244,6 +1247,7 @@ export default async function mobileGlobalSetup() {
 
       if (actualApkPath) {
         try {
+          validateMobileAppArtifact('android', actualApkPath, 'Actual Android');
           const upload = await bsService.uploadAppWithMeta('android', actualApkPath);
           actualBrowserStack.android = upload.app_url;
           actualMeta.android = upload;
@@ -1254,6 +1258,7 @@ export default async function mobileGlobalSetup() {
 
       if (actualIpaPath) {
         try {
+          validateMobileAppArtifact('ios', actualIpaPath, 'Actual iOS');
           const upload = await bsService.uploadAppWithMeta('ios', actualIpaPath);
           actualBrowserStack.ios = upload.app_url;
           actualMeta.ios = upload;

@@ -14,8 +14,7 @@ const playwrightReportDir = path.join(process.cwd(), "playwright-report");
 const reportsDir = path.join(process.cwd(), "reports");
 // Prefer reports/ (custom single-file report) over playwright-report/ (thousands of artifacts) for faster uploads
 const reportDir = fs.existsSync(reportsDir) ? reportsDir : playwrightReportDir;
-const platform = process.env.SLOT_VERIFY_TARGET || process.env.VERIFY_TARGET || process.env.S3_REPORT_PLATFORM || "both";
-const defaultPrefix = buildS3ReportPath({ platform });
+const defaultPrefix = buildS3ReportPath({ kind: "web" });
 const s3Prefix = process.env.S3_PATH_PREFIX || defaultPrefix;
 
 if (!bucketName) {

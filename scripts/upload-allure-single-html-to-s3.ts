@@ -21,8 +21,7 @@ const htmlPath = path.resolve(
   process.env.ALLURE_SINGLE_HTML_PATH || "reports/allure-single/index.html"
 );
 const s3FileName = process.env.ALLURE_S3_HTML_NAME || "index.html";
-const platform = process.env.PLATFORM || process.env.S3_REPORT_PLATFORM || "android";
-const defaultPrefix = buildS3ReportPath({ platform });
+const defaultPrefix = buildS3ReportPath({ kind: "mobile" });
 const s3Prefix = (
   process.env.S3_REPORT_PREFIX ||
   process.env.S3_PATH_PREFIX ||
