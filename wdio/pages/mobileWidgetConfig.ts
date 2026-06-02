@@ -66,6 +66,7 @@ const DEFAULT_VARIANT_FOR_WIDGET: Partial<Record<Widget, string>> = {
   select: 'select-standard-standard-default',
   camera: 'camera-standard-standard-default',
   datetime: 'datetime-standard-standard-default',
+  video: 'video-standard-standard-default',
 };
 
 function resolveWidgetSelector(widget: Widget, platform: 'android' | 'ios'): string {
@@ -287,6 +288,10 @@ export const MOBILE_WIDGET_SELECTORS: Partial<Record<Widget, { android: string; 
   datetime: {
     android: resolveWidgetSelector('datetime', 'android'),
     ios: resolveWidgetSelector('datetime', 'ios'),
+  },
+  video: {
+    android: resolveWidgetSelector('video', 'android'),
+    ios: resolveWidgetSelector('video', 'ios'),
   },
 };
 
