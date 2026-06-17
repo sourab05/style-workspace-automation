@@ -35,6 +35,14 @@ export interface StyleVerificationResult {
   skipped?: boolean;
 }
 
+type StylesCacheEntry = {
+  styles: unknown;
+  fullCommand: string;
+  /** Tabs only: body styles from _INSTANCE.styles (background, border, min). */
+  tabsRootStyles?: unknown;
+  tabsRootCommand?: string;
+};
+
 // Selectors for the RN style command input and output label.
 const STYLE_COMMAND_INPUT_SELECTOR = MobileSelectors.inspector.styleCommandInput;
 const STYLE_OUTPUT_LABEL_SELECTOR = MobileSelectors.inspector.styleOutputLabel;
@@ -152,7 +160,7 @@ export class MobileWidgetPage {
   private static dumpedStyleInstances: Set<string> = new Set();
 
   // One full styles fetch per widget instance; token checks resolve paths locally
-  private static stylesObjectCache = new Map<string, { styles: unknown; fullCommand: string }>();
+  private static stylesObjectCache = new Map<string, StylesCacheEntry>();
 
   static clearStylesObjectCache(): void {
     MobileWidgetPage.stylesObjectCache.clear();
@@ -222,7 +230,76 @@ export class MobileWidgetPage {
     if (MobileWidgetPage.hasStylesCache(widget, variantName, platform)) {
       return;
     }
+    if (widget === 'datetime') {
+      // Datetime styles auto-populate in ~label2_caption after the picker is opened
+      // and dismissed — no style command via ~exinput_i is needed.
+      await this.warmDatetimeStylesFromPicker(browser, widget, studioWidgetName, variantName, platform);
+      return;
+    }
     await this.getCachedStylesObject(browser, widget, studioWidgetName, variantName, platform);
+  }
+
+  /**
+   * Datetime-specific style warm-up.
+   *
+   * Tapping the datetime widget opens the picker modal; the WaveMaker test app
+   * automatically writes the picker's styles JSON into ~label2_caption at that
+   * point. We then dismiss the picker (tap in the dim overlay above the sheet)
+   * so the label is no longer obscured, read the JSON, and cache it — exactly
+   * as if getCachedStylesObject had fetched it via a style command.
+   *
+   * No style command via ~exinput_i is needed.
+   */
+  private async warmDatetimeStylesFromPicker(
+    browser: Browser,
+    widget: Widget,
+    studioWidgetName: string,
+    variantName: string,
+    platform: 'android' | 'ios',
+  ): Promise<void> {
+    const datetimeSelector = MobileSelectors.headers.datetime; // ~datetime1_l
+    const outputSelector = getStyleOutputSelector('datetime', platform);
+
+    console.log(`   📅 [datetime] Tapping picker to auto-populate ~label2_caption…`);
+    try {
+      // 1. Open the picker
+      const datetimeEl = await (browser as any).$(datetimeSelector);
+      await datetimeEl.waitForDisplayed({ timeout: 10000 });
+      await datetimeEl.click();
+      await waitFor(1000);
+
+      // 2. Dismiss by tapping in the dim overlay (top 10 % of screen)
+      const { height } = await (browser as any).getWindowSize();
+      const tapY = Math.max(80, Math.floor(height * 0.1));
+      await (browser as any).touchAction([{ action: 'tap', x: 200, y: tapY }]);
+      await waitFor(800);
+
+      // 3. Read the styles that were auto-written to ~label2_caption
+      const output = await (browser as any).$(outputSelector);
+      await output.waitForDisplayed({ timeout: 10000 });
+      const rawJson = await output.getText().catch(() => '');
+
+      if (!rawJson || rawJson.trim() === '' || rawJson === '{}') {
+        console.warn(`   ⚠️ [datetime] ~label2_caption was empty after picker dismiss`);
+        return;
+      }
+
+      // 4. Parse and store in the in-memory + disk cache
+      const styles = JSON.parse(rawJson);
+      const cacheKey = MobileWidgetPage.buildStylesCacheKey(widget, studioWidgetName, variantName, platform);
+      const entry = { styles, fullCommand: '[datetime-picker-auto]' };
+      MobileWidgetPage.stylesObjectCache.set(cacheKey, entry);
+
+      const diskPath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, platform);
+      const dir = path.dirname(diskPath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(diskPath, JSON.stringify(styles, null, 2), 'utf-8');
+
+      console.log(`   ✅ [datetime] Styles cached from picker auto-populate (${Object.keys(styles).length} namespaces)`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`   ⚠️ [datetime] warmDatetimeStylesFromPicker failed (continuing): ${msg}`);
+    }
   }
 
   constructor() {
@@ -744,7 +821,7 @@ export class MobileWidgetPage {
     const widgetType = getWidgetTypeFromStudioNameOrCommand(studioWidgetName);
     let command: string;
     if (widgetType === 'formcontrols') {
-      command = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey.calcStyles`;
+      command = `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey._INSTANCE.styles`;
     } else {
       command = `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
     }
@@ -838,9 +915,69 @@ export class MobileWidgetPage {
       return 'App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.calcStyles';
     }
     if (widget === 'formcontrols') {
-      return `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.calcStyles`;
+      return `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}._INSTANCE.styles`;
+    }
+    if (widget === 'tabs') {
+      return MobileMapper.getTabsHeaderStylesCommand(studioWidgetName);
     }
     return `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
+  }
+
+  private parseStylesJson(rawResult: string, studioWidgetName: string): unknown {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(rawResult);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && '__trace' in parsed) {
+        delete (parsed as Record<string, unknown>).__trace;
+      }
+    } catch {
+      throw new Error(`Invalid styles JSON for ${studioWidgetName}: ${rawResult.substring(0, 100)}...`);
+    }
+    return parsed;
+  }
+
+  private loadTabsStylesFromDisk(diskData: unknown): StylesCacheEntry | null {
+    if (!diskData || typeof diskData !== 'object' || Array.isArray(diskData)) return null;
+    const record = diskData as Record<string, unknown>;
+    if (record.header && record.tabsRoot) {
+      return {
+        styles: record.header,
+        tabsRootStyles: record.tabsRoot,
+        fullCommand: '[loaded from disk: tabs header]',
+        tabsRootCommand: '[loaded from disk: tabs root]',
+      };
+    }
+    return null;
+  }
+
+  private saveTabsStylesToDisk(
+    widget: Widget,
+    studioWidgetName: string,
+    platform: 'android' | 'ios',
+    headerStyles: unknown,
+    rootStyles: unknown,
+  ): void {
+    const filePath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, platform);
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify({ header: headerStyles, tabsRoot: rootStyles }, null, 2),
+      'utf-8',
+    );
+    console.log(`   💾 Saved tabs header + root styles to ${filePath}`);
+  }
+
+  private resolveTabsStylesLookup(
+    entry: StylesCacheEntry,
+    propertyPath: string[],
+  ): { stylesLookup: unknown; commandBase: string } {
+    const usesRoot = MobileMapper.usesTabsRootStyles(propertyPath);
+    if (usesRoot && entry.tabsRootStyles) {
+      return {
+        stylesLookup: entry.tabsRootStyles,
+        commandBase: entry.tabsRootCommand || entry.fullCommand,
+      };
+    }
+    return { stylesLookup: entry.styles, commandBase: entry.fullCommand };
   }
 
   /**
@@ -852,7 +989,7 @@ export class MobileWidgetPage {
     studioWidgetName: string,
     variantName: string,
     platform?: 'android' | 'ios',
-  ): Promise<{ styles: unknown; fullCommand: string }> {
+  ): Promise<StylesCacheEntry> {
     MobileSessionGuard.assertAlive(browser);
     const resolvedPlatform = platform ?? this.getPlatform(browser);
     const cacheKey = MobileWidgetPage.buildStylesCacheKey(
@@ -871,55 +1008,78 @@ export class MobileWidgetPage {
     if (fs.existsSync(diskPath)) {
       try {
         const diskData = JSON.parse(fs.readFileSync(diskPath, 'utf-8'));
-        const diskEntry = { styles: diskData, fullCommand: `[loaded from disk: ${diskPath}]` };
-        MobileWidgetPage.stylesObjectCache.set(cacheKey, diskEntry);
-        console.log(`   💾 Loaded styles from disk cache: ${diskPath}`);
-        return diskEntry;
+        if (widget === 'tabs') {
+          const tabsDiskEntry = this.loadTabsStylesFromDisk(diskData);
+          if (tabsDiskEntry) {
+            MobileWidgetPage.stylesObjectCache.set(cacheKey, tabsDiskEntry);
+            console.log(`   💾 Loaded tabs header + root styles from disk: ${diskPath}`);
+            return tabsDiskEntry;
+          }
+          console.warn(
+            `   ⚠️ Stale tabs disk cache (expected {header,tabsRoot}) — refetching from device: ${diskPath}`,
+          );
+        } else {
+          const diskEntry = { styles: diskData, fullCommand: `[loaded from disk: ${diskPath}]` };
+          MobileWidgetPage.stylesObjectCache.set(cacheKey, diskEntry);
+          console.log(`   💾 Loaded styles from disk cache: ${diskPath}`);
+          return diskEntry;
+        }
       } catch (err) {
         console.warn(`   ⚠️ Failed to load disk cache ${diskPath}, fetching from device...`);
       }
     }
 
-    const fullCommand = this.buildFullStylesCommand(widget, studioWidgetName, variantName);
-    console.log(
-      `   📦 Fetching full styles object once (${resolvedPlatform}): ${fullCommand}`,
-    );
-
-    const maxRetries = 3;
-    let rawResult = '{}';
-    for (let i = 0; i < maxRetries; i++) {
-      try {
-        rawResult = await this.executeRnCommand(browser, fullCommand);
-        if (!this.isEmptyObject(rawResult) && rawResult !== 'undefined' && rawResult !== '') {
-          break;
-        }
-        if (i < maxRetries - 1) {
-          console.log(`   🔄 Empty styles object, recovering UI (${i + 1}/${maxRetries})...`);
+    const fetchWithRetry = async (command: string): Promise<string> => {
+      const maxRetries = 3;
+      let rawResult = '{}';
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          rawResult = await this.executeRnCommand(browser, command);
+          if (!this.isEmptyObject(rawResult) && rawResult !== 'undefined' && rawResult !== '') {
+            return rawResult;
+          }
+          if (i < maxRetries - 1) {
+            console.log(`   🔄 Empty styles object, recovering UI (${i + 1}/${maxRetries})...`);
+            await this.recoverWidgetContext(browser, widget);
+            await waitFor(1000);
+          }
+        } catch (err: unknown) {
+          if (err instanceof MobileSessionDeadError) {
+            throw err;
+          }
+          const message = err instanceof Error ? err.message : String(err);
+          if (i === maxRetries - 1) throw err;
+          console.log(`   🔄 Styles fetch failed, recovering UI (${message})...`);
           await this.recoverWidgetContext(browser, widget);
-          await waitFor(1000);
         }
-      } catch (err: unknown) {
-        if (err instanceof MobileSessionDeadError) {
-          throw err;
-        }
-        const message = err instanceof Error ? err.message : String(err);
-        if (i === maxRetries - 1) throw err;
-        console.log(`   🔄 Styles fetch failed, recovering UI (${message})...`);
-        await this.recoverWidgetContext(browser, widget);
       }
+      return rawResult;
+    };
+
+    let entry: StylesCacheEntry;
+
+    if (widget === 'tabs') {
+      const headerCommand = MobileMapper.getTabsHeaderStylesCommand(studioWidgetName);
+      const rootCommand = MobileMapper.getTabsRootStylesCommand(studioWidgetName);
+      console.log(`   📦 Fetching tabs header styles (${resolvedPlatform}): ${headerCommand}`);
+      const headerRaw = await fetchWithRetry(headerCommand);
+      console.log(`   📦 Fetching tabs root styles (${resolvedPlatform}): ${rootCommand}`);
+      const rootRaw = await fetchWithRetry(rootCommand);
+      const headerStyles = this.parseStylesJson(headerRaw, studioWidgetName);
+      const rootStyles = this.parseStylesJson(rootRaw, studioWidgetName);
+      entry = {
+        styles: headerStyles,
+        tabsRootStyles: rootStyles,
+        fullCommand: headerCommand,
+        tabsRootCommand: rootCommand,
+      };
+    } else {
+      const fullCommand = this.buildFullStylesCommand(widget, studioWidgetName, variantName);
+      console.log(`   📦 Fetching full styles object once (${resolvedPlatform}): ${fullCommand}`);
+      const rawResult = await fetchWithRetry(fullCommand);
+      entry = { styles: this.parseStylesJson(rawResult, studioWidgetName), fullCommand };
     }
 
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(rawResult);
-      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && '__trace' in parsed) {
-        delete (parsed as Record<string, unknown>).__trace;
-      }
-    } catch {
-      throw new Error(`Invalid styles JSON for ${studioWidgetName}: ${rawResult.substring(0, 100)}...`);
-    }
-
-    const entry = { styles: parsed, fullCommand };
     MobileWidgetPage.stylesObjectCache.set(cacheKey, entry);
 
     if (!MobileWidgetPage.dumpedStyleInstances.has(cacheKey)) {
@@ -927,9 +1087,19 @@ export class MobileWidgetPage {
       try {
         const dir = path.join(process.cwd(), 'artifacts', 'mobile-styles', widget);
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        const filePath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, resolvedPlatform);
-        fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2), 'utf-8');
-        console.log(`   💾 Saved full styles object to ${filePath}`);
+        if (widget === 'tabs' && entry.tabsRootStyles) {
+          this.saveTabsStylesToDisk(
+            widget,
+            studioWidgetName,
+            resolvedPlatform,
+            entry.styles,
+            entry.tabsRootStyles,
+          );
+        } else {
+          const filePath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, resolvedPlatform);
+          fs.writeFileSync(filePath, JSON.stringify(entry.styles, null, 2), 'utf-8');
+          console.log(`   💾 Saved full styles object to ${filePath}`);
+        }
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err);
         console.warn(`   ⚠️ Failed to save styles JSON: ${message}`);
@@ -1154,14 +1324,15 @@ export class MobileWidgetPage {
     console.log(`   📱 [Session Info] OS/Version: ${caps.platformName} ${caps.platformVersion || ''}`);
 
     const resolvedPlatform = (platform ?? this.getPlatform(browser)) as 'android' | 'ios';
-    const stylesKey = (widget === 'cards' || widget === 'formcontrols') ? 'calcStyles' : 'styles';
+    const stylesKey = widget === 'cards' ? 'calcStyles' : 'styles';
     let commandSuffix = stylesKey;
     let mappedPath = '';
     let fullCommand = '';
     let actualValue: string;
 
+    let effectivePropertyPath: string[] | undefined;
     if (propertyPath && propertyPath.length > 0) {
-      const effectivePropertyPath = this.getEffectivePropertyPath(widget, variantName, propertyPath);
+      effectivePropertyPath = this.getEffectivePropertyPath(widget, variantName, propertyPath);
       mappedPath = MobileMapper.mapToRnStylePath(effectivePropertyPath, widget, resolvedPlatform);
       commandSuffix = `${stylesKey}.${mappedPath}`;
       console.log(`   🔍 Mapping [${propertyPath.join('.')}] -> [${mappedPath}] (cached styles lookup)`);
@@ -1172,29 +1343,35 @@ export class MobileWidgetPage {
     const usePerPropertyCommands = process.env.MOBILE_STYLE_PER_PROPERTY === '1';
 
     if (!usePerPropertyCommands) {
-      const { styles, fullCommand: baseCommand } = await this.getCachedStylesObject(
+      const cacheEntry = await this.getCachedStylesObject(
         browser,
         widget,
         studioWidgetName,
         variantName,
         resolvedPlatform,
       );
-      fullCommand = baseCommand;
+      fullCommand = cacheEntry.fullCommand;
 
       if (mappedPath) {
-        const resolved = resolveStyleValue(styles, mappedPath);
-        fullCommand = `${baseCommand}.${resolved.resolvedPath}`;
+        let stylesLookup = cacheEntry.styles;
+        let commandBase = cacheEntry.fullCommand;
+        if (widget === 'tabs' && effectivePropertyPath) {
+          const tabsResolved = this.resolveTabsStylesLookup(cacheEntry, effectivePropertyPath);
+          stylesLookup = tabsResolved.stylesLookup;
+          commandBase = tabsResolved.commandBase;
+        }
+        const resolved = resolveStyleValue(stylesLookup, mappedPath);
+        fullCommand = `${commandBase}.${resolved.resolvedPath}`;
         actualValue = formatResolvedValue(resolved.value);
         console.log(`   ⚡ Resolved from cache: ${fullCommand} = "${actualValue}"`);
       } else {
-        actualValue = formatResolvedValue(styles);
+        actualValue = formatResolvedValue(cacheEntry.styles);
       }
     } else {
       // Legacy: one RN command per property (slow; opt-in via MOBILE_STYLE_PER_PROPERTY=1)
-      let command = this.buildFullStylesCommand(widget, studioWidgetName, variantName);
-      if (mappedPath) {
-        command = `${command}.${mappedPath}`;
-      }
+      let command = mappedPath && effectivePropertyPath
+        ? MobileMapper.getExtractionCommand(widget, effectivePropertyPath, studioWidgetName, resolvedPlatform)
+        : this.buildFullStylesCommand(widget, studioWidgetName, variantName);
       fullCommand = command;
       console.log(`   🧾 Executing RN Command (legacy): ${command}`);
       actualValue = await this.executeRnCommand(browser, command);

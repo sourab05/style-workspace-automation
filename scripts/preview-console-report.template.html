@@ -31,7 +31,7 @@
   h1 { font-size: 22px; font-weight: 700; }
   h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
   .meta { color: var(--text2); font-size: 12px; margin-top: 4px; }
-  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+  .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 24px 0; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
   .stat-value { font-size: 28px; font-weight: 700; }
   .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
@@ -143,8 +143,9 @@ function renderStats() {
   const items = [
     ['Widgets', report.summary.widgets, ''],
     ['Tokens', report.summary.tokens, ''],
-    ['Passed', report.summary.pass, 'stat-ok'],
-    ['Failed', report.summary.fail, report.summary.fail ? 'stat-bad' : 'stat-ok'],
+    ['✅ Value match', report.summary.passValue ?? report.summary.pass ?? 0, 'stat-ok'],
+    ['⚠️ Path only', report.summary.passPath ?? 0, ''],
+    ['❌ No output', report.summary.fail, report.summary.fail ? 'stat-bad' : 'stat-ok'],
   ];
   stats.innerHTML = items.map(([label, value, cls]) => `
     <div class="stat-card ${cls}">
@@ -169,23 +170,26 @@ function renderWidgets(filter) {
   }
 
   root.innerHTML = visible.map((widget) => {
-    const badgeClass = widget.fail > 0 || widget.error ? 'badge-bad' : 'badge-ok';
-    const badgeText = widget.fail > 0 || widget.error
-      ? `${widget.fail} failed / ${widget.total}`
-      : `${widget.total} passed`;
+    const noOutputCount = widget.fail ?? 0;
+    const mismatchCount = (widget.valueMismatches || []).length;
+    const passValueCount = widget.passValue ?? widget.pass ?? 0;
+    const badgeClass = noOutputCount > 0 || widget.error ? 'badge-bad' : mismatchCount > 0 ? '' : 'badge-ok';
+    const badgeText = `✅ ${passValueCount} matched  ⚠️ ${mismatchCount} mismatch  ❌ ${noOutputCount} missing`;
 
-    const rows = widget.failures.map((failure, index) => `
+    const makeRows = (items, icon) => items.map((failure, index) => `
       <tr>
-        <td>${index + 1}</td>
+        <td>${icon} ${index + 1}</td>
         <td>${escapeHtml(failure.variantName)}</td>
         <td>${escapeHtml(failure.tokenType)}</td>
         <td><code>${escapeHtml(failure.propertyPath)}</code></td>
         <td><code>${escapeHtml(failure.mappedPath)}</code></td>
-        <td class="reason">${escapeHtml(failure.reason)}</td>
+        <td class="reason">${escapeHtml(failure.expectedValue != null ? 'expected: ' + failure.expectedValue : failure.reason)}</td>
         <td class="output"><code>${escapeHtml(failure.output || '(empty)')}</code></td>
         <td class="cmd"><code>${escapeHtml(failure.command)}</code></td>
       </tr>
     `).join('');
+
+    const allRows = makeRows(widget.failures || [], '❌') + makeRows(widget.valueMismatches || [], '⚠️');
 
     return `
       <section class="widget-card" data-widget="${escapeHtml(widget.widget)}">
@@ -197,7 +201,7 @@ function renderWidgets(filter) {
           <span class="badge ${badgeClass}">${badgeText}</span>
         </div>
         ${widget.error ? `<div class="error">Widget error: ${escapeHtml(widget.error)}</div>` : ''}
-        ${widget.failures.length
+        ${allRows.length
           ? `<table>
               <thead>
                 <tr>
@@ -206,14 +210,14 @@ function renderWidgets(filter) {
                   <th>Token type</th>
                   <th>Property</th>
                   <th>Mapped path</th>
-                  <th>Reason</th>
-                  <th>Output</th>
+                  <th>Expected value</th>
+                  <th>Actual output</th>
                   <th>Console command</th>
                 </tr>
               </thead>
-              <tbody>${rows}</tbody>
+              <tbody>${allRows}</tbody>
             </table>`
-          : '<div class="empty">All token console commands returned values for this widget.</div>'}
+          : '<div class="empty">All token values matched applied tokens for this widget.</div>'}
       </section>
     `;
   }).join('');

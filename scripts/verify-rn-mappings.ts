@@ -111,13 +111,13 @@ function loadFirstStudioWidgetName(widget: string): string | null {
  * and the RN app exposes its runtime via window.wm.
  */
 function getStyleCommand(widget: string, studioWidgetName: string): string {
-  const stylesKey = (widget === 'cards' || widget === 'formcontrols') ? 'calcStyles' : 'styles';
+  const stylesKey = widget === 'cards' ? 'calcStyles' : 'styles';
 
   if (widget === 'cards') {
     return `wm.App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.${stylesKey}`;
   }
   if (widget === 'formcontrols') {
-    return `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey.${stylesKey}`;
+    return `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey._INSTANCE.styles`;
   }
   return `wm.App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${stylesKey}`;
 }

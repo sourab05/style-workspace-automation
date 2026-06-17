@@ -953,11 +953,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
 
      // 3. Border properties -> root.border*
+     // RN expands borderRadius shorthand into borderTopLeftRadius etc., so we read the top-left corner.
+     // RN keeps borderWidth as the shorthand (not borderTopWidth) when set via theme.
      if (top === 'border') {
-       if (second === 'radius') return 'root.borderRadius';
+       if (second === 'radius') return 'root.borderTopLeftRadius';
        if (second === 'color') return 'root.borderColor';
        if (second === 'style') return 'root.borderStyle';
-       if (second === 'width') return 'root.borderTopWidth';
+       if (second === 'width') return 'root.borderWidth';
        if (second && ['top', 'bottom', 'left', 'right'].includes(second) && third === 'width') {
          const direction = second.charAt(0).toUpperCase() + second.slice(1);
          return `root.border${direction}Width`;
@@ -2523,96 +2525,99 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
   // TABS-SPECIFIC MAPPINGS
   // ============================================================================
    if (widget === 'tabs') {
+     // Tab header component styles are retrieved via:
+     //   Widgets.tabs1._INSTANCE.componentNode.children[3].instance.styles
+     // RN namespaces: root (header strip), header (inactive tab cell),
+     //   headerText / headerIcon.icon (inactive tab label/icon),
+     //   activeHeader / activeHeaderText / activeHeaderIcon.icon (active tab),
+     //   activeIndicator (active tab underline)
+
      let currentPath = propertyPath;
-     let labelPrefix = 'tabLabel';
-     let iconPrefix = 'tabIcon.icon';
-     let itemPrefix = 'tabItem';
-     let indicatorPrefix = 'tabIndicator';
+     // Default state: header / headerText / headerIcon.icon
+     let labelPrefix    = 'headerText';
+     let iconPrefix     = 'headerIcon.icon';
+     let itemPrefix     = 'header';
+     // Indicator only lives in activeIndicator regardless of state
+     const indicatorPrefix = 'activeIndicator';
 
-
-     // Support active state mapping
+     // Active state: activeHeader / activeHeaderText / activeHeaderIcon.icon
      if (propertyPath[0] === 'states' && propertyPath[1] === 'active') {
        currentPath = propertyPath.slice(2);
-       labelPrefix = 'activeTabLabel';
-       iconPrefix = 'activeTabIcon.icon';
-       itemPrefix = 'activeTabItem';
-       indicatorPrefix = 'activeTabIndicator';
+       labelPrefix = 'activeHeaderText';
+       iconPrefix  = 'activeHeaderIcon.icon';
+       itemPrefix  = 'activeHeader';
      }
 
-
-     const top = currentPath[0];
+     const top    = currentPath[0];
      const second = currentPath[1];
-     const third = currentPath[2];
+     const third  = currentPath[2];
      const fourth = currentPath[3];
 
-
-     // 1. Root properties
+     // 1. Root tab-widget container (border, background for the whole widget body)
      if (top === 'background') return 'root.backgroundColor';
      if (top === 'border') {
-       if (second === 'color') return 'root.borderColor';
-       if (second === 'width') return 'root.borderTopWidth';
-       if (second === 'radius') return 'root.borderRadius';
-       if (second === 'style') return 'root.borderStyle';
+       if (second === 'color')  return 'root.borderColor';
+       if (second === 'width')  return 'root.borderWidth';
+       if (second === 'radius') return 'root.borderTopLeftRadius';
+       if (second === 'style')  return 'root.borderStyle';
      }
      if (top === 'min' && second === 'height') return 'root.minHeight';
      if (top === 'radius') return 'root.borderTopLeftRadius';
 
-
-     // 2. Heading (tabHeader & tabheaderdivider)
+     // 2. Heading strip (the tab bar outer container) → root.*
+     //    CSS vars: --wm-tabs-heading-*
      if (top === 'heading') {
-       if (second === 'background') return 'tabHeader.backgroundColor';
+       if (second === 'background') return 'root.backgroundColor';
        if (second === 'border') {
-         if (third === 'color') return 'tabheaderdivider.borderBottomColor';
-         if (third === 'width') return 'tabheaderdivider.borderBottomWidth';
-         if (third === 'radius') return 'tabHeader.borderTopLeftRadius';
-         if (third === 'style') return 'tabHeader.borderStyle';
+         if (third === 'color')  return 'root.borderColor';
+         if (third === 'width')  return 'root.borderWidth';
+         if (third === 'radius') return 'root.borderTopLeftRadius';
+         if (third === 'style')  return 'root.borderStyle';
        }
      }
 
-
-     // 3. Item Heading (Item)
+     // 3. Per-tab item: header / activeHeader (& text/icon/indicator sub-namespaces)
+     //    CSS vars: --wm-tabs-item-heading-*
      if (top === 'item' && second === 'heading') {
-       if (third === 'background') return `${itemPrefix}.backgroundColor`;
-       if (third === 'text' && fourth === 'color') return `${labelPrefix}.color`;
-       if (third === 'padding') return `${itemPrefix}.padding`;
+       if (third === 'background')                  return `${itemPrefix}.backgroundColor`;
+       if (third === 'text' && fourth === 'color')  return `${labelPrefix}.color`;
+       if (third === 'padding')                     return `${itemPrefix}.paddingTop`;
 
        // Icon
        if (third === 'icon') {
          if (fourth === 'color') return `${iconPrefix}.color`;
-         if (fourth === 'size') return `${iconPrefix}.fontSize`;
+         if (fourth === 'size')  return `${iconPrefix}.fontSize`;
          return `${iconPrefix}.${fourth}`;
        }
 
        // Border
        if (third === 'border') {
-         if (fourth === 'color') return `${itemPrefix}.borderColor`;
-         if (fourth === 'width') return `${itemPrefix}.borderTopWidth`;
+         if (fourth === 'color')  return `${itemPrefix}.borderColor`;
+         if (fourth === 'width')  return `${itemPrefix}.borderWidth`;
          if (fourth === 'radius') return `${itemPrefix}.borderTopLeftRadius`;
-         if (fourth === 'style') return `${itemPrefix}.borderStyle`;
+         if (fourth === 'style')  return `${itemPrefix}.borderStyle`;
        }
 
-       // Indicator
+       // Indicator (always activeIndicator regardless of state)
        if (third === 'indicator') {
          if (fourth === 'background') return `${indicatorPrefix}.backgroundColor`;
-         if (fourth === 'height') return `${indicatorPrefix}.height`;
-         if (fourth === 'margin') return `${indicatorPrefix}.marginTop`;
+         if (fourth === 'height')     return `${indicatorPrefix}.height`;
+         if (fourth === 'margin')     return `${indicatorPrefix}.marginTop`;
        }
 
-       // Font/Text
+       // Font / Text
        if (third === 'font') {
-         if (fourth === 'size') return `${labelPrefix}.fontSize`;
+         if (fourth === 'size')   return `${labelPrefix}.fontSize`;
          if (fourth === 'weight') return `${labelPrefix}.fontWeight`;
          if (fourth === 'family') return `${labelPrefix}.fontFamily`;
        }
        if (third === 'line-height') return `${labelPrefix}.lineHeight`;
      }
 
-
-     // 4. Icon
+     // 4. Top-level icon
      if (top === 'icon') {
        if (second === 'font' && third === 'size') return `${iconPrefix}.fontSize`;
      }
-
 
      // Fallback
      return `root.${TokenMappingService.mapToComputedProperty(currentPath[currentPath.length - 1])}`;
@@ -3272,26 +3277,26 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     const second = propertyPath[1];
     const third = propertyPath[2];
 
-    // root-level: background -> root.backgroundColor
-    if (pathStr === 'background' || pathStr === 'background-color') return 'root.backgroundColor';
+    // root-level: background -> container.backgroundColor (the picker dialog box, not the dim overlay)
+    if (pathStr === 'background' || pathStr === 'background-color') return 'container.backgroundColor';
 
-    // button.border.* -> root.border* (the RN input container holds border props)
-    if (top === 'button' && second === 'border' && third === 'color') return 'root.borderColor';
-    if (top === 'button' && second === 'border' && third === 'width') return 'root.borderTopWidth';
-    if (top === 'button' && second === 'border' && third === 'style') return 'root.borderStyle';
-    if (top === 'button' && second === 'border' && third === 'radius') return 'root.borderTopLeftRadius';
-    if (top === 'button' && second === 'ripple' && third === 'color') return 'root.rippleColor';
+    // button.border.* / button.ripple.* -> cancelBtn.root.* (both dialog buttons share these values)
+    if (top === 'button' && second === 'border' && third === 'color') return 'cancelBtn.root.borderColor';
+    if (top === 'button' && second === 'border' && third === 'width') return 'cancelBtn.root.borderWidth';
+    if (top === 'button' && second === 'border' && third === 'style') return 'cancelBtn.root.borderStyle';
+    if (top === 'button' && second === 'border' && third === 'radius') return 'cancelBtn.root.borderTopLeftRadius';
+    if (top === 'button' && second === 'ripple' && third === 'color') return 'cancelBtn.root.rippleColor';
 
-    // cancel-button.* -> cancelBtn (picker dialog action button)
+    // cancel-button.* -> cancelBtn (picker dialog cancel button)
     if (top === 'cancel-button' && second === 'background') return 'cancelBtn.root.backgroundColor';
     if (top === 'cancel-button' && second === 'text' && third === 'color') return 'cancelBtn.text.color';
     if (top === 'cancel-button' && second === 'text' && third === 'size') return 'cancelBtn.text.fontSize';
     if (top === 'cancel-button' && second === 'text' && third === 'weight') return 'cancelBtn.text.fontWeight';
 
-    // header-text.* -> dialog header text (not a direct RN key; map to dialog)
-    if (top === 'header-text' && second === 'color') return 'dialog.color';
-    if (top === 'header-text' && second === 'font' && third === 'size') return 'dialog.fontSize';
-    if (top === 'header-text' && second === 'font' && third === 'weight') return 'dialog.fontWeight';
+    // header-text.* -> header (picker dialog title row)
+    if (top === 'header-text' && second === 'color') return 'header.color';
+    if (top === 'header-text' && second === 'font' && third === 'size') return 'header.fontSize';
+    if (top === 'header-text' && second === 'font' && third === 'weight') return 'header.fontWeight';
 
     // selected-button.* -> selectBtn (picker dialog select/ok button)
     if (top === 'selected-button' && second === 'background') return 'selectBtn.root.backgroundColor';
@@ -3412,18 +3417,42 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
  }
 
 
+    /** Tabs body slots (background, border.*, min.height) live in _INSTANCE.styles; all other slots use the tab-header child. */
+    static usesTabsRootStyles(propertyPath: string[]): boolean {
+        const tabsRootSlots = ['background', 'border', 'min'];
+        let path = propertyPath;
+        if (path[0] === 'states' && path.length > 2) {
+            path = path.slice(2);
+        }
+        return tabsRootSlots.includes(path[0]);
+    }
+
+    static getTabsRootStylesCommand(studioWidgetName: string): string {
+        return `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.styles`;
+    }
+
+    static getTabsHeaderStylesCommand(studioWidgetName: string): string {
+        return `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.componentNode.children[3].instance.styles`;
+    }
+
     /**
      * Constructs the full extraction command.
      */
     static getExtractionCommand(widget: Widget, propertyPath: string[], studioWidgetName: string = '{widget}', platform: 'android' | 'ios' = 'android'): string {
-        const stylesKey = (widget === 'cards' || widget === 'formcontrols') ? 'calcStyles' : 'styles';
+        const stylesKey = widget === 'cards' ? 'calcStyles' : 'styles';
         const mappedPath = this.mapToRnStylePath(propertyPath, widget, platform);
 
         if (widget === 'cards') {
             return `App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.${stylesKey}.${mappedPath}`;
         }
         if (widget === 'formcontrols') {
-            return `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey.calcStyles.${mappedPath}`;
+            return `App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.entestkey._INSTANCE.styles.${mappedPath}`;
+        }
+        if (widget === 'tabs') {
+            const base = MobileMapper.usesTabsRootStyles(propertyPath)
+                ? MobileMapper.getTabsRootStylesCommand(studioWidgetName)
+                : MobileMapper.getTabsHeaderStylesCommand(studioWidgetName);
+            return `${base}.${mappedPath}`;
         }
 
         return `App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${stylesKey}.${mappedPath}`;

@@ -677,7 +677,7 @@ ${canvasStyleCommand}
           };
 
           const studioWidgetName = getStudioWidgetNameForVariant(widget, variantName) || `${widget}1`;
-          const stylesKey = (widget === 'cards' || widget === 'formcontrols') ? 'calcStyles' : 'styles';
+          const stylesKey = widget === 'cards' ? 'calcStyles' : 'styles';
           const stateAwareWidgets = ['tabbar', 'tabs', 'button', 'checkbox', 'checkboxset', 'wizard', 'carousel', 'chips', 'formcontrols', 'radioset', 'toggle', 'switch'];
           const effectivePropertyPath = (state !== 'default' && stateAwareWidgets.includes(widget)) ? ['states', state, ...propertyPath] : propertyPath;
           const mappedPath = MobileMapper.mapToRnStylePath(effectivePropertyPath, widget, 'android');
@@ -686,7 +686,7 @@ ${canvasStyleCommand}
           if (widget === 'cards') {
             rnCommand = `wm.App.appConfig.currentPage.Widgets.supportedLocaleList1.itemWidgets[0].card1._INSTANCE.${stylesKey}.${mappedPath}`;
           } else if (widget === 'formcontrols') {
-            rnCommand = `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}.${stylesKey}.${mappedPath}`;
+            rnCommand = `wm.App.appConfig.currentPage.Widgets.supportedLocaleForm1.formWidgets.${formFieldKey}._INSTANCE.styles.${mappedPath}`;
           } else {
             rnCommand = `wm.App.appConfig.currentPage.Widgets${studioWidgetsPropertyAccess(studioWidgetName)}._INSTANCE.${stylesKey}.${mappedPath}`;
           }

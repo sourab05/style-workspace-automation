@@ -9,6 +9,8 @@
     "verify:jenkins:mobile-upload": "ts-node scripts/verify-jenkins-mobile-upload-flow.ts",
     "generate:slot-tests": "ts-node scripts/generate-slot-test-cases.ts",
     "verify:preview:console": "ts-node scripts/verify-preview-token-console.ts",
+    "verify:local:apply": "WM_ENV=stage-ai ts-node scripts/verify-preview-token-console.ts --local-url http://localhost:19009 --apply",
+    "verify:local:console": "WM_ENV=stage-ai ts-node scripts/verify-preview-token-console.ts --local-url http://localhost:19009",
     "test:preview:local": "bash scripts/run-local-preview-automation.sh",
     "verify:preview:local": "bash scripts/run-local-preview-automation.sh",
     "uploadS3": "npx ts-node scripts/upload-to-s3.ts",
