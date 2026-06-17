@@ -208,9 +208,35 @@ export class MobileWidgetPage {
       variantName,
       platform,
     );
-    if (MobileWidgetPage.stylesObjectCache.has(cacheKey)) return true;
+    const memoryEntry = MobileWidgetPage.stylesObjectCache.get(cacheKey);
+    if (memoryEntry) {
+      if (widget === 'datetime') {
+        return MobileWidgetPage.isValidDatetimePickerStyles(memoryEntry.styles);
+      }
+      return true;
+    }
     const diskPath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, platform);
-    return fs.existsSync(diskPath);
+    if (!fs.existsSync(diskPath)) return false;
+    if (widget === 'datetime') {
+      try {
+        const diskData = JSON.parse(fs.readFileSync(diskPath, 'utf-8'));
+        return MobileWidgetPage.isValidDatetimePickerStyles(diskData);
+      } catch {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /** Picker-auto styles include populated cancelBtn.text; _INSTANCE.styles shells do not. */
+  private static isValidDatetimePickerStyles(styles: unknown): boolean {
+    if (!styles || typeof styles !== 'object' || Array.isArray(styles)) return false;
+    const cancelBtn = (styles as Record<string, unknown>).cancelBtn;
+    if (!cancelBtn || typeof cancelBtn !== 'object') return false;
+    const text = (cancelBtn as Record<string, unknown>).text;
+    if (!text || typeof text !== 'object') return false;
+    const fontSize = (text as Record<string, unknown>).fontSize;
+    return fontSize !== undefined && fontSize !== null && fontSize !== '';
   }
 
   /**
@@ -256,23 +282,28 @@ export class MobileWidgetPage {
     studioWidgetName: string,
     variantName: string,
     platform: 'android' | 'ios',
-  ): Promise<void> {
+  ): Promise<StylesCacheEntry | null> {
     const datetimeSelector = MobileSelectors.headers.datetime; // ~datetime1_l
     const outputSelector = getStyleOutputSelector('datetime', platform);
+    const pickerOpenWaitMs = isBrowserStackEnv() ? 2000 : 1000;
+    const pickerDismissWaitMs = isBrowserStackEnv() ? 1200 : 800;
 
     console.log(`   📅 [datetime] Tapping picker to auto-populate ~label2_caption…`);
     try {
+      await this.navigateToWidget(browser, widget);
+      await this.waitForWidget(browser, widget);
+
       // 1. Open the picker
       const datetimeEl = await (browser as any).$(datetimeSelector);
       await datetimeEl.waitForDisplayed({ timeout: 10000 });
       await datetimeEl.click();
-      await waitFor(1000);
+      await waitFor(pickerOpenWaitMs);
 
       // 2. Dismiss by tapping in the dim overlay (top 10 % of screen)
       const { height } = await (browser as any).getWindowSize();
       const tapY = Math.max(80, Math.floor(height * 0.1));
       await (browser as any).touchAction([{ action: 'tap', x: 200, y: tapY }]);
-      await waitFor(800);
+      await waitFor(pickerDismissWaitMs);
 
       // 3. Read the styles that were auto-written to ~label2_caption
       const output = await (browser as any).$(outputSelector);
@@ -281,13 +312,18 @@ export class MobileWidgetPage {
 
       if (!rawJson || rawJson.trim() === '' || rawJson === '{}') {
         console.warn(`   ⚠️ [datetime] ~label2_caption was empty after picker dismiss`);
-        return;
+        return null;
       }
 
       // 4. Parse and store in the in-memory + disk cache
       const styles = JSON.parse(rawJson);
+      if (!MobileWidgetPage.isValidDatetimePickerStyles(styles)) {
+        console.warn(`   ⚠️ [datetime] ~label2_caption JSON missing cancelBtn.text.fontSize`);
+        return null;
+      }
+
       const cacheKey = MobileWidgetPage.buildStylesCacheKey(widget, studioWidgetName, variantName, platform);
-      const entry = { styles, fullCommand: '[datetime-picker-auto]' };
+      const entry: StylesCacheEntry = { styles, fullCommand: '[datetime-picker-auto]' };
       MobileWidgetPage.stylesObjectCache.set(cacheKey, entry);
 
       const diskPath = MobileWidgetPage.getStylesDiskPath(widget, studioWidgetName, platform);
@@ -296,9 +332,11 @@ export class MobileWidgetPage {
       fs.writeFileSync(diskPath, JSON.stringify(styles, null, 2), 'utf-8');
 
       console.log(`   ✅ [datetime] Styles cached from picker auto-populate (${Object.keys(styles).length} namespaces)`);
+      return entry;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       console.warn(`   ⚠️ [datetime] warmDatetimeStylesFromPicker failed (continuing): ${msg}`);
+      return null;
     }
   }
 
@@ -1018,6 +1056,16 @@ export class MobileWidgetPage {
           console.warn(
             `   ⚠️ Stale tabs disk cache (expected {header,tabsRoot}) — refetching from device: ${diskPath}`,
           );
+        } else if (widget === 'datetime') {
+          if (MobileWidgetPage.isValidDatetimePickerStyles(diskData)) {
+            const diskEntry: StylesCacheEntry = { styles: diskData, fullCommand: '[datetime-picker-auto]' };
+            MobileWidgetPage.stylesObjectCache.set(cacheKey, diskEntry);
+            console.log(`   💾 Loaded datetime picker styles from disk: ${diskPath}`);
+            return diskEntry;
+          }
+          console.warn(
+            `   ⚠️ Stale datetime disk cache (expected picker JSON with cancelBtn.text.fontSize) — refetching: ${diskPath}`,
+          );
         } else {
           const diskEntry = { styles: diskData, fullCommand: `[loaded from disk: ${diskPath}]` };
           MobileWidgetPage.stylesObjectCache.set(cacheKey, diskEntry);
@@ -1057,6 +1105,23 @@ export class MobileWidgetPage {
     };
 
     let entry: StylesCacheEntry;
+
+    if (widget === 'datetime') {
+      const pickerEntry = await this.warmDatetimeStylesFromPicker(
+        browser,
+        widget,
+        studioWidgetName,
+        variantName,
+        resolvedPlatform,
+      );
+      if (!pickerEntry) {
+        throw new Error(
+          'Datetime styles could not be loaded via picker (~label2_caption). ' +
+            'The _INSTANCE.styles style-command path is not valid for datetime.',
+        );
+      }
+      return pickerEntry;
+    }
 
     if (widget === 'tabs') {
       const headerCommand = MobileMapper.getTabsHeaderStylesCommand(studioWidgetName);
@@ -1108,8 +1173,11 @@ export class MobileWidgetPage {
 
     // Full styles JSON is rendered in the inspector output label and can cover the whole screen,
     // hiding back/home navigation. Restart so later navigation (back button, home links) works.
-    console.log('   🔄 Restarting app after styles fetch (output covers navigation UI)...');
-    await this.restartAppAndNavigate(browser, widget, { preserveStylesCache: true });
+    // Datetime uses picker auto-populate (~label2_caption) — no inspector overlay, no restart needed.
+    if (widget !== 'datetime') {
+      console.log('   🔄 Restarting app after styles fetch (output covers navigation UI)...');
+      await this.restartAppAndNavigate(browser, widget, { preserveStylesCache: true });
+    }
 
     return entry;
   }
