@@ -1173,11 +1173,9 @@ export class MobileWidgetPage {
 
     // Full styles JSON is rendered in the inspector output label and can cover the whole screen,
     // hiding back/home navigation. Restart so later navigation (back button, home links) works.
-    // Datetime uses picker auto-populate (~label2_caption) — no inspector overlay, no restart needed.
-    if (widget !== 'datetime') {
-      console.log('   🔄 Restarting app after styles fetch (output covers navigation UI)...');
-      await this.restartAppAndNavigate(browser, widget, { preserveStylesCache: true });
-    }
+    // (Datetime returns early via picker path above — never reaches here.)
+    console.log('   🔄 Restarting app after styles fetch (output covers navigation UI)...');
+    await this.restartAppAndNavigate(browser, widget, { preserveStylesCache: true });
 
     return entry;
   }
