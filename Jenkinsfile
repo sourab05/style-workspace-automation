@@ -178,12 +178,12 @@ def pipelineParameters() {
             $class: 'ChoiceParameterDefinition',
             name: 'RUN_TARGET',
             choices: [
+                'Mobile — Android + iOS',
                 'Web — Canvas only',
                 'Web — Preview only',
                 'Web — Canvas + Preview',
                 'Mobile — Android only',
                 'Mobile — iOS only',
-                'Mobile — Android + iOS',
                 'All — Web (Canvas+Preview) + Mobile (Android+iOS)'
             ],
             description: '''What to run:
@@ -200,7 +200,7 @@ def pipelineParameters() {
         [
             $class: 'StringParameterDefinition',
             name: 'S3_VERSION',
-            defaultValue: '',
+            defaultValue: 'WM-AI 1.0.0_BETA_RC4',
             description: '''Release version folder for S3 report uploads (required for upload).
   e.g. WM-AI-Beta-2, 12.0.0
   Path: s3://<bucket>/react_native/releases/<S3_VERSION>/Style Workspace/<platform>/<date-time>'''
@@ -214,7 +214,7 @@ def pipelineParameters() {
         [
             $class: 'ChoiceParameterDefinition',
             name: 'MOBILE_APP_SOURCE',
-            choices: ['Build from Studio (CLI)', 'Build with AppChef', 'Upload APK/IPA manually'],
+            choices: ['Build with AppChef', 'Build from Studio (CLI)', 'Upload APK/IPA manually'],
             description: '''Mobile app source (BrowserStack runs only):
   Build from Studio (CLI) - RN ZIP from Studio, build APK/IPA locally via wm-reactnative-cli (needs Android SDK on agent)
   Build with AppChef - RN ZIP from Studio, build APK/IPA on WaveMaker Online AppChef (use WM_ENV=wmo)
