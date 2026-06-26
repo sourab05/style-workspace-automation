@@ -538,7 +538,9 @@ async function applyBatchPayload(widgetFilters: string[] | null | undefined): Pr
 
 async function main() {
   const args = process.argv.slice(2);
-  const widgetFilterArg = args.includes('--widget') ? args[args.indexOf('--widget') + 1] : null;
+  const widgetValues: string[] = [];
+  args.forEach((arg, i) => { if (arg === '--widget' && args[i + 1]) widgetValues.push(args[i + 1]); });
+  const widgetFilterArg = widgetValues.length > 0 ? widgetValues.join(',') : null;
   const widgetFilters = parseWidgetFilters(widgetFilterArg);
   const headless = args.includes('--headless');
   const previewUrlArg = args.includes('--preview-url') ? args[args.indexOf('--preview-url') + 1] : null;

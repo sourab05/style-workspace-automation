@@ -76,5 +76,18 @@
     "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
     "previewPath": "/preview",
     "jenkinsCredentialsId": "WM_PREPROD_CREDS"
+  },
+  "mars": {
+    "label": "Mars — https://mars-studio.wavemakeronline.com/ (jeevan.inaparti@wavemaker.com)",
+    "studioBaseUrl": "https://mars-studio.wavemakeronline.com/",
+    "projectId": "WMPRJ2c9180889efca495019efd512ba30002",
+    "studioProjectId": "proj-5e6c3bcb-f0df-4681-922e-51fbc74e31df",
+    "studioUsername": "jeevan.inaparti@wavemaker.com",
+    "authMethod": "platformdb",
+    "studioLoginPath": "/login/authenticate",
+    "studioDeployPath": "studio/services/projects/${PROJECT_ID}/deployment/inplaceDeploy",
+    "canvasPath": "s/page/Main?project-id=${PROJECT_ID}",
+    "previewPath": "/preview",
+    "jenkinsCredentialsId": "WM_MARS_CREDS"
   }
 }

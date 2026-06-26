@@ -1,6 +1,7 @@
 import type { Options } from '@wdio/types';
 import path from 'path';
 import fs from 'fs';
+import '../../src/utils/bootstrap-env';
 // Fix TS: declare global WDIO browser object
 declare const browser: WebdriverIO.Browser;
 

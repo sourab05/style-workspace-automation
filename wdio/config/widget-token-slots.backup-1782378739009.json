@@ -944,10 +944,7 @@
                     "menu.caret.color",
                     "menu.color",
                     "menu.content.background",
-                    "menu.content.border.color",
-                    "menu.item.background-color",
-                    "menu.item.color",
-                    "menu.item.icon.color"
+                    "menu.item.color"
                 ]
             },
             {
@@ -956,34 +953,34 @@
                     "menu.item.font-family",
                     "menu.item.font-size",
                     "menu.item.font-weight",
-                    "menu.item.icon.font-size",
                     "menu.item.line-height",
-                    "menu.text.font-size",
                     "menu.text.font-weight"
                 ]
             },
             {
                 "tokenType": "space",
                 "properties": [
-                    "menu.caret.size",
                     "menu.content.width",
-                    "menu.item.icon.padding",
                     "menu.item.padding",
                     "menu.padding",
                     "menu.text.padding"
                 ]
             },
             {
+                "tokenType": "icon",
+                "properties": [
+                    "menu.caret.size"
+                ]
+            },
+            {
                 "tokenType": "border-width",
                 "properties": [
-                    "menu.border.width",
-                    "menu.content.border.width"
+                    "menu.border.width"
                 ]
             },
             {
                 "tokenType": "border-style",
                 "properties": [
-                    "menu.content.border.style",
                     "menu.item.border.style"
                 ]
             },
@@ -1816,8 +1813,8 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "progress-value.height",
-                    "progress-value.width"
+                    "height",
+                    "width"
                 ]
             }
         ]
@@ -2007,10 +2004,7 @@
                     "arrow-button.border.color",
                     "arrow-button.icon.border.color",
                     "arrow-button.icon.color",
-                    "check.icon.background-color",
-                    "check.icon.border.color",
                     "check.icon.color",
-                    "item.border.color",
                     "modal-content.background-color",
                     "modal-content.border.color",
                     "modal-text.color"
@@ -2020,11 +2014,8 @@
                 "tokenType": "font",
                 "properties": [
                     "arrow-button.icon.font-size",
-                    "check.icon.font-size",
                     "modal-text.font-family",
-                    "modal-text.font-size",
-                    "modal-text.letter-spacing",
-                    "modal-text.line-height"
+                    "modal-text.font-size"
                 ]
             },
             {
@@ -2032,11 +2023,13 @@
                 "properties": [
                     "arrow-button.icon.height",
                     "arrow-button.icon.padding",
-                    "arrow-button.padding",
-                    "check.icon.height",
-                    "check.icon.padding",
-                    "check.icon.width",
-                    "item.padding"
+                    "arrow-button.padding"
+                ]
+            },
+            {
+                "tokenType": "icon",
+                "properties": [
+                    "check.icon.font-size"
                 ]
             },
             {
@@ -2044,8 +2037,6 @@
                 "properties": [
                     "arrow-button.border.width",
                     "arrow-button.icon.border.width",
-                    "check.icon.border.width",
-                    "item.border.width",
                     "modal-content.border.width"
                 ]
             },
@@ -2054,8 +2045,6 @@
                 "properties": [
                     "arrow-button.border.style",
                     "arrow-button.icon.border.style",
-                    "check.icon.border.style",
-                    "item.border.style",
                     "modal-content.border.style"
                 ]
             },
@@ -2064,14 +2053,7 @@
                 "properties": [
                     "arrow-button.border.radius",
                     "arrow-button.icon.border.radius",
-                    "check.icon.border.radius",
                     "modal-content.border.radius"
-                ]
-            },
-            {
-                "tokenType": "elevation",
-                "properties": [
-                    "modal-content.box-shadow"
                 ]
             }
         ]
@@ -2290,7 +2272,7 @@
                 "tokenType": "space",
                 "properties": [
                     "item.heading.indicator.height",
-                    "item.heading.min-height",
+                    "item.heading.indicator.margin",
                     "item.heading.padding",
                     "min.height"
                 ]
@@ -2323,19 +2305,6 @@
                     "border.radius",
                     "heading.border.radius",
                     "item.heading.border.radius"
-                ]
-            },
-            {
-                "tokenType": "gap",
-                "properties": [
-                    "heading.gap",
-                    "item.heading.gap"
-                ]
-            },
-            {
-                "tokenType": "margin",
-                "properties": [
-                    "item.heading.indicator.margin-top"
                 ]
             }
         ]

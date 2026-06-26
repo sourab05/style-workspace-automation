@@ -784,50 +784,33 @@ async function scrapeWidgetTokenSlots(page: Page, widget: string, variantParam: 
   //           div.linked-token-value > wms-typeahead > input.typeahead-input  (applied token)
   //           div.delinked-token-value > input.token-input  (raw value, no token)
   //
-  // We read the applied token value (e.g. "color.on-info.@", "space.3",
-  // "border.width.0", "radius.none") to classify each property into the
-  // correct framework token type instead of relying on the UI section name.
+  // Classification is based on the PROPERTY NAME + UI SECTION only.
+  // The applied token value is irrelevant — a font-size property is always
+  // "font" even if a spacing token was applied to it, and a padding property
+  // is always "space" even if a radius token was applied.
   //
   const slots = await page.evaluate(() => {
-    // Classify by the applied token value prefix
-    function classifyFromToken(tokenVal: string, uiSection: string, propName = ''): string {
-      const t = tokenVal.toLowerCase().trim();
-      if (!t || t === 'none') return classifyFallback(uiSection, propName);
-
-      if (t.indexOf('color.') === 0 || t.indexOf('color-') === 0) return 'color';
-      if (t.indexOf('space.') === 0 || t.indexOf('space-') === 0) return 'space';
-      if (t.indexOf('border.width') === 0) return 'border-width';
-      if (t.indexOf('border.style') === 0) return 'border-style';
-      if (t.indexOf('radius') === 0) return 'border-radius';
-      if (t.indexOf('elevation') === 0 || t.indexOf('box-shadow') === 0) return 'elevation';
-      if (t.indexOf('opacity') === 0) return 'opacity';
-      if (t.indexOf('icon') === 0) return 'icon';
-      if (t.indexOf('gap') === 0) return 'gap';
-      if (t.indexOf('margin') === 0) return 'margin';
-
-      // Font tokens: patterns like "body.medium.font-size", "h6.font-weight",
-      // "label.small.font-family", "display.medium.font-family"
-      if (/\.font[-.]|font[-.]?family|font[-.]?size|font[-.]?weight|line[-.]height|letter[-.]spacing|text[-.]transform/i.test(t)) return 'font';
-
-      return classifyFallback(uiSection, propName);
-    }
-
-    // Fallback: classify by property name patterns, then by UI section
-    function classifyFallback(uiSection: string, propName = ''): string {
+    // Classify by property name (authoritative). Falls back to UI section
+    // header (COLOR/TEXT/SIZE/STYLE) only when the property name is ambiguous.
+    function classify(uiSection: string, propName: string): string {
       const p = propName.toLowerCase();
 
-      // Property name patterns take priority over UI section
-      if (p.indexOf('border.width') !== -1 || p.indexOf('border-width') !== -1) return 'border-width';
-      if (p.indexOf('border.style') !== -1 || p.indexOf('border-style') !== -1) return 'border-style';
-      if (p.indexOf('border.color') !== -1 || p.indexOf('border-color') !== -1) return 'color';
-      if (p.indexOf('radius') !== -1) return 'border-radius';
-      if (p.indexOf('shadow') !== -1 || p.indexOf('elevation') !== -1) return 'elevation';
-      if (p.indexOf('opacity') !== -1) return 'opacity';
-      if (p.indexOf('icon') !== -1 && p.indexOf('size') !== -1) return 'icon';
-      if (p.indexOf('icon') !== -1 && p.indexOf('color') !== -1) return 'color';
-      if (p === 'gap') return 'gap';
-      if (p.indexOf('font') !== -1 || p.indexOf('letter-spacing') !== -1 || p.indexOf('line-height') !== -1) return 'font';
+      // Property-name patterns — these are definitive
+      if (/font[-.]?family|font[-.]?size|font[-.]?weight|line[-.]height|letter[-.]spacing|text[-.]transform/i.test(p)) return 'font';
+      if (/border[-.]width|border\.width/i.test(p)) return 'border-width';
+      if (/border[-.]style|border\.style/i.test(p)) return 'border-style';
+      if (/border[-.]color|border\.color/i.test(p)) return 'color';
+      if (/\bradius\b/i.test(p)) return 'border-radius';
+      if (/\bopacity\b/i.test(p)) return 'opacity';
+      if (/\bgap\b/i.test(p)) return 'gap';
+      if (/\bmargin\b/i.test(p)) return 'margin';
+      if (/\bpadding\b/i.test(p)) return 'space';
+      if (/\bshadow\b|\belevation\b/i.test(p)) return 'elevation';
+      if (/icon[._-]?size|\.icon\.size|icon\.font[._-]?size/i.test(p)) return 'icon';
+      if (/\bicon\b/i.test(p) && /\bcolor\b/i.test(p)) return 'color';
+      if (/\bcolor\b|background$/i.test(p)) return 'color';
 
+      // Fallback to UI section header
       if (uiSection === 'color') return 'color';
       if (uiSection === 'text') return 'font';
       if (uiSection === 'size') return 'space';
@@ -859,17 +842,7 @@ async function scrapeWidgetTokenSlots(page: Page, widget: string, variantParam: 
         const propName = (nameSpan.textContent || '').trim().replace(/\.@$/, '').trim();
         if (!propName) continue;
 
-        // Applied token value — read from input.typeahead-input or input.token-input
-        let tokenVal = '';
-        const typeaheadInput = item.querySelector('input.typeahead-input') as HTMLInputElement | null;
-        const rawInput = item.querySelector('input.token-input') as HTMLInputElement | null;
-        if (typeaheadInput) {
-          tokenVal = (typeaheadInput.value || '').trim();
-        } else if (rawInput) {
-          tokenVal = (rawInput.value || '').trim();
-        }
-
-        const frameworkType = classifyFromToken(tokenVal, uiSection, propName);
+        const frameworkType = classify(uiSection, propName);
         addProp(frameworkType, propName);
       }
     }
@@ -931,24 +904,23 @@ function recategorize(scraped: TokenSlot[]): TokenSlot[] {
   function classifyProperty(uiSection: string, prop: string): string {
     const p = prop.toLowerCase();
 
+    // Property-name patterns override UI section (same logic as DOM classify())
+    if (/font[-.]?family|font[-.]?size|font[-.]?weight|line[-.]height|letter[-.]spacing|text[-.]transform/i.test(p)) return 'font';
+    if (/border[-.]width/i.test(p)) return 'border-width';
+    if (/border[-.]style/i.test(p)) return 'border-style';
+    if (/border[-.]color/i.test(p)) return 'color';
+    if (/\bradius\b/i.test(p)) return 'border-radius';
+    if (/\bopacity\b/i.test(p)) return 'opacity';
+    if (/\bgap\b/i.test(p)) return 'gap';
+    if (/\bmargin\b/i.test(p)) return 'margin';
+    if (/\bpadding\b/i.test(p)) return 'space';
+    if (/\bshadow\b|\belevation\b|z-index/i.test(p)) return 'elevation';
+    if (/icon[._-]?size|\.icon\.size|icon\.font[._-]?size/i.test(p)) return 'icon';
+
     if (uiSection === 'color') return 'color';
     if (uiSection === 'text') return 'font';
-
-    if (uiSection === 'size') {
-      if (/icon[._-]?size|\.icon\.size|icon\.font[._-]?size/i.test(p)) return 'icon';
-      if (/border[._-]?width/i.test(p)) return 'border-width';
-      if (/margin/i.test(p)) return 'margin';
-      if (/\bgap\b/i.test(p)) return 'gap';
-      if (/opacity/i.test(p)) return 'opacity';
-      return 'space';
-    }
-
-    if (uiSection === 'style') {
-      if (/radius/i.test(p)) return 'border-radius';
-      if (/border[._-]?style/i.test(p)) return 'border-style';
-      if (/shadow|z-index|elevation/i.test(p)) return 'elevation';
-      return 'style';
-    }
+    if (uiSection === 'size') return 'space';
+    if (uiSection === 'style') return 'style';
 
     return uiSection;
   }
@@ -1086,6 +1058,9 @@ function showDiff(): void {
   const removedWidgets = currentWidgets.filter((w) => !scrapedWidgets.includes(w));
   const commonWidgets = scrapedWidgets.filter((w) => currentWidgets.includes(w));
 
+  /** Properties added by scrape (for incremental RN mapping updates). */
+  const newTokenSlots: Record<string, Array<{ tokenType: string; property: string }>> = {};
+
   const lines: string[] = [];
   const ln = (s = '') => lines.push(s);
 
@@ -1108,6 +1083,12 @@ function showDiff(): void {
     ln();
     for (const w of newWidgets) {
       const slots: TokenSlot[] = scraped[w]?.tokenSlots || [];
+      newTokenSlots[w] = [];
+      for (const slot of slots) {
+        for (const p of slot.properties) {
+          newTokenSlots[w].push({ tokenType: slot.tokenType, property: p });
+        }
+      }
       const props = slots.reduce((s: number, t: TokenSlot) => s + t.properties.length, 0);
       ln(`  + ${w}`);
       ln(`    Token types: ${slots.length}  |  Properties: ${props}`);
@@ -1152,13 +1133,27 @@ function showDiff(): void {
 
     const propAdded: string[] = [];
     const propRemoved: string[] = [];
+    const widgetNewSlots: Array<{ tokenType: string; property: string }> = [];
+
     for (const st of scrapedSlots) {
       const ct = currentSlots.find((c) => c.tokenType === st.tokenType);
-      if (!ct) continue;
+      if (!ct) {
+        for (const p of st.properties) {
+          widgetNewSlots.push({ tokenType: st.tokenType, property: p });
+        }
+        continue;
+      }
       const added = st.properties.filter((p) => !ct.properties.includes(p));
       const removed = ct.properties.filter((p) => !st.properties.includes(p));
-      for (const p of added) propAdded.push(`    + ${st.tokenType} > ${p}`);
+      for (const p of added) {
+        propAdded.push(`    + ${st.tokenType} > ${p}`);
+        widgetNewSlots.push({ tokenType: st.tokenType, property: p });
+      }
       for (const p of removed) propRemoved.push(`    - ${st.tokenType} > ${p}`);
+    }
+
+    if (widgetNewSlots.length > 0) {
+      newTokenSlots[w] = widgetNewSlots;
     }
 
     const hasVariantSlots = scraped[w]?.variantSlots && Object.keys(scraped[w].variantSlots).length > 0;
@@ -1260,11 +1255,28 @@ function showDiff(): void {
   ln('    npm run scrape:slots:approve');
   ln();
 
-  // Write the diff file
+  // Write the diff file + new-slot manifest for incremental RN mapping updates
   const diffFile = path.join(OUT_DIR, 'diff-report.txt');
+  const newSlotsFile = path.join(OUT_DIR, 'new-token-slots.json');
   if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.writeFileSync(diffFile, lines.join('\n'));
+  fs.writeFileSync(
+    newSlotsFile,
+    JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        scrapedFile: OUT_FILE,
+        sourceOfTruth: SOURCE_OF_TRUTH,
+        description: 'New token slot properties from scrape diff — use with verify-rn-mappings --new-slots-only',
+        widgets: newTokenSlots,
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+  const newSlotCount = Object.values(newTokenSlots).reduce((sum, entries) => sum + entries.length, 0);
   console.log(`✅ Diff report saved to: ${diffFile}`);
+  console.log(`✅ New token slots manifest: ${newSlotsFile} (${newSlotCount} properties across ${Object.keys(newTokenSlots).length} widgets)`);
   console.log(`   ${newWidgets.length} new, ${changedCount} changed, ${unchangedCount} unchanged, ${removedWidgets.length} missing`);
 }
 

@@ -445,13 +445,23 @@ async function globalSetup(config: FullConfig) {
       }
     }
 
-    // Capture canvas baselines in parallel batches
-    console.log('\n--- CANVAS BASELINES ---');
-    await runInBatches(widgets, PARALLEL_WORKERS, captureCanvasBaseline);
+    const verifyTarget = (process.env.SLOT_VERIFY_TARGET || 'both').toLowerCase();
+    const runCanvas = verifyTarget === 'both' || verifyTarget === 'canvas';
+    const runPreview = verifyTarget === 'both' || verifyTarget === 'preview';
 
-    // Capture preview baselines in parallel batches
-    console.log('\n--- PREVIEW BASELINES ---');
-    await runInBatches(widgets, PARALLEL_WORKERS, capturePreviewBaseline);
+    if (runCanvas) {
+      console.log('\n--- CANVAS BASELINES ---');
+      await runInBatches(widgets, PARALLEL_WORKERS, captureCanvasBaseline);
+    } else {
+      console.log('\n⏭️  Skipping canvas baselines (SLOT_VERIFY_TARGET=preview)');
+    }
+
+    if (runPreview) {
+      console.log('\n--- PREVIEW BASELINES ---');
+      await runInBatches(widgets, PARALLEL_WORKERS, capturePreviewBaseline);
+    } else {
+      console.log('\n⏭️  Skipping preview baselines (SLOT_VERIFY_TARGET=canvas)');
+    }
 
     console.log('✅ Base screenshots captured successfully');
 

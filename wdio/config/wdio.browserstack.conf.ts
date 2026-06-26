@@ -1,12 +1,8 @@
 import { config as sharedConfig } from './wdio.shared.conf';
 import type { Options } from '@wdio/types';
-import * as dotenv from 'dotenv';
 import path from 'path';
 import fs from 'fs';
 import { BrowserStackService } from '../services/browserstack.service';
-
-// Load environment variables
-dotenv.config();
 
 // Load mobile app URLs from cache (prefer browserstack sub-key, fall back to top-level)
 const cacheDir = path.join(process.cwd(), '.test-cache');

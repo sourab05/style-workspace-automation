@@ -8,6 +8,7 @@
  * Usage:
  *   npx ts-node scripts/verify-rn-mappings.ts [--widget button] [--headless]
  *   npx ts-node scripts/verify-rn-mappings.ts --preview-url https://stage-platform.wavemaker.ai/run-xxxxx/ProjectName_master
+ *   npx ts-node scripts/verify-rn-mappings.ts --new-slots-only   # only properties in reports/new-token-slots.json
  */
 
 import 'dotenv/config';
@@ -29,6 +30,7 @@ import type { Widget } from '../src/matrix/widgets';
 
 const ARTIFACTS_DIR = path.join(process.cwd(), 'artifacts', 'rn-styles');
 const TOKEN_SLOTS_PATH = path.join(process.cwd(), 'wdio', 'config', 'widget-token-slots.json');
+const NEW_TOKEN_SLOTS_PATH = path.join(process.cwd(), 'reports', 'new-token-slots.json');
 const CSV_DIR = path.join(process.cwd(), 'tests', 'testdata', 'mobile');
 const CACHE_DIR = path.join(process.cwd(), '.test-cache');
 
@@ -89,6 +91,28 @@ function loadTokenSlots(): Record<string, { tokenSlots: Array<{ tokenType: strin
   delete parsed.$schema;
   delete parsed.description;
   return parsed;
+}
+
+function loadNewTokenSlotFilters(): Record<string, Set<string>> {
+  if (!fs.existsSync(NEW_TOKEN_SLOTS_PATH)) {
+    console.error(`❌ New token slots manifest not found: ${NEW_TOKEN_SLOTS_PATH}`);
+    console.error('   Run scrape diff first:  npm run scrape:slots:diff');
+    console.error('   (Requires reports/scraped-token-slots.json from npm run scrape:slots)');
+    process.exit(1);
+  }
+
+  const parsed = JSON.parse(fs.readFileSync(NEW_TOKEN_SLOTS_PATH, 'utf-8'));
+  const widgets = parsed.widgets as Record<string, Array<{ tokenType: string; property: string }>> | undefined;
+  if (!widgets || Object.keys(widgets).length === 0) {
+    console.log('ℹ️  No new token slots in manifest — nothing to verify.');
+    process.exit(0);
+  }
+
+  const filters: Record<string, Set<string>> = {};
+  for (const [widget, entries] of Object.entries(widgets)) {
+    filters[widget] = new Set(entries.map((e) => e.property));
+  }
+  return filters;
 }
 
 function loadFirstStudioWidgetName(widget: string): string | null {
@@ -207,6 +231,7 @@ interface TraceBinding {
   cssVar: string;
   fullPath: string;
   resolvedValue: any;
+  parentMissing?: boolean;
 }
 
 function collectTraceBindings(obj: any, prefix = ''): TraceBinding[] {
@@ -219,17 +244,25 @@ function collectTraceBindings(obj: any, prefix = ''): TraceBinding[] {
     for (const trace of traces) {
       if (trace?.value && typeof trace.value === 'object') {
         for (const [rnProp, rawVal] of Object.entries(trace.value)) {
-          // Skip token-to-token assignments (e.g. "--wm-btn-background": "var(--wm-color-primary)")
-          // We only want real style property bindings (e.g. "backgroundColor": "var(--wm-btn-background)")
           if (rnProp.startsWith('--')) continue;
 
           if (typeof rawVal === 'string' && rawVal.includes('var(--wm-')) {
             const match = rawVal.match(/var\((--wm-[a-z0-9-]+)\)/);
             if (match) {
               const cssVar = match[1];
-              const fullPath = prefix ? `${prefix}.${rnProp}` : rnProp;
-              const resolvedValue = resolveTraceValue(obj, rnProp);
-              bindings.push({ namespace: prefix || '(top)', rnProperty: rnProp, cssVar, fullPath, resolvedValue });
+
+              // Resolve the actual property key in the parent object.
+              // The trace key (e.g. "padding") may be a shorthand that
+              // doesn't exist as a real key — the parent object has the
+              // resolved longhands (e.g. "paddingTop", "paddingLeft").
+              // Use the actual parent key for the mapping suggestion.
+              const resolved = resolveParentProperty(obj, rnProp);
+              const actualKey = resolved ? resolved.key : rnProp;
+              const fullPath = prefix ? `${prefix}.${actualKey}` : actualKey;
+              const resolvedValue = resolved ? resolved.value : undefined;
+              const parentMissing = !resolved;
+
+              bindings.push({ namespace: prefix || '(top)', rnProperty: actualKey, cssVar, fullPath, resolvedValue, parentMissing });
             }
           }
         }
@@ -248,6 +281,19 @@ function collectTraceBindings(obj: any, prefix = ''): TraceBinding[] {
   }
 
   return bindings;
+}
+
+/**
+ * Check if the trace key exists as an actual property in the parent styles object.
+ * Returns the key and value if found, null if not.
+ * Does NOT expand shorthands — if the trace says "borderWidth" but the parent
+ * only has "borderTopWidth", that's reported as a missing property error.
+ */
+function resolveParentProperty(parentObj: any, traceKey: string): { key: string; value: any } | null {
+  if (traceKey in parentObj && traceKey !== '__trace') {
+    return { key: traceKey, value: parentObj[traceKey] };
+  }
+  return null;
 }
 
 /**
@@ -438,6 +484,7 @@ async function main() {
   const singleWidget  = args.includes('--widget')       ? args[args.indexOf('--widget') + 1]       : null;
   const headless      = args.includes('--headless');
   const previewUrlArg = args.includes('--preview-url')  ? args[args.indexOf('--preview-url') + 1]  : null;
+  const newSlotsOnly  = args.includes('--new-slots-only');
   const isLocal       = previewUrlArg ? isLocalUrl(previewUrlArg) : false;
 
   // --use-cached: skip auth/deploy/browser, read from saved style snapshots
@@ -461,9 +508,27 @@ async function main() {
   }
 
   const tokenSlots = loadTokenSlots();
-  const widgetList = singleWidget
+  const newSlotFilters = newSlotsOnly ? loadNewTokenSlotFilters() : null;
+
+  let widgetList = singleWidget
     ? [singleWidget]
     : Object.keys(tokenSlots);
+
+  if (newSlotFilters) {
+    const newWidgets = Object.keys(newSlotFilters);
+    widgetList = singleWidget
+      ? newWidgets.includes(singleWidget) ? [singleWidget] : []
+      : newWidgets;
+
+    if (widgetList.length === 0) {
+      console.log(`ℹ️  No new token slots for widget "${singleWidget}" in ${NEW_TOKEN_SLOTS_PATH}`);
+      process.exit(0);
+    }
+
+    const totalNew = widgetList.reduce((sum, w) => sum + (newSlotFilters[w]?.size ?? 0), 0);
+    console.log(`\n🆕 New-slots-only mode: ${totalNew} properties across ${widgetList.length} widget(s)`);
+    console.log(`   Manifest: ${NEW_TOKEN_SLOTS_PATH}`);
+  }
 
   console.log(`\n📋 Widgets to verify: ${widgetList.length}`);
   console.log(`   ${widgetList.join(', ')}\n`);
@@ -518,11 +583,11 @@ async function main() {
         console.log(`  🔍 Found ${traceBindings.length} --wm- trace bindings`);
       }
 
-      verifyMappings(widget as Widget, widgetSlots, stylesObj, traceBindings, result);
+      verifyMappings(widget as Widget, widgetSlots, stylesObj, traceBindings, result, newSlotFilters?.[widget]);
       results.push(result);
     }
 
-    await writeReports(results);
+    await writeReports(results, newSlotsOnly);
     return;
   }
 
@@ -713,11 +778,11 @@ async function main() {
       console.log(`  🔍 Found ${traceBindings.length} --wm- trace bindings`);
     }
 
-    verifyMappings(widget as Widget, widgetSlots, stylesObj, traceBindings, result);
+    verifyMappings(widget as Widget, widgetSlots, stylesObj, traceBindings, result, newSlotFilters?.[widget]);
     results.push(result);
   }
 
-  await writeReports(results);
+  await writeReports(results, newSlotsOnly);
   await browser.close();
   console.log('\n✅ Done.');
 }
@@ -732,9 +797,11 @@ function verifyMappings(
   stylesObj: any,
   traceBindings: ReturnType<typeof collectTraceBindings>,
   result: MappingResult,
+  propertyFilter?: Set<string>,
 ) {
   for (const slot of widgetSlots.tokenSlots) {
     for (const property of slot.properties) {
+      if (propertyFilter && !propertyFilter.has(property)) continue;
       const propertyPath = property.split('.');
       const mappedPath = MobileMapper.mapToRnStylePath(propertyPath, widget, 'android');
 
@@ -786,8 +853,8 @@ function verifyMappings(
     }
   }
 
-  // Find --wm- trace vars not covered by any token slot property
-  if (traceBindings.length > 0) {
+  // Find --wm- trace vars not covered by any token slot property (skip in new-slots-only mode)
+  if (traceBindings.length > 0 && !propertyFilter) {
     const coveredVars = new Set<string>();
     for (const slot of widgetSlots.tokenSlots) {
       for (const prop of slot.properties) {
@@ -807,12 +874,13 @@ function verifyMappings(
 // Shared: write mapping-report.json + mapping-report.txt
 // ---------------------------------------------------------------------------
 
-async function writeReports(results: MappingResult[]) {
+async function writeReports(results: MappingResult[], newSlotsOnly = false) {
   console.log(`\n${'═'.repeat(60)}`);
   console.log('  GENERATING REPORTS');
   console.log(`${'═'.repeat(60)}\n`);
 
-  const jsonPath = path.join(ARTIFACTS_DIR, 'mapping-report.json');
+  const reportBase = newSlotsOnly ? 'mapping-report-new-slots' : 'mapping-report';
+  const jsonPath = path.join(ARTIFACTS_DIR, `${reportBase}.json`);
   fs.writeFileSync(jsonPath, JSON.stringify(results, null, 2));
   console.log(`📄 JSON report: ${jsonPath}`);
 
@@ -820,8 +888,12 @@ async function writeReports(results: MappingResult[]) {
     if (entry.traceMatches.length > 0) {
       lines.push(`       Suggested (from --wm- trace → exact match on --wm-*-${entry.property.replace(/\./g, '-')}):`);
       for (const t of entry.traceMatches) {
-        const valStr = t.resolvedValue !== undefined ? ` = ${JSON.stringify(t.resolvedValue)}` : '';
-        lines.push(`         → ${t.fullPath}  (${t.cssVar}: ${t.rnProperty})${valStr}`);
+        if (t.parentMissing) {
+          lines.push(`         ⛔ ${t.namespace}.${t.rnProperty}  — ERROR: "${t.rnProperty}" not found in parent object "${t.namespace}" (${t.cssVar})`);
+        } else {
+          const valStr = t.resolvedValue !== undefined ? ` = ${JSON.stringify(t.resolvedValue)}` : '';
+          lines.push(`         → ${t.fullPath}  (${t.cssVar}: ${t.rnProperty})${valStr}`);
+        }
       }
     } else if (entry.styleMatches.length > 0) {
       const camel = entry.property.split('.').length === 1
@@ -836,15 +908,22 @@ async function writeReports(results: MappingResult[]) {
     }
   }
 
-  const txtPath = path.join(ARTIFACTS_DIR, 'mapping-report.txt');
+  const txtPath = path.join(ARTIFACTS_DIR, `${reportBase}.txt`);
   const lines: string[] = [
     '════════════════════════════════════════════════════════════════',
-    '  RN STYLE MAPPING VERIFICATION REPORT',
+    newSlotsOnly
+      ? '  RN STYLE MAPPING REPORT — NEW TOKEN SLOTS ONLY'
+      : '  RN STYLE MAPPING VERIFICATION REPORT',
     '════════════════════════════════════════════════════════════════',
     `  Generated: ${new Date().toLocaleString()}`,
     `  Widgets:   ${results.length}`,
-    '',
   ];
+  if (newSlotsOnly) {
+    lines.push(`  Manifest:  ${NEW_TOKEN_SLOTS_PATH}`);
+    lines.push('  Scope:     properties added by latest scrape diff only');
+    lines.push('  Rule:      ADD mobileMapper.ts entries for UNMAPPED only — never edit existing mappings');
+  }
+  lines.push('');
 
   let totalVerified = 0, totalUnverified = 0, totalInvalid = 0, totalUnmapped = 0, totalMissing = 0;
 
@@ -895,8 +974,12 @@ async function writeReports(results: MappingResult[]) {
     if (r.missingFromSlots.length > 0) {
       lines.push('  MISSING FROM TOKEN SLOTS (found in --wm- trace but not in widget-token-slots.json):');
       for (const m of r.missingFromSlots) {
-        const valStr = m.resolvedValue !== undefined ? ` = ${JSON.stringify(m.resolvedValue)}` : '';
-        lines.push(`    🆕 ${m.cssVar} → ${m.fullPath} (${m.rnProperty})${valStr}`);
+        if (m.parentMissing) {
+          lines.push(`    ⛔ ${m.cssVar} → "${m.rnProperty}" NOT FOUND in parent "${m.namespace}" — trace property does not exist in styles object`);
+        } else {
+          const valStr = m.resolvedValue !== undefined ? ` = ${JSON.stringify(m.resolvedValue)}` : '';
+          lines.push(`    🆕 ${m.cssVar} → ${m.fullPath} (${m.rnProperty})${valStr}`);
+        }
       }
       lines.push('');
     }

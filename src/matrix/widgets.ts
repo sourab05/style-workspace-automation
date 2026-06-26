@@ -108,7 +108,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     states: ['default', 'disabled'],
     allowedTokenTypes: [
       'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'font',
-      'gap', 'icon', 'space', 'opacity'
+      'icon', 'space', 'opacity'
     ]
   },
   accordion: {
@@ -131,7 +131,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'margin', 'space'
+      'border-style', 'border-width', 'color', 'font', 'space'
     ]
   },
   panel: {
@@ -141,7 +141,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-width', 'color', 'elevation', 'font', 'space',
+      'border-radius', 'border-width', 'color', 'elevation', 'font', 'icon', 'space',
     ]
   },
   cards: {
@@ -203,7 +203,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default', 'active'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'margin', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'opacity', 'space'
     ]
   },
   tabbar: {
@@ -214,7 +214,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     states: ['default', 'active'],
     allowedTokenTypes: [
       'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'font',
-      'margin', 'space'
+      'opacity', 'space'
     ]
   },
   bottomsheet: {
@@ -234,7 +234,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'icon', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'font', 'icon', 'space'
     ]
   },
   tabs: {
@@ -244,7 +244,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default', 'active'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'font', 'gap', 'icon', 'margin', 'space'
     ]
   },
   list: {
@@ -265,7 +265,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     states: ['default', 'disabled', 'active'],
     allowedTokenTypes: [
       'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'font',
-      'gap', 'icon', 'space'
+      'icon', 'opacity', 'space'
     ]
   },
   radioset: {
@@ -305,7 +305,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default', 'on', 'disabled'],
     allowedTokenTypes: [
-      'border-radius', 'border-width', 'color', 'margin', 'space'
+      'border-radius', 'border-width', 'color', 'margin', 'opacity', 'space'
     ]
   },
   switch: {
@@ -338,7 +338,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'opacity', 'space'
     ]
   },
   tile: {
@@ -379,7 +379,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'space'
+      'color', 'space'
     ]
   },
   spinner: {
@@ -409,7 +409,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'color', 'font', 'margin', 'space'
+      'border-radius', 'color', 'font', 'space'
     ]
   },
   'progress-circle': {
@@ -429,7 +429,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'icon', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'font', 'space', 'elevation'
     ]
   },
   popover: {
@@ -460,7 +460,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     states: ['default'],
     allowedTokenTypes: [
       'border-radius', 'border-style', 'border-width', 'color', 'elevation', 'font',
-      'gap', 'margin', 'space' , 'padding'
+      'space'
     ]
   },
   slider: {
@@ -530,7 +530,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'font', 'icon', 'space'
+      'border-radius', 'border-style', 'border-width', 'color', 'font', 'space'
     ]
   },
   fileupload: {
@@ -540,7 +540,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
     },
     states: ['default'],
     allowedTokenTypes: [
-      'border-radius', 'border-style', 'border-width', 'color', 'space', 'font', 'icon'
+      'border-radius', 'border-style', 'border-width', 'color', 'font', 'icon'
     ]
   },
   camera: {
@@ -581,7 +581,7 @@ export const WIDGET_CONFIG: Record<Widget, WidgetConfig> = {
       standard: ['standard'],
     },
     states: ['default'],
-    allowedTokenTypes: ['border-radius', 'border-style', 'border-width', 'color', 'font', 'icon', 'space']
+    allowedTokenTypes: ['border-radius', 'border-style', 'border-width', 'color', 'elevation', 'font', 'space']
   },
   // 'left-nav': {
   //   appearances: ['standard'],

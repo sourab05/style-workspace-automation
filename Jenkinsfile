@@ -164,14 +164,15 @@ def pipelineParameters() {
         [
             $class: 'ChoiceParameterDefinition',
             name: 'WM_ENV',
-            choices: ['stage-ai', 'stage-ai-jeevan', 'stage', 'dev', 'wmo', 'preprod'],
+            choices: ['stage-ai', 'stage-ai-jeevan', 'stage', 'dev', 'wmo', 'preprod', 'mars'],
             description: '''Target WaveMaker environment (URL, project IDs, username, auth set automatically). Jenkins credential per env - see docs/JENKINS-CREDENTIALS.md:
   stage-ai        -> WM_STAGE_AI_CREDS
   stage-ai-jeevan -> WM_STAGE_AI_JEEVAN_CREDS
   stage           -> WM_STAGE_CREDS
   dev             -> WM_DEV_CREDS
   wmo             -> WM_WMO_CREDS
-  preprod         -> WM_PREPROD_CREDS'''
+  preprod         -> WM_PREPROD_CREDS
+  mars            -> WM_MARS_CREDS'''
         ],
         [
             $class: 'ChoiceParameterDefinition',

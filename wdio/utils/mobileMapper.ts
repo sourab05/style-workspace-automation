@@ -2291,9 +2291,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       }
     }
 
-    // Size properties
-    if (top === 'height') return 'root.height';
-    if (top === 'width') return 'root.width';
+    // Progress value properties
+    if (top === 'progress-value') {
+      if (second === 'height') return 'progressValue.height';
+      if (second === 'width') return 'progressValue.width';
+    }
 
     return `root.${TokenMappingService.mapToComputedProperty(propertyPath[propertyPath.length - 1])}`;
   }
@@ -2324,9 +2326,15 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'content') {
         if (third === 'background') return 'menu.backgroundColor';
         if (third === 'width') return 'menu.width';
-        if (third === 'border' && fourth === 'radius') return 'menu.borderTopLeftRadius';
+        if (third === 'border') {
+          if (fourth === 'radius') return 'menu.borderTopLeftRadius';
+          if (fourth === 'color') return 'menu.borderColor';
+          if (fourth === 'width') return 'menu.borderWidth';
+          if (fourth === 'style') return 'menu.borderStyle';
+        }
       }
       if (second === 'item') {
+        if (third === 'background-color') return 'menuItem.root.backgroundColor';
         if (third === 'color') return 'menuItem.text.color';
         if (third === 'font-weight') return 'menuItem.text.fontWeight';
         if (third === 'font-family') return 'menuItem.text.fontFamily';
@@ -2346,6 +2354,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         }
         if (third === 'line' && fourth === 'height') return 'menuItem.text.lineHeight';
         if (third === 'border' && fourth === 'style') return 'menuItem.root.borderStyle';
+        if (third === 'icon') {
+          if (fourth === 'color') return 'menuItem.icon.icon.color';
+          if (fourth === 'font-size') return 'menuItem.icon.icon.fontSize';
+          if (fourth === 'padding') return 'menuItem.icon.root.paddingTop';
+        }
       }
       if (second === 'box-shadow') return 'root.modalContent.boxShadow';
       if (second === 'icon' && third === 'size') return 'menuItem.icon.icon.fontSize';
@@ -2357,6 +2370,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
         if (!third) return 'menu.paddingTop';
       }
       if (second === 'text') {
+        if (third === 'font-size') return 'link.text.fontSize';
         if (third === 'padding') {
           if (fourth === 'left') return 'link.text.paddingLeft';
           if (fourth === 'right') return 'link.text.paddingRight';
@@ -2568,6 +2582,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
      //    CSS vars: --wm-tabs-heading-*
      if (top === 'heading') {
        if (second === 'background') return 'root.backgroundColor';
+       if (second === 'gap') return 'root.gap';
        if (second === 'border') {
          if (third === 'color')  return 'root.borderColor';
          if (third === 'width')  return 'root.borderWidth';
@@ -2602,8 +2617,11 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        if (third === 'indicator') {
          if (fourth === 'background') return `${indicatorPrefix}.backgroundColor`;
          if (fourth === 'height')     return `${indicatorPrefix}.height`;
-         if (fourth === 'margin')     return `${indicatorPrefix}.marginTop`;
+         if (fourth === 'margin-top') return `${indicatorPrefix}.marginTop`;
        }
+
+       if (third === 'min-height') return `${itemPrefix}.minHeight`;
+       if (third === 'gap') return `${itemPrefix}.gap`;
 
        // Font / Text
        if (third === 'font') {
@@ -2979,6 +2997,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'font-family') return 'message.text.fontFamily';
       if (second === 'font-size') return 'message.text.fontSize';
       if (second === 'font-weight') return 'message.text.fontWeight';
+      if (second === 'background') return 'message.text.backgroundColor';
+      if (second === 'padding') return 'message.text.paddingTop';
+      if (second === 'border') {
+        if (third === 'color') return 'message.text.borderColor';
+        if (third === 'width') return 'message.text.borderWidth';
+        if (third === 'style') return 'message.text.borderStyle';
+      }
     }
 
     if (top === 'title') {
@@ -2992,7 +3017,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (top === 'dialog' && second === 'overlay' && third === 'background') return 'modal.backgroundColor';
     if (top === 'body' && second === 'padding') return 'root.padding';
-    if (top === 'footer' && second === 'padding') return 'dialogActions.paddingTop';
+    if (top === 'footer' && second === 'padding') return 'dialogActions.root.paddingTop';
 
     if (top === 'header') {
       if (second === 'background') return 'header.backgroundColor';
@@ -3222,25 +3247,51 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (fourth === 'radius') return 'arrowButton.icon.icon.borderTopLeftRadius';
     }
 
-    // check.icon.color -> checkIcon.text.color
-    if (top === 'check' && second === 'icon' && third === 'color') return 'checkIcon.text.color';
-    // check.icon.font-size -> checkIcon.text.fontSize
-    if (top === 'check' && second === 'icon' && (third === 'font-size' || third === 'fontSize')) return 'checkIcon.text.fontSize';
+    // check.icon.* -> checkIcon.*
+    if (top === 'check' && second === 'icon') {
+      if (third === 'color') return 'checkIcon.text.color';
+      if (third === 'font-size' || third === 'fontSize') return 'checkIcon.text.fontSize';
+      if (third === 'background-color') return 'checkIcon.root.backgroundColor';
+      if (third === 'height') return 'checkIcon.root.height';
+      if (third === 'width') return 'checkIcon.root.width';
+      if (third === 'padding') return 'checkIcon.root.paddingTop';
+      if (third === 'border') {
+        const fourth = propertyPath[3];
+        if (fourth === 'color') return 'checkIcon.root.borderColor';
+        if (fourth === 'width') return 'checkIcon.root.borderWidth';
+        if (fourth === 'style') return 'checkIcon.root.borderStyle';
+        if (fourth === 'radius') return 'checkIcon.root.borderTopLeftRadius';
+      }
+    }
 
-    // modal-content.background-color -> modalContent.backgroundColor
-    if (top === 'modal-content' && (second === 'background-color' || second === 'background')) return 'modalContent.backgroundColor';
-    // modal-content.border.color -> modalContent.borderColor
-    if (top === 'modal-content' && second === 'border' && third === 'color') return 'modalContent.borderColor';
-    // modal-content.border.width -> modalContent.borderWidth
-    if (top === 'modal-content' && second === 'border' && third === 'width')  return 'modalContent.borderWidth';
-    if (top === 'modal-content' && second === 'border' && third === 'style') return 'modalContent.borderStyle';
-    if (top === 'modal-content' && second === 'border' && third === 'radius') return 'modalContent.borderTopLeftRadius';
+    // item.* -> selectItem.*
+    if (top === 'item') {
+      if (second === 'border') {
+        if (third === 'color') return 'selectItem.borderColor';
+        if (third === 'width') return 'selectItem.borderWidth';
+        if (third === 'style') return 'selectItem.borderStyle';
+      }
+      if (second === 'padding') return 'selectItem.paddingTop';
+    }
 
-    // modal-text.color -> selectItemText.color
-    if (top === 'modal-text' && second === 'color') return 'selectItemText.color';
-    // modal-text.font-family -> selectItemText.fontFamily
-    if (top === 'modal-text' && (second === 'font-family' || second === 'fontFamily')) return 'selectItemText.fontFamily';
-    if (top === 'modal-text' && second === 'font-size') return 'selectItemText.fontSize';
+    // modal-content.* -> modalContent.*
+    if (top === 'modal-content') {
+      if (second === 'background-color' || second === 'background') return 'modalContent.backgroundColor';
+      if (second === 'border' && third === 'color') return 'modalContent.borderColor';
+      if (second === 'border' && third === 'width') return 'modalContent.borderWidth';
+      if (second === 'border' && third === 'style') return 'modalContent.borderStyle';
+      if (second === 'border' && third === 'radius') return 'modalContent.borderTopLeftRadius';
+      if (second === 'box-shadow') return 'modalContent.boxShadow';
+    }
+
+    // modal-text.* -> selectItemText.*
+    if (top === 'modal-text') {
+      if (second === 'color') return 'selectItemText.color';
+      if (second === 'font-family' || second === 'fontFamily') return 'selectItemText.fontFamily';
+      if (second === 'font-size') return 'selectItemText.fontSize';
+      if (second === 'letter-spacing') return 'selectItemText.letterSpacing';
+      if (second === 'line-height') return 'selectItemText.lineHeight';
+    }
   }
   // ============================================================================
   // CAMERA-SPECIFIC MAPPINGS
