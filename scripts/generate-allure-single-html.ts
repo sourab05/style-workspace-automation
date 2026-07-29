@@ -9,8 +9,8 @@ import fs from "fs";
 import path from "path";
 
 const ROOT = process.cwd();
-const resultsDir = path.join(ROOT, "allure-results");
-const outputDir = path.join(ROOT, "reports", "allure-single");
+const resultsDir = path.resolve(ROOT, process.env.ALLURE_RESULTS_DIR || "allure-results");
+const outputDir = path.resolve(ROOT, process.env.ALLURE_SINGLE_OUTPUT_DIR || path.join("reports", "allure-single"));
 
 function main() {
   if (!fs.existsSync(resultsDir)) {
@@ -37,7 +37,7 @@ function main() {
 
   const sizeMB = (fs.statSync(indexHtml).size / (1024 * 1024)).toFixed(1);
   console.log(`\n✅ Single-file report: ${indexHtml} (${sizeMB} MB)`);
-  console.log("   Open locally: open reports/allure-single/index.html");
+  console.log(`   Open locally: open ${path.relative(ROOT, indexHtml)}`);
 }
 
 main();

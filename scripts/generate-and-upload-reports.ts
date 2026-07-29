@@ -4,7 +4,8 @@
  * Uses path: releases/<version>/<projectname>/<platform>/<date-time>
  *
  * 1. Playwright: generates from logs/playwright-log.json → reports/playwright-report.html, then uploads
- * 2. Allure: generates from allure-results → allure-report, then uploads
+ * 2. Allure: android and ios results are never merged. Each platform gets its own single-file
+ *    report (allure generate --single-file) and its own S3 upload under SWSAndroid / SWSIos.
  *
  * Skips generation/upload if source data doesn't exist.
  */
@@ -52,11 +53,11 @@ function main() {
         }
     }
 
-    // Allure: generate from platform result dirs if present, then upload
+    // Allure: generate a self-contained single-file report per platform, uploaded to its own
+    // S3 path. Android and iOS are never merged — each platform gets its own report + upload.
     const allureResults = path.join(ROOT, "allure-results");
     const allureResultsAndroid = path.join(ROOT, "allure-results-android");
     const allureResultsIos = path.join(ROOT, "allure-results-ios");
-    const allureReport = path.join(ROOT, "allure-report");
     const hasAndroidResults =
         fs.existsSync(allureResultsAndroid) &&
         fs.readdirSync(allureResultsAndroid).length > 0;
@@ -64,36 +65,51 @@ function main() {
         fs.existsSync(allureResultsIos) &&
         fs.readdirSync(allureResultsIos).length > 0;
 
-    if (hasAndroidResults && hasIosResults) {
+    function generateAndUploadSingleFile(resultsDir: string, platform?: "android" | "ios"): boolean {
+        const suffix = platform ? `-${platform}` : "";
+        const label = platform ? ` (${platform})` : "";
+        const outputDir = path.join(ROOT, "reports", `allure-single${suffix}`);
+        const indexHtml = path.join(outputDir, "index.html");
+        const relResultsDir = path.relative(ROOT, resultsDir);
+        const relOutputDir = path.relative(ROOT, outputDir);
+        const platformEnv = platform ? `S3_REPORT_PLATFORM=${platform} ` : "";
+
         run(
-            "allure generate --clean allure-results-android allure-results-ios -o allure-report",
-            "Generate combined Allure report (android + ios)",
+            `ALLURE_RESULTS_DIR=${relResultsDir} ALLURE_SINGLE_OUTPUT_DIR=${relOutputDir} npx ts-node scripts/generate-allure-single-html.ts`,
+            `Generate single-file Allure report${label}`,
         );
-    } else if (hasAndroidResults) {
-        run(
-            "allure generate --clean allure-results-android -o allure-report",
-            "Generate Allure report (android)",
-        );
-    } else if (hasIosResults) {
-        run(
-            "allure generate --clean allure-results-ios -o allure-report",
-            "Generate Allure report (ios)",
-        );
-    } else if (fs.existsSync(allureResults)) {
-        run("allure generate --clean allure-results -o allure-report", "Generate Allure report");
-    }
-    if (fs.existsSync(allureReport)) {
-        if (run("npx ts-node scripts/upload-allure-to-s3.ts", "Upload Allure report to S3")) {
-            uploaded = true;
+        if (!fs.existsSync(indexHtml)) {
+            return false;
         }
+        return run(
+            `ALLURE_SINGLE_HTML_PATH=${relOutputDir}/index.html ${platformEnv}npx ts-node scripts/upload-allure-single-html-to-s3.ts`,
+            `Upload single-file Allure report to S3${label}`,
+        );
+    }
+
+    if (hasAndroidResults && generateAndUploadSingleFile(allureResultsAndroid, "android")) {
+        uploaded = true;
+    }
+    if (hasIosResults && generateAndUploadSingleFile(allureResultsIos, "ios")) {
+        uploaded = true;
+    }
+    if (
+        !hasAndroidResults &&
+        !hasIosResults &&
+        fs.existsSync(allureResults) &&
+        fs.readdirSync(allureResults).length > 0 &&
+        generateAndUploadSingleFile(allureResults)
+    ) {
+        uploaded = true;
     }
 
     const hadReportSources =
         fs.existsSync(playwrightLog) ||
         fs.existsSync(path.join(ROOT, "playwright-report")) ||
         fs.existsSync(path.join(ROOT, "reports", "playwright-report.html")) ||
-        fs.existsSync(allureResults) ||
-        fs.existsSync(allureReport);
+        hasAndroidResults ||
+        hasIosResults ||
+        fs.existsSync(allureResults);
 
     if (!uploaded) {
         if (hadReportSources) {
