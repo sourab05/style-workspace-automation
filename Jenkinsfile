@@ -15,6 +15,63 @@ def uploadReportsToS3(Map args = [:]) {
     }
 }
 
+def sendBuildStatusEmail() {
+    // Plain, growing distribution list — append ',addr@domain.com' to add recipients.
+    // No branch-based/conditional logic: everyone here gets every build-status email regardless of pass/fail.
+    def recipients = 'jeevan.inaparti@wavemaker.com,anitha.thummalapally@wavemaker.com'
+    // Not arbitrary: this is what actually showed up in the From: header of a real test email, even
+    // though this Jenkinsfile originally requested from: 'jeevan.inaparti@wavemaker.com'. The Jenkins
+    // instance's SMTP relay (Google Workspace) enforces the authenticated sending account as the real
+    // From: for SPF/DKIM/DMARC alignment and overrides whatever `from:` is passed here unless that
+    // address is an authorized send-as alias — so this value is a record of relay behavior, not a request.
+    def sender = 'qa-notifications@wavemaker.com'
+    // Per-platform rows: only shown for platforms that actually ran this build
+    // (env.ANDROID_TEST_RESULT / env.IOS_TEST_RESULT are only set inside their own WDIO branch).
+    def platformRows = ''
+    if (env.ANDROID_TEST_RESULT) {
+        platformRows += "<b>Android Tests:</b> ${env.ANDROID_TEST_RESULT}<br/>"
+    }
+    if (env.IOS_TEST_RESULT) {
+        platformRows += "<b>iOS Tests:</b> ${env.IOS_TEST_RESULT}<br/>"
+    }
+    // Populated only when a stage explicitly records why it failed (currently: Mobile — Setup (CLI / AppChef)).
+    def failureBlock = ''
+    if (env.FAILED_STAGE) {
+        def escapedReason = (env.FAILURE_REASON?.trim() ?: 'See console log for details')
+            .replace('&', '&amp;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+        failureBlock = """
+            <p style="color:#b00020;">
+                <b>Failed Stage:</b> ${env.FAILED_STAGE}<br/>
+                <b>Reason:</b><br/>
+                <pre style="white-space:pre-wrap;">${escapedReason}</pre>
+            </p>
+        """
+    }
+    emailext(
+        subject: "[Style Workspace Automation] Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+        mimeType: 'text/html',
+        body: """
+            <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
+            <p><b>Status:</b> ${currentBuild.currentResult}</p>
+            ${failureBlock}
+            <p>
+                <b>WM_ENV:</b> ${params.WM_ENV ?: '-'}<br/>
+                <b>RUN_TARGET:</b> ${params.RUN_TARGET ?: '-'}<br/>
+                <b>MOBILE_PLATFORM:</b> ${env.MOBILE_PLATFORM ?: '-'}<br/>
+                ${platformRows}
+                <b>MOBILE_APP_SOURCE:</b> ${params.MOBILE_APP_SOURCE ?: '-'}<br/>
+                <b>S3_VERSION:</b> ${params.S3_VERSION ?: '-'}
+            </p>
+            <p><b>Console:</b> <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
+        """,
+        to: recipients,
+        from: sender,
+        attachLog: true
+    )
+}
+
 def applyWmEnvProfile() {
     def envKey = params.WM_ENV
 
@@ -466,15 +523,30 @@ pipeline {
                         }
                     }
                 }
-                sh '''
-                    set -a
-                    if [ "${MOBILE_BUILD_METHOD}" = "cli" ]; then
-                      # shellcheck disable=SC1091
-                      . scripts/load-ci-env.sh
-                    fi
-                    set +a
-                    npx ts-node wdio/specs/mobile.global.setup.ts
-                '''
+                script {
+                    def logFile = 'mobile-setup-build.log'
+                    def exitCode = sh(
+                        script: """#!/bin/bash
+                            set -a
+                            if [ "\${MOBILE_BUILD_METHOD}" = "cli" ]; then
+                              # shellcheck disable=SC1091
+                              . scripts/load-ci-env.sh
+                            fi
+                            set +a
+                            npx ts-node wdio/specs/mobile.global.setup.ts 2>&1 | tee ${logFile}
+                            exit \${PIPESTATUS[0]}
+                        """,
+                        returnStatus: true
+                    )
+                    if (exitCode != 0) {
+                        env.FAILED_STAGE = env.STAGE_NAME
+                        env.FAILURE_REASON = sh(
+                            script: "tail -n 15 ${logFile} 2>/dev/null || true",
+                            returnStdout: true
+                        ).trim()
+                        error("Mobile build/setup (${env.MOBILE_BUILD_METHOD ?: 'unknown'}) failed with exit code ${exitCode} — see console log")
+                    }
+                }
             }
         }
 
@@ -498,34 +570,53 @@ pipeline {
 
                     if (runAndroidTests) {
                         branches['Android'] = {
-                            sh """
-                                echo "🤖 Running Android token validation on BrowserStack (maxInstances=${bsMaxInstances})"
-                                MOBILE_PLATFORM=android MOBILE_STRICT_WIDGET_WAIT=true \
-                                BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
-                                ALLURE_RESULTS_DIR=allure-results-android \
-                                npx wdio run wdio/config/wdio.browserstack.conf.ts \
-                                    --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
-                                    || echo "⚠️  Android WDIO run completed with failures"
-                            """
+                            def exitCode = sh(
+                                script: """
+                                    echo "🤖 Running Android token validation on BrowserStack (maxInstances=${bsMaxInstances})"
+                                    MOBILE_PLATFORM=android MOBILE_STRICT_WIDGET_WAIT=true \
+                                    BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
+                                    ALLURE_RESULTS_DIR=allure-results-android \
+                                    npx wdio run wdio/config/wdio.browserstack.conf.ts \
+                                        --spec "wdio/specs/mobile.*.token.validate.spec.ts"
+                                """,
+                                returnStatus: true
+                            )
+                            env.ANDROID_TEST_RESULT = exitCode == 0 ? 'PASSED' : 'FAILED'
+                            if (exitCode != 0) {
+                                echo "⚠️  Android WDIO run completed with failures (exit ${exitCode})"
+                            }
                         }
                     }
                     if (runIosTests) {
                         branches['iOS'] = {
-                            sh """
-                                echo "🍎 Running iOS token validation on BrowserStack (maxInstances=${bsMaxInstances})"
-                                MOBILE_PLATFORM=ios MOBILE_STRICT_WIDGET_WAIT=true \
-                                BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
-                                ALLURE_RESULTS_DIR=allure-results-ios \
-                                npx wdio run wdio/config/wdio.browserstack.conf.ts \
-                                    --spec "wdio/specs/mobile.*.token.validate.spec.ts" \
-                                    || echo "⚠️  iOS WDIO run completed with failures"
-                            """
+                            def exitCode = sh(
+                                script: """
+                                    echo "🍎 Running iOS token validation on BrowserStack (maxInstances=${bsMaxInstances})"
+                                    MOBILE_PLATFORM=ios MOBILE_STRICT_WIDGET_WAIT=true \
+                                    BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
+                                    ALLURE_RESULTS_DIR=allure-results-ios \
+                                    npx wdio run wdio/config/wdio.browserstack.conf.ts \
+                                        --spec "wdio/specs/mobile.*.token.validate.spec.ts"
+                                """,
+                                returnStatus: true
+                            )
+                            env.IOS_TEST_RESULT = exitCode == 0 ? 'PASSED' : 'FAILED'
+                            if (exitCode != 0) {
+                                echo "⚠️  iOS WDIO run completed with failures (exit ${exitCode})"
+                            }
                         }
                     }
                     if (branches.size() == 1) {
                         branches.values()[0].call()
                     } else {
                         parallel branches
+                    }
+
+                    if (runAndroidTests && env.ANDROID_TEST_RESULT != 'PASSED') {
+                        unstable('Android WDIO tests failed — see console log')
+                    }
+                    if (runIosTests && env.IOS_TEST_RESULT != 'PASSED') {
+                        unstable('iOS WDIO tests failed — see console log')
                     }
                 }
                 sh 'echo "✅ Mobile test runs completed"'
@@ -597,6 +688,11 @@ pipeline {
         unstable {
             script {
                 uploadReportsToS3(nonFatal: true)
+            }
+        }
+        always {
+            script {
+                sendBuildStatusEmail()
             }
         }
     }
