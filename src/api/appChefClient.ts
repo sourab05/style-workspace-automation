@@ -3,8 +3,19 @@ import * as fs from 'fs';
 import * as path from 'path';
 import FormData from 'form-data';
 
-const APPCHEF_BASE = 'https://www.wavemakeronline.com/AppChef/services/chef';
-const WMO_LOGIN_URL = 'https://www.wavemakeronline.com/login/authenticate';
+// Single source for the AppChef host. Was https://www.wavemakeronline.com,
+// migrated to the platform domain (the old host now 301s).
+const APPCHEF_HOST = 'https://platform.wavemaker.ai';
+const APPCHEF_BASE = `${APPCHEF_HOST}/AppChef/services/chef`;
+const APPCHEF_REFERER = `${APPCHEF_HOST}/AppChef/`;
+const WMO_LOGIN_URL = `${APPCHEF_HOST}/login/authenticate`;
+const WMO_PROFILE_URL = `${APPCHEF_HOST}/login/rest/profile`;
+const APPCHEF_SECURITY_CHECK_URL = `${APPCHEF_HOST}/AppChef/j_spring_security_check`;
+
+// Confirmed from live AppChef traffic: DELETE /app?appId=App-xxxx
+// (full URL https://platform.wavemaker.ai/AppChef/services/chef/app?appId=...).
+// Takes appId only — the numeric `id` from /appsByName is not used here.
+const APPCHEF_DELETE_APP_PATH = '/app';
 const POLL_INTERVAL_MS = 15_000;
 const BUILD_TIMEOUT_MS = 45 * 60 * 1000;
 const DEFAULT_IOS_CERT_ID = 1255;
@@ -96,7 +107,7 @@ export class AppChefClient {
 
     // ─── Step 2: Get accountId from /login/rest/profile ──────────────────────
     console.log('[AppChef] Step 2/3: Fetching profile for accountId...');
-    const profileResp = await axios.get('https://www.wavemakeronline.com/login/rest/profile', {
+    const profileResp = await axios.get(WMO_PROFILE_URL, {
       headers: { Cookie: authCookie, 'X-Requested-With': 'XMLHttpRequest' },
       validateStatus: () => true,
       timeout: 15_000,
@@ -116,13 +127,13 @@ export class AppChefClient {
       j_rememberme: 'false',
     });
     const appChefResp = await axios.post(
-      'https://www.wavemakeronline.com/AppChef/j_spring_security_check',
+      APPCHEF_SECURITY_CHECK_URL,
       appChefPayload.toString(),
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'X-Requested-With': 'XMLHttpRequest',
-          Referer: 'https://www.wavemakeronline.com/AppChef/',
+          Referer: APPCHEF_REFERER,
           Cookie: authCookie,
         },
         maxRedirects: 0,
@@ -148,7 +159,7 @@ export class AppChefClient {
     return {
       Cookie: this.cookies,
       'X-Requested-With': 'XMLHttpRequest',
-      Referer: 'https://www.wavemakeronline.com/AppChef/',
+      Referer: APPCHEF_REFERER,
     };
   }
 
@@ -220,6 +231,53 @@ export class AppChefClient {
       return { appId: match.appId, id: match.id };
     }
     return null;
+  }
+
+  /**
+   * Delete one app record.
+   *
+   * validateStatus is relaxed so a 403/404 surfaces as a readable message
+   * instead of an axios stack trace.
+   */
+  async deleteApp(appId: string): Promise<void> {
+    const resp = await this.http.delete(APPCHEF_DELETE_APP_PATH, {
+      params: { appId },
+      headers: { ...this.authHeaders(), 'Content-Type': 'application/json' },
+      validateStatus: () => true,
+    });
+
+    if (resp.status >= 400) {
+      throw new Error(
+        `[AppChef] Delete app ${appId} failed (${resp.status}): ${JSON.stringify(resp.data).slice(0, 200)}`
+      );
+    }
+    console.log(`[AppChef] Deleted previous app ${appId}`);
+  }
+
+  /**
+   * Best-effort cleanup of the app record left behind by the previous build of
+   * the same bundleId.
+   *
+   * buildFromZip always creates a fresh app record (reusing one 500s on
+   * /saveApp), so without this every build leaves another app in the account.
+   * Deleting the old record also keeps /buildTasks from returning stale tasks
+   * that pollBuildTasks could mistake for the current build.
+   *
+   * Never throws: a cleanup failure must not fail an otherwise good build.
+   */
+  async deletePreviousApp(bundleId: string): Promise<boolean> {
+    try {
+      const existing = await this.findAppByName(bundleId);
+      if (!existing) {
+        console.log(`[AppChef] No previous app for ${bundleId} — nothing to delete`);
+        return false;
+      }
+      await this.deleteApp(existing.appId);
+      return true;
+    } catch (e: any) {
+      console.warn(`[AppChef] ⚠️  Cleanup of previous app failed (build continues): ${e.message}`);
+      return false;
+    }
   }
 
   // ── iOS Certificate Management ──────────────────────────────────────────────
@@ -589,6 +647,12 @@ export class AppChefClient {
         iosCertName = resolved.name;
       }
     }
+
+    // Delete the app record left by the previous build of this bundleId before
+    // creating the new one. Done here (rather than after a successful build) to
+    // match the requested behaviour; the tradeoff is that if saveApp below
+    // fails, the old app is already gone.
+    await this.deletePreviousApp(bundleId);
 
     // Always create a fresh app record (id:null, appId:null) — this matches the
     // proven AppChef UI flow. Reusing an existing app record (id set) causes the

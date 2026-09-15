@@ -10,6 +10,10 @@ build/
 !.env.example
 .env.local
 .env.*.local
+.env.bak-*
+# tokens/ backups left by scripts/sync-foundation-tokens.ts
+tokens.backup-*
+styles.backup-*
 
 # Screenshots — all auto-generated on test run, none committed
 screenshots/

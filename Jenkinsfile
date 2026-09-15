@@ -49,8 +49,32 @@ def sendBuildStatusEmail() {
             </p>
         """
     }
+    // On anything other than SUCCESS, pull the failure detail out of the build log
+    // itself using email-ext token macros. This avoids having to add per-stage
+    // failure capture to all 12 stages (only 'Mobile — Setup' does that today,
+    // which is why every other failure arrived as a bare "Status: FAILURE").
+    // The \$ are escaped so the tokens reach email-ext instead of being
+    // interpolated by Groovy here.
+    def logBlock = ''
+    if (currentBuild.currentResult != 'SUCCESS') {
+        logBlock = """
+            <h3 style="margin-bottom:4px;">Error lines from the log</h3>
+            <pre style="white-space:pre-wrap;background:#fff4f4;border:1px solid #f3c2c2;padding:10px;">\${BUILD_LOG_REGEX, regex="(?i)(error|failed|failure|exception|npm ERR!|AssertionError|✗|❌)", maxMatches=40, showTruncatedLines=false, escapeHtml=true}</pre>
+
+            <h3 style="margin-bottom:4px;">Stages entered (the last one is where it failed)</h3>
+            <pre style="white-space:pre-wrap;background:#f7f7f7;border:1px solid #ddd;padding:10px;">\${BUILD_LOG_REGEX, regex="^\\[Pipeline\\] \\{ \\(.*\\)\$", maxMatches=40, showTruncatedLines=false, escapeHtml=true}</pre>
+
+            <h3 style="margin-bottom:4px;">Last 150 lines of console output</h3>
+            <pre style="white-space:pre-wrap;background:#f7f7f7;border:1px solid #ddd;padding:10px;font-size:12px;">\${BUILD_LOG, maxLines=150, escapeHtml=true}</pre>
+        """
+    }
+
+    def subjectSuffix = currentBuild.currentResult == 'SUCCESS'
+        ? ''
+        : (env.FAILED_STAGE ? " — failed at: ${env.FAILED_STAGE}" : ' — see error details in email')
+
     emailext(
-        subject: "[Style Workspace Automation] Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}",
+        subject: "[WM-RN-Automation] Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}${subjectSuffix}",
         mimeType: 'text/html',
         body: """
             <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
@@ -65,6 +89,7 @@ def sendBuildStatusEmail() {
                 <b>S3_VERSION:</b> ${params.S3_VERSION ?: '-'}
             </p>
             <p><b>Console:</b> <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
+            ${logBlock}
         """,
         to: recipients,
         from: sender,

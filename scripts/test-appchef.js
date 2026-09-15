@@ -104,7 +104,7 @@ function main() {
                             console.log("  buildTaskStatus     : ".concat(JSON.stringify(t.buildTaskStatus)));
                             console.log("  fileByAndroidOutput : ".concat((_e = (_d = t.fileByAndroidOutput) === null || _d === void 0 ? void 0 : _d.url) !== null && _e !== void 0 ? _e : 'null'));
                             console.log("  fileByIosOutput     : ".concat((_g = (_f = t.fileByIosOutput) === null || _f === void 0 ? void 0 : _f.url) !== null && _g !== void 0 ? _g : 'null'));
-                            console.log("  downloadUrl (built) : https://www.wavemakeronline.com/AppChef/services/chef/downloadOutput?buildTaskId=".concat(t.externalId, "&platform=").concat(t.platform, "&download=true"));
+                            console.log("  downloadUrl (built) : https://platform.wavemaker.ai/AppChef/services/chef/downloadOutput?buildTaskId=".concat(t.externalId, "&platform=").concat(t.platform, "&download=true"));
                         }
                     }
                     console.log('\n[Test] ✅ All checks passed');

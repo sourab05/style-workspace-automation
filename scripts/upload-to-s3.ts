@@ -12,8 +12,16 @@ const region = process.env.AWS_REGION || "us-west-2";
 const bucketName = process.env.S3_BUCKET_NAME || "wm-qa-automation";
 const playwrightReportDir = path.join(process.cwd(), "playwright-report");
 const reportsDir = path.join(process.cwd(), "reports");
-// Prefer reports/ (custom single-file report) over playwright-report/ (thousands of artifacts) for faster uploads
-const reportDir = fs.existsSync(reportsDir) ? reportsDir : playwrightReportDir;
+// --dir <path> uploads any report directory (e.g. artifacts/token-highlight);
+// otherwise prefer reports/ (single-file report) over playwright-report/.
+const dirArgIdx = process.argv.indexOf("--dir");
+const dirArg = dirArgIdx !== -1 ? process.argv[dirArgIdx + 1] : "";
+const reportDir = dirArg
+    ? path.resolve(process.cwd(), dirArg)
+    : fs.existsSync(reportsDir) ? reportsDir : playwrightReportDir;
+// --entry <file> names the file the printed link points at.
+const entryArgIdx = process.argv.indexOf("--entry");
+const entryArg = entryArgIdx !== -1 ? process.argv[entryArgIdx + 1] : "";
 const defaultPrefix = buildS3ReportPath({ kind: "web" });
 const s3Prefix = process.env.S3_PATH_PREFIX || defaultPrefix;
 
@@ -80,13 +88,14 @@ async function uploadDirectory(dirPath: string, s3PathPrefix: string, baseDir?: 
 
 async function main() {
     if (!fs.existsSync(reportDir)) {
-        console.error(`❌ No Playwright report found. Tried: ${playwrightReportDir} and ${reportsDir}`);
-        console.error("   Run tests first: npm run test:slots && npm run report:generate");
+        console.error(`❌ No report directory found: ${reportDir}`);
+        console.error("   Run tests first, or pass --dir <path>");
         process.exit(1);
     }
 
-    const reportLink =
-        reportDir === reportsDir
+    const reportLink = entryArg
+        ? `${s3Prefix}/${entryArg}`
+        : reportDir === reportsDir
             ? `${s3Prefix}/playwright-report.html`
             : `${s3Prefix}/index.html`;
 

@@ -16,11 +16,11 @@
  *   npx ts-node scripts/scrape-token-slots.ts --approve                 # merge scraped into source of truth
  */
 
-import { chromium, Page, BrowserContext } from '@playwright/test';
+import { Page } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 import { ENV } from '../src/utils/env';
-import { googleBrowserLogin } from '../src/auth/googleAuth';
+import { getAuthenticatedContext } from '../src/auth/studioBrowser';
 import { WIDGET_CONFIG, Widget } from '../src/matrix/widgets';
 
 // ---------------------------------------------------------------------------
@@ -34,7 +34,6 @@ const OUT_DIR = path.join(process.cwd(), 'reports');
 const OUT_FILE = path.join(OUT_DIR, 'scraped-token-slots.json');
 const SOURCE_OF_TRUTH = path.join(process.cwd(), 'wdio', 'config', 'widget-token-slots.json');
 const EXPLORE_DIR = path.join(process.cwd(), 'artifacts', 'style-exploration');
-const CACHE_DIR = path.join(process.cwd(), '.test-cache');
 
 const ALL_WIDGETS = Object.keys(WIDGET_CONFIG) as Widget[];
 
@@ -474,84 +473,6 @@ async function discoverWidgetConfig(page: Page, widget: string): Promise<Discove
   }
 
   return { appearances, variants, states };
-}
-
-// ---------------------------------------------------------------------------
-// Login and get an authenticated browser context
-// ---------------------------------------------------------------------------
-
-async function getAuthenticatedContext(): Promise<{ context: BrowserContext; page: Page }> {
-  const profileDir = path.join(CACHE_DIR, 'google-browser-profile');
-  if (!fs.existsSync(profileDir)) {
-    fs.mkdirSync(profileDir, { recursive: true });
-  }
-
-  const context = await chromium.launchPersistentContext(profileDir, {
-    headless: false,
-    args: [
-      '--disable-blink-features=AutomationControlled',
-      '--no-first-run',
-      '--no-default-browser-check',
-    ],
-    userAgent:
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-    viewport: { width: 1440, height: 900 },
-  });
-
-  const page = context.pages()[0] || (await context.newPage());
-
-  if (ENV.authMethod === 'wavemaker') {
-    console.log('[Scraper] Authenticating via WaveMaker REST login (StudioClient)...');
-    const { StudioClient } = await import('../src/api/studioClient');
-    const client = new StudioClient({ baseUrl: BASE_URL, projectId: PROJECT_ID });
-    const cookie = await client.login(ENV.studioUsername, ENV.studioPassword);
-
-    const baseUrlObj = new URL(BASE_URL);
-    const cookiePairs = cookie.split(';').map(c => c.trim()).filter(Boolean);
-    for (const pair of cookiePairs) {
-      const eqIdx = pair.indexOf('=');
-      const name  = eqIdx === -1 ? pair : pair.slice(0, eqIdx).trim();
-      const value = eqIdx === -1 ? ''   : pair.slice(eqIdx + 1).trim();
-      if (name) {
-        await context.addCookies([{
-          name,
-          value,
-          domain: baseUrlObj.hostname,
-          path: '/',
-        }]);
-      }
-    }
-    process.env.STUDIO_COOKIE = cookie;
-    console.log(`[Scraper] WaveMaker REST login successful (cookie: ${cookie.length} chars)`);
-  } else if (ENV.isPlatformDB) {
-    console.log('[Scraper] Authenticating via Platform DB REST login...');
-    const { StudioClient } = await import('../src/api/studioClient');
-    const client = new StudioClient({ baseUrl: BASE_URL, projectId: PROJECT_ID });
-    const cookie = await client.loginWithPlatformDB(ENV.studioUsername, ENV.studioPassword);
-
-    const baseUrlObj = new URL(BASE_URL);
-    const cookieParts = cookie.split('; ');
-    for (const part of cookieParts) {
-      const [name, value] = part.split('=');
-      if (name && value) {
-        await context.addCookies([{
-          name: name.trim(),
-          value: value.trim(),
-          domain: baseUrlObj.hostname,
-          path: '/',
-        }]);
-      }
-    }
-  } else {
-    console.log('[Scraper] Authenticating via Google OAuth...');
-    const authResult = await googleBrowserLogin({ page, headless: false });
-    if (!authResult.cookieHeader) {
-      throw new Error('Failed to authenticate');
-    }
-  }
-
-  console.log('[Scraper] Authentication successful');
-  return { context, page };
 }
 
 // ---------------------------------------------------------------------------
@@ -1370,7 +1291,7 @@ async function main(): Promise<void> {
   console.log(`Base URL: ${BASE_URL}`);
   console.log(`Project ID: ${PROJECT_ID}`);
 
-  const { context, page } = await getAuthenticatedContext();
+  const { context, page } = await getAuthenticatedContext('Scraper');
 
   try {
     if (mode === 'explore') {
