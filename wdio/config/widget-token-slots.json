@@ -29,23 +29,24 @@
                     "header.subtitle.font-size",
                     "icon.font.size",
                     "icon.font.weight",
-                    "text.font-size",
-                    "title.icon.size"
+                    "text.font-size"
                 ]
             },
             {
                 "tokenType": "space",
                 "properties": [
                     "badge.height",
-                    "badge.margin-right",
                     "badge.width",
-                    "gap",
-                    "header.border.width",
                     "header.padding",
-                    "header.subtitle.margin-top",
                     "title.wrapper.padding",
                     "title.wrapper.width",
                     "width"
+                ]
+            },
+            {
+                "tokenType": "icon",
+                "properties": [
+                    "title.icon.size"
                 ]
             },
             {
@@ -53,6 +54,7 @@
                 "properties": [
                     "badge.border.width",
                     "border.width",
+                    "header.border.width",
                     "pane.border.width",
                     "text.border.width",
                     "title.wrapper.border.width"
@@ -74,6 +76,19 @@
                     "pane.border.radius",
                     "text.border.radius",
                     "title.wrapper.border.radius"
+                ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "gap"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "badge.margin-right",
+                    "header.subtitle.margin-top"
                 ]
             }
         ]
@@ -128,20 +143,21 @@
                     "font-size",
                     "font-weight",
                     "letter-spacing",
-                    "line-height"
+                    "line-height",
+                    "text-transform"
                 ]
             },
             {
                 "tokenType": "space",
                 "properties": [
+                    "image.size",
                     "text.padding"
                 ]
             },
             {
                 "tokenType": "icon",
                 "properties": [
-                    "icon.size",
-                    "image.size"
+                    "icon.size"
                 ]
             },
             {
@@ -183,6 +199,7 @@
             {
                 "tokenType": "font",
                 "properties": [
+                    "icon.font.size",
                     "text.font.size"
                 ]
             },
@@ -193,12 +210,6 @@
                     "min.width",
                     "padding",
                     "text.padding"
-                ]
-            },
-            {
-                "tokenType": "icon",
-                "properties": [
-                    "icon.font.size"
                 ]
             },
             {
@@ -241,7 +252,6 @@
                     "handle.icon.height",
                     "handle.icon.width",
                     "handle.padding",
-                    "margin",
                     "width"
                 ]
             },
@@ -262,6 +272,12 @@
                 "tokenType": "border-radius",
                 "properties": [
                     "border.radius"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "margin"
                 ]
             }
         ]
@@ -285,17 +301,16 @@
                     "font-size",
                     "font-weight",
                     "letter-spacing",
-                    "line-height"
+                    "line-height",
+                    "text-transform"
                 ]
             },
             {
                 "tokenType": "space",
                 "properties": [
-                    "gap",
                     "min-height",
                     "min-width",
-                    "padding",
-                    "skeleton.height"
+                    "padding"
                 ]
             },
             {
@@ -332,6 +347,12 @@
                 "tokenType": "opacity",
                 "properties": [
                     "opacity"
+                ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "gap"
                 ]
             }
         ]
@@ -457,7 +478,8 @@
                 "properties": [
                     "background",
                     "border.color",
-                    "color"
+                    "color",
+                    "ripple.color"
                 ]
             },
             {
@@ -552,22 +574,23 @@
                 ]
             },
             {
+                "tokenType": "font",
+                "properties": [
+                    "next-btn.font-size",
+                    "prev-btn.font-size"
+                ]
+            },
+            {
                 "tokenType": "space",
                 "properties": [
                     "dots.height",
-                    "dots.margin",
                     "dots.width",
                     "dots.wrapper.padding",
                     "first-slide.padding",
                     "last-slide.padding",
-                    "next-btn.font-size",
                     "next-btn.height",
-                    "next-btn.margin-left",
-                    "next-btn.margin-right",
                     "next-btn.width",
-                    "prev-btn.font-size",
                     "prev-btn.height",
-                    "prev-btn.margin-left",
                     "prev-btn.width",
                     "slide.padding",
                     "slide.width"
@@ -608,6 +631,15 @@
                 "properties": [
                     "dots.opacity",
                     "dots.wrapper.opacity"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "dots.margin",
+                    "next-btn.margin-left",
+                    "next-btn.margin-right",
+                    "prev-btn.margin-left"
                 ]
             }
         ]
@@ -712,6 +744,12 @@
                 ]
             },
             {
+                "tokenType": "gap",
+                "properties": [
+                    "gap"
+                ]
+            },
+            {
                 "tokenType": "margin",
                 "properties": [
                     "item.margin.bottom",
@@ -732,9 +770,13 @@
                     "color",
                     "item.border.color",
                     "item.icon.color",
+                    "left-badge.text.color",
+                    "left-icon.color",
                     "list.background-color",
                     "list.border.color",
-                    "list.place.holder.color"
+                    "list.place.holder.color",
+                    "right-badge.text.color",
+                    "right-icon.color"
                 ]
             },
             {
@@ -751,11 +793,11 @@
                 "tokenType": "space",
                 "properties": [
                     "input.padding",
-                    "item.gap",
+                    "item.avatar.size",
                     "item.height",
-                    "item.icon.gap",
                     "item.padding",
-                    "list.gap",
+                    "item.text.padding",
+                    "left-icon.padding",
                     "list.height",
                     "list.padding"
                 ]
@@ -763,7 +805,6 @@
             {
                 "tokenType": "icon",
                 "properties": [
-                    "item.avatar.size",
                     "item.icon.size"
                 ]
             },
@@ -798,6 +839,20 @@
                 "tokenType": "opacity",
                 "properties": [
                     "opacity"
+                ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "item.gap",
+                    "item.icon.gap",
+                    "list.gap"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "right-badge.text.margin-top"
                 ]
             }
         ]
@@ -892,11 +947,13 @@
                     "button.ripple.color",
                     "cancel-button.background",
                     "cancel-button.text.color",
+                    "date-icon.color",
                     "header-text.color",
                     "selected-button.background",
                     "selected-button.text.color",
                     "selected.text.color",
-                    "text.color"
+                    "text.color",
+                    "time-icon.color"
                 ]
             },
             {
@@ -912,6 +969,13 @@
                     "selected.text.font-weight",
                     "text.font-size",
                     "text.font-weight"
+                ]
+            },
+            {
+                "tokenType": "icon",
+                "properties": [
+                    "date-icon.size",
+                    "time-icon.size"
                 ]
             },
             {
@@ -944,10 +1008,7 @@
                     "menu.caret.color",
                     "menu.color",
                     "menu.content.background",
-                    "menu.content.border.color",
-                    "menu.item.background-color",
-                    "menu.item.color",
-                    "menu.item.icon.color"
+                    "menu.item.color"
                 ]
             },
             {
@@ -956,9 +1017,7 @@
                     "menu.item.font-family",
                     "menu.item.font-size",
                     "menu.item.font-weight",
-                    "menu.item.icon.font-size",
                     "menu.item.line-height",
-                    "menu.text.font-size",
                     "menu.text.font-weight"
                 ]
             },
@@ -967,7 +1026,6 @@
                 "properties": [
                     "menu.caret.size",
                     "menu.content.width",
-                    "menu.item.icon.padding",
                     "menu.item.padding",
                     "menu.padding",
                     "menu.text.padding"
@@ -976,14 +1034,12 @@
             {
                 "tokenType": "border-width",
                 "properties": [
-                    "menu.border.width",
-                    "menu.content.border.width"
+                    "menu.border.width"
                 ]
             },
             {
                 "tokenType": "border-style",
                 "properties": [
-                    "menu.content.border.style",
                     "menu.item.border.style"
                 ]
             },
@@ -1017,14 +1073,9 @@
             {
                 "tokenType": "font",
                 "properties": [
+                    "icon.font.size",
                     "text.font.size",
                     "text.font.weight"
-                ]
-            },
-            {
-                "tokenType": "icon",
-                "properties": [
-                    "icon.font.size"
                 ]
             },
             {
@@ -1114,6 +1165,12 @@
                 ]
             },
             {
+                "tokenType": "elevation",
+                "properties": [
+                    "box-shadow"
+                ]
+            },
+            {
                 "tokenType": "margin",
                 "properties": [
                     "header.sub-title.margin.horizontal",
@@ -1145,6 +1202,8 @@
                     "floating.font.size",
                     "floating.font.weight",
                     "font.family",
+                    "font.letter-spacing",
+                    "font.line-height",
                     "font.size",
                     "font.weight",
                     "label.font.family",
@@ -1158,8 +1217,6 @@
                     "floating.left",
                     "floating.padding",
                     "floating.top",
-                    "label.margin.horizontal",
-                    "label.margin.vertical",
                     "min-height",
                     "min-width",
                     "padding"
@@ -1176,6 +1233,19 @@
                 "properties": [
                     "border.radius"
                 ]
+            },
+            {
+                "tokenType": "opacity",
+                "properties": [
+                    "opacity"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "label.margin.horizontal",
+                    "label.margin.vertical"
+                ]
             }
         ]
     },
@@ -1188,18 +1258,23 @@
                 ]
             },
             {
-                "tokenType": "space",
+                "tokenType": "font",
                 "properties": [
-                    "gap"
+                    "font-size"
                 ]
             },
             {
-                "tokenType": "icon",
+                "tokenType": "space",
                 "properties": [
-                    "font-size",
                     "height",
                     "min-width",
                     "width"
+                ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "gap"
                 ]
             }
         ]
@@ -1234,36 +1309,6 @@
             {
                 "tokenType": "border-width",
                 "properties": [
-                    "border.radius",
-                    "border.width"
-                ]
-            },
-            {
-                "tokenType": "border-style",
-                "properties": [
-                    "border.style"
-                ]
-            }
-        ]
-    },
-    "list": {
-        "tokenSlots": [
-            {
-                "tokenType": "color",
-                "properties": [
-                    "background.color",
-                    "border.color"
-                ]
-            },
-            {
-                "tokenType": "space",
-                "properties": [
-                    "padding"
-                ]
-            },
-            {
-                "tokenType": "border-width",
-                "properties": [
                     "border.width"
                 ]
             },
@@ -1277,6 +1322,54 @@
                 "tokenType": "border-radius",
                 "properties": [
                     "border.radius"
+                ]
+            }
+        ]
+    },
+    "list": {
+        "tokenSlots": [
+            {
+                "tokenType": "color",
+                "properties": [
+                    "background.color",
+                    "border.color",
+                    "template.background.color",
+                    "template.border.color"
+                ]
+            },
+            {
+                "tokenType": "space",
+                "properties": [
+                    "padding",
+                    "template.min-height",
+                    "template.padding"
+                ]
+            },
+            {
+                "tokenType": "border-width",
+                "properties": [
+                    "border.width",
+                    "template.border.width"
+                ]
+            },
+            {
+                "tokenType": "border-style",
+                "properties": [
+                    "border.style",
+                    "template.border.style"
+                ]
+            },
+            {
+                "tokenType": "border-radius",
+                "properties": [
+                    "border.radius",
+                    "template.border.radius"
+                ]
+            },
+            {
+                "tokenType": "elevation",
+                "properties": [
+                    "template.box-shadow"
                 ]
             }
         ]
@@ -1496,7 +1589,6 @@
                 "properties": [
                     "anchor.padding",
                     "badge.height",
-                    "badge.margin-left",
                     "badge.width",
                     "height",
                     "image.height",
@@ -1532,6 +1624,12 @@
                     "badge.border.radius",
                     "border.radius"
                 ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "badge.margin-left"
+                ]
             }
         ]
     },
@@ -1566,7 +1664,6 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "heading.gap",
                     "heading.padding.block",
                     "heading.padding.inline"
                 ]
@@ -1594,6 +1691,12 @@
                 "properties": [
                     "shadow"
                 ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "heading.gap"
+                ]
             }
         ]
     },
@@ -1609,10 +1712,6 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "margin.bottom",
-                    "margin.left",
-                    "margin.right",
-                    "margin.top",
                     "min-height",
                     "padding.block",
                     "padding.inline"
@@ -1634,6 +1733,15 @@
                 "tokenType": "border-radius",
                 "properties": [
                     "border.radius"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "margin.bottom",
+                    "margin.left",
+                    "margin.right",
+                    "margin.top"
                 ]
             }
         ]
@@ -1755,7 +1863,6 @@
                 "tokenType": "elevation",
                 "properties": [
                     "content.shadow",
-                    "modal.content.shadow",
                     "shadow"
                 ]
             }
@@ -1850,16 +1957,9 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "set.item.column.gap",
-                    "set.item.row.gap",
+                    "indicator.size",
                     "size",
                     "title.padding"
-                ]
-            },
-            {
-                "tokenType": "icon",
-                "properties": [
-                    "indicator.size"
                 ]
             },
             {
@@ -1871,7 +1971,9 @@
             {
                 "tokenType": "gap",
                 "properties": [
-                    "gap"
+                    "gap",
+                    "set.item.column.gap",
+                    "set.item.row.gap"
                 ]
             }
         ]
@@ -1886,16 +1988,11 @@
                 ]
             },
             {
-                "tokenType": "font",
-                "properties": [
-                    "text.size"
-                ]
-            },
-            {
                 "tokenType": "space",
                 "properties": [
                     "padding",
-                    "text.padding"
+                    "text.padding",
+                    "text.size"
                 ]
             },
             {
@@ -1927,7 +2024,6 @@
                     "data-complete.text.color",
                     "dropdown.background.color",
                     "dropdown.border.color",
-                    "dropdown.divider.color",
                     "invalid.color",
                     "item.separator.color",
                     "item.text.color",
@@ -1958,13 +2054,11 @@
                     "clear-btn.padding",
                     "clear-btn.width",
                     "data-complete.padding",
-                    "dropdown.max-height",
-                    "dropdown.offset-top",
                     "dropdown.width",
                     "height",
                     "item.padding",
-                    "text.padding",
-                    "width"
+                    "item.separator.width",
+                    "text.padding"
                 ]
             },
             {
@@ -1978,8 +2072,7 @@
                 "tokenType": "border-width",
                 "properties": [
                     "border.width",
-                    "dropdown.border.width",
-                    "item.separator.width"
+                    "dropdown.border.width"
                 ]
             },
             {
@@ -2084,6 +2177,7 @@
                     "max-track.background",
                     "min-track.background",
                     "thumb.background",
+                    "thumb.wrapper.background",
                     "tooltip.background",
                     "tooltip.color"
                 ]
@@ -2093,6 +2187,8 @@
                 "properties": [
                     "thumb.height",
                     "thumb.width",
+                    "thumb.wrapper.height",
+                    "thumb.wrapper.width",
                     "track.height"
                 ]
             },
@@ -2100,6 +2196,7 @@
                 "tokenType": "border-radius",
                 "properties": [
                     "thumb.border-radius",
+                    "thumb.wrapper.border-radius",
                     "track.border-radius"
                 ]
             },
@@ -2124,14 +2221,14 @@
             {
                 "tokenType": "font",
                 "properties": [
+                    "lottie.height",
+                    "lottie.width",
                     "text.font-size"
                 ]
             },
             {
                 "tokenType": "space",
                 "properties": [
-                    "lottie.height",
-                    "lottie.width",
                     "text.padding",
                     "width"
                 ]
@@ -2211,11 +2308,8 @@
             {
                 "tokenType": "space",
                 "properties": [
-                    "gap",
                     "height",
                     "icon.padding",
-                    "icon.size",
-                    "item.gap",
                     "item.min.height",
                     "item.min.width",
                     "item.padding",
@@ -2223,7 +2317,13 @@
                     "more-menu-row.padding",
                     "more-menu-row.width",
                     "more-menu.width",
-                    "text.margin.top"
+                    "width"
+                ]
+            },
+            {
+                "tokenType": "icon",
+                "properties": [
+                    "icon.size"
                 ]
             },
             {
@@ -2243,6 +2343,7 @@
             {
                 "tokenType": "border-radius",
                 "properties": [
+                    "border.radius",
                     "item.border.radius"
                 ]
             },
@@ -2257,6 +2358,19 @@
                 "tokenType": "opacity",
                 "properties": [
                     "item.opacity"
+                ]
+            },
+            {
+                "tokenType": "gap",
+                "properties": [
+                    "gap",
+                    "item.gap"
+                ]
+            },
+            {
+                "tokenType": "margin",
+                "properties": [
+                    "text.margin.top"
                 ]
             }
         ]
@@ -2505,7 +2619,6 @@
             {
                 "tokenType": "border-style",
                 "properties": [
-                    "step.connector.style",
                     "step.indicator.border-style"
                 ]
             },

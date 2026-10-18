@@ -3,10 +3,6 @@ def uploadReportsToS3(Map args = [:]) {
     if (!env.S3_BUCKET_NAME?.trim()) {
         return
     }
-    if (!params.S3_VERSION?.trim()) {
-        echo '⚠️ S3_VERSION is empty — skipping S3 report upload. Set the build parameter to upload under react_native/releases/<version>/Style Workspace/...'
-        return
-    }
     def cmd = 'npx ts-node scripts/generate-and-upload-reports.ts'
     if (nonFatal) {
         sh "${cmd} || echo \"S3 upload skipped or failed (non-fatal)\""
@@ -282,8 +278,9 @@ def pipelineParameters() {
         [
             $class: 'StringParameterDefinition',
             name: 'S3_VERSION',
-            defaultValue: 'WM-AI 1.0.0_BETA_RC4',
-            description: '''Release version folder for S3 report uploads (required for upload).
+            defaultValue: '',
+            description: '''Optional release folder for S3 report uploads.
+  Empty = Weekly_YYYY-MM-DD using the build date. Explicit values are used unchanged.
   e.g. WM-AI-Beta-2, 12.0.0
   Path: s3://<bucket>/react_native/releases/<S3_VERSION>/Style Workspace/<platform>/<date-time>'''
         ],
@@ -451,7 +448,7 @@ pipeline {
                         env.MOBILE_BUILD_METHOD = ''
                     }
 
-                    echo "▶ WM_ENV=${params.WM_ENV}  |  RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}  |  MOBILE_APP_SOURCE=${params.MOBILE_APP_SOURCE}  |  MOBILE_BUILD_METHOD=${env.MOBILE_BUILD_METHOD ?: '(manual upload)'}  |  S3_VERSION=${params.S3_VERSION ?: '(not set — S3 upload skipped)'}  |  SKIP_VISUAL_VERIFICATION=${params.SKIP_VISUAL_VERIFICATION}"
+                    echo "▶ WM_ENV=${params.WM_ENV}  |  RUN_WEB=${env.RUN_WEB}  |  RUN_MOBILE=${env.RUN_MOBILE}  |  SLOT_VERIFY_TARGET=${env.SLOT_VERIFY_TARGET}  |  MOBILE_PLATFORM=${env.MOBILE_PLATFORM}  |  MOBILE_APP_SOURCE=${params.MOBILE_APP_SOURCE}  |  MOBILE_BUILD_METHOD=${env.MOBILE_BUILD_METHOD ?: '(manual upload)'}  |  S3_VERSION=${params.S3_VERSION ?: '(auto: Weekly_YYYY-MM-DD)'}  |  SKIP_VISUAL_VERIFICATION=${params.SKIP_VISUAL_VERIFICATION}"
                 }
             }
         }

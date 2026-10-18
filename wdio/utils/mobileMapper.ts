@@ -1471,6 +1471,14 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'color') return `${chipLabelPrefix}.color`;
     if (top === 'shadow') return `${chipPrefix}.boxShadow`;
     if (top === 'opacity') return 'root.opacity';
+    const act = (n: string) => (isActiveState ? `active${n[0].toUpperCase()}${n.slice(1)}` : n);
+    if (top === 'left-badge' && second === 'text' && third === 'color') return `${act('leftBadge')}.text.color`;
+    if (top === 'right-badge' && second === 'text' && third === 'color') return `${act('rightBadge')}.text.color`;
+    if (top === 'right-badge' && second === 'text' && third === 'margin-top') return `${act('rightBadge')}.text.marginTop`;
+    if (top === 'left-icon' && second === 'color') return `${act('leftIcon')}.icon.color`;
+    if (top === 'left-icon' && second === 'padding') return `${act('leftIcon')}.icon.paddingTop`;
+    if (top === 'item' && second === 'text' && third === 'padding') return `${chipLabelPrefix}.paddingTop`;
+    if (top === 'right-icon' && second === 'color') return `${act('rightIcon')}.icon.color`;
 
     if (top === 'border') {
       if (second === 'width') return `${chipPrefix}.borderWidth`;
@@ -1665,6 +1673,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     const activeThird = activePropertyPath[2];
     const activeFourth = activePropertyPath[3];
     const iconPrefix = isCheckedState ? 'checkicon' : 'uncheckicon';
+
+    if (activeTop === 'gap') return 'item.gap';
 
     if (activeTop === 'background') {
       return `${iconPrefix}.root.backgroundColor`;
@@ -2648,7 +2658,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
    if (widget === 'list') {
      const top = propertyPath[0];
      const second = propertyPath[1];
+     const third = propertyPath[2];
 
+     if (top === 'template' && second === 'border') {
+       if (third === 'color') return 'root.borderColor';
+       if (third === 'style') return 'root.borderStyle';
+       if (third === 'width') return 'root.borderWidth';
+     }
 
      // 1. Root properties
      if (top === 'background') return 'root.backgroundColor';
@@ -2923,6 +2939,13 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (top === 'max-track' && second === 'background') return 'maximumTrack.backgroundColor';
     if (top === 'min-track' && second === 'background') return 'minimumTrack.backgroundColor';
+    if (top === 'thumb' && second === 'wrapper') {
+      const third = propertyPath[2];
+      if (third === 'background') return 'thumbWrapper.backgroundColor';
+      if (third === 'height') return 'thumbWrapper.height';
+      if (third === 'width') return 'thumbWrapper.width';
+      if (third === 'border-radius') return 'thumbWrapper.borderTopLeftRadius';
+    }
     
     if (top === 'thumb') {
       if (second === 'background') return 'thumb.backgroundColor';
@@ -3307,6 +3330,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'border' && second === 'width')  return 'button.root.borderWidth';
     if (top === 'border' && second === 'radius') return 'button.root.borderTopLeftRadius';
     if (pathStr === 'color') return 'button.icon.icon.color';
+    if (pathStr === 'ripple.color') return 'button.root.rippleColor';
     if (pathStr === 'padding') return 'button.root.paddingTop';
     if (pathStr === 'min-height') return 'button.root.minHeight';
     if (pathStr === 'min-width') return 'button.root.minWidth';
@@ -3329,6 +3353,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     const third = propertyPath[2];
 
     // root-level: background -> container.backgroundColor (the picker dialog box, not the dim overlay)
+    if (top === 'date-icon' && second === 'color') return 'calendarIcon.icon.color';
+    if (top === 'date-icon' && second === 'size') return 'calendarIcon.icon.fontSize';
     if (pathStr === 'background' || pathStr === 'background-color') return 'container.backgroundColor';
 
     // button.border.* / button.ripple.* -> cancelBtn.root.* (both dialog buttons share these values)

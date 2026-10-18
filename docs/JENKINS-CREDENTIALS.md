@@ -19,7 +19,7 @@ Credential **ID must match exactly** (case-sensitive). Scope must be **Global**.
 
 ## Studio login — one per WM_ENV (Username with password)
 
-Create **all six** if your team uses every environment. Only the credential matching the selected `WM_ENV` build parameter is used.
+Create **all seven** if your team uses every environment. Only the credential matching the selected `WM_ENV` build parameter is used.
 
 | Credential ID | WM_ENV value | Username | Password |
 |---------------|--------------|----------|----------|
@@ -29,6 +29,7 @@ Create **all six** if your team uses every environment. Only the credential matc
 | `WM_DEV_CREDS` | `dev` | `jeevan.inaparti@wavemaker.com` | `Wavemaker@123` |
 | `WM_WMO_CREDS` | `wmo` | `jeevan.inaparti@wavemaker.com` | `Wavemaker@123` |
 | `WM_PREPROD_CREDS` | `preprod` | `jeevan.inaparti@wavemaker.com` | `Wavemaker@123` |
+| `WM_MARS_CREDS` | `mars` | `jeevan.inaparti@wavemaker.com` | `Wavemaker@123` |
 
 ### What each WM_ENV sets automatically
 
@@ -40,6 +41,7 @@ Create **all six** if your team uses every environment. Only the credential matc
 | `dev` | https://dev-studio.wavemakeronline.com/ | WMPRJ2c91808e9b382f28019b4b3d6faf1157 |
 | `wmo` | https://www.wavemakeronline.com/ | WMPRJ2c9180889ad75b5a019b01f3c0120213 |
 | `preprod` | https://stage-studio.wavemakeronline.com/ | WMPRJ2c91808e9d97d113019d9a6ce22f0011 |
+| `mars` | https://mars-studio.wavemakeronline.com/ | WMPRJ2c9180889efca495019efd512ba30002 |
 
 ---
 
