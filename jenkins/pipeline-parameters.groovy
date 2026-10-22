@@ -39,7 +39,8 @@ def pipelineParameters() {
             $class: 'StringParameterDefinition',
             name: 'S3_VERSION',
             defaultValue: '',
-            description: '''Release version folder for S3 report uploads (required for upload).
+            description: '''Optional release folder for S3 report uploads.
+  Empty = Weekly_YYYY-MM-DD using the build date. Explicit values are used unchanged.
   e.g. WM-AI-Beta-2, 12.0.0
   Path: s3://<bucket>/react_native/releases/<S3_VERSION>/Style Workspace/<platform>/<date-time>'''
         ],

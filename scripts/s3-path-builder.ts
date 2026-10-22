@@ -21,10 +21,10 @@ const DEFAULT_PROJECT = "Style Workspace";
 const BASE_PATH = process.env.S3_RELEASES_BASE || "react_native/releases";
 
 function getVersion(options: S3PathOptions): string {
-    if (options.version) return options.version;
+    if (options.version?.trim()) return options.version.trim();
     const fromEnv = process.env.S3_VERSION?.trim() || process.env.S3_REPORT_VERSION?.trim();
     if (fromEnv) return fromEnv;
-    return "12.0.0";
+    return `Weekly_${new Date().toISOString().slice(0, 10)}`;
 }
 
 function capitalizeFirst(s: string): string {
