@@ -1292,7 +1292,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
        if (second === 'font-size') return 'nextBtn.icon.fontSize';
        if (second === 'height') return 'nextBtn.root.height';
        if (second === 'width') return 'nextBtn.root.width';
-       if (second === 'margin-left') return 'nextBtn.root.marginLeft';
+       if (second === 'margin-left') return 'nextBtn.marginRight'; // foundation binds --wm-carousel-next-btn-margin-left to margin-right (.app-carousel-next-btn)
        if (second === 'margin-right') return 'nextBtn.root.marginRight';
      }
 
@@ -1600,7 +1600,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'line-height') return 'groupHeaderTitle.lineHeight';
     }
 
-    if (top === 'gap') return 'radioLabel.marginLeft';
+    if (top === 'gap') return 'item.gap'; // trace binds --wm-radioset-gap at item.gap (also item.marginRight/marginTop)
 
     if (top === 'indicator' && second === 'size') return 'checkedRadio.icon.fontSize';
 
@@ -1641,7 +1641,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (activeTop === 'icon') {
       if (activeSecond === 'color') return `${iconPrefix}.icon.color`;
-      if (activeSecond === 'size') return `${iconPrefix}.icon.fontSize`;
+      if (activeSecond === 'size') return 'checkicon.icon.fontSize'; // trace binds --wm-checkbox(set)-icon-size at checkicon.icon.fontSize
     }
 
     if (activeTop === 'label') {
@@ -1688,7 +1688,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     if (activeTop === 'icon') {
       if (activeSecond === 'color') return `${iconPrefix}.icon.color`;
-      if (activeSecond === 'size') return `${iconPrefix}.icon.fontSize`;
+      if (activeSecond === 'size') return 'checkicon.icon.fontSize'; // trace binds --wm-checkbox(set)-icon-size at checkicon.icon.fontSize
     }
 
     if (activeTop === 'label') {
@@ -1740,6 +1740,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     if (top === 'handle') {
       if (second === 'color') return 'handle.color';
       if (second === 'height') return 'handle.height';
+      if (second === 'width') return 'handle.width'; // foundation: .app-toggle-handle { width: var(--wm-toggle-handle-width) }
       if (second === 'margin' && third === 'left') return 'handle.marginLeft';
       if (second === 'margin' && third === 'right') return 'handle.marginRight';
       if (second === 'radius') return 'handle.borderTopLeftRadius';
@@ -2002,6 +2003,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     const pathStr = propertyPath.join('.');
 
     // Root level properties
+    if (pathStr === 'color') return 'icon.icon.color'; // trace binds --wm-anchor-color at icon.icon.color
     if (top === 'color' && second === '@') return 'root.color';
     if (top === 'gap') return 'root.gap';
 
@@ -2117,8 +2119,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     // Root level properties
     if (top === 'height') return 'searchButton.root.height';
     if (top === 'border') {
-      if (second === 'color') return 'dropDownContent.borderColor';
-      if (second === 'width')  return 'modalContent.borderBottomWidth';
+      if (second === 'color') return 'searchButton.root.borderColor'; // exact var --wm-search-border-color is bound here
+      if (second === 'width')  return 'searchButton.root.borderWidth'; // exact var --wm-search-border-width is bound here
       if (second === 'radius') return 'root.borderTopLeftRadius';
     }
 
@@ -2370,7 +2372,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
           if (fourth === 'padding') return 'menuItem.icon.root.paddingTop';
         }
       }
-      if (second === 'box-shadow') return 'root.modalContent.boxShadow';
+      if (second === 'box-shadow') return 'menu.boxShadow'; // trace binds the menu box-shadow var at menu.boxShadow
       if (second === 'icon' && third === 'size') return 'menuItem.icon.icon.fontSize';
       if (second === 'padding') {
         if (third === 'top') return 'menu.paddingTop';
@@ -2855,6 +2857,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
     }
 
     if (pathStr === 'day-border-color') return 'day.borderColor';
+    if (top === 'day' && second === 'color') return 'day.color'; // foundation: .app-calendar-day { color: var(--wm-calendar-day-color) }
 
     if (top === 'event-day1') {
       if (second === 'color1') return 'eventDay1.color';
@@ -3085,7 +3088,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'padding' && !third) return 'closeBtn.root.paddingTop';
     }
 
-    if (pathStr === 'color') return 'title.color';
+    if (pathStr === 'color') return 'icon.icon.color'; // exact var --wm-message-color is bound at icon.icon.color
 
     if (top === 'container') {
       if (second === 'background') return 'root.backgroundColor';
@@ -3155,7 +3158,7 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
       if (second === 'padding' && third === 'left') return 'text.paddingLeft';
     }
 
-    if (pathStr === 'padding') return 'text.paddingTop';
+    if (pathStr === 'padding') return 'root.paddingTop'; // trace binds --wm-rating-padding at root.padding
     if (pathStr === 'opacity') return 'root.opacity';
   }
 
@@ -3272,8 +3275,8 @@ static mapToRnStylePath(propertyPath: string[], widget: Widget,  platform: 'andr
 
     // check.icon.* -> checkIcon.*
     if (top === 'check' && second === 'icon') {
-      if (third === 'color') return 'checkIcon.text.color';
-      if (third === 'font-size' || third === 'fontSize') return 'checkIcon.text.fontSize';
+      if (third === 'color') return 'checkIcon.icon.color'; // trace binds the var at checkIcon.icon.color
+      if (third === 'font-size' || third === 'fontSize') return 'checkIcon.icon.fontSize'; // trace binds the var at checkIcon.icon.fontSize
       if (third === 'background-color') return 'checkIcon.root.backgroundColor';
       if (third === 'height') return 'checkIcon.root.height';
       if (third === 'width') return 'checkIcon.root.width';
