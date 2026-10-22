@@ -25,7 +25,7 @@ function main() {
 
   console.log("📦 Generating single-file Allure report (existing reports untouched)...");
   execSync(
-    `allure generate --single-file "${resultsDir}" -o "${outputDir}"`,
+    `npx allure generate "${resultsDir}" --config scripts/allurerc.single.mjs -o "${outputDir}"`,
     { cwd: ROOT, stdio: "inherit" }
   );
 

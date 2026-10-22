@@ -93,7 +93,7 @@ function getWidgetTypeFromStudioNameOrCommand(input: string): 'label' | 'panel' 
   if (s.includes('widgets.label') || s.startsWith('label')) return 'label';
   if (s.includes('widgets.panel') || s.startsWith('panel')) return 'panel';
   if (s.includes('widgets.bottomsheet') || s.startsWith('bottomsheet')) return 'bottomsheet';
-  if (s.includes('widgets.dialog') || s.startsWith('dialog') || s.includes('widgets.modal') || s.startsWith('modal')) return 'modal-dialog';
+  if (/(^|widgets\.)[a-z]*(dialog|modal)/.test(s)) return 'modal-dialog'; // also confirmdialog1 etc.
   if (s.includes('widgets.formcontrols') || s.startsWith('formcontrols') || s.endsWith('_formlabel')) return 'formcontrols';
   if (s.includes('widgets.tile') || s.startsWith('tile')) return 'tile';
   if (s.includes('widgets.datetime') || s.startsWith('datetime')) return 'datetime';

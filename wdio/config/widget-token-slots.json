@@ -143,8 +143,7 @@
                     "font-size",
                     "font-weight",
                     "letter-spacing",
-                    "line-height",
-                    "text-transform"
+                    "line-height"
                 ]
             },
             {
@@ -301,8 +300,7 @@
                     "font-size",
                     "font-weight",
                     "letter-spacing",
-                    "line-height",
-                    "text-transform"
+                    "line-height"
                 ]
             },
             {
