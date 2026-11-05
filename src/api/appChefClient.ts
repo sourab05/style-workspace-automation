@@ -455,7 +455,8 @@ export class AppChefClient {
   // ── Step 5: poll buildTasks ───────────────────────────────────────────────
 
   /**
-   * Poll buildTasks until buildTaskStatus.name === "SUCCESS" or "FAILURE".
+   * Poll requested platforms until each is SUCCESS, FAILURE, or FAILED. Throws only when every
+   * requested platform failed; otherwise returns the successes plus androidFailed/iosFailed.
    *
    * Actual AppChef response shape (confirmed):
    *   task.buildTaskStatus = { id: 3, name: "SUCCESS" }  ← success
@@ -472,6 +473,8 @@ export class AppChefClient {
   async pollBuildTasks(appId: string, platform: 'android' | 'ios' | 'both'): Promise<{
     android?: { buildTaskId: string; directUrl: string; downloadUrl: string };
     ios?: { buildTaskId: string; directUrl: string; downloadUrl: string };
+    androidFailed?: string;
+    iosFailed?: string;
   }> {
     // Note on field meanings (confirmed from live API response):
     //   task.externalId  = "build-RoimmQuyJd"              → used as buildTaskId in downloadOutput URL
@@ -500,17 +503,36 @@ export class AppChefClient {
       const iStatus = this.buildStatusName(latest.ios);
       console.log(`[AppChef] ${elapsedMin}m — Android: ${aStatus} | iOS: ${iStatus}`);
 
-      if (aStatus === 'FAILURE') throw new Error(`[AppChef] Android build FAILED — taskId=${this.taskId(latest.android)}`);
-      if (iStatus === 'FAILURE') throw new Error(`[AppChef] iOS build FAILED — taskId=${this.taskId(latest.ios)}`);
 
       const needAndroid = platform !== 'ios';
       const needIos    = platform !== 'android';
-      const androidDone = !needAndroid || aStatus === 'SUCCESS';
-      const iosDone     = !needIos    || iStatus === 'SUCCESS';
+      const isFailed = (s: string) => ['FAILURE', 'FAILED'].includes(s);
+      const androidFailed = needAndroid && isFailed(aStatus);
+      const iosFailed     = needIos && isFailed(iStatus);
+      // A failed platform is terminal; keep polling only until the other one settles too.
+      const androidDone = !needAndroid || aStatus === 'SUCCESS' || androidFailed;
+      const iosDone     = !needIos    || iStatus === 'SUCCESS' || iosFailed;
 
       if (androidDone && iosDone) {
         const result: any = {};
-        if (needAndroid && latest.android) {
+        // Every requested platform failed: nothing to test, so abort the build.
+        if ((!needAndroid || androidFailed) && (!needIos || iosFailed)) {
+          const errors = [
+            androidFailed ? this.buildFailure('Android', appId, latest.android) : null,
+            iosFailed ? this.buildFailure('iOS', appId, latest.ios) : null,
+          ].filter((e): e is Error => !!e);
+          throw new Error(errors.map(e => e.message).join('\n'));
+        }
+        // Partial failure: return the platform that built and report the other one here.
+        if (androidFailed) {
+          result.androidFailed = this.buildFailure('Android', appId, latest.android).message;
+          console.warn(`[AppChef] ⚠️ ${result.androidFailed}`);
+        }
+        if (iosFailed) {
+          result.iosFailed = this.buildFailure('iOS', appId, latest.ios).message;
+          console.warn(`[AppChef] ⚠️ ${result.iosFailed}`);
+        }
+        if (needAndroid && !androidFailed && latest.android) {
           // buildTaskId = externalId (e.g. "build-RoimmQuyJd") — used in downloadOutput URL
           // token       = externalId + suffix  (e.g. "build-RoimmQuyJd-INlsQxiUkp") — stored for reference
           // directUrl   = fileByAndroidOutput.url (pre-signed S3 URL, preferred for download)
@@ -523,7 +545,7 @@ export class AppChefClient {
           };
           console.log(`[AppChef] ✅ Android — taskId: ${id} | APK: ${result.android.directUrl || result.android.downloadUrl}`);
         }
-        if (needIos && latest.ios) {
+        if (needIos && !iosFailed && latest.ios) {
           const id = this.taskId(latest.ios);
           result.ios = {
             buildTaskId: id,
@@ -539,9 +561,20 @@ export class AppChefClient {
     throw new Error(`[AppChef] Build timed out after ${BUILD_TIMEOUT_MS / 60000} minutes`);
   }
 
-  /** Returns buildTaskStatus.name (SUCCESS / FAILURE / IN_PROGRESS / QUEUED) or PENDING if no task yet. */
+  /** Returns the API status name or PENDING if no task yet. */
   private buildStatusName(task: any): string {
     return task?.buildTaskStatus?.name ?? 'PENDING';
+  }
+  private buildFailure(platform: string, appId: string, task: any): Error {
+    // Select diagnostic fields rather than dumping tasks containing tokens or signed URLs.
+    const details = ['failureReason', 'errorMessage', 'message', 'log']
+      .filter(key => typeof task?.[key] === 'string' && task[key].trim())
+      .map(key => `${key}=${task[key].trim().slice(0, 2000)}`);
+    if (task?.fileByLog?.id != null) details.push(`logFileId=${task.fileByLog.id}`);
+    return new Error(
+      `[AppChef] ${platform} build FAILED — appId=${appId} taskId=${this.taskId(task)} ` +
+      `status=${this.buildStatusName(task)} — ${details.join('; ') || 'No failure details returned; inspect the AppChef build log.'}`,
+    );
   }
 
   /** externalId ("build-RoimmQuyJd") is used in downloadOutput; fall back to numeric id. */

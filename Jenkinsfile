@@ -95,9 +95,19 @@ def sendBuildStatusEmail() {
 
 def applyWmEnvProfile() {
     def envKey = params.WM_ENV
+    // params.STUDIO_PASSWORD is a Secret whose toString() is the encrypted form; env holds the plaintext.
+    // Read it before the credential fallback below overwrites env.STUDIO_PASSWORD.
+    def passwordOverride = env.STUDIO_PASSWORD ?: ''
 
     // Use node to parse JSON and write a .env file (Jenkins sandbox blocks all Groovy map operations)
-    sh "node scripts/resolve-wm-env.js '${envKey}' > ${WORKSPACE}/.wm-env-profile"
+    withEnv([
+        "WM_PROFILE_KEY=${envKey}",
+        "SWS_STUDIO_BASE_URL=${params.STUDIO_BASE_URL?.trim() ?: ''}",
+        "SWS_PROJECT_ID=${params.PROJECT_ID?.trim() ?: ''}",
+        "SWS_STUDIO_PROJECT_ID=${params.STUDIO_PROJECT_ID?.trim() ?: ''}",
+    ]) {
+        sh 'node scripts/resolve-wm-env.js "$WM_PROFILE_KEY" > "$WORKSPACE/.wm-env-profile"'
+    }
 
     // Read individual values using shell grep
     env.WM_ENV = envKey
@@ -117,24 +127,33 @@ def applyWmEnvProfile() {
         credId = "WM_${envKey.toUpperCase().replace('-', '_')}_CREDS"
     }
 
-    try {
-        withCredentials([usernamePassword(credentialsId: credId, usernameVariable: 'WM_CREDS_USER', passwordVariable: 'WM_CREDS_PASS')]) {
-            env.STUDIO_USERNAME = env.WM_CREDS_USER
-            env.STUDIO_PASSWORD = env.WM_CREDS_PASS
-        }
-    } catch (Exception e) {
-        echo "⚠️ Credential '${credId}' not found — trying legacy STUDIO_USERNAME / STUDIO_PASSWORD"
+    def usernameOverride = params.STUDIO_USERNAME?.trim()
+    if (!usernameOverride || !passwordOverride) {
         try {
-            withCredentials([
-                string(credentialsId: 'STUDIO_USERNAME', variable: 'LEGACY_STUDIO_USER'),
-                string(credentialsId: 'STUDIO_PASSWORD', variable: 'LEGACY_STUDIO_PASS'),
-            ]) {
-                env.STUDIO_USERNAME = env.LEGACY_STUDIO_USER ?: env.STUDIO_USERNAME
-                env.STUDIO_PASSWORD = env.LEGACY_STUDIO_PASS
+            withCredentials([usernamePassword(credentialsId: credId, usernameVariable: 'WM_CREDS_USER', passwordVariable: 'WM_CREDS_PASS')]) {
+                env.STUDIO_USERNAME = env.WM_CREDS_USER
+                env.STUDIO_PASSWORD = env.WM_CREDS_PASS
             }
-        } catch (Exception e2) {
-            error("No Studio credentials available for WM_ENV=${envKey}. Create Jenkins credential '${credId}' (Username with password) — see docs/JENKINS-CREDENTIALS.md")
+        } catch (Exception e) {
+            echo "⚠️ Credential '${credId}' not found — trying legacy STUDIO_USERNAME / STUDIO_PASSWORD"
+            try {
+                withCredentials([
+                    string(credentialsId: 'STUDIO_USERNAME', variable: 'LEGACY_STUDIO_USER'),
+                    string(credentialsId: 'STUDIO_PASSWORD', variable: 'LEGACY_STUDIO_PASS'),
+                ]) {
+                    env.STUDIO_USERNAME = env.LEGACY_STUDIO_USER ?: env.STUDIO_USERNAME
+                    env.STUDIO_PASSWORD = env.LEGACY_STUDIO_PASS
+                }
+            } catch (Exception e2) {
+                error("No Studio credentials available for WM_ENV=${envKey}. Create Jenkins credential '${credId}' (Username with password) — see docs/JENKINS-CREDENTIALS.md")
+            }
         }
+    }
+    if (usernameOverride) {
+        env.STUDIO_USERNAME = usernameOverride
+    }
+    if (passwordOverride) {
+        env.STUDIO_PASSWORD = passwordOverride
     }
 
     def profileLabel = sh(script: "grep '^PROFILE_LABEL=' ${WORKSPACE}/.wm-env-profile | cut -d= -f2-", returnStdout: true).trim()
@@ -251,6 +270,36 @@ def pipelineParameters() {
   wmo             -> WM_WMO_CREDS
   preprod         -> WM_PREPROD_CREDS
   mars            -> WM_MARS_CREDS'''
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'STUDIO_BASE_URL',
+            defaultValue: '',
+            description: 'Optional Studio environment URL. Empty = selected WM_ENV profile.'
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'PROJECT_ID',
+            defaultValue: '',
+            description: 'Optional WMPRJ project ID. Empty = selected WM_ENV profile.'
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'STUDIO_PROJECT_ID',
+            defaultValue: '',
+            description: 'Optional Studio project ID (proj-...). Empty = selected WM_ENV profile.'
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'STUDIO_USERNAME',
+            defaultValue: '',
+            description: 'Optional Studio username. Empty = existing Jenkins credentials.'
+        ],
+        [
+            $class: 'PasswordParameterDefinition',
+            name: 'STUDIO_PASSWORD',
+            defaultValue: '',
+            description: 'Optional Studio password. Empty = existing Jenkins credentials.'
         ],
         [
             $class: 'ChoiceParameterDefinition',
