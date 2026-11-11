@@ -465,6 +465,11 @@ export class TokenMappingService {
         //    RN style values are unit-less, CSS/tokens use px. Strip unconditionally for any value ending in px.
         normalized = normalized.replace(/px$/i, '');
 
+        // Opacity tokens are percentages ("12%"); RN and computed CSS give fractions ("0.12").
+        if (/opacity/i.test(property) && /^-?\d+(\.\d+)?%$/.test(normalized)) {
+            normalized = String(Number((parseFloat(normalized) / 100).toFixed(4)));
+        }
+
         // 3. Font-weight keyword normalization
         if (property.includes('weight')) {
             if (normalized === 'normal') normalized = '400';
