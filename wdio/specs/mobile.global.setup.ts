@@ -1308,6 +1308,9 @@ export default async function mobileGlobalSetup() {
     ]
       .filter(Boolean)
       .join(' + ')})`);
+    // #19 said "Android + iOS" here while the iOS AppChef build had failed and no IPA existed.
+    const missing = [runAndroid && !actualApps.android ? 'Android' : null, runIOS && !actualApps.ios ? 'iOS' : null].filter(Boolean);
+    if (missing.length) console.warn(`⚠️  NO actual app for: ${missing.join(' + ')} — its tests cannot run (see the build failure above)`);
     console.log(`✅ Token count: ${tokenVariantPairs.length} tokens applied`);
     console.log(`✅ actual apps: Built and uploaded`);
     console.log(`✅ Total builds: ${totalBuilds}`);

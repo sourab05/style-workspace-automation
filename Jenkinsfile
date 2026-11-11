@@ -381,8 +381,8 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '5'))
         skipDefaultCheckout(true)
         // #18/#19 hung ~5 days after a controller restart; a full Android+iOS run is ~6h at maxInstances=1.
+        // No disableResume(): its low-durability mode coincided with #22 being terminated before post actions (no S3/email).
         timeout(time: 8, unit: 'HOURS')
-        disableResume()
     }
 
     // If post-stage archive fails with java.nio.file.FileSystemException "No space left on device",
