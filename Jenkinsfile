@@ -380,6 +380,9 @@ pipeline {
         // Cap stored builds + archived artifacts on the controller (reduces disk growth over time).
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '5'))
         skipDefaultCheckout(true)
+        // #18/#19 hung ~5 days after a controller restart; a full Android+iOS run is ~6h at maxInstances=1.
+        timeout(time: 8, unit: 'HOURS')
+        disableResume()
     }
 
     // If post-stage archive fails with java.nio.file.FileSystemException "No space left on device",
