@@ -1,171 +1,403 @@
 {
-    "select": {
-        "meta": {
-            "selector":{
-                "mobile": ".app-select"
-            },
-            "states":{
-                "active":{
-                    "selector":{
-                        "mobile":"-active-item"
-                    }
-                }
-            }
+  "select": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-select"
         },
-        "mapping": {
-            "arrow": {
-                "button": {
-                    "border": {
-                        "color": {
-                            "value": "{color.transparent.@.value}",
-                            "type": "color",
-                            "attributes": {
-                                "subtype": "color",
-                                "description": "Sets the border color of select arrow buttons (dropdown arrows that appear in select components). This determines what color the border around the arrow button appears in.<br>CSS variable: --wm-select-arrow-button-border-color"
-                            }
-                        },
-                        "style": {
-                            "value": "{border.style.base.value}",
-                            "type": "style",
-                            "attributes": {
-                                "subtype": "border-style",
-                                "description": "Controls the border style of select arrow buttons. This determines the style of the border around the arrow button (e.g., solid, dashed, none).<br>CSS variable: --wm-select-arrow-button-border-style"
-                            }
-                        },
-                        "width": {
-                            "value": "{border.width.base.value}",
-                            "type": "space",
-                            "attributes": {
-                                "subtype": "border-width",
-                                "description": "Controls the border width (thickness) of select arrow buttons. This determines how thick the border around the arrow button appears. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-border-width"
-                            }
-                        },
-                        "radius": {
-                            "value": "{radius.base.value}",
-                            "type": "space",
-                            "attributes": {
-                                "subtype": "radius",
-                                "description": "Controls the border radius (rounded corners) of select arrow buttons. This determines how rounded the corners of the arrow button appear. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-border-radius"
-                            }
-                        }
-                    },
-                    "height": {
-                        "value": "12px",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the height of select arrow buttons. This determines the vertical size of the arrow button. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-height"
-                        }
-                    }
-                }
-            },
-            "modal": {
-                "content": {
-                    "background": {
-                        "value": "{color.white.@.value}",
-                        "type": "color",
-                        "attributes": {
-                            "subtype": "color",
-                            "description": "Sets the background color of select modal content (the dropdown modal that appears when selecting options). This determines what color the background of the modal appears in.<br>CSS variable: --wm-select-modal-content-background"
-                        }
-                    },
-                    "border": {
-                        "color": {
-                            "value": "{color.transparent.@.value}",
-                            "type": "color",
-                            "attributes": {
-                                "subtype": "color",
-                                "description": "Sets the border color of select modal content. This determines what color the border around the modal appears in.<br>CSS variable: --wm-select-modal-content-border-color"
-                            }
-                        },
-                        "style": {
-                            "value": "{border.style.base.value}",
-                            "type": "style",
-                            "attributes": {
-                                "subtype": "border-style",
-                                "description": "Controls the border style of select modal content. This determines the style of the border around the modal (e.g., solid, dashed, none).<br>CSS variable: --wm-select-modal-content-border-style"
-                            }
-                        },
-                        "width": {
-                            "value": "{border.width.base.value}",
-                            "type": "space",
-                            "attributes": {
-                                "subtype": "border-width",
-                                "description": "Controls the border width (thickness) of select modal content. This determines how thick the border around the modal appears. Acceptable units: px.<br>CSS variable: --wm-select-modal-content-border-width"
-                            }
-                        },
-                        "radius": {
-                            "value": "{radius.base.value}",
-                            "type": "space",
-                            "attributes": {
-                                "subtype": "radius",
-                                "description": "Controls the border radius (rounded corners) of select modal content. This determines how rounded the corners of the modal appear. Acceptable units: px.<br>CSS variable: --wm-select-modal-content-border-radius"
-                            }
-                        }
-                    },
-                    "width": {
-                        "value": "90%",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the width of select modal content. This determines how wide the modal appears relative to its container. Acceptable units: %, px.<br>CSS variable: --wm-select-modal-content-width"
-                        }
-                    }
-                }
-            },
-            "item": {
-                "color": {
-                    "value": "{color.primary.@.value}",
-                    "type": "color",
-                    "attributes": {
-                        "subtype": "color",
-                        "description": "Sets the text color of select items (individual options that appear in the select dropdown). This determines what color the text in select items appears in, typically matching the primary theme color.<br>CSS variable: --wm-select-item-color"
-                    }
-                },
-                "padding": {
-                    "vertical": {
-                        "value": "{space.2.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the vertical padding (top and bottom spacing) of select items. This creates breathing room at the top and bottom of select items. Acceptable units: px.<br>CSS variable: --wm-select-item-padding-vertical"
-                        }
-                    },
-                    "horizontal": {
-                        "value": "{space.4.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the horizontal padding (left and right spacing) of select items. This creates breathing room on the left and right sides of select items. Acceptable units: px.<br>CSS variable: --wm-select-item-padding-horizontal"
-                        }
-                    }
-                },
-                "border": {
-                    "bottom": {
-                        "value": "1px",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "border-width",
-                            "description": "Controls the bottom border width (thickness) of select items. This determines how thick the bottom border appears between select items. Acceptable units: px.<br>CSS variable: --wm-select-item-border-bottom"
-                        }
-                    }
-                }
-            },
-            "states": {
-                "active": {
-                    "item": {
-                        "color": {
-                            "value": "{color.secondary.@.value}",
-                            "type": "color",
-                            "attributes": {
-                                "subtype": "color",
-                                "description": "Sets the text color of active/selected select items (options that are currently selected or highlighted). This determines what color the text appears in for active items, typically matching the secondary theme color.<br>CSS variable: --wm-select-active-item-color"
-                            }
-                        }
-                    }
-                }
+        "states": {
+          "active": {
+            "selector": {
+              "mobile": "-active-item, .app-select-active-item-text"
             }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "arrow-button": {
+        "padding": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding of arrow button This creates breathing room on the arrow button. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-padding"
+          }
         },
-        "appearance": {}
-    }
+        "background-color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of select arrow button This determines what background color the select arrow button appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-select-arrow-button--background-color"
+          }
+        },
+        "icon": {
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-icon-color"
+            }
+          },
+          "height": {
+            "value": "24px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the height.<br>CSS variable: --wm-selec-icon-height"
+            }
+          },
+          "padding": {
+            "value": "{space.1.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding of arrow button icon This creates breathing room on the arrow button. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-icon-padding"
+            }
+          },
+          "border": {
+            "radius": {
+              "value": "{radius.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the corner rounding of select modal content. This makes the select modal content appear with rounded corners for a softer appearance.<br>CSS variable: --wm-select-arrow-button-icon-border-radius"
+              }
+            },
+            "width": {
+              "value": "{border.width.0.value}",
+              "type": "border",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of the border around select modal content. This determines how thick the outline appears around the select modal content. Acceptable units: px.<br>CSS variable: --wm-select-arrow-button-icon-border-width"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Controls the style of the border around select modal content. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-select-arrow-button-icon-border-style"
+              }
+            },
+            "color": {
+              "value": "{color.outline.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of the border around select modal content. This determines the color of the outline that defines the select modal content.<br>CSS variable: --wm-select-arrow-button-icon-border-color"
+              }
+            }
+          },
+          "font-size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls how large icon symbols appear (like arrows, hearts, settings, etc.). Larger values make icons more prominent, smaller values make them more subtle.<br>CSS variable: --wm-icon-font-size"
+            }
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of select modal content. This makes the select modal content appear with rounded corners for a softer appearance.<br>CSS variable: --wm-select-modal-content-border-radius"
+            }
+          },
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around select modal content. This determines how thick the outline appears around the select modal content. Acceptable units: px.<br>CSS variable: --wm-select-modal-content-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around select modal content. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-select-modal-content-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around select modal content. This determines the color of the outline that defines the select modal content.<br>CSS variable: --wm-select-modal-content-border-color"
+            }
+          }
+        }
+      },
+      "modal-content": {
+        "background-color": {
+          "value": "{color.outline.variant.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of select modal content.This determines what background color the select modal content appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-select-modal-content-background-color"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of select modal content. This makes the select modal content appear with rounded corners for a softer appearance.<br>CSS variable: --wm-select-modal-content-border-radius"
+            }
+          },
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around select modal content. This determines how thick the outline appears around the select modal content. Acceptable units: px.<br>CSS variable: --wm-select-modal-content-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around select modal content. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-select-modal-content-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around select modal content. This determines the color of the outline that defines the select modal content.<br>CSS variable: --wm-select-modal-content-border-color"
+            }
+          }
+        },
+        "box-shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the box shadow of select modal content (floating option list panel).<br>CSS variable: --wm-select-modal-content-box-shadow"
+          }
+        }
+      },
+      "modal-text": {
+        "font-size": {
+          "value": "{body.large.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large label text appears (text that describes or identifies other content). Larger values make labels more prominent, smaller values make them more subtle.<br>CSS variable: --wm-label-font-size"
+          }
+        },
+        "font-family": {
+          "value": "{body.medium.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for label text. This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-label-font-family"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.variant.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of labels (text elements that describe or identify other content). This determines what color the label text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-label-color"
+          }
+        },
+        "line-height": {
+              "value": "{body.large.line-height.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "line-height",
+                "description": "Controls the line height of the selected select option item text.<br>CSS variable: --wm-select-item-text-line-height"
+              }
+            },
+      "letter-spacing": {
+              "value": "{body.large.letter-spacing.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "letter-spacing",
+                "description": "Controls the letter spacing of the selected select option item text.<br>CSS variable: --wm-select-item-text-letter-spacing"
+              }
+            }
+      },
+      "item": {
+        "border": {
+          "width": {
+            "value": "{border.width.1.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border width of each select option item.<br>CSS variable: --wm-select-item-border-width"
+            }
+          },
+          "color": {
+            "value": "{color.shadow.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of each select option item (light gray, similar to #dddddd).<br>CSS variable: --wm-select-item-border-color"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of each select option item.<br>CSS variable: --wm-select-item-border-style"
+            }
+          }
+        },
+        "padding": {
+          "value": "{space.2.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding inside each select option item (top/bottom, left/right). Acceptable units: px.<br>CSS variable: --wm-select-item-padding"
+          }
+        }
+      },
+      "check": {
+        "icon": {
+          "background-color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the select check icon container.<br>CSS variable: --wm-select-check-icon-background-color"
+            }
+          },
+          "height": {
+            "value": "24px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the height of the select check icon container.<br>CSS variable: --wm-select-check-icon-height"
+            }
+          },
+          "width": {
+            "value": "24px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the width of the select check icon container.<br>CSS variable: --wm-select-check-icon-width"
+            }
+          },
+          "border": {
+            "radius": {
+              "value": "1px",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of the select check icon container.<br>CSS variable: --wm-select-check-icon-border-radius"
+              }
+            },
+            "width": {
+              "value": "{border.width.1.value}",
+              "type": "border",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the border width of the select check icon container.<br>CSS variable: --wm-select-check-icon-border-width"
+              }
+            },
+            "color": {
+              "value": "transparent",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the border color of the select check icon container.<br>CSS variable: --wm-select-check-icon-border-color"
+              }
+            },
+            "style": {
+              "value": "{border.style.base.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Controls the border style of the select check icon container.<br>CSS variable: --wm-select-check-icon-border-style"
+              }
+            }
+          },
+          "color": {
+            "value": "{color.on-background.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the select check icon glyph.<br>CSS variable: --wm-select-check-icon-color"
+            }
+          },
+          "font-size": {
+            "value": "{icon.size.md.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the font size of the select check icon glyph.<br>CSS variable: --wm-select-check-icon-font-size"
+            }
+          },
+          "padding": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding of the select check icon glyph.<br>CSS variable: --wm-select-check-icon-padding"
+            }
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "modal-text": {
+            "color": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of the selected select option item.<br>CSS variable: --wm-select-item-text-color"
+              }
+            },
+            "font-size": {
+              "value": "{body.large.font-size.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-size",
+                "description": "Controls the font size of the selected select option item text.<br>CSS variable: --wm-select-item-text-font-size"
+              }
+            },
+            "font-family": {
+              "value": "{body.medium.font-family.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "font-family",
+                "description": "Sets the typeface (font style) for label text. This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-label-font-family"
+              }
+            },
+            "line-height": {
+              "value": "{body.large.line-height.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "line-height",
+                "description": "Controls the line height of the selected select option item text.<br>CSS variable: --wm-select-item-text-line-height"
+              }
+            },
+            "letter-spacing": {
+              "value": "{body.large.letter-spacing.value}",
+              "type": "font",
+              "attributes": {
+                "subtype": "letter-spacing",
+                "description": "Controls the letter spacing of the selected select option item text.<br>CSS variable: --wm-select-item-text-letter-spacing"
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearance": {}
+  }
 }

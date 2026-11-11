@@ -36,7 +36,7 @@
       "nav": {
         "border": {
           "width": {
-            "value": "{border.width.base.value}",
+            "value": "{border.width.0.value} {border.width.0.value} {border.width.base.value} {border.width.0.value}",
             "type": "space",
             "attributes": {
               "subtype": "border-width",
@@ -58,6 +58,46 @@
               "subtype": "color",
               "description": "Sets the color of the border around tab navigation (the section containing the tab headers). This determines the color of the line that separates the tab headers from the content area.<br>CSS variable: --wm-tabs-nav-border-color"
             }
+          },
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the radius of the border of tab navigation (the section containing the tab headers). This determines the roundness of the corners of the border.<br>CSS variable: --wm-tabs-nav-border-radius"
+            }
+          }
+        },
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of tab navigation (the section containing the tab headers). This is the color that appears behind the tab headers.<br>CSS variable: --wm-tabs-nav-background"
+          }
+        },
+        "box-shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the box shadow of tab navigation (the section containing the tab headers). This creates a visual effect that adds depth and dimension to the tab headers.<br>CSS variable: --wm-tabs-nav-box-shadow"
+          }
+        },
+        "alignment": {
+          "value": "flex-start",
+          "type": "radius",
+          "attributes": {
+            "subtype": "string",
+            "description": "Controls the alignment of tab navigation (the section containing the tab headers). 'flex-start' aligns tabs to the left, 'center' centers them, and 'flex-end' aligns them to the right.<br>CSS variable: --wm-tabs-nav-alignment"
+          }
+        },
+        "gap": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the spacing between individual tab headers within the tab navigation (the section containing the tab headers). This creates visual separation between each tab header.<br>CSS variable: --wm-tabs-nav-gap"
           }
         }
       },
@@ -129,6 +169,14 @@
               }
             }
           },
+          "background": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of tab item headings (the clickable tab labels that users click to switch between different content sections). This is the color that appears behind the tab text and icons.<br>CSS variable: --wm-tabs-item-heading-background"
+            }
+          },
           "border": {
             "width": {
               "value": "0px",
@@ -152,6 +200,14 @@
               "attributes": {
                 "subtype": "color",
                 "description": "Sets the border color of tab item headings.<br>CSS variable: --wm-tabs-item-heading-border-color"
+              }
+            },
+            "radius": {
+              "value": "{radius.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of tab item headings, determining how rounded the corners appear.<br>CSS variable: --wm-tabs-item-heading-border-radius"
               }
             }
           },
@@ -218,6 +274,48 @@
           "attributes": {
             "subtype": "color",
             "description": "Sets the background color of tab content.<br>CSS variable: --wm-tabs-content-background"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.border.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around tab content.<br>CSS variable: --wm-tabs-content-border-color"
+            }
+          },
+          "width": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around tab content. When set to 0, there is no visible border.<br>CSS variable: --wm-tabs-content-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around tab content. 'none' removes the border, 'solid' creates a continuous line.<br>CSS variable: --wm-tabs-content-border-style"
+            }
+          },
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of tab content.<br>CSS variable: --wm-tabs-content-border-radius"
+            }
+          }
+        },
+        "shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around tab content.<br>CSS variable: --wm-tabs-content-shadow"
           }
         }
       },

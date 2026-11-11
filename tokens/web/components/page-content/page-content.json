@@ -4,11 +4,61 @@
     "mapping": {
       "content": {
         "padding": {
-          "value": "{space.0.value}",
+          "value": "{space.6.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
             "description": "Controls the internal spacing inside page content areas (the main content sections of web pages). This creates breathing room around the page content.<br>CSS variable: --wm-page-content-padding"
+          }
+        },
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of page content areas (the main content sections of web pages). This is the main background color that appears behind the page content.<br>CSS variable: --wm-page-content-background"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.border.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around page content areas. This determines the color of the line that outlines the page content section.<br>CSS variable: --wm-page-content-border-color"
+            }
+          },
+          "width": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around page content areas. When set to 0, there is no visible border.<br>CSS variable: --wm-page-content-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around page content areas. 'none' removes the border, 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates small dots.<br>CSS variable: --wm-page-content-border-style"
+            }
+          },
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of page content areas. When set to 'none', the page content has sharp corners. Higher values create more rounded corners for a softer appearance.<br>CSS variable: --wm-page-content-border-radius"
+            }
+          }
+        },
+        "shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around page content areas. This creates a subtle shadow that makes the page content appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-page-content-shadow"
           }
         }
       }

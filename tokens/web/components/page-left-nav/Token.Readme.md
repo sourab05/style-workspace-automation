@@ -6,6 +6,7 @@ This table lists all tokens for this component:
 
 | Token | Description |
 |-------|------------|
+| nav.width | Controls the width of the left navigation panel (the vertical sidebar that contains navigation menu items). This determines how wide the navigation area appears on the left side of the screen.<br>CSS variable: --wm-aside-left-width |
 | nav.border.color | Sets the color of the left navigation panel border (the vertical sidebar that contains navigation menu items). This determines what color the border line appears in that separates the navigation from the main content.<br>CSS variable: --wm-aside-left-border-color |
 | nav.border.style | Sets the visual style of the left navigation panel border. 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line, 'none' removes the border completely.<br>CSS variable: --wm-aside-left-border-style |
 | nav.border.radius | Controls the corner rounding of the left navigation panel. This makes the navigation panel corners slightly rounded for a softer appearance, or keeps them square with 'none'.<br>CSS variable: --wm-aside-left-border-radius |

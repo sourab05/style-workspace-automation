@@ -173,21 +173,11 @@
           }
         },
         "padding": {
-          "left": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding (horizontal spacing) inside radio button group titles. This creates breathing room on the left side of the title text. Acceptable units: px.<br>CSS variable: --wm-radiobutton-title-padding-left"
-            }
-          },
-          "right": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the right padding (horizontal spacing) inside radio button group titles. This creates breathing room on the right side of the title text. Acceptable units: px.<br>CSS variable: --wm-radiobutton-title-padding-right"
-            }
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding inside radio button group titles. This creates breathing room around the title text. Acceptable units: px.<br>CSS variable: --wm-radiobutton-title-padding"
           }
         }
       },

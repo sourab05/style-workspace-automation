@@ -3,14 +3,12 @@
     "meta": {
       "mapping": {
         "selector": {
-          "web": ".app-button",
           "mobile": ".app-button"
         },
         "states": {
           "disabled": {
             "selector": {
-              "mobile": "-disabled",
-              "web": "[disabled]"
+              "mobile": "-disabled"
             }
           }
         }
@@ -40,31 +38,6 @@
         "attributes": {
           "subtype": "cursor",
           "description": "Controls the mouse cursor appearance when hovering over buttons. 'pointer' shows a hand cursor indicating the button is clickable, 'default' shows an arrow cursor, and 'not-allowed' shows a blocked cursor for disabled buttons. This provides visual feedback to users about button interactivity.<br>CSS variable: --wm-btn-cursor"
-        }
-      },
-      "position": {
-        "@": {
-          "value": "relative",
-          "type": "space",
-          "attributes": {
-            "description": "Controls the positioning method for buttons. 'relative' positions the button relative to its normal position, 'absolute' positions it relative to its nearest positioned ancestor, 'fixed' positions it relative to the viewport, and 'static' uses the default flow.<br>CSS variable: --wm-btn-position"
-          }
-        },
-        "bottom": {
-          "value": "none",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the distance from the bottom edge when buttons are positioned absolutely or fixed. This determines how far from the bottom the button appears. Acceptable values: px, %.<br>CSS variable: --wm-btn-position-bottom"
-          }
-        },
-        "right": {
-          "value": "none",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the distance from the right edge when buttons are positioned absolutely or fixed. This determines how far from the right the button appears. Acceptable values: px, %.<br>CSS variable: --wm-btn-position-right"
-          }
         }
       },
       "opacity": {
@@ -158,38 +131,12 @@
         }
       },
       "padding": {
-        "top": {
-          "value": "{space.0.value}",
+          "value": "{space.3.value} {space.6.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Sets internal top spacing between content and border.<br>CSS variable: --wm-btn-padding-top"
+            "description": "Sets internal spacing between content and border (top/bottom, left/right).<br>CSS variable: --wm-btn-padding"
           }
-        },
-        "bottom": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Sets internal bottom spacing between content and border.<br>CSS variable: --wm-btn-padding-bottom"
-          }
-        },
-        "left": {
-          "value": "{space.6.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Sets internal left spacing between content and border.<br>CSS variable: --wm-btn-padding-left"
-          }
-        },
-        "right": {
-          "value": "{space.6.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Sets internal right spacing between content and border.<br>CSS variable: --wm-btn-padding-right"
-          }
-        }
       },
       "min-width": {
         "value": "auto",
@@ -199,12 +146,12 @@
           "description": "Sets the minimum width.<br>CSS variable: --wm-btn-min-width"
         }
       },
-      "height": {
-        "value": "40px",
+      "min-height": {
+        "value": "{space.10.value}",
         "type": "space",
         "attributes": {
           "subtype": "space",
-          "description": "Controls the height.<br>CSS variable: --wm-btn-height"
+          "description": "Controls the height.<br>CSS variable: --wm-btn-min-height"
         }
       },
       "gap": {
@@ -223,12 +170,22 @@
           "description": "Controls the drop shadow effect.<br>CSS variable: --wm-btn-shadow"
         }
       },
-      "icon-size": {
-        "value": "{icon.size.md.value}",
-        "type": "space",
-        "attributes": {
-          "subtype": "icon-size",
-          "description": "Controls the size of icons.<br>CSS variable: --wm-btn-icon-size"
+      "icon": {
+        "size": {
+          "value": "{icon.size.md.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of icons.<br>CSS variable: --wm-btn-icon-size"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the icon color of buttons (clickable elements that users interact with to perform actions). This determines what color the button icon appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-btn-icon-color"
+          }
         }
       },
       "ripple": {
@@ -581,22 +538,8 @@
             }
           },
           "padding": {
-            "top": {
-              "value": "{space.2.value}",
-              "type": "space"
-            },
-            "bottom": {
-              "value": "{space.2.value}",
-              "type": "space"
-            },
-            "left": {
-              "value": "{space.3.value}",
-              "type": "space"
-            },
-            "right": {
-              "value": "{space.3.value}",
-              "type": "space"
-            }
+            "value": "{space.2.value} {space.3.value}",
+            "type": "space"
           }
         },
         "variantGroups": {
@@ -671,22 +614,8 @@
             }
           },
           "padding": {
-            "top": {
-              "value": "{space.2.value}",
-              "type": "space"
-            },
-            "bottom": {
-              "value": "{space.2.value}",
-              "type": "space"
-            },
-            "left": {
-              "value": "{space.3.value}",
-              "type": "space"
-            },
-            "right": {
-              "value": "{space.3.value}",
-              "type": "space"
-            }
+            "value": "{space.2.value} {space.3.value}",
+            "type": "space"
           }
         },
         "variantGroups": {
@@ -750,7 +679,7 @@
       },
       "icon": {
         "mapping": {
-          "height": {
+          "min-height": {
             "value": "40px",
             "type": "space"
           },
@@ -759,22 +688,8 @@
             "type": "space"
           },
           "padding": {
-            "top": {
-              "value": "{space.0.value}",
-              "type": "space"
-            },
-            "bottom": {
-              "value": "{space.0.value}",
-              "type": "space"
-            },
-            "left": {
-              "value": "{space.0.value}",
-              "type": "space"
-            },
-            "right": {
-              "value": "{space.0.value}",
-              "type": "space"
-            }
+            "value": "{space.0.value}",
+            "type": "space"
           },
           "icon-size": {
             "value": "{icon.size.md.value}",
@@ -794,21 +709,7 @@
       },
       "fab": {
         "mapping": {
-          "position": {
-            "@": {
-              "value": "absolute",
-              "type": "space"
-            },
-            "bottom": {
-              "value": "10px",
-              "type": "space"
-            },
-            "right": {
-              "value": "10px",
-              "type": "space"
-            }
-          },
-          "height": {
+          "min-height": {
             "value": "56px",
             "type": "space"
           },

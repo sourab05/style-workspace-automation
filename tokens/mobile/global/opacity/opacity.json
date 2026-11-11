@@ -1,0 +1,6 @@
+{
+  "opacity": {
+    "focus": { "value": "12%", "attributes": { "subtype": "opacity" } },
+    "active": { "value": "100%", "attributes": { "subtype": "opacity" } }
+  }
+}

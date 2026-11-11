@@ -1,17 +1,9 @@
 {
     "left-panel": {
         "mapping": {
-            "min-height": {
-                "type": "space",
-                "value": "100%",
-                "attributes": {
-                    "subtype": "space",
-                    "description": "Controls the minimum height of the left navigation panel (the side panel that slides in from the left). When set to 100%, the panel takes up the full height of the viewport. Acceptable units: %, px.<br>CSS variable: --wm-left-panel-min-height"
-                }
-            },
             "background": {
                 "type": "color",
-                "value": "#ffffff",
+                "value": "{color.surface.container.lowest.@.value}",
                 "attributes": {
                     "subtype": "color",
                     "description": "Sets the background color of the left navigation panel (the side panel that slides in from the left). This is the main background color that appears behind the navigation content.<br>CSS variable: --wm-left-panel-background"

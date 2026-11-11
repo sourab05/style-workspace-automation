@@ -46,13 +46,11 @@
                     }
                 },
                 "padding": {
-                    "left": {
-                        "value": "{space.0.value}",
-                        "type": "font",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Sets the left padding of the text in the barcode scanner component. This creates spacing to the left of the text.<br>CSS variable: --wm-barcodescanner-text-padding-left"
-                        }
+                    "value": "{space.0.value} {space.0.value} {space.0.value} {space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the padding (top, right, bottom, left) of the text in the barcode scanner component. This creates spacing around the text. Acceptable units: px.<br>CSS variable: --wm-barcodescanner-text-padding"
                     }
                 }
             },
@@ -85,37 +83,11 @@
                 }
             },
             "padding": {
-                "top": {
-                    "value": "10px",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Sets the top padding of the barcode scanner component. This creates spacing at the top of the component.<br>CSS variable: --wm-barcodescanner-padding-top"
-                    }
-                },
-                "left": {
-                    "value": "{space.2.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Sets the left padding of the barcode scanner component. This creates spacing on the left side of the component.<br>CSS variable: --wm-barcodescanner-padding-left"
-                    }
-                },
-                "bottom": {
-                    "value": "{space.2.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Sets the bottom padding of the barcode scanner component. This creates spacing at the bottom of the component.<br>CSS variable: --wm-barcodescanner-padding-bottom"
-                    }
-                },
-                "right": {
-                    "value": "{space.2.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Sets the right padding of the barcode scanner component. This creates spacing on the right side of the component.<br>CSS variable: --wm-barcodescanner-padding-right"
-                    }
+                "value": "10px {space.2.value} {space.2.value} {space.2.value}",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the padding (top, right, bottom, left) of the barcode scanner component. This creates spacing around the component content. Acceptable units: px.<br>CSS variable: --wm-barcodescanner-padding"
                 }
             },
             "border": {

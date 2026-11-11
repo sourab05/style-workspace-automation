@@ -25,37 +25,11 @@
                 }
             },
             "padding": {
-                "left": {
-                    "value": "{space.3.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Controls the left padding (horizontal spacing) inside navigation bars. This creates breathing room on the left side of the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-left"
-                    }
-                },
-                "right": {
-                    "value": "{space.3.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Controls the right padding (horizontal spacing) inside navigation bars. This creates breathing room on the right side of the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-right"
-                    }
-                },
-                "top": {
-                    "value": "{space.3.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Controls the top padding (vertical spacing) inside navigation bars. This creates breathing room above the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-top"
-                    }
-                },
-                "bottom": {
-                    "value": "{space.3.value}",
-                    "type": "space",
-                    "attributes": {
-                        "subtype": "space",
-                        "description": "Controls the bottom padding (vertical spacing) inside navigation bars. This creates breathing room below the navbar content. Acceptable units: px.<br>CSS variable: --wm-navbar-padding-bottom"
-                    }
+                "value": "{space.3.value}",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the padding inside navigation bars (top, right, bottom, left). Acceptable units: px.<br>CSS variable: --wm-navbar-padding"
                 }
             },
             "left-icon": {
@@ -186,7 +160,7 @@
             },
             "badge": {
                 "background-color": {
-                    "value": "transparent",
+                    "value": "{color.inverse.on-surface.@.value}",
                     "type": "color",
                     "attributes": {
                         "subtype": "color",
@@ -194,11 +168,55 @@
                     }
                 },
                 "color": {
-                    "value": "{color.primary.@.value}",
+                    "value": "{color.on-surface.@.value}",
                     "type": "color",
                     "attributes": {
                         "subtype": "color",
                         "description": "Sets the text color of badges in navigation bars. This determines what color the badge text appears in, typically matching the primary theme color.<br>CSS variable: --wm-navbar-badge-color"
+                    }
+                },
+                "height": {
+                    "value": "{space.6.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the height of badges in navigation bars. This determines how tall the badge appears. Acceptable units: px.<br>CSS variable: --wm-navbar-badge-height"
+                    }
+                },
+                "width": {
+                    "value": "{space.6.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the width of badges in navigation bars. This determines how wide the badge appears. Acceptable units: px.<br>CSS variable: --wm-navbar-badge-width"
+                    }
+                },
+                "font": {
+                    "size": {
+                    "value": "{p.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls the font size of badge text in navigation bars. This affects how large the badge text appears.<br>CSS variable: --wm-navbar-badge-font-size"
+                        }
+                    }
+                },
+                "line-height": {
+                        "value": "{body.large.line-height}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "line-height",
+                            "description": "Controls the line height of badge text in navigation bars. This affects the vertical spacing of badge text.<br>CSS variable: --wm-navbar-badge-line-height"
+                        }
+                },
+                "border": {
+                    "radius": {
+                        "value": "{radius.md.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Controls the border radius. IMPORTANT: border.radius value should always be half of the height & width. This determines how rounded the badge corners appear. Acceptable units: px.<br>CSS variable: --wm-navbar-badge-border-radius"
+                        }
                     }
                 },
                 "margin-left": {
@@ -212,37 +230,11 @@
             },
             "anchor": {
                 "padding": {
-                    "right": {
-                        "value": "0px",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the right padding (horizontal spacing) inside navigation bar anchor elements (clickable links in the navbar). This creates breathing room on the right side of the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-right"
-                        }
-                    },
-                    "left": {
-                        "value": "0px",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the left padding (horizontal spacing) inside navigation bar anchor elements. This creates breathing room on the left side of the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-left"
-                        }
-                    },
-                    "top": {
-                        "value": "0px",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the top padding (vertical spacing) inside navigation bar anchor elements. This creates breathing room above the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-top"
-                        }
-                    },
-                    "bottom": {
-                        "value": "0px",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the bottom padding (vertical spacing) inside navigation bar anchor elements. This creates breathing room below the anchor content. Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding-bottom"
-                        }
+                    "value": "0px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the padding inside navigation bar anchor elements (top, right, bottom, left). Acceptable units: px.<br>CSS variable: --wm-navbar-anchor-padding"
                     }
                 },
                 "text": {
@@ -335,7 +327,42 @@
                         }
                     }
                 }
+            },
+            "border": {
+                "color": {
+                    "value": "{color.surface.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the border color of navigation bars. This determines what color the border appears in.<br>CSS variable: --wm-navbar-border-color"
+                    }
+                },
+                "style": {
+                    "value": "{border.style.base.value}",
+                    "type": "border",
+                    "attributes": {
+                        "subtype": "border-style",
+                        "description": "Controls the style of the border of navigation bars. This determines whether the border appears as solid, dashed, or dotted.<br>CSS variable: --wm-navbar-border-style"
+                    }
+                },
+                "radius": {
+                    "value": "0px",
+                    "type": "border",
+                    "attributes": {
+                        "subtype": "border-radius",
+                        "description": "Controls the radius of the border of navigation bars. This determines how rounded the border appears. Acceptable units: px.<br>CSS variable: --wm-navbar-border-radius"
+                    }
+                },
+                "width": {
+                    "value": "{border.width.0.value}",
+                    "type": "border",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the border width of navigation bars (top, right, bottom, left). Acceptable units: px.<br>CSS variable: --wm-navbar-border-width"
+                    }
+                }
             }
+
         }
     }
 }

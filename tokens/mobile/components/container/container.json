@@ -29,7 +29,7 @@
       "border": {
         "style": {
           "value": "{border.style.base.value}",
-          "type": "radius",
+          "type": "border",
             "attributes": {
                 "subtype": "border-style",
                 "description": "Controls the style of the outline around container elements (boxes that hold content). 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots. The default container border styles will not change in Studio. They are dotted for user-experience reasons, so we are not going to modify them. The changes can be seen in the preview. For the outlined and elevated styles, the changes are visible both in Studio and in the preview.<br>CSS variable: --wm-container-border-style"
@@ -37,10 +37,10 @@
         },
         "width": {
           "value": "{border.width.0.value}",
-          "type": "space",
+          "type": "border",
           "attributes": {
             "subtype": "border-width",
-            "description": "Controls the thickness of the border around container elements. When set to 0, there's no visible border. Higher values create thicker borders around the container.<br>CSS variable: --wm-container-border-width"
+            "description": "Controls the border width (all sides) around container elements. When set to 0, there's no visible border. Higher values create thicker borders around the container. Acceptable units: px.<br>CSS variable: --wm-container-border-width"
           }
         },
         "color": {
@@ -87,37 +87,11 @@
         }
       },
       "padding": {
-        "top": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the top padding (vertical spacing) inside container elements. This creates breathing room above the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-top"
-          }
-        },
-        "bottom": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the bottom padding (vertical spacing) inside container elements. This creates breathing room below the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-bottom"
-          }
-        },
-        "left": {
-          "value": "{space.6.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the left padding (horizontal spacing) inside container elements. This creates breathing room on the left side of the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-left"
-          }
-        },
-        "right": {
-          "value": "{space.6.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the right padding (horizontal spacing) inside container elements. This creates breathing room on the right side of the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding-right"
-          }
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the padding (all sides) inside container elements. This creates breathing room around the container content. Acceptable units: px.<br>CSS variable: --wm-container-padding"
         }
       }
     },
@@ -131,7 +105,7 @@
             },
             "width": {
               "value": "{border.width.0.value}",
-              "type": "space"
+              "type": "border"
             },
             "color": {
               "value": "transparent",
@@ -141,6 +115,14 @@
               "value": "{radius.none.value}",
               "type": "radius"
             }
+          },
+          "box-shadow": {
+            "value": "{elevation.shadow.none.value}",
+            "type": "radius"
+          },
+          "padding": {
+            "value": "{space.0.value}",
+            "type": "space"
           }
         }
       },
@@ -163,6 +145,14 @@
               "value": "1px",
               "type": "radius"
             }
+          },
+          "box-shadow": {
+            "value": "{elevation.shadow.none.value}",
+            "type": "radius"
+          },
+          "padding": {
+            "value": "{space.0.value}",
+            "type": "space"
           }
         }
       },
@@ -189,6 +179,10 @@
               "value": "{radius.sm.value}",
               "type": "radius"
             }
+          },
+          "padding": {
+            "value": "{space.0.value}",
+            "type": "space"
           }
         }
       }

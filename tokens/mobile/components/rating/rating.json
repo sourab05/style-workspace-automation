@@ -64,13 +64,11 @@
           }
         },
         "padding": {
-          "left": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the spacing between rating text and icons. This creates visual separation between the text and the rating icons.<br>CSS variable: --wm-rating-text-padding-left"
-            }
+          "value": "{space.0.value} {space.0.value} {space.0.value} {space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top, right, bottom, left) of rating text. This creates visual separation between the text and the rating icons. Acceptable units: px.<br>CSS variable: --wm-rating-text-padding"
           }
         },
         "color": {

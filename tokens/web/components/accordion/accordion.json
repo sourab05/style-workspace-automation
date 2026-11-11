@@ -233,6 +233,56 @@
             "subtype": "space",
             "description": "Controls the internal spacing (padding) around the expandable content area of the accordion. This is the space between the content border and the actual content (text, images, forms, etc.) that appears when the accordion is expanded.<br>CSS variable: --wm-accordion-content-padding"
           }
+        },
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the accordion pane content area (the expandable body that appears when the accordion is open).<br>CSS variable: --wm-accordion-content-background"
+          }
+        },
+        "border": {
+          "color": {
+            "value": "{color.border.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around the accordion pane content area.<br>CSS variable: --wm-accordion-content-border-color"
+            }
+          },
+          "width": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around the accordion pane content area. When set to 0, there is no visible border.<br>CSS variable: --wm-accordion-content-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border around the accordion pane content area. 'none' removes the border, 'solid' creates a continuous line.<br>CSS variable: --wm-accordion-content-border-style"
+            }
+          },
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of the accordion pane content area.<br>CSS variable: --wm-accordion-content-border-radius"
+            }
+          }
+        },
+        "shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow effect around the accordion pane content area.<br>CSS variable: --wm-accordion-content-shadow"
+          }
         }
       }
     },

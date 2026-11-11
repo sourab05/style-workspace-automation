@@ -50,37 +50,11 @@
             },
             "form": {
                 "padding": {
-                    "top": {
-                        "value": "{space.9.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the top padding (vertical spacing) inside the login form container. This creates breathing room above the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-top"
-                        }
-                    },
-                    "bottom": {
-                        "value": "{space.9.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the bottom padding (vertical spacing) inside the login form container. This creates breathing room below the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-bottom"
-                        }
-                    },
-                    "left": {
-                        "value": "{space.9.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the left padding (horizontal spacing) inside the login form container. This creates breathing room on the left side of the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-left"
-                        }
-                    },
-                    "right": {
-                        "value": "{space.9.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the right padding (horizontal spacing) inside the login form container. This creates breathing room on the right side of the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding-right"
-                        }
+                    "value": "{space.9.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the padding (all sides) inside the login form container. This creates breathing room around the form content. Acceptable units: px.<br>CSS variable: --wm-login-form-padding"
                     }
                 }
             }

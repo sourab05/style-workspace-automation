@@ -1,21 +1,48 @@
 {
   "lottie": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-lottie"
+        }
+      }
+    },
     "mapping": {
+      "background": {
+        "color": {
+          "value": "{color.transparent.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the lottie. When transparent, only the lottie is visible. When filled with a color, the lottie appears with a colored background.<br>CSS variable: --wm-lottie-background-color"
+          }
+        }
+      },
+      "padding": {
+        "value": "{space.0.value} {space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the padding around the lottie. First value is for top/bottom, second value is for left/right.<br>CSS variables: --wm-lottie-padding-top, --wm-lottie-padding-right, --wm-lottie-padding-bottom, --wm-lottie-padding-left"
+        }
+      },
       "content": {
         "height": {
           "value": "{spacer.7.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the height of lottie animation content (animated graphics and illustrations). This determines how tall the lottie animation appears. Acceptable units: px.<br>CSS variable: --wm-lottie-content-height"
-          }
+          "type": "space"
         },
         "width": {
           "value": "100%",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the width of lottie animation content (animated graphics and illustrations). When set to 100%, the animation takes up the full width of its container. Acceptable units: %, px.<br>CSS variable: --wm-lottie-content-width"
+          "type": "space"
+        },
+        "background": {
+          "color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color for the content of lottie. When transparent, only the lottie is visible. When filled with a color, the lottie appears with a colored background.<br>CSS variable: --wm-lottie-content-background-color"
+            }
           }
         }
       }

@@ -42,13 +42,11 @@
           }
         },
         "padding": {
-          "left": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding (horizontal spacing) of loading data messages. This creates breathing room on the left side of the loading message text.<br>CSS variable: --wm-spinner-text-padding-left"
-            }
+          "value": "{space.0.value} {space.0.value} {space.0.value} {space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top, right, bottom, left) of loading data messages. This creates breathing room around the loading message text. Acceptable units: px.<br>CSS variable: --wm-spinner-text-padding"
           }
         }
       },

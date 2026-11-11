@@ -110,9 +110,26 @@
           }
         }
       }
-
     },
     "mapping": {
+      "background": {
+        "color": {
+          "value": "{color.surface.container.low.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Controls the background color of tile components (rectangular content blocks that hold information). This determines the color of the tile. <br>CSS variable: --wm-tile-background-color"
+          }
+        }
+      },
+      "color": {
+        "value": "{color.on-surface.variant.@.value}",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Controls the template color of tile components (rectangular content blocks that hold information). This determines the color of the tile template. <br>CSS variable: --wm-tile-color"
+        }
+      },
       "border": {
         "radius": {
           "value": "{radius.sm.value}",
@@ -140,40 +157,13 @@
         }
       },
       "padding": {
-        "top": {
-          "value": "{space.4.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside tile components (rectangular content blocks that hold information). This creates breathing room around the tile content.<br>CSS variable: --wm-tile-padding-top"
-          }
-        },
-        "bottom": {
-          "value": "{space.4.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside tile components (rectangular content blocks that hold information). This creates breathing room around the tile content.<br>CSS variable: --wm-tile-padding-bottom"
-          }
-        },
-        "left": {
-          "value": "{space.4.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside tile components (rectangular content blocks that hold information). This creates breathing room around the tile content.<br>CSS variable: --wm-tile-padding-left"
-          }
-        },
-        "right": {
-          "value": "{space.4.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside tile components (rectangular content blocks that hold information). This creates breathing room around the tile content.<br>CSS variable: --wm-tile-padding-right"
-          }
+        "value": "{space.4.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the padding (all sides) inside tile components (rectangular content blocks that hold information). This creates breathing room around the tile content. Acceptable units: px.<br>CSS variable: --wm-tile-padding"
         }
       }
-      
     },
     "appearances": {
       "default": {

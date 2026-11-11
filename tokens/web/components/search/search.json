@@ -305,7 +305,7 @@
       "btn": {
         "position": {
           "left": {
-            "value": "{space.1.value}",
+            "value": "{space.2.value}",
             "type": "space",
             "attributes": {
               "subtype": "space",

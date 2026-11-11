@@ -23,6 +23,56 @@
                     "description": "Controls the height of tabbar components (navigation bars with tabs at the bottom of the screen). This determines the vertical size of the tabbar. Acceptable units: px.<br>CSS variable: --wm-tabbar-height"
                 }
             },
+            "width": {
+                "value": "100%",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the width of tabbar components (navigation bars with tabs at the bottom of the screen). This determines the horizontal size of the tabbar. Acceptable units: %, px.<br>CSS variable: --wm-tabbar-width"
+                }
+            },
+            "gap": {
+                "value": "{space.0.value}",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Root tab bar gap (<code>mapping.gap</code>): spacing between direct children of the tab bar container (<code>.app-tabbar</code>) when it uses flex or grid layout. Acceptable units: px or space-token references.<br>CSS variable: --wm-tabbar-gap"
+                }
+            },
+            "border": {
+                "width": {
+                    "value": "{border.width.0.value}",
+                    "type": "border",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the border width of tabbar (top, right, bottom, left). Acceptable units: %, px.<br>CSS variable: --wm-tabbar-border-width"
+                    }
+                },
+                "color": {
+                    "value": "{color.scrim.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the border color of tabbar. This determines what color the border of the tabbar menu appears in.<br>CSS variable: --wm-tabbar-border-color"
+                    }
+                },
+                "style": {
+                    "value": "{border.style.solid.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "border-style",
+                        "description": "Sets the border style. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-tabbar-border-style"
+                    }
+                },
+                "radius": {
+                    "value": "{radius.none.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius (rounded corners) of tabbar. This determines how rounded the corners of the tabbar appear. Acceptable units: px.<br>CSS variable: --wm-tabbar-border-radius"
+                    }
+                }
+            },
             "box-shadow": {
                 "value": "{elevation.shadow.1.value}",
                 "type": "radius",
@@ -85,21 +135,11 @@
                     }
                 },
                 "padding": {
-                    "top": {
-                        "value": "{space.1.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the top padding (vertical spacing) of tabbar more menu rows. This creates breathing room at the top of each row. Acceptable units: px.<br>CSS variable: --wm-tabbar-more-menu-row-padding-top"
-                        }
-                    },
-                    "bottom": {
-                        "value": "{space.1.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the bottom padding (vertical spacing) of tabbar more menu rows. This creates breathing room at the bottom of each row. Acceptable units: px.<br>CSS variable: --wm-tabbar-more-menu-row-padding-bottom"
-                        }
+                    "value": "{space.1.value} {space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the padding (top/bottom, left/right) of tabbar more menu rows. This creates breathing room around each row. Acceptable units: px.<br>CSS variable: --wm-tabbar-more-menu-row-padding"
                     }
                 }
             },
@@ -115,20 +155,10 @@
                     },
                     "width": {
                         "value": "{spacer.7.value}",
-                        "type": "spacer",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the minimum width of tabbar items. This determines the minimum horizontal size of tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-min-width"
-                        }
-                    }
-                },
-                "margin": {
-                    "bottom": {
-                        "value": "{space.4.value}",
                         "type": "space",
                         "attributes": {
                             "subtype": "space",
-                            "description": "Controls the bottom margin (vertical spacing) of tabbar items. This creates spacing below tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-margin-bottom"
+                            "description": "Controls the minimum width of tabbar items. This determines the minimum horizontal size of tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-min-width"
                         }
                     }
                 },
@@ -139,6 +169,30 @@
                         "attributes": {
                             "subtype": "radius",
                             "description": "Controls the border radius (rounded corners) of tabbar items. This determines how rounded the corners of tab items appear. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-border-radius"
+                        }
+                    },
+                    "width": {
+                        "value": "{border.width.0.value}",
+                        "type": "border",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the border width of tabbar items. This determines the minimum width horizontal size of tab items. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-border-width"
+                        }
+                    },
+                    "color": {
+                        "value": "transparent",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Border color for each tab item in the default (inactive) state. <code>transparent</code> hides the stroke so layout relies on background and spacing.<br>CSS variable: --wm-tabbar-item-border-color"
+                        }
+                    },
+                    "style": {
+                        "value": "{border.style.solid.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-style",
+                            "description": "How the tab item border is drawn when a stroke is visible: solid, dashed, dotted, etc., from shared border-style tokens.<br>CSS variable: --wm-tabbar-item-border-style"
                         }
                     }
                 },
@@ -158,6 +212,22 @@
                     "attributes": {
                         "subtype": "opacity",
                         "description": "Controls the transparency of tabbar items. When set to 1, items are fully opaque. Lower values make items more transparent, higher values make them more opaque.<br>CSS variable: --wm-tabbar-item-opacity"
+                    }
+                },
+                "padding": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Space inside each tab item (between the item edge and its icon/label content). Uses one token as uniform padding on all sides.<br>CSS variable: --wm-tabbar-item-padding"
+                    }
+                },
+                "gap": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Gap for each tab bar item (<code>mapping.item.gap</code>): spacing between this item’s inner children only (nested under <code>item</code>), for example between the icon and the label inside the same tab. Acceptable units: px or space-token references.<br>CSS variable: --wm-tabbar-item-gap"
                     }
                 }
             },
@@ -179,21 +249,11 @@
                     }
                 },
                 "padding": {
-                    "right": {
-                        "value": "{space.0.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the right padding (horizontal spacing) of tabbar icons. This creates breathing room on the right side of icons. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-padding-right"
-                        }
-                    },
-                    "bottom": {
-                        "value": "{space.0.value}",
-                        "type": "space",
-                        "attributes": {
-                            "subtype": "space",
-                            "description": "Controls the bottom padding (vertical spacing) of tabbar icons. This creates breathing room at the bottom of icons. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-padding-bottom"
-                        }
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the padding (top, right, bottom, left) of tabbar icons. This creates breathing room around icons. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-padding"
                     }
                 },
                 "border-bottom-color": {
@@ -262,6 +322,30 @@
                                     "subtype": "radius",
                                     "description": "Controls the border radius (rounded corners) of active tabbar items. This determines how rounded the corners of active tab items appear. Acceptable units: px.<br>CSS variable: --wm-tabbar-item-border-radius (active state)"
                                 }
+                            },
+                            "width": {
+                                "value": "{border.width.0.value}",
+                                "type": "border",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Border stroke width for the active tab item (same token scale as default state).<br>CSS variable: --wm-tabbar-item-border-width (active state)"
+                                }
+                            },
+                            "color": {
+                                "value": "transparent",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Border color on the active tab item (transparent so the primary container fill defines the shape).<br>CSS variable: --wm-tabbar-item-border-color (active state)"
+                                }
+                            },
+                            "style": {
+                                "value": "{border.style.solid.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "border-style",
+                                    "description": "Border line style for the active tab item.<br>CSS variable: --wm-tabbar-item-border-style (active state)"
+                                }
                             }
                         },
                         "background": {
@@ -272,6 +356,22 @@
                                     "subtype": "color",
                                     "description": "Sets the background color of active tabbar items (tabs that are currently selected). This determines what color the background appears in for active items, typically matching the primary container theme color.<br>CSS variable: --wm-tabbar-item-background-color (active state)"
                                 }
+                            }
+                        },
+                        "padding": {
+                            "value": "{space.0.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Inner padding for the selected tab item (uniform token); overrides inactive padding when active styles apply.<br>CSS variable: --wm-tabbar-item-padding (active state)"
+                            }
+                        },
+                        "gap": {
+                            "value": "{space.0.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Gap for the active tab item (<code>states.active.item.gap</code>): same meaning as inactive <code>item.gap</code>—spacing between inner children of the selected tab only (nested under <code>states.active.item</code>). Acceptable units: px or space-token references.<br>CSS variable: --wm-tabbar-item-gap (active state)"
                             }
                         },
                         "margin": {
@@ -291,7 +391,15 @@
                             "type": "color",
                             "attributes": {
                                 "subtype": "color",
-                                "description": "Sets the color of active tabbar icons. This determines what color the icons appear in for active tabs, typically matching the primary theme color.<br>CSS variable: --wm-tabbar-icon-color (active state)"
+                                "description": "Icon tint when the tab is selected (primary brand color).<br>CSS variable: --wm-tabbar-icon-color (active state)"
+                            }
+                        },
+                        "padding": {
+                            "value": "{space.0.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Controls the padding (top, right, bottom, left) of tabbar icons. This creates breathing room around icons. Acceptable units: px.<br>CSS variable: --wm-tabbar-icon-padding"
                             }
                         }
                     },

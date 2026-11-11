@@ -8,7 +8,7 @@
         "states": {
           "active": {
             "selector": {
-              "mobile": "-active-dot"
+              "mobile": "-active-dot,.app-carousel-active-slide"
             }
           }
         }
@@ -35,23 +35,167 @@
           }
         },
         "padding": {
-          "horizontal": {
-            "value": "{space.4.value}",
-            "type": "space",
+          "value": "{space.0.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top/bottom, left/right) inside carousel slides. This creates breathing room on the sides of the slide content, preventing content from touching the edges. Acceptable units: px.<br>CSS variable: --wm-carousel-slide-padding"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
             "attributes": {
-              "subtype": "space",
-              "description": "Controls the horizontal padding (left and right spacing) inside carousel slides. This creates breathing room on the sides of the slide content, preventing content from touching the edges. Acceptable units: px.<br>CSS variable: --wm-carousel-slide-padding-horizontal"
+              "subtype": "radius",
+              "description": "Corner radius for normal (middle) carousel slides.<br>CSS variable: --wm-carousel-slide-border-radius"
             }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Border color for normal carousel slides. Transparent hides the outline unless a border width is set with a visible style.<br>CSS variable: --wm-carousel-slide-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Border width for normal carousel slides.<br>CSS variable: --wm-carousel-slide-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Border style for normal carousel slides (e.g. solid, dashed).<br>CSS variable: --wm-carousel-slide-border-style"
+            }
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Background of normal (non-first, non-last, non-active) carousel slides.<br>CSS variable: --wm-carousel-slide-background"
           }
         }
       },
-      "navigation-arrows": {
+      "first-slide": {
+        "padding": {
+          "value": "{space.0.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Padding inside the first carousel slide. Defaults match normal slides; theme editors can diverge.<br>CSS variable: --wm-carousel-first-slide-padding"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Corner radius for the first carousel slide.<br>CSS variable: --wm-carousel-first-slide-border-radius"
+            }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Border color for the first carousel slide.<br>CSS variable: --wm-carousel-first-slide-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Border width for the first carousel slide.<br>CSS variable: --wm-carousel-first-slide-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Border style for the first carousel slide.<br>CSS variable: --wm-carousel-first-slide-border-style"
+            }
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Background of the first carousel slide.<br>CSS variable: --wm-carousel-first-slide-background"
+          }
+        }
+      },
+      "last-slide": {
+        "padding": {
+          "value": "{space.0.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Padding inside the last carousel slide. Defaults match normal slides; theme editors can diverge.<br>CSS variable: --wm-carousel-last-slide-padding"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Corner radius for the last carousel slide.<br>CSS variable: --wm-carousel-last-slide-border-radius"
+            }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Border color for the last carousel slide.<br>CSS variable: --wm-carousel-last-slide-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Border width for the last carousel slide.<br>CSS variable: --wm-carousel-last-slide-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Border style for the last carousel slide.<br>CSS variable: --wm-carousel-last-slide-border-style"
+            }
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Background of the last carousel slide.<br>CSS variable: --wm-carousel-last-slide-background"
+          }
+        }
+      },
+      "prev-btn": {
         "height": {
           "value": "{space.12.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the height of carousel navigation arrow buttons (left/right arrows that allow users to manually navigate between slides). Larger values make the arrows more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-navigation-arrows-height"
+            "description": "Height of the previous-slide control (left arrow). Larger values make the control easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-prev-btn-height"
           }
         },
         "width": {
@@ -59,7 +203,7 @@
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the width of carousel navigation arrow buttons (left/right arrows that allow users to manually navigate between slides). Larger values make the arrows more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-navigation-arrows-width"
+            "description": "Width of the previous-slide control (left arrow). Larger values make the control easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-prev-btn-width"
           }
         },
         "border": {
@@ -68,7 +212,7 @@
             "type": "radius",
             "attributes": {
               "subtype": "radius",
-              "description": "Controls the corner rounding of carousel navigation arrow buttons. When set to 48px, the arrows appear as perfect circles. Other values create rounded rectangles.<br>CSS variable: --wm-carousel-navigation-arrows-border-radius"
+              "description": "Corner radius of the previous-slide button. Use a large value (e.g. 48px) for a circular control.<br>CSS variable: --wm-carousel-prev-btn-border-radius"
             }
           },
           "color": {
@@ -76,7 +220,7 @@
             "type": "color",
             "attributes": {
               "subtype": "color",
-              "description": "Sets the border color of carousel navigation arrow buttons. When transparent, no border is visible. When filled with a color, the arrows have a visible outline.<br>CSS variable: --wm-carousel-navigation-arrows-border-color"
+              "description": "Border color of the previous-slide button. Transparent hides the outline.<br>CSS variable: --wm-carousel-prev-btn-border-color"
             }
           },
           "width": {
@@ -84,7 +228,7 @@
             "type": "border",
             "attributes": {
               "subtype": "border-width",
-              "description": "Controls the thickness of the border around carousel navigation arrow buttons. This creates the outline effect around each arrow button.<br>CSS variable: --wm-carousel-navigation-arrows-border-width"
+              "description": "Border width of the previous-slide button.<br>CSS variable: --wm-carousel-prev-btn-border-width"
             }
           }
         },
@@ -93,7 +237,7 @@
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the left margin (horizontal spacing) of carousel navigation arrow buttons. This creates space between the arrows and adjacent elements, affecting the overall layout and positioning.<br>CSS variable: --wm-carousel-navigation-arrows-margin-left"
+            "description": "Outer spacing on the leading side of the previous-slide button (away from the slide content).<br>CSS variable: --wm-carousel-prev-btn-margin-left"
           }
         },
         "font-size": {
@@ -101,7 +245,7 @@
           "type": "space",
           "attributes": {
             "subtype": "icon-size",
-            "description": "Controls the size of carousel navigation arrow icons (the arrow symbols inside the buttons). Larger values make the arrows more prominent and easier to see. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-navigation-arrows-font-size"
+            "description": "Icon size for the previous arrow glyph inside the button.<br>CSS variable: --wm-carousel-prev-btn-font-size"
           }
         },
         "color": {
@@ -109,7 +253,7 @@
           "type": "color",
           "attributes": {
             "subtype": "color",
-            "description": "Sets the color of carousel navigation arrow icons (the arrow symbols inside the buttons). This determines what color the arrow icons appear in, typically matching the primary theme color for visual consistency.<br>CSS variable: --wm-carousel-navigation-arrows-color"
+            "description": "Icon color for the previous arrow.<br>CSS variable: --wm-carousel-prev-btn-color"
           }
         },
         "background": {
@@ -126,7 +270,101 @@
             "type": "color",
             "attributes": {
               "subtype": "color",
-              "description": "Sets the ripple effect color that appears when users tap carousel navigation arrow buttons. This creates a visual feedback animation to indicate user interaction. When transparent, no ripple effect is visible.<br>CSS variable: --wm-carousel-navigation-arrows-ripple-color"
+              "description": "Ripple color when the previous-slide button is pressed. Transparent disables the ripple.<br>CSS variable: --wm-carousel-prev-btn-ripple-color"
+            }
+          }
+        }
+      },
+      "next-btn": {
+        "height": {
+          "value": "{space.12.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Height of the next-slide control (right arrow). Larger values make the control easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-next-btn-height"
+          }
+        },
+        "width": {
+          "value": "{space.12.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Width of the next-slide control (right arrow). Larger values make the control easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-next-btn-width"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "48px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Corner radius of the next-slide button. Use a large value (e.g. 48px) for a circular control.<br>CSS variable: --wm-carousel-next-btn-border-radius"
+            }
+          },
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Border color of the next-slide button. Transparent hides the outline.<br>CSS variable: --wm-carousel-next-btn-border-color"
+            }
+          },
+          "width": {
+            "value": "{border.width.base.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Border width of the next-slide button.<br>CSS variable: --wm-carousel-next-btn-border-width"
+            }
+          }
+        },
+        "margin-left": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Spacing used for the next control wrapper (e.g. inset from the trailing edge of the carousel). Often mirrors the previous button spacing.<br>CSS variable: --wm-carousel-next-btn-margin-left"
+          }
+        },
+        "margin-right": {
+          "value": "{space.3.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Inner margin on the next-slide button (e.g. space between the button surface and the carousel edge).<br>CSS variable: --wm-carousel-next-btn-margin-right"
+          }
+        },
+        "font-size": {
+          "value": "{space.8.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Icon size for the next arrow glyph inside the button.<br>CSS variable: --wm-carousel-next-btn-font-size"
+          }
+        },
+        "color": {
+          "value": "{color.primary.container.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Icon color for the next arrow.<br>CSS variable: --wm-carousel-next-btn-color"
+          }
+        },
+        "background": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Background of the next-slide button. Transparent shows only the icon.<br>CSS variable: --wm-carousel-next-btn-background"
+          }
+        },
+        "ripple": {
+          "color": {
+            "value": "transparent",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Ripple color when the next-slide button is pressed. Transparent disables the ripple.<br>CSS variable: --wm-carousel-next-btn-ripple-color"
             }
           }
         }
@@ -134,21 +372,11 @@
       "dots": {
         "wrapper": {
           "padding": {
-            "top": {
-              "value": "{space.1.value}",
-              "type": "space",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the top padding (vertical spacing) inside the carousel dots container (the wrapper that holds all the navigation dots). This creates breathing room above the dots. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-dots-wrapper-padding-top"
-              }
-            },
-            "bottom": {
-              "value": "{space.1.value}",
-              "type": "space",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the bottom padding (vertical spacing) inside the carousel dots container (the wrapper that holds all the navigation dots). This creates breathing room below the dots. Acceptable units: px, em, rem.<br>CSS variable: --wm-carousel-dots-wrapper-padding-bottom"
-              }
+            "value": "{space.1.value} {space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding (top/bottom, left/right) inside the carousel dots container (the wrapper that holds all the navigation dots). This creates breathing room around the dots. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-wrapper-padding"
             }
           },
           "background": {
@@ -221,21 +449,11 @@
           }
         },
         "margin": {
-          "left": {
-            "value": "{radius.xxs.value}",
-            "type": "radius",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the horizontal spacing between individual carousel indicators (navigation dots). This creates visual separation between each dot so users can easily distinguish between them.<br>CSS variable: --wm-carousel-dots-margin-left"
-            }
-          },
-          "right": {
-            "value": "{radius.xxs.value}",
-            "type": "radius",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the horizontal spacing between individual carousel indicators (navigation dots). This creates visual separation between each dot so users can easily distinguish between them.<br>CSS variable: --wm-carousel-dots-margin-right"
-            }
+          "value": "{space.0.value} {radius.xxs.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the margin (top/bottom, left/right) of carousel indicators (navigation dots). This creates visual separation between each dot. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-margin"
           }
         },
         "opacity": {
@@ -247,16 +465,6 @@
           }
         }
       },
-      "skeleton": {
-        "width": {
-          "value": "100%",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the width of the carousel skeleton loader (the placeholder animation that appears while carousel content is loading). When set to 100%, the skeleton takes up the full width of the carousel container. Acceptable units: %, px.<br>CSS variable: --wm-carousel-skeleton-width"
-          }
-        }
-      },
       "states": {
         "active": {
           "dots": {
@@ -265,7 +473,7 @@
               "type": "color",
               "attributes": {
                 "subtype": "color",
-                "description": "Sets the background color of the currently active carousel indicator (the dot representing the slide that is currently being displayed). This creates visual feedback to show users which slide they are viewing.<br>CSS variable: --wm-carousel-active-dots-background"
+                "description": "Sets the background color of the currently active carousel indicator (the dot representing the slide that is currently being displayed). This creates visual feedback to show users which slide they are viewing.<br>CSS variable: --wm-carousel-dots-background"
               }
             },
             "opacity": {
@@ -273,7 +481,117 @@
               "type": "radius",
               "attributes": {
                 "subtype": "opacity",
-                "description": "Controls the transparency of the active carousel indicator. When set to 1, the active dot is fully opaque, making it stand out from inactive dots. This creates a visual hierarchy that helps users understand their current position.<br>CSS variable: --wm-carousel-active-dots-opacity"
+                "description": "Controls the transparency of the active carousel indicator. When set to 1, the active dot is fully opaque, making it stand out from inactive dots. This creates a visual hierarchy that helps users understand their current position.<br>CSS variable: --wm-carousel-dots-opacity"
+              }
+            },
+            "width": {
+              "value": "10px",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the width of the active carousel indicators (the small dots at the bottom that show which slide is active). These dots help users navigate between different slides in the carousel. Larger values make the dots more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-width"
+              }
+            },
+            "height": {
+              "value": "10px",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the height of active carousel indicators (the small dots at the bottom that show which slide is active). These dots help users navigate between different slides in the carousel. Larger values make the dots more prominent and easier to tap. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-height"
+              }
+            },
+            "border": {
+              "color": {
+                "value": "{color.primary.container.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the border color of the active carousel indicators (the navigation dots). These dots help users navigate between different slides in the carousel. This determines what color the border around each dot appears in.<br>CSS variable: --wm-carousel-dots-border-color"
+                }
+              },
+              "radius": {
+                "value": "5px",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Controls the corner rounding of the active carousel indicators (the navigation dots). When set to 5px, the indicators appear as rounded dots. Other values create different levels of rounding. When set to circle, the indicators appear as perfect round dots.<br>CSS variable: --wm-carousel-dots-border-radius"
+                }
+              },
+              "width":{
+              "value": "{border.width.base.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the thickness of the border around the active carousel indicators (the navigation dots). This creates the outline effect around each navigation dot.<br>CSS variable: --wm-carousel-dots-border-width"
+              }
+              }
+            },
+            "margin": {
+              "value": "{space.0.value} {radius.xxs.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the margin (top/bottom, left/right) of active carousel indicators (navigation dots). This creates visual separation between each dot. Acceptable units: px.<br>CSS variable: --wm-carousel-dots-margin"
+              }
+            }
+          },
+          "slide": {
+            "width": {
+              "value": "100%",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Width override for the active carousel slide. Match the keys under mapping.slide; use the same CSS variable names so the active selector block overrides :root defaults.<br>CSS variable: --wm-carousel-slide-width"
+              }
+            },
+            "padding": {
+              "value": "{space.0.value} {space.4.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Padding inside the active carousel slide. Mirrors mapping.slide.padding.<br>CSS variable: --wm-carousel-slide-padding"
+              }
+            },
+            "border": {
+              "radius": {
+                "value": "{radius.none.value}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Border radius for the active carousel slide. Mirrors mapping.slide.border.radius.<br>CSS variable: --wm-carousel-slide-border-radius"
+                }
+              },
+              "color": {
+                "value": "transparent",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Border color for the active carousel slide. Mirrors mapping.slide.border.color.<br>CSS variable: --wm-carousel-slide-border-color"
+                }
+              },
+              "width": {
+                "value": "{border.width.base.value}",
+                "type": "border",
+                "attributes": {
+                  "subtype": "border-width",
+                  "description": "Border width for the active carousel slide. Mirrors mapping.slide.border.width.<br>CSS variable: --wm-carousel-slide-border-width"
+                }
+              },
+              "style": {
+                "value": "{border.style.solid}",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "border-style",
+                  "description": "Border style for the active carousel slide. Mirrors mapping.slide.border.style.<br>CSS variable: --wm-carousel-slide-border-style"
+                }
+              }
+            },
+            "background": {
+              "value": "transparent",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Background for the active carousel slide. Mirrors mapping.slide.background.<br>CSS variable: --wm-carousel-slide-background"
               }
             }
           }

@@ -158,12 +158,12 @@
           "description": "Sets the minimum width.<br>CSS variable: --wm-btn-min-width"
         }
       },
-      "height": {
+      "min-height": {
         "value": "{space.10.value}",
         "type": "space",
         "attributes": {
           "subtype": "space",
-          "description": "Controls the height.<br>CSS variable: --wm-btn-height"
+          "description": "Controls the height.<br>CSS variable: --wm-btn-min-height"
         }
       },
       "gap": {
@@ -709,7 +709,7 @@
           },
           "border": {
             "color": {
-              "value": "none",
+              "value": "{color.transparent.value}",
               "type": "color",
               "attributes": {
                 "subtype": "color"

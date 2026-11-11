@@ -45,6 +45,14 @@
         }
       },
       "caption": {
+        "color": {
+          "value": "inherit",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Controls the color of the checkbox label text.<br>CSS variable: --wm-checkbox-caption-color"
+          }
+        },
         "font-size": {
           "value": "{body.large.font-size.value}",
           "type": "font",

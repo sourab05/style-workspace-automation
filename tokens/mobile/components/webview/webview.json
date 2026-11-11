@@ -1,14 +1,29 @@
 {
   "webview": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-webview"
+        }
+      }
+    },
     "mapping": {
-      "container": {
-        "min-height": {
-          "value": "100px",
-          "type": "space",
+      "background": {
+        "color": {
+          "value": "{color.white.@.value}",
+          "type": "color",
           "attributes": {
-            "subtype": "space",
-            "description": "Controls the minimum height of webview containers (embedded web content viewers that display web pages or HTML content). This ensures the webview is always tall enough to be visible and properly display content.<br>CSS variable: --wm-webview-container-min-height"
+            "subtype": "color",
+            "description": "Sets the background color of the webview. When transparent, only the webview is visible. When filled with a color, the webview appears with a colored background.<br>CSS variable: --wm-webview-background-color"
           }
+        }
+      },
+      "padding": {
+        "value": "{space.0.value} {space.2.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the padding around the webview content. The first value sets vertical padding (top/bottom) and the second value sets horizontal padding (left/right).<br>CSS variable: --wm-webview-padding"
         }
       }
     },

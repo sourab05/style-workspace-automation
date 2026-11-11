@@ -216,6 +216,42 @@
             "description": "Sets the text color of the datetime picker header (the title that appears at the top of the picker interface). This determines what color the header text appears in.<br>CSS variable: --wm-datetime-header-text-color"
           }
         }
+      },
+      "date-icon": {
+        "size": {
+          "value": "24px",
+          "type": "font",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of the calendar icon shown inside date and datetime input fields. This affects how large the icon appears. Acceptable units: px.<br>CSS variable: --wm-datetime-date-icon-size"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the calendar icon shown inside date and datetime input fields.<br>CSS variable: --wm-datetime-date-icon-color"
+          }
+        }
+      },
+      "time-icon": {
+        "size": {
+          "value": "24px",
+          "type": "font",
+          "attributes": {
+            "subtype": "icon-size",
+            "description": "Controls the size of the clock icon shown inside time input fields. This affects how large the icon appears. Acceptable units: px.<br>CSS variable: --wm-datetime-time-icon-size"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the clock icon shown inside time input fields.<br>CSS variable: --wm-datetime-time-icon-color"
+          }
+        }
       }
     },
     "appearances": {}

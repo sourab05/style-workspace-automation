@@ -3,12 +3,12 @@
     "meta": {
       "mapping": {
         "selector": {
-          "web": ".app-ratings .ratings-wrapper .rating-style"
+          "web": ".app-ratings"
         },
         "states": {
           "active": {
             "selector": {
-              "web": " label:hover, label:hover ~ label,  label.active"
+              "web": " label:hover, label:hover ~ label, label.active"
             }
           },
           "disabled": {

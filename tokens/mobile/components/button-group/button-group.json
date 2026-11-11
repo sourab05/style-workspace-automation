@@ -7,20 +7,6 @@
             "selector": {
               "mobile": ".app-buttongroup"
             }
-          },
-          "variantGroups": {
-            "layout": {
-              "horizontal": {
-                "selector": {
-                  "mobile": ".app-buttongroup"
-                }
-              },
-              "vertical": {
-                "selector": {
-                  "mobile": ".btn-group-vertical"
-                }
-              }
-            }
           }
         }
       }
@@ -31,34 +17,32 @@
         "type": "radius",
         "attributes": {
           "subtype": "radius",
-          "description": "Controls the border radius for rounded corners of the button group component. This makes the button group appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-button-group-radius"
+          "description": "Controls the corner rounding of button groups (connected buttons that appear as a single unit). This makes the outer corners of the button group rounded while keeping the inner buttons connected.<br>CSS variable: --wm-button-group-radius"
         }
-      }
-    },
-    "appearances": {
-      "outlined": {
-        "variantGroups": {
-          "layout": {
-            "horizontal": {
-              "radius": {
-                "value": "{radius.sm.value}",
-                "type": "radius",
-                "attributes": {
-                  "subtype": "radius",
-                  "description": "Controls the border radius for rounded corners of the horizontal button group layout. This makes the button group appear with rounded corners when arranged horizontally.<br>CSS variable: --wm-button-group-outlined-layout-horizontal-radius"
-                }
-              }
-            },
-            "vertical": {
-              "radius": {
-                "value": "{radius.xs.value}",
-                "type": "radius",
-                "attributes": {
-                  "subtype": "radius",
-                  "description": "Controls the border radius for rounded corners of the vertical button group layout. This makes the button group appear with rounded corners when arranged vertically.<br>CSS variable: --wm-button-group-outlined-layout-vertical-radius"
-                }
-              }
-            }
+      },
+      "border": {
+        "width": {
+          "value": "{border.width.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of borders around button groups (connected buttons that appear as a single unit). This determines how thick the border lines appear around the button group container.<br>CSS variable: --wm-button-group-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.base.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the visual style of borders around button groups (connected buttons that appear as a single unit). 'solid' creates a continuous line, 'dashed' creates a broken line, 'dotted' creates a dotted line.<br>CSS variable: --wm-button-group-border-style"
+          }
+        },
+        "color": {
+          "value": "{color.surface.container.highest.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of borders around button groups (connected buttons that appear as a single unit). This determines what color the border lines appear in that outline the button group container.<br>CSS variable: --wm-button-group-border-color"
           }
         }
       }

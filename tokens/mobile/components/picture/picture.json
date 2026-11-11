@@ -5,7 +5,6 @@
         "default": {
           "mapping": {
             "selector": {
-              "web": ".app-picture",
               "mobile": ".app-picture"
             }
           },
@@ -13,13 +12,11 @@
             "shape": {
               "rounded": {
                 "selector": {
-                  "web": ".img-rounded",
                   "mobile": ".rounded-image.app-picture"
                 }
               },
               "circle": {
                 "selector": {
-                  "web": ".img-circle",
                   "mobile": ".circle-image.app-picture"
                 }
               }
@@ -29,7 +26,6 @@
         "thumbnail": {
           "mapping": {
             "selector": {
-              "web": ".img-thumbnail",
               "mobile": ".thumbnail-image.app-picture"
             }
           }
@@ -46,37 +42,11 @@
         }
       },
       "padding": {
-        "top": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the top padding (vertical spacing) inside pictures. This creates breathing room above the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-top"
-          }
-        },
-        "bottom": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the bottom padding (vertical spacing) inside pictures. This creates breathing room below the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-bottom"
-          }
-        },
-        "left": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the left padding (horizontal spacing) inside pictures. This creates breathing room on the left side of the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-left"
-          }
-        },
-        "right": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the right padding (horizontal spacing) inside pictures. This creates breathing room on the right side of the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding-right"
-          }
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the padding (all sides) inside pictures. This creates breathing room around the image content. Acceptable units: px.<br>CSS variable: --wm-picture-padding"
         }
       },
       "border": {
@@ -106,7 +76,7 @@
         }
       },
       "background": {
-        "value": "transparent",
+        "value": "{color.transparent.@.value}",
         "type": "color",
         "attributes": {
           "subtype": "color",
@@ -122,22 +92,8 @@
             "type": "radius"
           },
           "padding": {
-            "top": {
-              "value": "{space.0.value}",
-              "type": "space"
-            },
-            "bottom": {
-              "value": "{space.0.value}",
-              "type": "space"
-            },
-            "left": {
-              "value": "{space.0.value}",
-              "type": "space"
-            },
-            "right": {
-              "value": "{space.0.value}",
-              "type": "space"
-            }
+            "value": "{space.0.value}",
+            "type": "space"
           },
           "border": {
             "color": {
@@ -154,7 +110,7 @@
             }
           },
           "background": {
-            "value": "transparent",
+            "value": "{color.transparent.@.value}",
             "type": "color"
           }
         },
@@ -182,22 +138,8 @@
             "type": "radius"
           },
           "padding": {
-            "top": {
-              "value": "{space.1.value}",
-              "type": "space"
-            },
-            "bottom": {
-              "value": "{space.1.value}",
-              "type": "space"
-            },
-            "left": {
-              "value": "{space.1.value}",
-              "type": "space"
-            },
-            "right": {
-              "value": "{space.1.value}",
-              "type": "space"
-            }
+            "value": "{space.1.value}",
+            "type": "space"
           },
           "border": {
             "color": {

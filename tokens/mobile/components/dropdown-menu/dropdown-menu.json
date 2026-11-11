@@ -10,38 +10,20 @@
             "description": "Sets the background color of dropdown menus (lists of options that appear when users click on a button or link). This is the main background color that appears behind the dropdown menu items.<br>CSS variable: --wm-dropdown-menu-background"
           }
         },
+        "box-shadow": {
+          "value": "{elevation.shadow.2.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the drop shadow on the floating dropdown menu panel (Material 3 menu surface elevation; uses global elevation shadow level 2).<br>CSS variable: --wm-dropdown-menu-box-shadow"
+          }
+        },
         "padding": {
-          "left": {
-            "type": "space",
-            "value": "{space.0.value}",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding (horizontal spacing) inside dropdown menu containers. This creates breathing room on the left side of the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-left"
-            }
-          },
-          "right": {
-            "type": "space",
-            "value": "{space.0.value}",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the right padding (horizontal spacing) inside dropdown menu containers. This creates breathing room on the right side of the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-right"
-            }
-          },
-          "top": {
-            "type": "space",
-            "value": "{space.2.value}",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the top padding (vertical spacing) inside dropdown menu containers. This creates breathing room above the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-top"
-            }
-          },
-          "bottom": {
-            "type": "space",
-            "value": "{space.2.value}",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the bottom padding (vertical spacing) inside dropdown menu containers. This creates breathing room below the dropdown menu content. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding-bottom"
-            }
+          "type": "space",
+          "value": "{space.2.value} {space.0.value}",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding inside dropdown menu containers (top/bottom, left/right). Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-padding"
           }
         },
         "color": {
@@ -70,21 +52,11 @@
             }
           },
           "padding": {
-            "left": {
-              "type": "space",
-              "value": "{space.2.value}",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the left padding (horizontal spacing) of dropdown menu trigger text. This creates spacing on the left side of the trigger text. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-text-padding-left"
-              }
-            },
-            "right": {
-              "type": "space",
-              "value": "{space.3.value}",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the right padding (horizontal spacing) of dropdown menu trigger text. This creates spacing on the right side of the trigger text. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-text-padding-right"
-              }
+            "type": "space",
+            "value": "{space.0.value} {space.3.value} {space.0.value} {space.2.value}",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding of dropdown menu trigger text (top, right, bottom, left). Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-text-padding"
             }
           }
         },
@@ -131,16 +103,6 @@
             "attributes": {
               "subtype": "icon-size",
               "description": "Controls how large dropdown menu caret icons appear (the small arrow symbols that indicate dropdown menus). This affects the size of the arrow symbols that users see in dropdown buttons.<br>CSS variable: --wm-dropdown-menu-caret-size"
-            }
-          }
-        },
-        "icon": {
-          "size": {
-            "value": "{icon.size.md.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "icon-size",
-              "description": "Controls how large dropdown menu icons appear (icons that appear alongside menu items). This affects the size of the icons that users see in the dropdown menu.<br>CSS variable: --wm-dropdown-menu-icon-size"
             }
           }
         },
@@ -196,37 +158,11 @@
             }
           },
           "padding": {
-            "bottom": {
-              "value": "{space.3.value}",
-              "type": "space",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the bottom padding (vertical spacing) inside dropdown menu items. This creates breathing room below each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-bottom"
-              }
-            },
-            "left": {
-              "value": "{space.4.value}",
-              "type": "space",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the left padding (horizontal spacing) inside dropdown menu items. This creates breathing room on the left side of each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-left"
-              }
-            },
-            "right": {
-              "value": "{space.4.value}",
-              "type": "space",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the right padding (horizontal spacing) inside dropdown menu items. This creates breathing room on the right side of each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-right"
-              }
-            },
-            "top": {
-              "value": "{space.3.value}",
-              "type": "space",
-              "attributes": {
-                "subtype": "space",
-                "description": "Controls the top padding (vertical spacing) inside dropdown menu items. This creates breathing room above each menu option. Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding-top"
-              }
+            "value": "{space.3.value} {space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding inside dropdown menu items (top/bottom, left/right). Acceptable units: px.<br>CSS variable: --wm-dropdown-menu-item-padding"
             }
           }
         },

@@ -56,9 +56,9 @@
         },
         "box-shadow": {
           "value": "{elevation.shadow.2.value}",
-          "type": "shadow",
+          "type": "radius",
           "attributes": {
-            "subtype": "shadow",
+            "subtype": "elevation",
             "description": "Controls the drop shadow effect around dropdown menus (lists of options that appear when users click on a button or link). This creates a subtle shadow that makes the dropdown appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-dropdown-menu-box-shadow"
           }
         },

@@ -28,3 +28,9 @@ This table lists all tokens for this component:
 | description.color | Sets the text color of the subtitle/description text under the accordion heading. This is typically a muted color to distinguish it from the main heading.<br>CSS variable: --wm-accordion-description-color |
 | actions.gap | Controls the horizontal spacing between action elements (buttons, badges, icons) within the accordion header. These are interactive elements like 'Edit', 'Delete', status badges, or expand/collapse icons that appear alongside the heading text.<br>CSS variable: --wm-accordion-actions-gap |
 | content.padding | Controls the internal spacing (padding) around the expandable content area of the accordion. This is the space between the content border and the actual content (text, images, forms, etc.) that appears when the accordion is expanded.<br>CSS variable: --wm-accordion-content-padding |
+| content.background | Sets the background color of the accordion pane content area (the expandable body that appears when the accordion is open).<br>CSS variable: --wm-accordion-content-background |
+| content.border.color | Sets the color of the border around the accordion pane content area.<br>CSS variable: --wm-accordion-content-border-color |
+| content.border.width | Controls the thickness of the border around the accordion pane content area. When set to 0, there is no visible border.<br>CSS variable: --wm-accordion-content-border-width |
+| content.border.style | Controls the style of the border around the accordion pane content area. 'none' removes the border, 'solid' creates a continuous line.<br>CSS variable: --wm-accordion-content-border-style |
+| content.border.radius | Controls the corner rounding of the accordion pane content area.<br>CSS variable: --wm-accordion-content-border-radius |
+| content.shadow | Controls the drop shadow effect around the accordion pane content area.<br>CSS variable: --wm-accordion-content-shadow |

@@ -81,6 +81,13 @@
     "appearances": {
       "default": {
         "mapping": {
+          "background": {
+            "value": "{color.transparent.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color"
+            }
+          },
           "border": {
             "color": {
               "value": "{color.border.@.value}",

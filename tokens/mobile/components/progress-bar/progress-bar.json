@@ -42,7 +42,7 @@
     },
     "mapping": {
         "height": {
-          "value": "16px",
+          "value": "10px",
           "type": "space",
           "attributes": {
             "subtype": "space",
@@ -75,12 +75,12 @@
             "description": "Controls the corner rounding of progress bars (loading indicators). This makes the progress bars appear with rounded corners instead of sharp edges for a softer appearance.<br>CSS variable: --wm-progress-bar-radius"
           }
         },
-        "margin": {
-          "value": "{space.1.value}",
+        "gap": {
+          "value": "6px",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the outer spacing around progress bars (the space between the progress bar and surrounding elements). This creates breathing room around the loading indicator.<br>CSS variable: --wm-progress-bar-margin"
+            "description": "Controls the space between the filled portion and the remaining track of progress bars. 0px draws one continuous bar. Acceptable units: px.<br>CSS variable: --wm-progress-bar-gap"
           }
         },
         "tooltip": {

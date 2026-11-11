@@ -1,0 +1,116 @@
+{
+    "panel-footer": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile_comment": ".app-panel-footer"
+                }
+            }
+        },
+        "mapping": {
+            "background": {
+                "value": "{color.surface.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Controls the background color of the panel footer.<br>CSS variable: --wm-panel-footer-background"
+                }
+            },
+            "margin": {
+                "top": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the external spacing around panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-margin-top"
+                    }
+                },
+                "bottom": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the external spacing around panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-margin-bottom"
+                    }
+                },
+                "left": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the external spacing around panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-margin-left"
+                    }
+                },
+                "right": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the external spacing around panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-margin-right"
+                    }
+                }
+            },
+            "padding": {
+                "inline": {
+                    "value": "{space.4.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the internal spacing inside panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-padding-inline"
+                    }
+                },
+                "block": {
+                    "value": "{space.4.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the internal spacing inside panel footers (the bottom section that contains action buttons or additional content). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-padding-block"
+                    }
+                }
+            },
+            "border": {
+                "color": {
+                    "value": "{color.outline.variant.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of the border at the top of panel footers. This determines the color of the separator line between the footer and the panel content.<br>CSS variable: --wm-panel-footer-border-color"
+                    }
+                },
+                "width": {
+                    "value": "{border.width.base.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the thickness of the border at the top of panel footers. This determines how thick the separator line appears between the footer and the panel content. Acceptable units: px.<br>CSS variable: --wm-panel-footer-border-width"
+                    }
+                },
+                "style": {
+                    "value": "{border.style.base.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "border-style",
+                        "description": "Controls the style of the border at the top of panel footers. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-panel-footer-border-style"
+                    }
+                },
+                "radius": {
+                    "value": "6px",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "border-radius",
+                        "description": "Controls the radius of the border at the top of panel footers. This determines the roundness of the separator line between the footer and the panel content.<br>CSS variable: --wm-panel-footer-border-radius"
+                    }
+                }
+            },
+            "min-height": {
+                "value": "64px",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls the minimum height of panel footers (the bottom section that contains action buttons or additional content). This determines the height of the footer. Acceptable units: px.<br>CSS variable: --wm-panel-footer-min-height"
+                }
+            }
+        },
+        "appearances": {}
+    }
+}

@@ -8,14 +8,6 @@
       }
     },
     "mapping": {
-      "margin": {
-        "value": "{space.6.value}",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the outer margin (spacing) around modal dialogs (overlay windows that appear on top of the main content). This creates breathing room around the dialog container. Acceptable units: px.<br>CSS variable: --wm-modal-margin"
-        }
-      },
       "z-index": {
         "value": "1000",
         "type": "radius",
@@ -24,20 +16,24 @@
           "description": "Controls the stacking order of modal dialogs (determines which elements appear on top when multiple elements overlap). Higher values make the dialog appear above other elements. This ensures modals are always visible above page content.<br>CSS variable: --wm-modal-z-index"
         }
       },
+      "dialog": {
+        "overlay": {
+          "background": {
+            "value": "{color.surface.container.high.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of modal overlay dialog (overlay windows that appear behind of the main content). This is the main background color that appears behind the dialog .<br>CSS variable: --wm-modal-dialog-overlay-background"
+            }
+          }
+        }
+      },
       "min-width": {
         "value": "320px",
         "type": "space",
         "attributes": {
           "subtype": "space",
           "description": "Controls the minimum width of modal dialogs. This ensures the dialog is always wide enough to be visible and properly displayed. Acceptable units: px.<br>CSS variable: --wm-modal-min-width"
-        }
-      },
-      "max-height": {
-        "value": "793px",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the maximum height of modal dialogs. This prevents the dialog from becoming too tall and ensures it fits within the viewport. Acceptable units: px.<br>CSS variable: --wm-modal-max-height"
         }
       },
       "background": {
@@ -67,7 +63,7 @@
         },
         "border": {
           "width": {
-            "value": "{border.width.base.value}",
+            "value": "{border.width.0.value}",
             "type": "space",
             "attributes": {
               "subtype": "border-width",
@@ -92,20 +88,28 @@
           }
         },
         "close-btn": {
-          "margin": {
-            "value": "0",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the outer margin (spacing) around the modal dialog close button. This creates spacing around the close button. Acceptable units: px.<br>CSS variable: --wm-modal-header-close-btn-margin"
-            }
-          },
           "border-width": {
             "value": "0",
             "type": "space",
             "attributes": {
               "subtype": "border-width",
               "description": "Controls the thickness of the border around the modal dialog close button. When set to 0, no border is visible. Acceptable units: px.<br>CSS variable: --wm-modal-header-close-btn-border-width"
+            }
+          },
+          "border-style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": " "
+            }
+          },
+          "border-color": {
+            "value": "#cccccc",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": " "
             }
           },
           "font-size": {
@@ -123,20 +127,28 @@
               "subtype": "color",
               "description": "Sets the color of the close button icon in modal dialog headers. This determines what color the close icon appears in.<br>CSS variable: --wm-modal-header-close-btn-color"
             }
+          },
+          "background": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": " "
+            }
+          }
+        },
+        "background": {
+          "value": "{color.surface.container.high.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": " "
           }
         }
       },
       "title": {
-        "gap": {
-          "value": "{space.1.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the spacing between modal dialog title elements (the gap between the title text and adjacent elements like icons). This creates breathing room around the title. Acceptable units: px.<br>CSS variable: --wm-modal-title-gap"
-          }
-        },
         "font-size": {
-          "value": "{h3.font-size.value}",
+          "value": "{h4.font-size.value}",
           "type": "font",
           "attributes": {
             "subtype": "font-size",
@@ -174,6 +186,14 @@
             "subtype": "letter-spacing",
             "description": "Controls the horizontal spacing between individual letters in modal dialog title text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-modal-title-letter-spacing"
           }
+        },
+        "color": {
+          "value": "#000000",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": " "
+          }
         }
       },
       "body": {
@@ -194,32 +214,6 @@
             "subtype": "space",
             "description": "Controls the internal spacing inside modal dialog footers (the bottom section that contains action buttons). This creates breathing room around the footer content. Acceptable units: px.<br>CSS variable: --wm-modal-footer-padding"
           }
-        },
-        "gap": {
-          "value": "{space.3.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the spacing between footer buttons in modal dialogs (the gap between action buttons in the footer). This creates breathing room between buttons. Acceptable units: px.<br>CSS variable: --wm-modal-footer-gap"
-          }
-        },
-        "btn": {
-          "padding-vertical": {
-            "value": "{space.3.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the vertical padding (top and bottom spacing) inside footer buttons in modal dialogs. This creates breathing room above and below the button text. Acceptable units: px.<br>CSS variable: --wm-modal-footer-btn-padding-vertical"
-            }
-          },
-          "padding-horizontal": {
-            "value": "{space.6.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the horizontal padding (left and right spacing) inside footer buttons in modal dialogs. This creates breathing room on the left and right sides of the button text. Acceptable units: px.<br>CSS variable: --wm-modal-footer-btn-padding-horizontal"
-            }
-          }
         }
       },
       "icon": {
@@ -231,12 +225,126 @@
             "description": "Controls the size of modal dialog icons (icons that appear in the dialog to indicate the dialog type or provide visual context). This affects how large the icons appear.<br>CSS variable: --wm-modal-icon-font-size"
           }
         },
+        "color": {
+          "value": "#000000",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": " "
+          }
+        }
+      },
+      "description": {
+        "background": {
+          "value": "{color.transparent.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of modal description. This is the main background color that appears behind the description.<br>CSS variable: --wm-modal-description-background-color"
+          }
+        },
+        "padding": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the internal spacing inside modal dialog description (the top section that contains the title and close button). This creates breathing room around the description content. Acceptable units: px.<br>CSS variable: --wm-modal-description-padding"
+          }
+        },
+        "border": {
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border at the bottom of modal dialog description. This determines how thick the separator line appears between the header and body. Acceptable units: px.<br>CSS variable: --wm-modal-description-border-width"
+            }
+          },
+          "style": {
+            "value": "{border.style.base.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the style of the border at the bottom of modal dialog description. 'solid' creates a continuous line, 'dashed' creates a dotted line, 'dotted' creates small dots.<br>CSS variable: --wm-modal-description-border-style"
+            }
+          },
+          "color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border at the bottom of modal dialog description. This determines the color of the separator line between the header and body.<br>CSS variable: --wm-modal-description-border-color"
+            }
+          }
+        },
+        "font-size": {
+          "value": "{body.medium.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": " "
+          }
+        },
+        "font-family": {
+          "value": "{h5.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": " "
+          }
+        },
         "font-weight": {
-          "value": "{h4.font-weight.value}",
+          "value": "{body.small.font-weight.value}",
           "type": "font",
           "attributes": {
             "subtype": "font-weight",
-            "description": "Controls how thick or bold modal dialog icons appear. This affects the visual weight of the icons.<br>CSS variable: --wm-modal-icon-font-weight"
+            "description": "Controls how thick or bold modal dialog title text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-modal-title-font-weight"
+          }
+        },
+        "color": {
+          "value": "#000000",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": " "
+          }
+        }
+      },
+      "btn": {
+        "ok": {
+          "background": {
+            "value": "{color.secondary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": " "
+            }
+          },
+          "color": {
+            "value": "{color.on-secondary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": " "
+            }
+          }
+        },
+        "cancel": {
+          "background": {
+            "value": "{color.on-secondary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": " "
+            }
+          },
+          "color": {
+            "value": "{color.on-secondary.container.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": " "
+            }
           }
         }
       }

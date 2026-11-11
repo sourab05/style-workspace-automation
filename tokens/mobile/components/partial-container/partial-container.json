@@ -1,0 +1,23 @@
+{
+    "partial-container": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-partial-container"
+                }
+            }
+        },
+        "mapping": {
+            "background": {
+                "color": {
+                    "value": "{color.transparent.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of the partial area in navigation. This is the background color for the partial area.<br>CSS variable: --wm-nav-partial-background"
+                    }
+                }
+            }
+        }
+    }
+}

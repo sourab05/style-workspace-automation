@@ -91,6 +91,48 @@
             "description": "Sets the background color of list items (individual entries in a list that users can interact with). This is the main background color that appears behind each list item content.<br>CSS variable: --wm-list-item-background"
           }
         },
+        "border": {
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the thickness of the border around list items. When set to 0, there's no visible border. Higher values create thicker borders around each list item.<br>CSS variable: --wm-list-item-border-width"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the color of the border around list items. This creates a colored border to define the boundaries of each list item.<br>CSS variable: --wm-list-item-border-color"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the border style of list items. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-list-item-border-style"
+            }
+          },
+          "radius": {
+            "value": "{radius.none.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the corner rounding of list items. When set to 'none', list items have sharp corners. Higher values create more rounded corners.<br>CSS variable: --wm-list-item-border-radius"
+            }
+          }
+        },
+        "box-shadow": {
+          "value": "{elevation.shadow.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "elevation",
+            "description": "Controls the box shadow (elevation) of list items. This determines the shadow depth and visual elevation of a list item above the list background.<br>CSS variable: --wm-list-item-box-shadow"
+          }
+        },
         "padding": {
           "value": "{space.3.value} {space.4.value}",
           "type": "space",
@@ -124,6 +166,48 @@
               "description": "Sets the text color of list item headers (section titles that group related list items). This determines what color the header text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-list-item-header-color"
             }
           }
+        }
+      },
+      "border": {
+        "color": {
+          "value": "{color.border.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the outline around list elements (containers that hold multiple list items). This creates a colored border around the list to define its boundaries.<br>CSS variable: --wm-list-border-color"
+          }
+        },
+        "width": {
+          "value": "{space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the thickness of the outline around list elements. When set to 0, there is no visible border. Higher values create thicker borders around the list.<br>CSS variable: --wm-list-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Controls the style of the outline around list elements. 'none' removes the border, 'solid' creates a continuous line, 'dashed' creates a dashed line, 'dotted' creates small dots.<br>CSS variable: --wm-list-border-style"
+          }
+        },
+        "radius": {
+          "value": "{radius.none.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the corner rounding of list elements. When set to 'none', lists have sharp corners. Higher values create more rounded corners for a softer appearance.<br>CSS variable: --wm-list-border-radius"
+          }
+        }
+      },
+      "shadow": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the drop shadow effect around list elements. This creates a subtle shadow that makes the list appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-list-shadow"
         }
       },
       "states": {

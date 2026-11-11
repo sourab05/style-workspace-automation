@@ -1,0 +1,518 @@
+{
+  "accordion": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-accordion"
+        },
+        "states": {
+          "active": {
+            "selector": {
+              "mobile": "-active-header, .app-accordion-active-header-title, .app-accordion-header-collapse-icon, .app-accordion-active-header-badge, .app-accordion-active-title-icon"
+            }
+          }
+        }
+      }
+    },
+    "mapping": {
+      "width": {
+        "value": "100%",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the width of the accordion component. This determines how wide the accordion panel appears on the screen.<br>CSS variable: --wm-accordion-width"
+        }
+      },
+      "gap": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the gap between accordion items. This determines the spacing between accordion headers and content.<br>CSS variable: --wm-accordion-gap"
+        }
+      },
+      "border": {
+        "width": {
+          "value": "{border.width.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "border-width",
+            "description": "Controls the border thickness of the accordion component. This determines how thick the border around the accordion panel appears.<br>CSS variable: --wm-accordion-border-width"
+          }
+        },
+        "style": {
+          "value": "{border.style.solid.value}",
+          "type": "radius",
+          "attributes": {
+            "subtype": "border-style",
+            "description": "Sets the border style of the accordion component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-accordion-border-style"
+          }
+        },
+        "color": {
+          "value": "#eeeeee",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the border color of the accordion component. This determines what color the border around the accordion panel appears in.<br>CSS variable: --wm-accordion-border-color"
+          }
+        },
+        "radius": {
+          "value": "6px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Controls the border radius for rounded corners of the accordion component. This makes the accordion appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-accordion-border-radius"
+          }
+        }
+      },
+      "background-color": {
+        "value": "transparent",
+        "type": "color",
+        "attributes": {
+          "subtype": "color",
+          "description": "Sets the background color of the accordion component. This is the main background color that appears behind all accordion content.<br>CSS variable: --wm-accordion-background-color"
+        }
+      },
+      "text": {
+        "background": {
+              "color": {
+                "value": "transparent",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of the accordion title. This is the background color that appears <br>CSS variable: --wm-accordion-active-text-background-color"
+                }
+              }
+            },
+            "border": {
+              "width": {
+                "value": "{border.width.0.value}",
+                "type": "border",
+                "attributes": {
+                  "subtype": "border-width",
+                  "description": "Sets the border width of the accordion title. This determines the thickness of the border that appears <br>CSS variable: --wm-accordion-active-text-border-width"
+                }
+              },
+              "radius": {
+                "value": "0px",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Sets the border radius of the accordion title. This determines the roundness of the border that appears <br>CSS variable: --wm-accordion-active-text-border-radius"
+                }
+              },
+              "color": {
+                "value": "{color.outline.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the border color of the accordion title. This determines what color the border appears <br>CSS variable: --wm-accordion-active-text-border-color"
+                }
+              }
+            },
+        "color": {
+          "value": "#333333",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the accordion content. This determines what color the text within the accordion appears in.<br>CSS variable: --wm-accordion-text-color"
+          }
+        },
+        "font-size": {
+          "value": "18px",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of the text in the accordion. This affects how large the accordion text appears.<br>CSS variable: --wm-accordion-text-font-size"
+          }
+        }
+      },
+      "header": {
+        "border": {
+          "width": {
+            "value": "{space.0.value} {space.0.value} {border.width.1.value} {space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border thickness of the accordion header (bottom only). This determines how thick the border at the bottom of the header appears.<br>CSS variable: --wm-accordion-header-border-width"
+            }
+          },
+          "color": {
+            "value": "#333333",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of the accordion header. This determines what color the border around the header appears in.<br>CSS variable: --wm-accordion-header-border-color"
+            }
+          }
+        },
+        "background-color": {
+          "value": "{color.white.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the accordion header. This is the background color that appears behind the header content.<br>CSS variable: --wm-accordion-header-background-color"
+          }
+        },
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets the internal spacing inside the accordion header. This creates breathing room around the header content.<br>CSS variable: --wm-accordion-header-padding"
+          }
+        },
+        "subtitle": {
+          "font-size": {
+            "value": "14px",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Controls the size of the subtitle text in the accordion header. This text is typically smaller than the main heading to create a visual hierarchy.<br>CSS variable: --wm-accordion-header-subtitle-font-size"
+            }
+          },
+          "margin-top": {
+            "value": "8px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top margin of the accordion header subtitle. This creates spacing above the subtitle text.<br>CSS variable: --wm-accordion-header-subtitle-margin-top"
+            }
+          }
+        }
+      },
+      "icon": {
+        "color": {
+          "value": "{color.on-background.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the accordion icon. This determines what color the icon appears in.<br>CSS variable: --wm-accordion-icon-color"
+          }
+        },
+        "font": {
+          "size": {
+            "value": "{spacer.@.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of the accordion icon. This affects how large the icon appears.<br>CSS variable: --wm-accordion-icon-font-size"
+            }
+          },
+          "weight": {
+            "value": "{font.weight.700.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls the thickness/boldness of the accordion icon. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-accordion-icon-font-weight"
+            }
+          }
+        }
+      },
+      "badge": {
+        "font-size": {
+          "value": "{body.small.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls the size of the text in the accordion badge. This affects how large the badge text appears.<br>CSS variable: --wm-accordion-badge-font-size"
+          }
+        },
+        "margin-right": {
+          "value": "{space.1.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the right margin of the accordion badge. This creates spacing to the right of the badge.<br>CSS variable: --wm-accordion-badge-margin-right"
+          }
+        },
+        "width": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of the accordion badge. This determines how wide the badge appears.<br>CSS variable: --wm-accordion-badge-width"
+          }
+        },
+        "height": {
+          "value": "{space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of the accordion badge. This determines how tall the badge appears.<br>CSS variable: --wm-accordion-badge-height"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{space.3.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius of the accordion badge. This makes the badge appear with rounded corners.<br>CSS variable: --wm-accordion-badge-border-radius"
+            }
+          },
+          "width": {
+            "value": "2px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border thickness of the accordion badge. This determines how thick the border around the badge appears.<br>CSS variable: --wm-accordion-badge-border-width"
+            }
+          },
+          "color": {
+            "value": "#cccccc",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of the accordion badge. This determines what color the border around the badge appears in.<br>CSS variable: --wm-accordion-badge-border-color"
+            }
+          }
+        },
+        "background-color": {
+          "value": "transparent",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the accordion badge of default type. This is the background color that appears behind the badge content.<br>CSS variable: --wm-accordion-badge-background-color"
+          }
+        },
+        "color": {
+          "value": "{color.on-background.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the text color of the accordion badge. This determines what color the badge text appears in.<br>CSS variable: --wm-accordion-badge-color"
+          }
+        }
+      },
+      "pane":{
+        "border":{
+          "color":{
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of the accordion pane. This determines what color the border around the pane appears in.<br>CSS variable: --wm-accordion-pane-border-color"
+            }
+          },
+          "radius":{
+            "value": "0px",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius of the accordion pane. This determines the radius of the border around the pane.<br>CSS variable: --wm-accordion-pane-border-radius"
+            }
+          },
+          "width":{
+            "value": "{border.width.0.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border thickness of the accordion pane. This determines how thick the border around the pane appears.<br>CSS variable: --wm-accordion-pane-border-width"
+            }
+          },
+          "style":{
+            "value": "{border.style.solid.value}",
+            "type": "border",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Controls the border style of the accordion pane. This determines the style of the border around the pane.<br>CSS variable: --wm-accordion-pane-border-style"
+            }
+          }
+        }
+      },
+      "title": {
+        "wrapper": {
+          "padding": {
+            "value": "{space.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding of the accordion title wrapper. This creates spacing around the title content.<br>CSS variable: --wm-accordion-title-wrapper-padding"
+            }
+          },
+          "width": {
+            "value": "auto",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the width of the accordion title wrapper. This determines the width of the title wrapper.<br>CSS variable: --wm-accordion-title-wrapper-width"
+            }
+          },
+          "border": {
+            "width": {
+              "value": "{border.width.0.value}",
+              "type": "border",
+              "attributes": {
+                "subtype": "border-width",
+                "description": "Controls the border thickness of the accordion title wrapper. This determines how thick the border around the title wrapper appears.<br>CSS variable: --wm-accordion-title-wrapper-border-width"
+              }
+            },
+            "radius": {
+              "value": "{radius.none.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Controls the border radius of the accordion title wrapper. This determines the roundness of the border around the title wrapper.<br>CSS variable: --wm-accordion-title-wrapper-border-radius"
+              }
+            },
+            "style": {
+              "value": "{border.style.solid.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "border-style",
+                "description": "Controls the border style of the accordion title wrapper. This determines the style of the border around the title wrapper.<br>CSS variable: --wm-accordion-title-wrapper-border-style"
+              }
+            }
+          },
+          "background-color": {
+            "value": "{color.transparent.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the background color of the accordion title wrapper. This is the background color that appears behind the title content.<br>CSS variable: --wm-accordion-title-wrapper-background-color"
+            }
+          }
+        },
+        "icon": {
+          "color": {
+            "value": "#333333",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the icon color of the accordion title. This determines what color the icon within the accordion title appears in.<br>CSS variable: --wm-accordion-title-icon-color"
+            }
+          },
+          "size": {
+            "value": "18px",
+            "type": "font",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "Controls the size of the icon in the accordion title. This affects how large the accordion title icon appears.<br>CSS variable: --wm-accordion-title-icon-size"
+            }
+          }
+        }
+      },
+      "states": {
+        "active": {
+          "header": {
+            "border": {
+              "color": {
+                "value": "{color.primary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the border color of the active accordion header. This determines what color the border appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-header-border-color"
+                }
+              }
+            },
+            "background-color": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of the active accordion header. This is the background color that appears when the accordion is expanded.<br>CSS variable: --wm-accordion-active-header-background-color"
+              }
+            }
+          },
+          "text": {
+            "background": {
+              "color": {
+                "value": "transparent",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the background color of the active accordion content. This is the background color that appears when the accordion is expanded.<br>CSS variable: --wm-accordion-active-text-background-color"
+                }
+              }
+            },
+            "border": {
+              "width": {
+                "value": "{border.width.0.value}",
+                "type": "border",
+                "attributes": {
+                  "subtype": "border-width",
+                  "description": "Sets the border width of the active accordion content. This determines the thickness of the border that appears when the accordion is expanded.<br>CSS variable: --wm-accordion-active-text-border-width"
+                }
+              },
+              "radius": {
+                "value": "0px",
+                "type": "radius",
+                "attributes": {
+                  "subtype": "radius",
+                  "description": "Sets the border radius of the active accordion content. This determines the roundness of the border that appears when the accordion is expanded.<br>CSS variable: --wm-accordion-active-text-border-radius"
+                }
+              },
+              "color": {
+                "value": "{color.outline.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the border color of the active accordion content. This determines what color the border appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-text-border-color"
+                }
+              }
+            },
+            "color": {
+              "value": "{color.white.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of the active accordion content. This determines what color the text appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-text-color"
+              }
+            }
+          },
+          "title": {
+            "icon": {
+              "color": {
+                "value": "{color.white.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the icon color of the active accordion title. This determines what color the icon appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-title-icon-color"
+                }
+              }
+            }
+          },
+          "icon": {
+            "color": {
+              "value": "{color.white.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the color of the active accordion icon. This determines what color the icon appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-icon-color"
+              }
+            }
+          },
+          "badge": {
+            "border": {
+              "color": {
+                "value": "{color.white.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Sets the border color of the active accordion badge. This determines what color the border appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-badge-border-color"
+                }
+              }
+            },
+            "background-color": {
+              "value": "transparent",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the background color of the active accordion badge of default type. This is the background color that appears behind the badge content.<br>CSS variable: --wm-accordion-badge-background-color"
+              }
+        },
+            "color": {
+              "value": "{color.white.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Sets the text color of the active accordion badge. This determines what color the badge text appears in when the accordion is expanded.<br>CSS variable: --wm-accordion-active-badge-color"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

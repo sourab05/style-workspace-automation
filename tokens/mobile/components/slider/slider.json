@@ -5,6 +5,22 @@
                 "selector": {
                     "mobile": ".app-slider"
                 }
+            },
+            "appearances": {
+                "default": {
+                    "mapping": {
+                        "selector": {
+                            "mobile": ".app-slider"
+                        }
+                    }
+                },
+                "circle-thumb": {
+                    "mapping": {
+                        "selector": {
+                            "mobile": ".slider-circle-thumb"
+                        }
+                    }
+                }
             }
         },
         "mapping": {
@@ -86,6 +102,40 @@
                         "subtype": "radius",
                         "description": "Controls the border radius (rounded corners) of slider thumbs. This determines how rounded the corners of the thumb appear. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-border-radius"
                     }
+                },
+                "wrapper": {
+                    "width": {
+                        "value": "14px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the width of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-width"
+                        }
+                    },
+                    "height": {
+                        "value": "54px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the height of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-height"
+                        }
+                    },
+                    "border-radius": {
+                        "value": "2px",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Controls the border radius of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-border-radius"
+                        }
+                    },
+                    "background": {
+                        "value": "#fff",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-background"
+                        }
+                    }
                 }
             },
             "tooltip": {
@@ -103,6 +153,128 @@
                     "attributes": {
                         "subtype": "color",
                         "description": "Sets the text color of slider tooltips. This determines what color the text in the tooltip appears in, typically white for contrast against dark backgrounds.<br>CSS variable: --wm-slider-tooltip-color"
+                    }
+                }
+            }
+        },
+        "appearances": {
+            "default": {
+                "mapping":{
+                                    "thumb": {
+                    "background": {
+                        "value": "{color.surface.tint.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of slider thumbs (the draggable handle that users interact with to set values). This determines what color the thumb appears in.<br>CSS variable: --wm-slider-thumb-background"
+                        }
+                    },
+                    "height": {
+                        "value": "{space.8.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the height of slider thumbs. This determines the vertical size of the thumb. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-height"
+                        }
+                    },
+                    "width": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the width of slider thumbs. This determines the horizontal size of the thumb. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-width"
+                        }
+                    },
+                    "border-radius": {
+                        "value": "{radius.xs.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Controls the border radius (rounded corners) of slider thumbs. This determines how rounded the corners of the thumb appear. Acceptable units: px.<br>CSS variable: --wm-slider-thumb-border-radius"
+                        }
+                    },
+                    "wrapper": {
+                        "width": {
+                            "value": "14px",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Controls the width of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-width"
+                            }
+                        },
+                        "height": {
+                            "value": "54px",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Controls the height of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-height"
+                            }
+                        },
+                        "border-radius": {
+                            "value": "2px",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the border radius of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-border-radius"
+                            }
+                        },
+                        "background": {
+                            "value": "#fff",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the background color of the slider thumb wrapper.<br>CSS variable: --wm-slider-thumb-wrapper-background"
+                            }
+                        }
+                    }
+                }
+                }
+            },
+            "circle-thumb": {
+                "mapping": {
+                    "thumb": {
+                        "background": {
+                            "value": "{color.transparent.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the background color of slider thumbs for the circle-thumb variant. The visible thumb is provided by the wrapper.<br>CSS variable: --wm-slider-thumb-background"
+                            }
+                        },
+                        "wrapper": {
+                            "background": {
+                                "value": "{color.surface.tint.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of the slider thumb wrapper for the circle-thumb variant.<br>CSS variable: --wm-slider-thumb-wrapper-background"
+                                }
+                            },
+                            "height": {
+                                "value": "20px",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls the height of the slider thumb wrapper for the circle-thumb variant.<br>CSS variable: --wm-slider-thumb-wrapper-height"
+                                }
+                            },
+                            "width": {
+                                "value": "20px",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls the width of the slider thumb wrapper for the circle-thumb variant.<br>CSS variable: --wm-slider-thumb-wrapper-width"
+                                }
+                            },
+                            "border-radius": {
+                                "value": "100px",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "radius",
+                                    "description": "Controls the border radius of the slider thumb wrapper for the circle-thumb variant.<br>CSS variable: --wm-slider-thumb-wrapper-border-radius"
+                                }
+                            }
+                        }
                     }
                 }
             }

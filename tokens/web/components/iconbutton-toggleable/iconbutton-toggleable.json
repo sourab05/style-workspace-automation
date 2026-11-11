@@ -1,0 +1,557 @@
+{
+    "iconbutton-toggle": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "web": ".app-iconbutton-toggle"
+                },
+                "states": {
+                    "hover": {
+                        "selector": {
+                            "web": ":has(label > input[type='checkbox']:hover)"
+                        }
+                    },
+                    "focus": {
+                        "selector": {
+                            "web": ":has(label > input[type='checkbox']:focus)"
+                        }
+                    },
+                    "selected": {
+                        "selector": {
+                            "web": ":has(label > input[type='checkbox']:checked)"
+                        }
+                    }
+                }
+            },
+            "appearances": {}
+        },
+        "mapping": {
+            "font-size": {
+                "value": "{icon.size.@.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "icon-size",
+                    "description": "Controls how large icon symbols appear (like arrows, hearts, settings, etc.). Larger values make icons more prominent, smaller values make them more subtle.<br>CSS variable: --wm-iconbutton-toggle-font-size"
+                }
+            },
+            "color": {
+                "value": "{color.on-surface.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-iconbutton-toggle-color"
+                }
+            },
+            "box-shadow": {
+                "value": "{elevation.shadow.none.value}",
+                "type": "radius",
+                "attributes": {
+                    "subtype": "elevation",
+                    "description": "Controls the box shadow (elevation) of iconbutton toggle components. This determines the shadow depth and visual elevation of the tabbar above the content.<br>CSS variable: --wm-iconbutton-toggle-box-shadow"
+                }
+            },
+            "background": {
+                "value": "{color.transparent.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                }
+            },
+            "border": {
+                "width": {
+                    "value": "{border.width.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "border-width",
+                        "description": "Controls the thickness of the border around the icon button toggleable. This creates the outline that defines the icon button toggleable shape and makes it visible to users.<br>CSS variable: --wm-iconbutton-toggle-border-width"
+                    }
+                },
+                "color": {
+                    "value": "{color.on-surface.variant.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of the border around the iconbutton toggleable. This determines the color of the outline that defines the iconbutton-toggle shape in its default/selected state.<br>CSS variable: --wm-iconbutton-toggle-border-color"
+                    }
+                },
+                "radius": {
+                    "value": "{radius.none.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the corner rounding of the iconbutton toggleable. Small values create slightly rounded corners, while larger values make the iconbutton toggleable more rounded or even circular.<br>CSS variable: --wm-iconbutton-toggle-border-radius"
+                    }
+                },
+                "style": {
+                    "value": "{border.style.solid}",
+                    "type": "border",
+                    "attributes": {
+                        "subtype": "border-style",
+                        "description": "Sets the border style of the iconbutton toggleable component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-iconbutton-toggle-border-style"
+                    }
+                }
+            },
+            "width": {
+                "value": "{space.10.value}",
+                "type": "space",
+                "attributes": {
+                    "subtype": "icon-size",
+                    "description": "Controls how wide icon symbols appear (like arrows, hearts, settings, etc.). This determines the horizontal space each icon takes up.<br>CSS variable: --wm-icon-width"
+                }
+            },
+            "height": {
+                "value": "{space.10.value}",
+                "type": "space",
+                "attributes": {
+                    "subtype": "space",
+                    "description": "Controls how tall icon symbols appear (like arrows, hearts, settings, etc.). This determines the vertical space each icon takes up.<br>CSS variable: --wm-iconbutton-toggle-height"
+                }
+            },
+            "opacity": {
+                "value": "1",
+                "type": "radius",
+                "attributes": {
+                    "subtype": "opacity",
+                    "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                }
+            }
+        },
+        "appearances": {
+            "default": {
+                "mapping": {
+                    "states": {
+                        "hover": {
+                            "color": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-iconbutton-toggle-color"
+                                }
+                            }
+                        },
+                        "selected": {
+                            "color": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-iconbutton-toggle-color"
+                                }
+                            },
+                            "font-size": {
+                                "value": "{icon.size.@.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "icon-size",
+                                    "description": "Controls how large icon symbols appear (like arrows, hearts, settings, etc.). Larger values make icons more prominent, smaller values make them more subtle.<br>CSS variable: --wm-iconbutton-toggle-font-size"
+                                }
+                            },
+                            "box-shadow": {
+                                "value": "{elevation.shadow.none.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "elevation",
+                                    "description": "Controls the box shadow (elevation) of iconbutton toggle components. This determines the shadow depth and visual elevation of the tabbar above the content.<br>CSS variable: --wm-iconbutton-toggle-box-shadow"
+                                }
+                            },
+                            "border": {
+                                "width": {
+                                    "value": "{border.width.0.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "border-width",
+                                        "description": "Controls the thickness of the border around the icon button toggleable. This creates the outline that defines the icon button toggleable shape and makes it visible to users.<br>CSS variable: --wm-iconbutton-toggle-border-width"
+                                    }
+                                },
+                                "color": {
+                                    "value": "{color.on-surface.variant.@.value}",
+                                    "type": "color",
+                                    "attributes": {
+                                        "subtype": "color",
+                                        "description": "Sets the color of the border around the iconbutton toggleable. This determines the color of the outline that defines the iconbutton-toggle shape in its default/selected state.<br>CSS variable: --wm-iconbutton-toggle-border-color"
+                                    }
+                                },
+                                "radius": {
+                                    "value": "{radius.none.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "radius",
+                                        "description": "Controls the corner rounding of the iconbutton toggleable. Small values create slightly rounded corners, while larger values make the iconbutton toggleable more rounded or even circular.<br>CSS variable: --wm-iconbutton-toggle-border-radius"
+                                    }
+                                },
+                                "style": {
+                                    "value": "{border.style.solid}",
+                                    "type": "border",
+                                    "attributes": {
+                                        "subtype": "border-style",
+                                        "description": "Sets the border style of the iconbutton toggleable component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-iconbutton-toggle-border-style"
+                                    }
+                                }
+                            },
+                            "width": {
+                                "value": "{space.10.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "icon-size",
+                                    "description": "Controls how wide icon symbols appear (like arrows, hearts, settings, etc.). This determines the horizontal space each icon takes up.<br>CSS variable: --wm-icon-width"
+                                }
+                            },
+                            "height": {
+                                "value": "{space.10.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls how tall icon symbols appear (like arrows, hearts, settings, etc.). This determines the vertical space each icon takes up.<br>CSS variable: --wm-iconbutton-toggle-height"
+                                }
+                            },
+                            "background": {
+                                "value": "{color.transparent.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                                }
+                            },
+                            "opacity": {
+                                "value": "1",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "opacity",
+                                    "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "outlined": {
+                "mapping": {
+                    "border": {
+                        "width": {
+                            "value": "{border.width.1.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "border-width",
+                                "description": "Controls the thickness of the border around the icon button toggleable. This creates the outline that defines the icon button toggleable shape and makes it visible to users.<br>CSS variable: --wm-iconbutton-toggle-border-width"
+                            }
+                        },
+                        "color": {
+                            "value": "{color.on-surface.variant.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the color of the border around the iconbutton toggleable. This determines the color of the outline that defines the iconbutton-toggle shape in its default/selected state.<br>CSS variable: --wm-iconbutton-toggle-border-color"
+                            }
+                        },
+                        "radius": {
+                            "value": "{radius.circle.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the corner rounding of the iconbutton toggleable. Small values create slightly rounded corners, while larger values make the iconbutton toggleable more rounded or even circular.<br>CSS variable: --wm-iconbutton-toggle-border-radius"
+                            }
+                        },
+                        "style": {
+                            "value": "{border.style.solid}",
+                            "type": "border",
+                            "attributes": {
+                                "subtype": "border-style",
+                                "description": "Sets the border style of the iconbutton toggleable component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-iconbutton-toggle-border-style"
+                            }
+                        }
+                    },
+                    "states": {
+                        "hover": {
+                            "background": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                                }
+                            },
+                            "opacity": {
+                                "value": "{opacity.hover.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "opacity",
+                                    "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                                }
+                            }
+                        },
+                        "selected": {
+                            "color": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-iconbutton-toggle-color"
+                                }
+                            },
+                            "font-size": {
+                                "value": "{icon.size.@.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "icon-size",
+                                    "description": "Controls how large icon symbols appear (like arrows, hearts, settings, etc.). Larger values make icons more prominent, smaller values make them more subtle.<br>CSS variable: --wm-iconbutton-toggle-font-size"
+                                }
+                            },
+                            "box-shadow": {
+                                "value": "{elevation.shadow.none.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "elevation",
+                                    "description": "Controls the box shadow (elevation) of iconbutton toggle components. This determines the shadow depth and visual elevation of the tabbar above the content.<br>CSS variable: --wm-iconbutton-toggle-box-shadow"
+                                }
+                            },
+                            "border": {
+                                "width": {
+                                    "value": "{border.width.1.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "border-width",
+                                        "description": "Controls the thickness of the border around the icon button toggleable. This creates the outline that defines the icon button toggleable shape and makes it visible to users.<br>CSS variable: --wm-iconbutton-toggle-border-width"
+                                    }
+                                },
+                                "color": {
+                                    "value": "{color.primary.@.value}",
+                                    "type": "color",
+                                    "attributes": {
+                                        "subtype": "color",
+                                        "description": "Sets the color of the border around the iconbutton toggleable. This determines the color of the outline that defines the iconbutton-toggle shape in its default/selected state.<br>CSS variable: --wm-iconbutton-toggle-border-color"
+                                    }
+                                },
+                                "radius": {
+                                    "value": "{radius.circle.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "radius",
+                                        "description": "Controls the corner rounding of the iconbutton toggleable. Small values create slightly rounded corners, while larger values make the iconbutton toggleable more rounded or even circular.<br>CSS variable: --wm-iconbutton-toggle-border-radius"
+                                    }
+                                },
+                                "style": {
+                                    "value": "{border.style.solid}",
+                                    "type": "border",
+                                    "attributes": {
+                                        "subtype": "border-style",
+                                        "description": "Sets the border style of the iconbutton toggleable component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-iconbutton-toggle-border-style"
+                                    }
+                                }
+                            },
+                            "width": {
+                                "value": "{space.10.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls how wide icon symbols appear (like arrows, hearts, settings, etc.). This determines the horizontal space each icon takes up.<br>CSS variable: --wm-icon-width"
+                                }
+                            },
+                            "height": {
+                                "value": "{space.10.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls how tall icon symbols appear (like arrows, hearts, settings, etc.). This determines the vertical space each icon takes up.<br>CSS variable: --wm-iconbutton-toggle-height"
+                                }
+                            },
+                            "background": {
+                                "value": "{color.transparent.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                                }
+                            },
+                            "opacity": {
+                                "value": "1",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "opacity",
+                                    "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                                }
+                            }
+                        }
+                    }
+                },
+                "variantGroups": {}
+            },
+            "filled": {
+                "mapping": {
+                    "border": {
+                        "width": {
+                            "value": "{border.width.1.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "border-width",
+                                "description": "Controls the thickness of the border around the icon button toggleable. This creates the outline that defines the icon button toggleable shape and makes it visible to users.<br>CSS variable: --wm-iconbutton-toggle-border-width"
+                            }
+                        },
+                        "color": {
+                            "value": "{color.primary.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the color of the border around the iconbutton toggleable. This determines the color of the outline that defines the iconbutton-toggle shape in its default/selected state.<br>CSS variable: --wm-iconbutton-toggle-border-color"
+                            }
+                        },
+                        "radius": {
+                            "value": "{radius.circle.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the corner rounding of the iconbutton toggleable. Small values create slightly rounded corners, while larger values make the iconbutton toggleable more rounded or even circular.<br>CSS variable: --wm-iconbutton-toggle-border-radius"
+                            }
+                        },
+                        "style": {
+                            "value": "{border.style.solid}",
+                            "type": "border",
+                            "attributes": {
+                                "subtype": "border-style",
+                                "description": "Sets the border style of the iconbutton toggleable component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-iconbutton-toggle-border-style"
+                            }
+                        }
+                    },
+                    "color": {
+                        "value": "{color.primary.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-iconbutton-toggle-color"
+                        }
+                    },
+                    "background": {
+                        "value": "{color.primary.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                        }
+                    },
+                    "opacity": {
+                        "value": "{opacity.hover.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "opacity",
+                            "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                        }
+                    },
+                    "states": {
+                        "hover": {
+                            "background": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                                }
+                            },
+                            "opacity": {
+                                "value": "{opacity.focus.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "opacity",
+                                    "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                                }
+                            }
+                        },
+                        "selected": {
+                            "background": {
+                                "value": "{color.primary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the background color of buttons (clickable elements that users interact with to perform actions). This is the main background color that appears behind the button icons.<br>CSS variable: --wm-iconbutton-toggle-background"
+                                }
+                            },
+                            "color": {
+                                "value": "{color.white.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Sets the color of icons (symbols like arrows, hearts, settings, etc.). This determines what color the icon symbols appear in, which should contrast well with the background for visibility.<br>CSS variable: --wm-iconbutton-toggle-color"
+                                }
+                            },
+                            "opacity": {
+                                "value": "1",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "opacity",
+                                    "description": "Controls the opacity of the state layer when users hover their mouse over the icon button. This creates a subtle visual feedback effect to indicate that the icon button is interactive and ready to be clicked.<br>CSS variable: --wm-iconbutton-toggle-opacity (hover state)"
+                                }
+                            },
+                            "font-size": {
+                                "value": "{icon.size.@.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "icon-size",
+                                    "description": "Controls how large icon symbols appear (like arrows, hearts, settings, etc.). Larger values make icons more prominent, smaller values make them more subtle.<br>CSS variable: --wm-iconbutton-toggle-font-size"
+                                }
+                            },
+                            "box-shadow": {
+                                "value": "{elevation.shadow.none.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "elevation",
+                                    "description": "Controls the box shadow (elevation) of iconbutton toggle components. This determines the shadow depth and visual elevation of the tabbar above the content.<br>CSS variable: --wm-iconbutton-toggle-box-shadow"
+                                }
+                            },
+                            "border": {
+                                "width": {
+                                    "value": "{border.width.0.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "border-width",
+                                        "description": "Controls the thickness of the border around the icon button toggleable. This creates the outline that defines the icon button toggleable shape and makes it visible to users.<br>CSS variable: --wm-iconbutton-toggle-border-width"
+                                    }
+                                },
+                                "color": {
+                                    "value": "{color.primary.@.value}",
+                                    "type": "color",
+                                    "attributes": {
+                                        "subtype": "color",
+                                        "description": "Sets the color of the border around the iconbutton toggleable. This determines the color of the outline that defines the iconbutton-toggle shape in its default/selected state.<br>CSS variable: --wm-iconbutton-toggle-border-color"
+                                    }
+                                },
+                                "radius": {
+                                    "value": "{radius.circle.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "radius",
+                                        "description": "Controls the corner rounding of the iconbutton toggleable. Small values create slightly rounded corners, while larger values make the iconbutton toggleable more rounded or even circular.<br>CSS variable: --wm-iconbutton-toggle-border-radius"
+                                    }
+                                },
+                                "style": {
+                                    "value": "{border.style.solid}",
+                                    "type": "border",
+                                    "attributes": {
+                                        "subtype": "border-style",
+                                        "description": "Sets the border style of the iconbutton toggleable component. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-iconbutton-toggle-border-style"
+                                    }
+                                }
+                            },
+                            "width": {
+                                "value": "{space.10.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "icon-size",
+                                    "description": "Controls how wide icon symbols appear (like arrows, hearts, settings, etc.). This determines the horizontal space each icon takes up.<br>CSS variable: --wm-icon-width"
+                                }
+                            },
+                            "height": {
+                                "value": "{space.10.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Controls how tall icon symbols appear (like arrows, hearts, settings, etc.). This determines the vertical space each icon takes up.<br>CSS variable: --wm-iconbutton-toggle-height"
+                                }
+                            }
+                        }
+                    }
+                },
+                "variantGroups": {}
+            }
+        }
+    }
+}

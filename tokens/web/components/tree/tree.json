@@ -1,0 +1,265 @@
+{
+  "tree": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "web": ".app-tree:not(.app-tree-custom)"
+        },
+        "states": {
+          "hover": {
+            "selector": {
+              "web": " li a:has(:hover)"
+            }
+          },
+          "selected": {
+            "selector": {
+              "web": " li[treenode].selected>a, li[treenode].selected>span, li[treenode].selected>span::before, li[treenode].selected .curSelectedNode .node_name"
+            }
+          }
+        }
+      },
+      "appearances": {
+       
+      }
+    },
+    "mapping": {
+      "margin": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Outer margin around the tree.<br>CSS variable: --wm-tree-margin"
+        }
+      },
+      "padding": {
+        "value": "{space.0.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Inner padding of the tree root.<br>CSS variable: --wm-tree-padding"
+        }
+      },
+      "font-family": {
+        "value": "{font.family.brand.value}",
+        "type": "font",
+        "attributes": {
+          "subtype": "font-family",
+          "description": "Font stack for tree labels.<br>CSS variable: --wm-tree-font-family"
+        }
+      },
+      "node": {
+        "color": {
+          "value": "{color.primary.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Default (resting) text color for tree node labels.<br>CSS variable: --wm-tree-node-color"
+          }
+        },
+        "background": {
+          "value": "{color.transparent.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Default (resting) label background for tree nodes.<br>CSS variable: --wm-tree-node-background"
+          }
+        },
+        "radius": {
+          "value": "0px",
+          "type": "radius",
+          "attributes": {
+            "subtype": "radius",
+            "description": "Border radius for tree node links and icon controls in the default state.<br>CSS variable: --wm-tree-node-radius"
+          }
+        },
+        "padding": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Inner padding of the tree root.<br>CSS variable: --wm-tree-node-padding"
+          }
+        },
+        "margin": {
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Outer margin of each tree node.<br>CSS variable: --wm-tree-node-margin"
+          }
+        },
+        "height": {
+          "value": "30px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "ZTree: height of the tree node. <br>CSS variable: --wm-tree-node-height"
+          }
+        },
+        "width": {
+          "value": "auto",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "ZTree: width of the tree node. <br>CSS variable: --wm-tree-node-width"
+          }
+        },
+        "label": {
+          "font-size": {
+            "value": "{body.medium.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "ZTree: <code>.app-tree li a</code> <code>font-size</code>.<br>CSS variable: --wm-tree-node-label-font-size"
+            }
+          },
+          "font-weight": {
+            "value": "inherit",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Controls how thick or bold label text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-tree-node-label-font-weight"
+            }
+          },
+          "text-align": {
+            "value": "start",
+            "type": "text",
+            "attributes": {
+              "subtype": "text-align",
+              "description": "Sets the text alignment of labels (text elements that describe or identify other content). This determines how the label text appears in relation to the surrounding content.<br>CSS variable: --wm-tree-node-label-text-align"
+            }
+          },
+          "letter-spacing": {
+            "value": "{body.medium.letter-spacing.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "letter-spacing",
+              "description": "Controls the horizontal spacing between individual letters in label text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-tree-node-label-letter-spacing"
+            }
+          },
+          "text-decoration": {
+            "value": "none",
+            "type": "text",
+            "attributes": {
+              "subtype": "text-decoration",
+              "description": "Sets the text decoration of labels (text elements that describe or identify other content). This determines what decoration the label text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-tree-node-label-text-decoration"
+            }
+          }
+        },
+        "child-indent": {
+          "value": "0 0 0 20px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Nested list indent.<br>CSS variable: --wm-tree-node-child-indent"
+          }
+        },
+        "icon": {
+          "size": {
+            "value": "14px",
+            "type": "space",
+            "attributes": {
+              "subtype": "icon-size",
+              "description": "ZTree: size of the tree node icon. <br>CSS variable: --wm-tree-node-icon-size"
+            }
+          },
+          "align-items": {
+            "value": "center",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "ZTree: align-items of the tree node icon. <br>CSS variable: --wm-tree-node-icon-align-items"
+            }
+          },
+          "color": {
+            "value": "{color.primary.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Default (resting) expand/collapse icon color.<br>CSS variable: --wm-tree-node-icon-color"
+            }
+          }
+        }
+      },
+      "states": {
+        "hover": {
+          "node": {
+            "color": {
+              "value": "{color.secondary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Label text color when hovering a tree link.<br>CSS variable: --wm-tree-node-color"
+              }
+            },
+            "background": {
+              "value": "{color.transparent.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Label background when hovering a tree link.<br>CSS variable: --wm-tree-node-background"
+              }
+            },
+            "icon": {
+              "color": {
+                "value": "{color.secondary.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Icon color when hovering expand/collapse controls (sibling link).<br>CSS variable: --wm-tree-node-icon-color"
+                }
+              }
+            },
+            "radius": {
+              "value": "{radius.xs.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Border radius for the tree node link on hover.<br>CSS variable: --wm-tree-node-radius"
+              }
+            }
+          }
+        },
+        "selected": {
+          "node": {
+            "color": {
+              "value": "{color.white.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Label text color for a selected tree node.<br>CSS variable: --wm-tree-node-color"
+              }
+            },
+            "background": {
+              "value": "{color.primary.@.value}",
+              "type": "color",
+              "attributes": {
+                "subtype": "color",
+                "description": "Label background for a selected tree node.<br>CSS variable: --wm-tree-node-background"
+              }
+            },
+            "icon": {
+              "color": {
+                "value": "{color.white.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color",
+                  "description": "Expand/collapse icon color for a selected tree node.<br>CSS variable: --wm-tree-node-icon-color"
+                }
+              }
+            },
+            "radius": {
+              "value": "{radius.xs.value}",
+              "type": "radius",
+              "attributes": {
+                "subtype": "radius",
+                "description": "Border radius for the selected tree node link.<br>CSS variable: --wm-tree-node-radius"
+              }
+            }
+          }
+        }
+      }
+    },
+    "appearances": { }
+  }
+}

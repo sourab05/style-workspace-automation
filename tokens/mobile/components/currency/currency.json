@@ -1,12 +1,96 @@
 {
   "currency": {
-    "inputgroup": {
-      "addon": {
-        "width": {
-          "value": "40px",
-          "type": "space"
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-currency"
         }
       }
-    }
+    },
+    "mapping": {
+      "labelwrapper": {
+        "min": {
+          "height": {
+            "value": "30px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Minimum height of the currency field label wrapper (the strip that holds the currency symbol or label next to the amount input). Keeps the prefix area aligned with the input row.<br>CSS variable: --wm-currency-labelwrapper-min-height"
+            }
+          }
+        },
+        "background": {
+          "value": "#4263eb",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Background color of the currency label wrapper (prefix area behind the symbol or label).<br>CSS variable: --wm-currency-labelwrapper-background"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "6px {space.0.value} {space.0.value} 6px",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-radius",
+              "description": "Corner radius of the currency label wrapper (typically the inner or leading edge that meets the amount field). Use px or theme space tokens.<br>CSS variable: --wm-currency-labelwrapper-border-radius"
+            }
+          }
+        },
+        "padding": {
+          "value": "{space.2.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Padding inside the currency label wrapper around the symbol or label text. Shorthand: vertical and horizontal spacing may use separate theme values.<br>CSS variable: --wm-currency-labelwrapper-padding"
+          }
+        },
+        "width": {
+          "value": "{space.12.value}",
+          "type": "border",
+          "attributes": {
+            "subtype": "space",
+            "description": "Width reserved for the currency label wrapper (prefix column width for the symbol or label). Often matches or complements the amount input layout; use px or theme space tokens.<br>CSS variable: --wm-currency-labelwrapper-width"
+          }
+        }
+      },
+      "label": {
+        "color": {
+          "value": "{color.white.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Text color for the currency label or symbol shown in the label wrapper (e.g. $, €, or custom label).<br>CSS variable: --wm-currency-label-color"
+          }
+        },
+        "font": {
+          "weight": {
+            "value": "{body.medium.font-weight.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-weight",
+              "description": "Font weight for the currency label or symbol in the label wrapper. Use normal, bold, or numeric weights (100–900) for finer control.<br>CSS variable: --wm-currency-label-font-weight"
+            }
+          },
+          "size": {
+            "value": "{body.large.font-size.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-size",
+              "description": "Font size for the currency label or symbol in the label wrapper so it balances with the amount input text.<br>CSS variable: --wm-currency-label-font-size"
+            }
+          },
+          "family": {
+            "value": "{body.medium.font-family.value}",
+            "type": "font",
+            "attributes": {
+              "subtype": "font-family",
+              "description": "Font family for the currency label or symbol in the label wrapper.<br>CSS variable: --wm-currency-label-font-family"
+            }
+          }
+        }
+      }
+    },
+    "appearances": {}
   }
 }

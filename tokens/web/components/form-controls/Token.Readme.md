@@ -22,6 +22,9 @@ This table lists all tokens for this component:
 | control.font-weight | Controls how thick or bold the text appears in form controls (input fields, text areas, select boxes, and other form elements). 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-form-control-font-weight |
 | control.line-height | Controls the vertical spacing between lines when form control text wraps to multiple lines (like in text areas). This ensures proper spacing for the text displayed in the form fields.<br>CSS variable: --wm-form-control-line-height |
 | control.letter-spacing | Controls the horizontal spacing between individual characters in form controls (input fields, text areas, select boxes, and other form elements). This can help make the form field text more readable and properly spaced.<br>CSS variable: --wm-form-control-letter-spacing |
+| control.leading-icon-position | Controls the horizontal position of the leading icon inside form controls. This defines the spacing between the leading icon and the left edge of the form field.<br>CSS variable: --wm-form-control-leading-icon-position |
+| control.trailing-icon-position | Controls the horizontal position of the trailing icon inside form controls. This defines the spacing between the trailing icon and the right edge of the form field.<br>CSS variable: --wm-form-control-trailing-icon-position |
+| caption.floating-position | Controls the horizontal offset of the floating label within form controls. This determines how far the floating label is positioned from the left edge of the form field.<br>CSS variable: --wm-form-control-floating-position |
 | caption.font.family | Sets the font family of form captions.<br>CSS variable: --wm-form-caption-font-family |
 | caption.font.size | Controls the font size of form captions.<br>CSS variable: --wm-form-caption-font-size |
 | caption.font.weight | Controls the font weight of form captions. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-form-caption-font-weight |
@@ -30,6 +33,7 @@ This table lists all tokens for this component:
 | caption.color | Sets the text color of form captions.<br>CSS variable: --wm-form-caption-color |
 | caption.margin | Controls margin of form captions.<br>CSS variable: --wm-form-caption-margin |
 | caption.padding | Controls padding of form captions.<br>CSS variable: --wm-form-caption-padding |
+| caption.display | Sets the display property of form captions.<br>CSS variable: --wm-form-caption-display |
 | caption.gap | Controls spacing between form caption elements.<br>CSS variable: --wm-form-caption-gap |
 | required.content | Sets the content for required field indicators.<br>CSS variable: --wm-form-required-content |
 | required.color | Sets the color of required field indicators.<br>CSS variable: --wm-form-required-color |
@@ -41,6 +45,7 @@ This table lists all tokens for this component:
 | help.block.font-weight | Controls the font weight of form help blocks. Acceptable values: normal, bold, 100-900.<br>CSS variable: --wm-form-help-block-font-weight |
 | help.block.line-height | Controls the line height of form help blocks.<br>CSS variable: --wm-form-help-block-line-height |
 | help.block.letter-spacing | Controls spacing between characters in form help blocks.<br>CSS variable: --wm-form-help-block-letter-spacing |
+| help.block.position | Controls the position (offset spacing) of the help text within form help blocks. This defines how far the help text is positioned from the form control.<br>CSS variable: --wm-form-help-block-position |
 | input.group.btn.width | Controls the width of input group buttons.<br>CSS variable: --wm-form-input-group-btn-width |
 | input.group.btn.height | Controls the height of input group buttons.<br>CSS variable: --wm-form-input-group-btn-height |
 | input.group.btn.font.size | Controls the font size of input group button icons.<br>CSS variable: --wm-form-input-group-btn-font-size |

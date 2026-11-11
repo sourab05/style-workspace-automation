@@ -21,7 +21,7 @@ This table lists all tokens for this component:
 | radius | Controls the border radius for rounded corners.<br>CSS variable: --wm-btn-radius |
 | padding | Sets internal spacing between content and border.<br>CSS variable: --wm-btn-padding |
 | min-width | Sets the minimum width.<br>CSS variable: --wm-btn-min-width |
-| height | Controls the height.<br>CSS variable: --wm-btn-height |
+| min-height | Controls the height.<br>CSS variable: --wm-btn-min-height |
 | gap | Sets spacing between icon and text content.<br>CSS variable: --wm-btn-gap |
 | shadow.@ | Controls the drop shadow effect.<br>CSS variable: --wm-btn-shadow |
 | icon-size | Controls the size of icons.<br>CSS variable: --wm-btn-icon-size |

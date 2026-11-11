@@ -60,14 +60,24 @@
                 }
             },
             "padding": {
-                "value": "0",
+                "value": "{space.3.value}",
                 "type": "space",
                 "attributes": {
                     "subtype": "space",
-                    "description": "Sets the internal spacing inside the camera component. This creates breathing room around the camera content.<br>CSS variable: --wm-camera-padding"
+                    "description": "Sets internal spacing between camera icon and border (top, right, bottom, left).<br>CSS variable: --wm-camera-padding"
                 }
-            }
-        },
-        "appearances": {}
+            },
+            "ripple": {
+                "color": {
+                    "value": "transparent",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the ripple effect color for the camera component. This determines what color appears when the component is interacted with.<br>CSS variable: --wm-camera-ripple-color"
+                    }
+                }
+            },
+            "appearances": {}
+        }
     }
 }

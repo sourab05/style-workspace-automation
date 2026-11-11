@@ -13,7 +13,7 @@
           },
           "active": {
             "selector": {
-              "web": " .app-nav-item:has(:active),.app-left-panel .app-nav-item:has(.active), .app-nav-item.active"
+              "web": " .app-nav-item:has(:active), .app-nav-item:has(.active), .app-nav-item.active"
             }
           },
           "focus": {
@@ -70,6 +70,14 @@
     },
     "mapping": {
       "nav": {
+        "width": {
+          "value": "220px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of the left navigation panel (the vertical sidebar that contains navigation menu items). This determines how wide the navigation area appears on the left side of the screen.<br>CSS variable: --wm-aside-left-width"
+          }
+        },
         "border": {
           "color": {
             "value": "{color.outline.variant.value}",
@@ -129,7 +137,7 @@
           }
         },
         "background": {
-          "value": "{color.surface.@.value}",
+          "value": "{color.transparent.value}",
           "type": "color",
           "attributes": {
             "subtype": "color",
@@ -162,7 +170,7 @@
             }
           },
           "background": {
-            "value": "{color.surface.@.value}",
+            "value": "{color.transparent.value}",
             "type": "color",
             "attributes": {
               "subtype": "color",
@@ -356,7 +364,7 @@
             }
           },
           "background": {
-            "value": "{color.surface.@.value}",
+            "value": "{color.transparent.value}",
             "type": "color",
             "attributes": {
               "subtype": "color",
@@ -391,7 +399,7 @@
               }
             },
             "background": {
-              "value": "{color.surface.@.value}",
+              "value": "{color.transparent.value}",
               "type": "color",
               "attributes": {
                 "subtype": "color",
@@ -601,7 +609,7 @@
           "nav": {
             "item": {
               "background": {
-                "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+                "value": "{color.transparent.value}",
                 "type": "color",
                 "attributes": {
                   "subtype": "color"
@@ -700,7 +708,7 @@
             "submenu": {
               "item": {
                 "background": {
-                  "value": "{color.secondary.container.@.value}",
+                  "value": "{color.transparent.value}",
                   "type": "color",
                   "attributes": {
                     "subtype": "color"
@@ -721,7 +729,7 @@
           "nav": {
             "item": {
               "background": {
-                "value": "linear-gradient(105.79deg, ~\"color-mix(in srgb, {color.secondary.@.value}, transparent calc(100% - {opacity.hover.value}))\" 44.21%, ~\"color-mix(in srgb, {color.white.@.value}, transparent calc(100% - {opacity.hover.value}))\" 103.73%)",
+                "value": "{color.transparent.value}",
                 "type": "color",
                 "attributes": {
                   "subtype": "color"
@@ -820,7 +828,7 @@
             "submenu": {
               "item": {
                 "background": {
-                  "value": "{color.secondary.container.@.value}",
+                  "value": "{color.transparent.value}",
                   "type": "color",
                   "attributes": {
                     "subtype": "color"

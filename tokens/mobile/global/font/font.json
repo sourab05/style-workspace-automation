@@ -205,6 +205,38 @@
       "attributes": { "subtype": "letter-spacing" }
     }
   },
+  "p": {
+    "font-family": {
+      "value": "{font.family.brand.value}",
+      "attributes": {
+        "subtype": "font-family"
+      }
+    },
+    "font-weight": {
+      "value": "{font.weight.500.value}",
+      "attributes": {
+        "subtype": "font-weight"
+      }
+    },
+    "font-size": {
+      "value": "12px",
+      "attributes": {
+        "subtype": "font-size"
+      }
+    },
+    "line-height": {
+      "value": "18px",
+      "attributes": {
+        "subtype": "line-height"
+      }
+    },
+    "letter-spacing": {
+      "value": "0.1px",
+      "attributes": {
+        "subtype": "letter-spacing"
+      }
+    }
+  },
   "label": {
     "large": {
       "font-family": {
@@ -342,3 +374,4 @@
     }
   }
 }
+

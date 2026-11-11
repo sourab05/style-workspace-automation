@@ -67,6 +67,46 @@
             "subtype": "color",
             "description": "Sets the text color of circular progress indicator labels (the percentage or text that appears in the center of the circle). This should contrast well with the progress circle colors for readability.<br>CSS variable: --wm-progress-circle-label-color"
           }
+        },
+        "font-size": {
+          "value": "{h4.font-size.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-size",
+            "description": "Controls how large the label text appears.<br>CSS variable: --wm-progress-circle-label-font-size"
+          }
+        },
+        "font-family": {
+          "value": "{body.medium.font-family.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-family",
+            "description": "Sets the typeface (font style) for label text. This determines whether the label text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-progress-circle-label-font-family"
+          }
+        },
+        "font-weight": {
+          "value": "{body.medium.font-weight.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "font-weight",
+            "description": "Controls how thick or bold the label text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-progress-circle-label-font-weight"
+          }
+        },
+        "line-height": {
+          "value": "{body.medium.line-height.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "line-height",
+            "description": "Controls the vertical spacing between lines when label text wraps to multiple lines.<br>CSS variable: --wm-progress-circle-label-line-height"
+          }
+        },
+        "letter-spacing": {
+          "value": "{body.medium.letter-spacing.value}",
+          "type": "font",
+          "attributes": {
+            "subtype": "letter-spacing",
+            "description": "Controls the horizontal spacing between individual characters in label text.<br>CSS variable: --wm-progress-circle-label-letter-spacing"
+          }
         }
       }
     },

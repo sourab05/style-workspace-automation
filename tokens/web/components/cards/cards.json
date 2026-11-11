@@ -87,7 +87,7 @@
         "value": "none",
         "type": "radius",
         "attributes": {
-          "subtype": "radius",
+          "subtype": "elevation",
           "description": "Controls the box shadow of cards.<br>CSS variable: --wm-card-shadow"
         }
       },
@@ -127,6 +127,7 @@
           "type": "space",
           "attributes": {
             "subtype": "space",
+            "excludeFromUI": true,
             "description": "Controls padding of card footer content.<br>CSS variable: --wm-card-footer-padding"
           }
         },
@@ -135,6 +136,7 @@
             "value": "{border.width.base.value}",
             "type": "space",
             "attributes": {
+              "excludeFromUI": true,
               "subtype": "border-width",
               "description": "Controls the border width of card footers.<br>CSS variable: --wm-card-footer-border-width"
             }
@@ -143,6 +145,7 @@
             "value": "{border.style.base.value}",
             "type": "radius",
             "attributes": {
+              "excludeFromUI": true,
               "subtype": "border-style",
               "description": "Controls the border style of card footers. Acceptable values: solid, dashed, dotted, none.<br>CSS variable: --wm-card-footer-border-style"
             }
@@ -151,6 +154,7 @@
             "value": "{color.outline.variant.value}",
             "type": "color",
             "attributes": {
+              "excludeFromUI": true,
               "subtype": "color",
               "description": "Sets the border color of card footers.<br>CSS variable: --wm-card-footer-border-color"
             }
@@ -276,12 +280,10 @@
             }
           },
           "shadow": {
-            "@": {
               "value": "none",
               "type": "radius",
               "attributes": {
                 "subtype": "elevation"
-              }
             }
           },
           "states": {
@@ -328,13 +330,11 @@
             }
           },
           "shadow": {
-            "@": {
               "value": "{elevation.shadow.1.value}",
               "type": "radius",
               "attributes": {
                 "subtype": "elevation"
               }
-            }
           },
           "states": {
             "hover": {

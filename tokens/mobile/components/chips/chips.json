@@ -13,7 +13,7 @@
           },
           "active": {
             "selector": {
-              "mobile": "-active-item, .app-chips-active-item-text"
+              "mobile": "-active-item, .app-chips-active-item-text, .app-chips-active-left-badge, .app-chips-active-right-badge, .app-chips-active-left-icon, .app-chips-active-right-icon"
             }
           }
         }
@@ -79,36 +79,12 @@
             "description": "Controls the horizontal spacing between individual chip items (the small pill-shaped elements) within the chips container. This creates visual separation between each chip so users can easily distinguish between them.<br>CSS variable: --wm-chips-list-gap"
           }
         },
-        "padding-top": {
+        "padding": {
           "value": "{space.2.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the internal spacing (padding) at the top of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-top"
-          }
-        },
-        "padding-bottom": {
-          "value": "{space.2.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) at the bottom of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-bottom"
-          }
-        },
-        "padding-left": {
-          "value": "{space.2.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) on the left side of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-left"
-          }
-        },
-        "padding-right": {
-          "value": "{space.2.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) on the right side of the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside.<br>CSS variable: --wm-chips-list-padding-right"
+            "description": "Controls the padding (all sides) inside the chips container (the wrapper that holds all chips and the input field). This creates breathing room between the container border and the chips/input inside. Acceptable units: px.<br>CSS variable: --wm-chips-list-padding"
           }
         },
         "background-color": {
@@ -175,40 +151,26 @@
         }
       },
       "input": {
-        "padding-top": {
-          "value": "{space.2.value}",
+        "padding": {
+          "value": "{space.2.value} {space.3.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the internal spacing (padding) at the top of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-top"
-          }
-        },
-        "padding-bottom": {
-          "value": "{space.2.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) at the bottom of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-bottom"
-          }
-        },
-        "padding-left": {
-          "value": "{space.3.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) on the left side of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-left"
-          }
-        },
-        "padding-right": {
-          "value": "{space.3.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) on the right side of the input field where users type to add new chips. This creates breathing room between the input text and the input field border.<br>CSS variable: --wm-chips-input-padding-right"
+            "description": "Controls the padding (top/bottom, left/right) inside the input field where users type to add new chips. This creates breathing room around the input text. Acceptable units: px.<br>CSS variable: --wm-chips-input-padding"
           }
         }
       },
       "item": {
+        "text": {
+          "padding": {
+            "value": "0px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the padding of chip item label text (.app-chips-item-text).<br>CSS variable: --wm-chips-item-text-padding"
+            }
+          }
+        },
         "height": {
           "value": "32px",
           "type": "space",
@@ -217,36 +179,12 @@
             "description": "Controls the height of individual chip items (the small pill-shaped elements). This determines how tall each chip appears visually. Acceptable units: px.<br>CSS variable: --wm-chips-item-height"
           }
         },
-        "padding-top": {
-          "value": "{space.1.value}",
+        "padding": {
+          "value": "{space.1.value} {space.3.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the internal spacing (padding) at the top of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-top"
-          }
-        },
-        "padding-bottom": {
-          "value": "{space.1.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) at the bottom of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-bottom"
-          }
-        },
-        "padding-left": {
-          "value": "{space.3.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) on the left side of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-left"
-          }
-        },
-        "padding-right": {
-          "value": "{space.3.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing (padding) on the right side of each chip item. This creates breathing room between the chip text/icon and the chip border.<br>CSS variable: --wm-chips-item-padding-right"
+            "description": "Controls the padding (top/bottom, left/right) of each chip item. This creates breathing room between the chip text/icon and the chip border. Acceptable units: px.<br>CSS variable: --wm-chips-item-padding"
           }
         },
         "gap": {
@@ -366,6 +304,66 @@
             "attributes": {
               "subtype": "radius",
               "description": "Controls the corner rounding of user avatars inside chip items. When set to pill, avatars appear as perfect circles. Other values create rounded rectangles.<br>CSS variable: --wm-chips-item-avatar-radius"
+            }
+          }
+        }
+      },
+      "left-icon": {
+        "padding": {
+          "value": "{space.0.value} 2px {space.0.value} {space.0.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding of the left icon on chip items (.app-chips-left-icon, .app-chips-active-left-icon).<br>CSS variable: --wm-chips-left-icon-padding"
+          }
+        },
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the left icon on chip items (.app-chips-left-icon, .app-chips-active-left-icon).<br>CSS variable: --wm-chips-left-icon-color"
+          }
+        }
+      },
+      "right-icon": {
+        "color": {
+          "value": "{color.on-surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the color of the right icon on chip items (.app-chips-right-icon, .app-chips-active-right-icon).<br>CSS variable: --wm-chips-right-icon-color"
+          }
+        }
+      },
+      "left-badge": {
+        "text": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the left badge on chip items (.app-chips-left-badge, .app-chips-active-left-badge).<br>CSS variable: --wm-chips-left-badge-text-color"
+            }
+          }
+        }
+      },
+      "right-badge": {
+        "text": {
+          "color": {
+            "value": "{color.on-surface.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the text color of the right badge on chip items (.app-chips-right-badge, .app-chips-active-right-badge).<br>CSS variable: --wm-chips-right-badge-text-color"
+            }
+          },
+          "margin-top": {
+            "value": "0px",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the top margin of the right badge text on chip items (.app-chips-right-badge, .app-chips-active-right-badge).<br>CSS variable: --wm-chips-right-badge-text-margin-top"
             }
           }
         }

@@ -7,6 +7,12 @@
           "subtype": "border-style"
         }
       },
+      "none": {
+        "value": "none",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
       "solid": {
         "value": "solid",
         "attributes": {
@@ -21,6 +27,42 @@
       },
       "dashed": {
         "value": "dashed",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "double": {
+        "value": "double",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "groove": {
+        "value": "groove",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "ridge": {
+        "value": "ridge",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "inset": {
+        "value": "inset",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "outset": {
+        "value": "outset",
+        "attributes": {
+          "subtype": "border-style"
+        }
+      },
+      "hidden": {
+        "value": "hidden",
         "attributes": {
           "subtype": "border-style"
         }

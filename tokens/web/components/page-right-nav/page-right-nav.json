@@ -34,12 +34,12 @@
             "status": {
               "nav-drawer": {
                 "selector": {
-                  "web": ":has(.app-right-panel.app-nav-drawer.app-nav-full)"
+                  "web": ":has(.app-right-panel.app-nav-drawer)"
                 }
               },
               "nav-rail": {
                 "selector": {
-                  "web": ":has(.app-right-panel.app-nav-rail.app-nav-full)"
+                  "web": ":has(.app-right-panel.app-nav-rail)"
                 }
               }
             }
@@ -55,12 +55,12 @@
             "status": {
               "nav-drawer": {
                 "selector": {
-                  "web": ":has(.app-right-panel.app-nav-drawer.app-nav-clipped)"
+                  "web": ":has(.app-right-panel.app-nav-drawer)"
                 }
               },
               "nav-rail": {
                 "selector": {
-                  "web": ":has(.app-right-panel.app-nav-rail.app-nav-clipped)"
+                  "web": ":has(.app-right-panel.app-nav-rail)"
                 }
               }
             }

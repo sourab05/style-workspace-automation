@@ -7,6 +7,7 @@ This table lists all tokens for this component:
 | Token | Description |
 |-------|------------|
 | gap | Controls the horizontal spacing between the checkbox box (the square input element) and the label text. This creates visual separation so users can easily distinguish between the clickable checkbox and its descriptive text.<br>CSS variable: --wm-checkbox-gap |
+| caption.color | Controls the color of the checkbox label text.<br>CSS variable: --wm-checkbox-caption-color |
 | caption.font-size | Controls the size of the checkbox label text (the descriptive text that appears next to the checkbox). This text explains what the checkbox option represents, such as 'I agree to terms' or 'Subscribe to newsletter'.<br>CSS variable: --wm-checkbox-caption-font-size |
 | caption.font-family | Sets the font family (typeface) for the checkbox label text. This determines the visual style of the text that describes what the checkbox option represents.<br>CSS variable: --wm-checkbox-caption-font-family |
 | caption.font-weight | Controls the thickness/boldness of the checkbox label text. Acceptable values: normal, bold, 100-900. This affects how prominent the descriptive text appears next to the checkbox.<br>CSS variable: --wm-checkbox-caption-font-weight |

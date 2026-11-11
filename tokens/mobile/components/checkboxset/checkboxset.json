@@ -20,6 +20,14 @@
       }
     },
     "mapping": {
+      "gap": {
+        "value": "{space.1.value}",
+        "type": "space",
+        "attributes": {
+          "subtype": "space",
+          "description": "Controls the horizontal spacing between the checkbox box (the square input element) and its label text. This creates visual separation so users can easily distinguish between the clickable checkbox and its descriptive text.<br>CSS variable: --wm-checkboxset-gap"
+        }
+      },
       "height": {
         "value": "{space.6.value}",
         "type": "space",
@@ -104,7 +112,7 @@
       },
       "border": {
         "width": {
-          "value": "2",
+          "value": "2px",
           "type": "space",
           "attributes": {
             "subtype": "border-width",
@@ -166,21 +174,11 @@
           }
         },
         "padding": {
-          "left": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding of the checkbox set title area (the header section that appears above the checkbox options). This creates spacing on the left side of the title text.<br>CSS variable: --wm-checkboxset-title-padding-left"
-            }
-          },
-          "right": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the right padding of the checkbox set title area (the header section that appears above the checkbox options). This creates spacing on the right side of the title text.<br>CSS variable: --wm-checkboxset-title-padding-right"
-            }
+          "value": "{space.0.value} {space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top/bottom, left/right) of the checkbox set title area (the header section that appears above the checkbox options). Acceptable units: px.<br>CSS variable: --wm-checkboxset-title-padding"
           }
         }
       },

@@ -29,6 +29,12 @@
       "attributes": {
         "subtype": "box-shadow"
       }
+    },
+    "none": {
+      "value": "none",
+      "attributes": {
+        "subtype": "box-shadow"
+      }
     }
   }
 }

@@ -1,0 +1,521 @@
+{
+    "navitem": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-navitem"
+                },
+                "states": {
+                    "active": {
+                        "selector": {
+                            "mobile": "-active,.app-navitem-active.app-navitem-anchor"
+                        }
+                    }
+                }
+            }
+        },
+        "mapping": {
+            "background": {
+                "value": "{color.surface.container.lowest.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of navigation items (individual menu items in navigation menus). This is the main background color that appears behind each navigation item.<br>CSS variable: --wm-nav-item-background"
+                }
+            },
+            "font-size": {
+                "value": "{label.large.font-size.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "font-size",
+                    "description": "Controls the size of navigation item text (the text that appears in each navigation menu item). This affects how large the navigation text appears.<br>CSS variable: --wm-nav-item-font-size"
+                }
+            },
+            "font-family": {
+                "value": "{label.large.font-family.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "font-family",
+                    "description": "Sets the typeface (font style) for navigation item text. This determines whether the navigation text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-nav-item-font-family"
+                }
+            },
+            "font-weight": {
+                "value": "{font.weight.600.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "font-weight",
+                    "description": "Controls how thick or bold navigation item text appears. 'normal' makes it regular weight, 'bold' makes it thicker, and numbers (100-900) provide fine control over thickness.<br>CSS variable: --wm-nav-item-font-weight"
+                }
+            },
+            "line-height": {
+                "value": "{label.large.line-height.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "line-height",
+                    "description": "Controls the vertical spacing between lines when navigation item text wraps to multiple lines. This ensures proper spacing for the navigation text.<br>CSS variable: --wm-nav-item-line-height"
+                }
+            },
+            "letter-spacing": {
+                "value": "{label.large.letter-spacing.value}",
+                "type": "font",
+                "attributes": {
+                    "subtype": "letter-spacing",
+                    "description": "Controls the horizontal spacing between individual letters in navigation item text. Positive values spread letters apart, negative values bring them closer together.<br>CSS variable: --wm-nav-item-letter-spacing"
+                }
+            },
+            "color": {
+                "value": "{color.on-secondary.fixed.@.value}",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the text color of navigation items (individual menu items in navigation menus). This determines what color the navigation text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-nav-item-color"
+                }
+            },
+            "icon": {
+                "size": {
+                    "value": "{icon.size.@.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "icon-size",
+                        "description": "Controls the size of icons within navigation items. This ensures icons are appropriately sized relative to the navigation text for visual balance.<br>CSS variable: --wm-nav-item-icon-size"
+                    }
+                },
+                "color": {
+                    "value": "{color.on-secondary.container.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the icon color of navigation items (individual menu items in navigation menus). This determines what color the navigation icon appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-nav-item-icon-color"
+                    }
+                },
+                "padding": {
+                    "left": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the left padding of the icon in navigation items. This creates breathing room on the left side of the icon. Acceptable units: px.<br>CSS variable: --wm-nav-item-icon-padding-left"
+                        }
+                    },
+                    "right": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the right padding of the icon in navigation items. This creates breathing room on the right side of the icon. Acceptable units: px.<br>CSS variable: --wm-nav-item-icon-padding-right"
+                        }
+                    },
+                    "top": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top padding of the icon in navigation items. This creates breathing room on the top side of the icon. Acceptable units: px.<br>CSS variable: --wm-nav-item-icon-padding-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom padding of the icon in navigation items. This creates breathing room on the bottom side of the icon. Acceptable units: px.<br>CSS variable: --wm-nav-item-icon-padding-bottom"
+                        }
+                    }
+                }
+            },
+            "padding": {
+                "left": {
+                    "type": "space",
+                    "value": "{space.4.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the left padding (horizontal spacing) inside navigation items. This creates breathing room on the left side of the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-left"
+                    }
+                },
+                "right": {
+                    "type": "space",
+                    "value": "{space.4.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the right padding (horizontal spacing) inside navigation items. This creates breathing room on the right side of the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-right"
+                    }
+                },
+                "top": {
+                    "type": "space",
+                    "value": "{space.4.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the top padding (vertical spacing) inside navigation items. This creates breathing room above the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-top"
+                    }
+                },
+                "bottom": {
+                    "type": "space",
+                    "value": "{space.4.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the bottom padding (vertical spacing) inside navigation items. This creates breathing room below the navigation item content. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-bottom"
+                    }
+                }
+            },
+            "margin": {
+                "left": {
+                    "type": "space",
+                    "value": "{space.3.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the left margin (horizontal spacing) around navigation items. This creates spacing between the navigation item and the panel edges. Acceptable units: px.<br>CSS variable: --wm-nav-item-margin-left"
+                    }
+                },
+                "right": {
+                    "type": "space",
+                    "value": "{space.3.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the right margin (horizontal spacing) around navigation items. This creates spacing between the navigation item and the panel edges. Acceptable units: px.<br>CSS variable: --wm-nav-item-margin-right"
+                    }
+                },
+                "top": {
+                    "type": "space",
+                    "value": "{space.0.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the top margin (vertical spacing) around navigation items. This creates spacing above the navigation item. Acceptable units: px.<br>CSS variable: --wm-nav-item-margin-top"
+                    }
+                },
+                "bottom": {
+                    "type": "space",
+                    "value": "{space.0.value}",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the bottom margin (vertical spacing) around navigation items. This creates spacing below the navigation item. Acceptable units: px.<br>CSS variable: --wm-nav-item-margin-bottom"
+                    }
+                }
+            },
+            "border": {
+                "radius": {
+                    "value": "{radius.pill.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "radius",
+                        "description": "Controls the border radius of navigation items. This creates rounded corners for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-border-radius"
+                    }
+                }
+            },
+            "badge": {
+                "margin": {
+                    "left": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the left margin of the badge within navigation items. This creates spacing between the badge and the navigation text. Acceptable units: px.<br>CSS variable: --wm-nav-item-badge-margin-left"
+                        }
+                    },
+                    "right": {
+                        "value": "{space.1.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the right margin of the badge within navigation items. This creates spacing between the badge and the navigation text. Acceptable units: px.<br>CSS variable: --wm-nav-item-badge-margin-right"
+                        }
+                    },
+                    "top": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top margin of the badge within navigation items. This creates spacing above the badge. Acceptable units: px.<br>CSS variable: --wm-nav-item-badge-margin-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom margin of the badge within navigation items. This creates spacing below the badge. Acceptable units: px.<br>CSS variable: --wm-nav-item-badge-margin-bottom"
+                        }
+                    }
+                },
+                "background": {
+                    "value": "{color.secondary.fixed.dim.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the background color of the badge within navigation items. This is the background color for the badge element.<br>CSS variable: --wm-nav-item-badge-background"
+                    }
+                },
+                "text-align": {
+                    "value": "center",
+                    "type": "font",
+                    "attributes": {
+                        "description": "Sets the horizontal alignment of text within navigation items. This controls how the text is positioned horizontally within the navigation item.<br>CSS variable: --wm-nav-item-badge-text-align"
+                    }
+                },
+                "align-self": {
+                    "value": "unset",
+                    "type": "other",
+                    "attributes": {
+                        "subtype": "other",
+                        "description": "Sets the alignment of the navigation item along the cross axis. This controls how the item is aligned vertically within its container.<br>CSS variable: --wm-nav-item-badge-align-self"
+                    }
+                },
+                "font": {
+                    "size": {
+                        "value": "{label.large.font-size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Controls the size of navigation item badge text (the text that appears in each navigation menu item). This affects how large the navigation text appears.<br>CSS variable: --wm-nav-item-badge-font-size"
+                        }
+                    },
+                    "family": {
+                        "value": "{label.large.font-family.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-family",
+                            "description": "Sets the typeface (font style) for navigation item text. This determines whether the navigation text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-nav-item-font-family"
+                        }
+                    },
+                    "weight": {
+                        "value": "{font.weight.600.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-weight",
+                            "description": "Controls the weight of navigation item badge text (the text that appears in each navigation menu item). This affects how bold the navigation text appears.<br>CSS variable: --wm-nav-item-badge-font-weight"
+                        }
+                    }
+                },
+                "border": {
+                    "radius": {
+                        "value": "{radius.circle.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Controls the border radius of navigation items. This creates rounded corners for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-badge-border-radius"
+                        }
+                    }
+                },
+                "min": {
+                    "width": {
+                        "value": "{space.6.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the minimum width of navigation items. This creates a minimum width for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-min-width"
+                        }
+                    },
+                    "height": {
+                        "value": "{space.6.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the minimum height of navigation items. This creates a minimum height for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-min-height"
+                        }
+                    }
+                },
+                "line-height": {
+                    "value": "{space.6.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the line height of navigation items. This creates a line height for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-line-height"
+                    }
+                },
+                "color": {
+                    "value": "{color.on-secondary.fixed.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Controls the color of navigation items. This creates a color for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-color"
+                    }
+                }
+            },
+            "text": {
+                "decoration": {
+                    "value": "none",
+                    "type": "font",
+                    "attributes": {
+                        "subtype": "font",
+                        "description": "Controls the decoration of navigation items. This creates a decoration for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-text-decoration"
+                    }
+                },
+                "padding": {
+                    "left": {
+                        "value": "{space.2.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the left padding of navigation items. This creates a left padding for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-left"
+                        }
+                    },
+                    "right": {
+                        "value": "{space.2.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the right padding of navigation items. This creates a right padding for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-right"
+                        }
+                    },
+                    "top": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the top padding of navigation items. This creates a top padding for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-top"
+                        }
+                    },
+                    "bottom": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Controls the bottom padding of navigation items. This creates a bottom padding for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-padding-bottom"
+                        }
+                    }
+                },
+                "flex": {
+                    "value": "1",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the flex of navigation items. This creates a flex for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-text-flex"
+                    }
+                }
+            },
+            "child": {
+                "background": {
+                    "color": {
+                        "value": "{color.surface.container.lowest.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of the child navigation in navigation. This is the background color for the child navigation area.<br>CSS variable: --wm-nav-child-background"
+                        }
+                    }
+                },
+                "color": {
+                    "value": "{color.on-secondary.fixed.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of the child navigation in navigation. This is the color for the child navigation area.<br>CSS variable: --wm-nav-child-color"
+                    }
+                }
+            },
+            "caret": {
+                "color": {
+                    "value": "{color.on-secondary.fixed.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Sets the color of the caret in navigation. This is the color for the caret area.<br>CSS variable: --wm-nav-item-caret-color"
+                    }
+                }
+            },
+            "states": {
+                "active": {
+                    "color": {
+                        "value": "{color.on-secondary.fixed.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the text color of navigation items (individual menu items in navigation menus). This determines what color the navigation text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-nav-item-color"
+                        }
+                    },
+                    "icon": {
+                        "size": {
+                            "value": "{icon.size.@.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "icon-size",
+                                "description": "Controls the size of icons within navigation items. This ensures icons are appropriately sized relative to the navigation text for visual balance.<br>CSS variable: --wm-nav-item-icon-size"
+                            }
+                        },
+                        "color": {
+                            "value": "{color.on-secondary.container.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the icon color of navigation items (individual menu items in navigation menus). This determines what color the navigation icon appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-nav-item-icon-color"
+                            }
+                        }
+                    },
+                    "border": {
+                        "radius": {
+                            "value": "{radius.pill.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Controls the border radius of navigation items. This creates rounded corners for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-border-radius"
+                            }
+                        }
+                    },
+                    "background": {
+                        "value": "{color.secondary.fixed.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Sets the background color of navigation items (individual menu items in navigation menus). This determines what color the navigation background appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-nav-item-background"
+                        }
+                    },
+                    "badge": {
+                        "font": {
+                            "size": {
+                                "value": "{label.large.font-size.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "font-size",
+                                    "description": "Controls the size of navigation item badge text (the text that appears in each navigation menu item). This affects how large the navigation text appears.<br>CSS variable: --wm-nav-item-badge-font-size"
+                                }
+                            },
+                            "family": {
+                                "value": "{label.large.font-family.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "font-family",
+                                    "description": "Sets the typeface (font style) for navigation item text. This determines whether the navigation text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-nav-item-font-family"
+                                }
+                            },
+                            "weight": {
+                                "value": "{font.weight.600.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "font-weight",
+                                    "description": "Controls the weight of navigation item badge text (the text that appears in each navigation menu item). This affects how bold the navigation text appears.<br>CSS variable: --wm-nav-item-badge-font-weight"
+                                }
+                            }
+                        },
+                        "border": {
+                            "radius": {
+                                "value": "{radius.circle.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "radius",
+                                    "description": "Controls the border radius of navigation items. This creates rounded corners for the navigation item container. Acceptable units: px.<br>CSS variable: --wm-nav-item-badge-border-radius"
+                                }
+                            }
+                        },
+                        "background": {
+                            "value": "{color.secondary.fixed.dim.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the background color of the badge within navigation items. This is the background color for the badge element.<br>CSS variable: --wm-nav-item-badge-background"
+                            }
+                        }
+                    },
+                    "caret": {
+                        "color": {
+                            "value": "{color.on-secondary.fixed.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Sets the color of the caret in navigation. This is the color for the caret area.<br>CSS variable: --wm-nav-item-caret-color"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,8 +6,6 @@ This table lists all tokens for this component:
 
 | Token | Description |
 |-------|------------|
-| min-width | Controls the minimum width of popover components (small overlay windows that appear when users hover or click on elements). This ensures the popover is always wide enough to be visible and properly displayed.<br>CSS variable: --wm-popover-min-width |
-| min-height | Controls the minimum height of popover components (small overlay windows that appear when users hover or click on elements). This ensures the popover is always tall enough to be visible and properly displayed.<br>CSS variable: --wm-popover-min-height |
 | z-index | Controls the stacking order of popover components (small overlay windows that appear when users hover or click on elements). Higher values make the popover appear above other elements, ensuring it's visible on top of all other content.<br>CSS variable: --wm-popover-z-index |
 | gap | Controls the spacing between popover components and their trigger elements (the elements that cause the popover to appear). This creates visual separation between the popover and the element that triggered it.<br>CSS variable: --wm-popover-gap |
 | margin | Controls the margin around popover components (small overlay windows that appear when users hover or click on elements). This creates space between the popover and the edges of the screen or other elements.<br>CSS variable: --wm-popover-margin |
@@ -16,6 +14,9 @@ This table lists all tokens for this component:
 | color | Sets the text color of popover components (small overlay windows that appear when users hover or click on elements). This determines what color the popover text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-popover-color |
 | shadow | Controls the drop shadow effect around popover components (small overlay windows that appear when users hover or click on elements). This creates a subtle shadow that makes the popover appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-popover-shadow |
 | radius | Controls the corner rounding of popover components (small overlay windows that appear when users hover or click on elements). This makes the popover appear with rounded corners for a softer appearance.<br>CSS variable: --wm-popover-radius |
+| border.color | Sets the border color.<br>CSS variable: --wm-popover-border-color |
+| border.width | Controls the border thickness.<br>CSS variable: --wm-popover-border-width |
+| border.style | Sets the border style. Acceptable values: solid, dashed, dotted, double, groove, ridge, inset, outset, none.<br>CSS variable: --wm-popover-border-style |
 | header.padding | Controls the internal spacing inside popover headers (the top section of popover windows that contains the title). This creates breathing room around the popover header content.<br>CSS variable: --wm-popover-header-padding |
 | header.color | Sets the text color of popover headers (the top section of popover windows that contains the title). This determines what color the header text appears in, which should contrast well with the background for readability.<br>CSS variable: --wm-popover-header-color |
 | header.font-family | Sets the typeface (font style) for popover headers (the top section of popover windows that contains the title). This determines whether the header text appears in Arial, Times New Roman, or other font styles.<br>CSS variable: --wm-popover-header-font-family |

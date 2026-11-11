@@ -23,7 +23,7 @@
           },
           "error": {
             "selector": {
-              "web": ":has(.form-control.ng-touched.ng-invalid), .form-control.ng-touched.ng-invalid, .form-group .ng-touched.ng-invalid .form-control"
+              "web": ":has(.form-control.ng-touched.ng-invalid),:has(.input-group.ng-touched.ng-invalid), .form-control.ng-touched.ng-invalid,.form-group .ng-touched.ng-invalid .form-control,:has(.control-label.text-danger)"
             }
           }
         }
@@ -48,6 +48,15 @@
         "min-width": {
           "value": "320px",
           "type": "space"
+        }
+      },
+      "field":{
+         "padding": {
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space"
+          }
         }
       },
       "control": {
@@ -176,9 +185,33 @@
             "subtype": "letter-spacing",
             "description": "Controls the horizontal spacing between individual characters in form controls (input fields, text areas, select boxes, and other form elements). This can help make the form field text more readable and properly spaced.<br>CSS variable: --wm-form-control-letter-spacing"
           }
+        },
+        "leading-icon-position":{
+           "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal position of the leading icon inside form controls. This defines the spacing between the leading icon and the left edge of the form field.<br>CSS variable: --wm-form-control-leading-icon-position"
+          }
+        },
+         "trailing-icon-position":{
+           "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal position of the trailing icon inside form controls. This defines the spacing between the trailing icon and the right edge of the form field.<br>CSS variable: --wm-form-control-trailing-icon-position"
+          }
         }
       },
       "caption": {
+        "floating-position":{
+          "value": "{space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the horizontal offset of the floating label within form controls. This determines how far the floating label is positioned from the left edge of the form field.<br>CSS variable: --wm-form-control-floating-position"        
+          }
+        },
         "font": {
           "family": {
             "value": "{body.large.font-family.value}",
@@ -243,6 +276,14 @@
           "attributes": {
             "subtype": "space",
             "description": "Controls padding of form captions.<br>CSS variable: --wm-form-caption-padding"
+          }
+        },
+        "display": {
+          "value": "inline-block",
+          "type": "other",
+          "attributes": {
+            "subtype": "display",
+            "description": "Sets the display property of form captions.<br>CSS variable: --wm-form-caption-display"
           }
         },
         "gap": {
@@ -337,6 +378,14 @@
               "subtype": "letter-spacing",
               "description": "Controls spacing between characters in form help blocks.<br>CSS variable: --wm-form-help-block-letter-spacing"
             }
+          },
+          "position": {
+            "value": "{space.4.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "space",
+              "description": "Controls the position (offset spacing) of the help text within form help blocks. This defines how far the help text is positioned from the form control.<br>CSS variable: --wm-form-help-block-position"
+            }
           }
         }
       },
@@ -344,7 +393,7 @@
         "group": {
           "btn": {
             "width": {
-              "value": "{space.10.value}",
+              "value": "{space.7.value}",
               "type": "space",
               "attributes": {
                 "subtype": "space",

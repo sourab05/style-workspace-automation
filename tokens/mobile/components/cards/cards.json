@@ -10,14 +10,14 @@
     },
     "mapping": {
       "header": {
-        "padding": {
-          "value": "{space.2.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Sets the internal spacing inside the card header. This creates breathing room around the header content.<br>CSS variable: --wm-card-header-padding"
-          }
-        },
+            "padding": {
+              "value": "{space.2.value}",
+              "type": "space",
+              "attributes": {
+                "subtype": "space",
+                "description": "Controls the padding (all sides) inside the card header. This creates breathing room around the header content. Acceptable units: px.<br>CSS variable: --wm-card-header-padding"
+              }
+            },
         "width": {
           "value": "100%",
           "type": "space",

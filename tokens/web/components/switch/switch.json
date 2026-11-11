@@ -23,7 +23,7 @@
           },
           "active": {
             "selector": {
-              "web": " > .btn-group > .btn::active"
+              "web": " > .btn-group > .btn:active"
             }
           }
         }

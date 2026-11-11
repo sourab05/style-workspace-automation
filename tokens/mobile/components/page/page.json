@@ -1,0 +1,21 @@
+{
+    "page": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "mobile": ".app-page"
+                }
+            }
+        },
+        "mapping": {
+            "background": {
+                "value": "#eeeeee",
+                "type": "color",
+                "attributes": {
+                    "subtype": "color",
+                    "description": "Sets the background color of a page.<br>CSS variable: --wm-page-background"
+                }
+            }
+        }
+    }
+}

@@ -8,7 +8,7 @@
         "states": {
           "selected": {
             "selector": {
-              "mobile": "-btn-selected"
+              "mobile": "-btn-selected, .app-switch-btn-selected-text"
             }
           },
           "disabled": {
@@ -57,6 +57,16 @@
             }
           }
         },
+        "text": {
+          "transform": {
+            "value": "capitalize",
+            "type": "font",
+            "attributes": {
+              "subtype": "text-transform",
+              "description": "Controls text transformation for switch button text (the text content within clickable buttons). 'none' keeps the original case, 'uppercase' makes all text uppercase, 'lowercase' makes all text lowercase, and 'capitalize' capitalizes the first letter of each word.<br>CSS variable: --wm-switch-button-text-transform"
+            }
+          }
+        },
         "height": {
           "value": "{space.10.value}",
           "type": "space",
@@ -100,20 +110,28 @@
           }
         },
         "padding": {
-          "left": {
-            "value": "{space.4.value}",
+          "value": "{space.0.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top/bottom, left/right) inside switch buttons (the space between the button content and its border). This creates breathing room around the button text and icons. Acceptable units: px.<br>CSS variable: --wm-switch-button-padding"
+          }
+        },
+        "min-width": {
+          "value": "64px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the minimum width of each switch button (segment). Lower values let more segments fit side by side. Acceptable units: px.<br>CSS variable: --wm-switch-button-min-width"
+          }
+        },
+        "last": {
+          "border-right-width": {
+            "value": "1px",
             "type": "space",
             "attributes": {
               "subtype": "space",
-              "description": "Controls the internal spacing inside switch buttons (the space between the button content and its border). This creates breathing room around the button text and icons on the left side.<br>CSS variable: --wm-switch-button-padding-left"
-            }
-          },
-          "right": {
-            "value": "{space.4.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the internal spacing inside switch buttons (the space between the button content and its border). This creates breathing room around the button text and icons on the right side.<br>CSS variable: --wm-switch-button-padding-right"
+              "description": "Controls the right border width of the last switch button (segment), which closes the outline since the other segments have no right border. Acceptable units: px.<br>CSS variable: --wm-switch-button-last-border-right-width"
             }
           }
         },
@@ -158,6 +176,42 @@
                   "description": "Sets the border color of selected switch buttons. This maintains the border outline even when the button is selected, helping to maintain visual consistency with the overall switch component design.<br>CSS variable: --wm-switch-button-border-color (selected state)"
                 }
               }
+            },
+            "font": {
+              "size": {
+                "value": "{label.large.font-size.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-size",
+                  "description": "Controls the font size of switch button text. This affects how large the text appears on switch buttons. Acceptable units: px.<br>CSS variable: --wm-switch-button-font-size"
+                }
+              },
+              "family": {
+                "value": "{font.family.brand.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-family",
+                  "description": "Sets the font family of switch button text. This determines which font is used for the text on switch buttons.<br>CSS variable: --wm-switch-button-font-family"
+                }
+              },
+              "weight": {
+                "value": "{font.weight.500.value}",
+                "type": "font",
+                "attributes": {
+                  "subtype": "font-weight",
+                  "description": "Controls the font weight (boldness) of switch button text. This affects how bold the text appears on switch buttons.<br>CSS variable: --wm-switch-button-font-weight"
+                }
+              }
+            },
+            "text": {
+              "transform": {
+                "value": "capitalize",
+                "type": "font",
+                "attributes": {
+                  "subtype": "text-transform",
+                  "description": "Controls text transformation for switch button text (the text content within clickable buttons). 'none' keeps the original case, 'uppercase' makes all text uppercase, 'lowercase' makes all text lowercase, and 'capitalize' capitalizes the first letter of each word.<br>CSS variable: --wm-switch-button-text-transform"
+                }
+              }
             }
           }
         },
@@ -171,7 +225,6 @@
             }
           }
         }
-
       }
     }
   }

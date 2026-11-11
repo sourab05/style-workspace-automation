@@ -88,37 +88,11 @@
           }
         },
         "padding": {
-          "top": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the top padding (vertical spacing) of search input text. This creates breathing room at the top of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-top"
-            }
-          },
-          "bottom": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the bottom padding (vertical spacing) of search input text. This creates breathing room at the bottom of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-bottom"
-            }
-          },
-          "left": {
-            "value": "{space.6.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding (horizontal spacing) of search input text. This creates breathing room on the left side of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-left"
-            }
-          },
-          "right": {
-            "value": "{space.3.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the right padding (horizontal spacing) of search input text. This creates breathing room on the right side of the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding-right"
-            }
+          "value": "{space.2.value} {space.3.value} {space.2.value} {space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top, right, bottom, left) of search input text. This creates breathing room inside the search input field. Acceptable units: px.<br>CSS variable: --wm-search-text-padding"
           }
         }
       },
@@ -216,6 +190,22 @@
               "description": "Sets the ripple effect color of search buttons (the visual feedback when buttons are pressed). This determines what color the ripple effect appears in when the search button is clicked.<br>CSS variable: --wm-search-btn-ripple-color"
             }
           }
+        },
+        "padding": {
+          "value": "{space.0.value} {space.6.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top/bottom, left/right) of search button. Acceptable units: px.<br>CSS variable: --wm-search-btn-padding"
+          }
+        },
+        "width": {
+          "value": "auto",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of search button. Acceptable units: px.<br>CSS variable: --wm-search-btn-width"
+          }
         }
       },
       "placeholder": {
@@ -236,41 +226,15 @@
           "type": "color",
           "attributes": {
             "subtype": "color",
-            "description": "Sets the background color of search autocomplete items (suggestions that appear in the dropdown). This determines what color the background of autocomplete items appears in.<br>CSS variable: --wm-search-data-complete-background"
+            "description": "Sets the background color of data complete message (which appears after the last item or when no results are found in suggestions). This determines what color the background of data complete message appears in.<br>CSS variable: --wm-search-data-complete-background"
           }
         },
         "padding": {
-          "top": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the top padding (vertical spacing) of search autocomplete items. This creates breathing room at the top of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-top"
-            }
-          },
-          "bottom": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the bottom padding (vertical spacing) of search autocomplete items. This creates breathing room at the bottom of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-bottom"
-            }
-          },
-          "left": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding (horizontal spacing) of search autocomplete items. This creates breathing room on the left side of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-left"
-            }
-          },
-          "right": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the right padding (horizontal spacing) of search autocomplete items. This creates breathing room on the right side of autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding-right"
-            }
+          "value": "{space.2.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (all sides) of search data complete message (which appears after the last item or when no results are found in suggestions). Acceptable units: px.<br>CSS variable: --wm-search-data-complete-padding"
           }
         },
         "text": {
@@ -279,7 +243,7 @@
             "type": "color",
             "attributes": {
               "subtype": "color",
-              "description": "Sets the text color of search autocomplete items. This determines what color the text in autocomplete items appears in.<br>CSS variable: --wm-search-data-complete-text-color"
+              "description": "Sets the text color of search data complete message (which appears after the last item or when no results are found in suggestions). This determines what color the text in autocomplete items appears in.<br>CSS variable: --wm-search-data-complete-text-color"
             }
           },
           "font": {
@@ -288,7 +252,7 @@
               "type": "font",
               "attributes": {
                 "subtype": "font-size",
-                "description": "Controls the font size of search autocomplete item text. This affects how large the text appears in autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-text-font-size"
+                "description": "Controls the font size of search data complete message text (which appears after the last item or when no results are found in suggestions). This affects how large the text appears in autocomplete items. Acceptable units: px.<br>CSS variable: --wm-search-data-complete-text-font-size"
               }
             },
             "family": {
@@ -296,7 +260,7 @@
               "type": "font",
               "attributes": {
                 "subtype": "font-family",
-                "description": "Sets the font family of search autocomplete item text. This determines which font is used for the text in autocomplete items.<br>CSS variable: --wm-search-data-complete-text-font-family"
+                "description": "Sets the font family of search data complete message text (which appears after the last item or when no results are found in suggestions). This determines which font is used for the text in autocomplete items.<br>CSS variable: --wm-search-data-complete-text-font-family"
               }
             },
             "weight": {
@@ -304,7 +268,7 @@
               "type": "font",
               "attributes": {
                 "subtype": "font-weight",
-                "description": "Controls the font weight (boldness) of search autocomplete item text. This affects how bold the text appears in autocomplete items.<br>CSS variable: --wm-search-data-complete-text-font-weight"
+                "description": "Controls the font weight (boldness) of search data complete message text (which appears after the last item or when no results are found in suggestions). This affects how bold the text appears in autocomplete items.<br>CSS variable: --wm-search-data-complete-text-font-weight"
               }
             }
           }
@@ -320,37 +284,11 @@
           }
         },
         "padding": {
-          "top": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the top padding (vertical spacing) of search result items. This creates breathing room at the top of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-top"
-            }
-          },
-          "bottom": {
-            "value": "{space.2.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the bottom padding (vertical spacing) of search result items. This creates breathing room at the bottom of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-bottom"
-            }
-          },
-          "left": {
-            "value": "{space.4.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the left padding (horizontal spacing) of search result items. This creates breathing room on the left side of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-left"
-            }
-          },
-          "right": {
-            "value": "{space.4.value}",
-            "type": "space",
-            "attributes": {
-              "subtype": "space",
-              "description": "Controls the right padding (horizontal spacing) of search result items. This creates breathing room on the right side of search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding-right"
-            }
+          "value": "{space.2.value} {space.4.value}",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the padding (top/bottom, left/right) of search result items. This creates breathing room inside search result items. Acceptable units: px.<br>CSS variable: --wm-search-item-padding"
           }
         },
         "separator": {
@@ -405,6 +343,62 @@
                 "description": "Controls the font weight (boldness) of search result item text. This affects how bold the text appears in search result items.<br>CSS variable: --wm-search-item-text-font-weight"
               }
             }
+          }
+        }
+      },
+      "clear-btn":{
+        "icon":{
+          "color":{
+            "value":"{color.on-surface.@.value}",
+            "type":"color",
+            "attributes":{
+              "subtype":"color",
+              "description":"Sets the color of search clear button icons. This determines what color the clear button icons appear in.<br>CSS variable: --wm-search-clear-btn-icon-color"
+            }
+          },
+          "size":{
+            "value":"{icon.size.@.value}",
+            "type":"space",
+            "attributes":{
+              "subtype":"icon-size",
+              "description":"Controls the size of search clear button icons. This affects how large the clear button icons appear. Acceptable units: px.<br>CSS variable: --wm-search-clear-btn-icon-size"
+            }
+          }
+        },
+        "padding":{
+          "value":"{space.0.value}",
+          "type":"space",
+          "attributes":{
+            "subtype":"space",
+            "description":"Controls the padding (all sides) of search clear button. This creates breathing room inside the clear button. Acceptable units: px.<br>CSS variable: --wm-search-clear-btn-padding"
+          }
+        },
+        "border":{
+          "radius":{
+            "value":"{radius.sm.value}",
+            "type":"radius",
+            "attributes":{
+              "subtype":"radius",
+              "description":"Controls the border radius of search clear button. This determines the roundness of the corners of the clear button. Acceptable units: px.<br>CSS variable: --wm-search-clear-btn-border-radius"
+            }
+          }
+        },
+        "background":{
+          "color":{
+            "value":"{color.transparent.@.value}",
+            "type":"color",
+            "attributes":{
+              "subtype":"color",
+              "description":"Sets the background color of search clear button. This determines the color of the clear button.<br>CSS variable: --wm-search-clear-btn-background-color"
+            }
+          }
+        },
+        "width":{
+          "value":"{space.9.value}",
+          "type":"space",
+          "attributes":{
+            "subtype":"space",
+            "description":"Controls the width of search clear button. This determines the width of the clear button. Acceptable units: px.<br>CSS variable: --wm-search-clear-btn-width"
           }
         }
       }

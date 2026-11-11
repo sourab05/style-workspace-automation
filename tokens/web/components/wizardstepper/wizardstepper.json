@@ -1,0 +1,1796 @@
+{
+    "wizardstepper": {
+        "meta": {
+            "mapping": {
+                "selector": {
+                    "web": ".app-wizardstepper"
+                },
+                "states": {
+                    "active": {
+                        "selector": {
+                            "web": " .app-wizard-step.active"
+                        }
+                    },
+                    "finished": {
+                        "selector": {
+                            "web": " .app-wizard-step.finished"
+                        }
+                    },
+                    "default": {
+                        "selector": {
+                            "web": " .app-wizard-step.default"
+                        }
+                    }
+                }
+            },
+            "appearances": {
+                "number": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-number"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            },
+                            "vertical": {
+                                "selector": {
+                                    "web": ".wizardstepper-vertical"
+                                }
+                            }
+                        }
+                    }
+                },
+                "iconstepper": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-iconstepper"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            },
+                            "vertical": {
+                                "selector": {
+                                    "web": ".wizardstepper-vertical"
+                                }
+                            }
+                        }
+                    }
+                },
+                "iconstepper-textinline": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-iconstepper-text-inline"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            },
+                            "vertical": {
+                                "selector": {
+                                    "web": ".wizardstepper-vertical"
+                                }
+                            }
+                        }
+                    }
+                },
+                "dottedstepper": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-dottedstepper"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            },
+                            "vertical": {
+                                "selector": {
+                                    "web": ".wizardstepper-vertical"
+                                }
+                            }
+                        }
+                    }
+                },
+                "dottedstepper-textinline": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-dottedstepper-text-inline"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            },
+                            "vertical": {
+                                "selector": {
+                                    "web": ".wizardstepper-vertical"
+                                }
+                            }
+                        }
+                    }
+                },
+                "classic": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-classic"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tabstepper": {
+                    "mapping": {
+                        "selector": {
+                            "web": ".wizard-tabstepper"
+                        }
+                    },
+                    "variantGroups": {
+                        "orientation": {
+                            "horizontal": {
+                                "selector": {
+                                    "web": ".wizardstepper-horizontal"
+                                }
+                            },
+                            "vertical": {
+                                "selector": {
+                                    "web": ".wizardstepper-vertical"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "mapping": {
+            "heading": {
+                "background": {
+                    "value": "{color.surface.bright.@.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Background of the top bar where steps and progress live. A different tone from the body helps users see navigation vs. form content.<br>CSS variable: --wm-wizard-heading-background"
+                    }
+                },
+                "border": {
+                    "width": {
+                        "value": "{border.width.0.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-width",
+                            "description": "Thickness of the border around the header. Use it to draw a clear line between the step rail and the content below.<br>CSS variable: --wm-wizard-heading-border-width"
+                        }
+                    },
+                    "style": {
+                        "value": "{border.style.none.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-style",
+                            "description": "Border style for the header region: none, solid, dashed, or dotted.<br>CSS variable: --wm-wizard-heading-border-style"
+                        }
+                    },
+                    "color": {
+                        "value": "{color.transparent.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Color of the header outline. Transparent keeps the header open; a contrast color separates it from the wizard body.<br>CSS variable: --wm-wizard-heading-border-color"
+                        }
+                    },
+                    "radius": {
+                        "value": "{radius.xs.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Corner rounding for the header. Align with the main wizard radius so the top and body feel like one component.<br>CSS variable: --wm-wizard-heading-border-radius"
+                        }
+                    }
+                },
+                "padding": {
+                    "value": "{space.7.value} {space.0.value} {space.7.value}  {space.7.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Padding inside the header around steps and labels. Increase on small screens so tap targets and text stay comfortable.<br>CSS variable: --wm-wizard-heading-padding"
+                    }
+                },
+                "box-shadow": {
+                    "value": "{elevation.shadow.none.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "elevation",
+                        "description": "Shadow on the header only—adds depth under the progress area without lifting the whole wizard.<br>CSS variable: --wm-wizard-heading-box-shadow"
+                    }
+                },
+                "width": {
+                    "value": "auto",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Base header width; only meaningful in vertical orientation, which overrides this per appearance. Horizontal appearances never reference this var.<br>CSS variable: --wm-wizardstepper-heading-width"
+                    }
+                },
+                "height": {
+                    "value": "auto",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Base header height; only meaningful in vertical orientation, which overrides this per appearance. Horizontal appearances never reference this var.<br>CSS variable: --wm-wizardstepper-heading-height"
+                    }
+                },
+                "display": {
+                    "value": "block",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "display",
+                        "description": "How the header lays out: block stacks rows; flex lines up step navigation for horizontal scanning.<br>CSS variable: --wm-wizard-heading-display"
+                    }
+                },
+                "justify-content": {
+                    "value": "space-between",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "How steps spread in the header: space-between balances few or many steps; flex-start, center, or flex-end pin the rail left, middle, or right for your layout.<br>CSS variable: --wm-wizard-heading-justify-content"
+                    }
+                }
+            },
+            "step": {
+                "container": {
+                    "gap": {
+                        "value": "{space.2.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Space between the step marker, title, and helper text within each step. Clear spacing makes each step quicker to scan.<br>CSS variable: --wm-wizard-step-gap"
+                        }
+                    },
+                    "background": {
+                        "value": "{color.transparent.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Background of the step navigation track—the band behind connectors and markers. Tints that rail separately from the rest of the header when you want a stronger progress strip.<br>CSS variable: --wm-wizard-step-connector-background"
+                        }
+                    },
+                    "border": {
+                        "color": {
+                            "value": "{color.transparent.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Border color around each step row in the navigation. Subtle lines separate steps; transparent keeps the rail minimal.<br>CSS variable: --wm-wizard-step-border-color"
+                            }
+                        },
+                        "width": {
+                            "value": "{border.width.0.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "border-width",
+                                "description": "How strong the outline is around each step row. Thicker borders emphasize individual steps.<br>CSS variable: --wm-wizard-step-border-width"
+                            }
+                        },
+                        "style": {
+                            "value": "{border.style.solid.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "border-style",
+                                "description": "Line style for step rows: solid, dashed, dotted, or none, plus other standard CSS border styles.<br>CSS variable: --wm-wizard-step-border-style"
+                            }
+                        },
+                        "radius": {
+                            "value": "{radius.none.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Corner rounding for each step row. Pills or chips make tabs and stacked steps feel tappable and friendly.<br>CSS variable: --wm-wizard-step-border-radius"
+                            }
+                        }
+                    },
+                    "padding": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Padding inside each step row so labels and markers aren't flush against the edges.<br>CSS variable: --wm-wizard-step-padding"
+                        }
+                    },
+                    "box-shadow": {
+                        "value": "{elevation.shadow.none.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "elevation",
+                            "description": "Shadow on individual step rows. Use sparingly to lift the active or hovered step without cluttering the rail.<br>CSS variable: --wm-wizard-step-box-shadow"
+                        }
+                    },
+                    "justify-content": {
+                        "value": "center",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "How the steps are aligned along the step strip: center, flex-start, flex-end, space-between. Prefix with safe (e.g. safe center) to keep the first step visible when the strip overflows.<br>CSS variable: --wm-wizardstepper-step-container-justify-content"
+                        }
+                    }
+                },
+                "connector": {
+                    "height": {
+                        "value": "100%",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Length of the connector lines along the step strip: the line's height in a vertical stepper, its width in a horizontal one. Use px, em, rem, or %.<br>CSS variable: --wm-wizardstepper-step-connector-height"
+                        }
+                    },
+                    "width": {
+                        "value": "{border.width.base.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-width",
+                            "description": "Thickness of the connector lines, in both orientations. Tied to theme border width so the progress path matches other outlines. states.active / states.finished may override it; the value styles the line after that step.<br>CSS variable: --wm-wizardstepper-step-connector-width"
+                        }
+                    },
+                    "style": {
+                        "value": "{border.style.solid.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-style",
+                            "description": "Line style between markers: solid for a steady path, dashed or dotted for a lighter guide, none to hide connectors. states.active / states.finished may override it; the value styles the line after that step.<br>CSS variable: --wm-wizardstepper-step-connector-style"
+                        }
+                    },
+                    "color": {
+                        "value": "{color.outline.variant.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Color of the lines between steps. Should stay visible but quieter than active markers so progress is easy to follow. states.active / states.finished may override it; the value styles the line after that step.<br>CSS variable: --wm-wizardstepper-step-connector-color"
+                        }
+                    },
+                    "placement": {
+                        "value": "0px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Offset of the connector line: its top offset in a horizontal stepper, its left offset in a vertical one.<br>CSS variable: --wm-wizardstepper-step-connector-placement"
+                        }
+                    },
+                    "gap": {
+                        "value": "{space.2.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Space between a step and its connector line (step.gap spaces the marker and the title inside a step).<br>CSS variable: --wm-wizardstepper-step-connector-gap"
+                        }
+                    },
+                    "display": {
+                        "value": "block",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "display",
+                            "description": "Whether connector lines are drawn: block shows them, none hides them and frees their space.<br>CSS variable: --wm-wizardstepper-step-connector-display"
+                        }
+                    }
+                },
+                "indicator": {
+                    "size": {
+                        "value": "33px",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "icon-size",
+                            "description": "Size of each step marker (number, dot, or icon). Larger targets are easier to see and align with touch-friendly layouts. Use px, em, or rem.<br>CSS variable: --wm-wizard-step-indicator-size"
+                        }
+                    },
+                    "background": {
+                        "value": "{color.transparent.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Fill behind each step marker. A solid fill helps the current and completed steps stand out; transparent keeps the rail minimal.<br>CSS variable: --wm-wizard-step-indicator-background"
+                        }
+                    },
+                    "border": {
+                        "width": {
+                            "value": "{border.width.2.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "border-width",
+                                "description": "Ring thickness around each marker. Stronger rings make inactive steps easier to spot at a glance.<br>CSS variable: --wm-wizard-step-indicator-border-width"
+                            }
+                        },
+                        "style": {
+                            "value": "{border.style.base.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "border-style",
+                                "description": "Border style around markers: solid, dashed, dotted, or none.<br>CSS variable: --wm-wizard-step-indicator-border-style"
+                            }
+                        },
+                        "color": {
+                            "value": "{color.outline.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Outline color for step markers. Use contrast for clarity and to meet focus-state expectations.<br>CSS variable: --wm-wizard-step-indicator-border-color"
+                            }
+                        },
+                        "radius": {
+                            "value": "{radius.circle.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "radius",
+                                "description": "Shape of markers—fully rounded reads as chips or pills; smaller radius reads as squares with soft corners.<br>CSS variable: --wm-wizard-step-indicator-border-radius"
+                            }
+                        }
+                    },
+                    "box-shadow": {
+                        "value": "{elevation.shadow.none.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "elevation",
+                            "description": "Shadow on markers. Light elevation can highlight the current step without overpowering labels.<br>CSS variable: --wm-wizard-step-indicator-box-shadow"
+                        }
+                    },
+                    "padding": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Space inside the marker around numbers or icons so glyphs don't touch the ring.<br>CSS variable: --wm-wizard-step-indicator-padding"
+                        }
+                    }
+                },
+                "title": {
+                    "color": {
+                        "value": "{color.on-surface.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Color of each step's primary label in the navigation. Strong contrast helps users see where they are in the flow.<br>CSS variable: --wm-wizard-step-title-color"
+                        }
+                    },
+                    "height": {
+                        "value": "auto",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Base title-label height; only meaningful for the classic appearance, which overrides this. Other appearances never reference this var.<br>CSS variable: --wm-wizardstepper-step-title-height"
+                        }
+                    },
+                    "background": {
+                        "value": "{color.transparent.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Base title-label background; only meaningful for the classic appearance, which overrides this. Other appearances never reference this var.<br>CSS variable: --wm-wizardstepper-step-title-background"
+                        }
+                    },
+                    "font": {
+                        "family": {
+                            "value": "{label.large.font-family.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-family",
+                                "description": "Font for step labels next to markers. Use your theme's heading or label family so the wizard matches the rest of the app.<br>CSS variable: --wm-wizard-step-title-font-family"
+                            }
+                        },
+                        "weight": {
+                            "value": "{font.weight.400.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-weight",
+                                "description": "Weight of step labels. Bolder text emphasizes the current step; lighter weight keeps long titles calmer.<br>CSS variable: --wm-wizard-step-title-font-weight"
+                            }
+                        },
+                        "size": {
+                            "value": "{label.large.font-size.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-size",
+                                "description": "Size of step labels. Larger type improves scan distance; smaller type fits more steps on one row.<br>CSS variable: --wm-wizard-step-title-font-size"
+                            }
+                        }
+                    },
+                    "line-height": {
+                        "value": "{label.large.line-height.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "line-height",
+                            "description": "Line height when step labels wrap. Generous leading keeps multi-line titles readable in the rail.<br>CSS variable: --wm-wizard-step-title-line-height"
+                        }
+                    },
+                    "letter-spacing": {
+                        "value": "{label.large.letter-spacing.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "letter-spacing",
+                            "description": "Letter spacing for step labels. Slight tracking can improve all-caps or short titles in narrow layouts.<br>CSS variable: --wm-wizard-step-title-letter-spacing"
+                        }
+                    },
+                    "padding": {
+                        "value": "{space.0.value}",
+                        "type": "space",
+                        "attributes": {
+                            "subtype": "space",
+                            "description": "Padding around each step label. Adds space between text and markers or connectors for clearer tap and read targets.<br>CSS variable: --wm-wizard-step-title-padding"
+                        }
+                    }
+                },
+                "description": {
+                    "color": {
+                        "value": "{color.on-surface.variant.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Color of supporting text under each step name. Keep it slightly softer than the title so hierarchy stays clear.<br>CSS variable: --wm-wizard-step-description-color"
+                        }
+                    },
+                    "font": {
+                        "family": {
+                            "value": "{label.medium.font-family.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-family",
+                                "description": "Font for step helper text. Usually matches body or caption styles for a supportive, secondary feel.<br>CSS variable: --wm-wizard-step-description-font-family"
+                            }
+                        },
+                        "weight": {
+                            "value": "{font.weight.500.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-weight",
+                                "description": "Weight of helper text under each step. Medium weights can improve skim reading without competing with titles.<br>CSS variable: --wm-wizard-step-description-font-weight"
+                            }
+                        },
+                        "size": {
+                            "value": "{label.medium.font-size.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-size",
+                                "description": "Size of helper text. Smaller than titles so users notice the step name first, then optional context.<br>CSS variable: --wm-wizard-step-description-font-size"
+                            }
+                        }
+                    },
+                    "line-height": {
+                        "value": "{label.medium.line-height.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "line-height",
+                            "description": "Line height for helper text. Extra leading helps two-line hints stay readable under tight step columns.<br>CSS variable: --wm-wizard-step-description-line-height"
+                        }
+                    },
+                    "letter-spacing": {
+                        "value": "{label.medium.letter-spacing.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "letter-spacing",
+                            "description": "Letter spacing for helper text. Subtle tracking improves dense captions in the step rail.<br>CSS variable: --wm-wizard-step-description-letter-spacing"
+                        }
+                    }
+                },
+                "icon": {
+                    "size": {
+                        "value": "{wizardstepper.mapping.step.title.font.size.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "font-size",
+                            "description": "Size of icons inside markers (checkmarks, arrows, etc.). Should feel balanced with step numbers and label text.<br>CSS variable: --wm-wizard-step-icon-font-size"
+                        }
+                    },
+                    "color": {
+                        "value": "{color.on-surface.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Color of icons inside markers (checkmarks, arrows, etc.). Should feel balanced with step numbers and label text.<br>CSS variable: --wm-wizard-step-icon-color"
+                        }
+                    }
+                },
+                "count": {
+                    "color": {
+                        "value": "{color.on-surface.@.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Color of numbers inside step markers (for example 1, 2, 3). Should stay readable on both default and filled marker backgrounds.<br>CSS variable: --wm-wizard-step-count-color"
+                        }
+                    },
+                    "font": {
+                        "family": {
+                            "value": "{label.large.font-family.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-family",
+                                "description": "Typeface for numbers inside markers. Match the theme's numeric or label style for a consistent look.<br>CSS variable: --wm-wizard-step-count-font-family"
+                            }
+                        },
+                        "weight": {
+                            "value": "{font.weight.400.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-weight",
+                                "description": "Weight of step numbers. Slightly bolder weights improve legibility at small sizes.<br>CSS variable: --wm-wizard-step-count-font-weight"
+                            }
+                        },
+                        "size": {
+                            "value": "{label.large.font-size.value}",
+                            "type": "font",
+                            "attributes": {
+                                "subtype": "font-size",
+                                "description": "Size of numbers inside markers. Scale with indicator size so digits stay centered and easy to read.<br>CSS variable: --wm-wizard-step-count-font-size"
+                            }
+                        }
+                    },
+                    "line-height": {
+                        "value": "{label.large.line-height.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "line-height",
+                            "description": "Line height for step numbers if they wrap. Keeps multi-digit or localized labels from clipping.<br>CSS variable: --wm-wizard-step-count-line-height"
+                        }
+                    },
+                    "letter-spacing": {
+                        "value": "{label.large.letter-spacing.value}",
+                        "type": "font",
+                        "attributes": {
+                            "subtype": "letter-spacing",
+                            "description": "Letter spacing for numbers in markers. Small tweaks help single digits look optically centered.<br>CSS variable: --wm-wizard-step-count-letter-spacing"
+                        }
+                    }
+                },
+                "size": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Base dot/marker size; only meaningful for the dottedstepper/dottedstepper-textinline appearances, which override this. Other appearances never reference this var.<br>CSS variable: --wm-wizardstepper-step-size"
+                    }
+                },
+                "display": {
+                    "value": "inline-flex",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "display",
+                        "description": "Layout mode for step items: inline-flex for a horizontal rail, flex for richer alignment, block for a vertical stack—match how users should scan the flow.<br>CSS variable: --wm-wizard-step-display"
+                    }
+                },
+                "min-width": {
+                    "value": "160px",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Minimum width of each step. Lower it, or use fit-content, to let steps hug their labels.<br>CSS variable: --wm-wizardstepper-step-min-width"
+                    }
+                },
+                "gap": {
+                    "value": "{space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Space between the step marker, title, and helper text within each step. Clear spacing makes each step quicker to scan.<br>CSS variable: --wm-wizard-step-gap"
+                    }
+                },
+                "padding": {
+                    "value": "{space.0.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Padding inside each step row so labels and markers aren't flush against the edges.<br>CSS variable: --wm-wizard-step-padding"
+                    }
+                },
+                "background": {
+                    "value": "{color.transparent.value}",
+                    "type": "color",
+                    "attributes": {
+                        "subtype": "color",
+                        "description": "Background of each step row in the navigation. Use fills or tints to show hover, focus, or grouping without changing the global track color.<br>CSS variable: --wm-wizard-step-background"
+                    }
+                },
+                "border": {
+                    "color": {
+                        "value": "{color.transparent.value}",
+                        "type": "color",
+                        "attributes": {
+                            "subtype": "color",
+                            "description": "Border color around each step row in the navigation. Subtle lines separate steps; transparent keeps the rail minimal.<br>CSS variable: --wm-wizard-step-border-color"
+                        }
+                    },
+                    "width": {
+                        "value": "{border.width.0.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-width",
+                            "description": "How strong the outline is around each step row. Thicker borders emphasize individual steps.<br>CSS variable: --wm-wizard-step-border-width"
+                        }
+                    },
+                    "style": {
+                        "value": "{border.style.solid.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "border-style",
+                            "description": "Line style for step rows: solid, dashed, dotted, or none, plus other standard CSS border styles.<br>CSS variable: --wm-wizard-step-border-style"
+                        }
+                    },
+                    "radius": {
+                        "value": "{radius.none.value}",
+                        "type": "radius",
+                        "attributes": {
+                            "subtype": "radius",
+                            "description": "Corner rounding for each step row. Pills or chips make tabs and stacked steps feel tappable and friendly.<br>CSS variable: --wm-wizard-step-border-radius"
+                        }
+                    }
+                },
+                "box-shadow": {
+                    "value": "{elevation.shadow.none.value}",
+                    "type": "radius",
+                    "attributes": {
+                        "subtype": "elevation",
+                        "description": "Shadow on individual step rows. Use sparingly to lift the active or hovered step without cluttering the rail.<br>CSS variable: --wm-wizard-step-box-shadow"
+                    }
+                }
+            },
+            "states": {
+                "active": {
+                    "step": {
+                        "indicator": {
+                            "background": {
+                                "value": "{color.secondary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        },
+                        "count": {
+                            "color": {
+                                "value": "{color.on-secondary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        },
+                        "title": {
+                            "color": {
+                                "value": "{color.on-surface.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            },
+                            "font": {
+                                "family": {
+                                    "value": "{label.large.font-family.value}",
+                                    "type": "font",
+                                    "attributes": {
+                                        "subtype": "font-family"
+                                    }
+                                },
+                                "weight": {
+                                    "value": "{font.weight.600.value}",
+                                    "type": "font",
+                                    "attributes": {
+                                        "subtype": "font-weight"
+                                    }
+                                },
+                                "size": {
+                                    "value": "{label.large.font-size.value}",
+                                    "type": "font",
+                                    "attributes": {
+                                        "subtype": "font-size"
+                                    }
+                                }
+                            },
+                            "line-height": {
+                                "value": "{label.large.line-height.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "line-height"
+                                }
+                            },
+                            "letter-spacing": {
+                                "value": "{label.large.letter-spacing.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "letter-spacing"
+                                }
+                            }
+                        }
+                    }
+                },
+                "finished": {
+                    "step": {
+                        "indicator": {
+                            "background": {
+                                "value": "{color.success.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        },
+                        "count": {
+                            "color": {
+                                "value": "{color.on-secondary.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        },
+                        "title": {
+                            "color": {
+                                "value": "{color.on-surface.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            },
+                            "font": {
+                                "family": {
+                                    "value": "{label.large.font-family.value}",
+                                    "type": "font",
+                                    "attributes": {
+                                        "subtype": "font-family"
+                                    }
+                                },
+                                "weight": {
+                                    "value": "{font.weight.600.value}",
+                                    "type": "font",
+                                    "attributes": {
+                                        "subtype": "font-weight"
+                                    }
+                                },
+                                "size": {
+                                    "value": "{label.large.font-size.value}",
+                                    "type": "font",
+                                    "attributes": {
+                                        "subtype": "font-size"
+                                    }
+                                }
+                            },
+                            "line-height": {
+                                "value": "{label.large.line-height.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "line-height"
+                                }
+                            },
+                            "letter-spacing": {
+                                "value": "{label.large.letter-spacing.value}",
+                                "type": "font",
+                                "attributes": {
+                                    "subtype": "letter-spacing"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "appearances": {
+            "number": {
+                "mapping": {},
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {},
+                        "vertical": {
+                            "heading": {
+                                "width": {
+                                    "value": "200px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "height": {
+                                    "value": "350px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "border": {
+                                    "radius": {
+                                        "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "radius"
+                                        }
+                                    }
+                                },
+                                "padding": {
+                                    "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                }
+                            },
+                            "step": {
+                                "container": {
+                                    "padding": {
+                                        "value": "{space.3.value} {space.2.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space"
+                                        }
+                                    }
+                                },
+                                "connector": {
+                                    "placement": {
+                                        "value": "16px",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Placement of the line indicators in the wizard"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "iconstepper": {
+                "mapping": {},
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {},
+                        "vertical": {
+                            "heading": {
+                                "width": {
+                                    "value": "200px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "height": {
+                                    "value": "350px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "border": {
+                                    "radius": {
+                                        "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "radius"
+                                        }
+                                    }
+                                },
+                                "padding": {
+                                    "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                }
+                            },
+                            "step": {
+                                "container": {
+                                    "padding": {
+                                        "value": "{space.3.value} {space.2.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space"
+                                        }
+                                    }
+                                },
+                                "connector": {
+                                    "placement": {
+                                        "value": "16px",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Placement of the line indicators in the wizard"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "iconstepper-textinline": {
+                "mapping": {},
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {},
+                        "vertical": {
+                            "heading": {
+                                "width": {
+                                    "value": "200px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "height": {
+                                    "value": "350px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "border": {
+                                    "radius": {
+                                        "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "radius"
+                                        }
+                                    }
+                                },
+                                "padding": {
+                                    "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                }
+                            },
+                            "step": {
+                                "container": {
+                                    "padding": {
+                                        "value": "{space.3.value} {space.2.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space"
+                                        }
+                                    }
+                                },
+                                "connector": {
+                                    "placement": {
+                                        "value": "16px",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Placement of the line indicators in the wizard"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "dottedstepper": {
+                "mapping": {
+                    "step": {
+                        "size": {
+                            "value": "{space.2.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space"
+                            }
+                        },
+                        "indicator": {
+                            "background": {
+                                "value": "none",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        }
+                    }
+                },
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {},
+                        "vertical": {
+                            "heading": {
+                                "width": {
+                                    "value": "200px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "height": {
+                                    "value": "350px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "border": {
+                                    "radius": {
+                                        "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "radius"
+                                        }
+                                    }
+                                },
+                                "padding": {
+                                    "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                }
+                            },
+                            "step": {
+                                "container": {
+                                    "padding": {
+                                        "value": "{space.3.value} {space.2.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space"
+                                        }
+                                    }
+                                },
+                                "connector": {
+                                    "placement": {
+                                        "value": "16px",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Placement of the line indicators in the wizard"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "dottedstepper-textinline": {
+                "mapping": {
+                    "step": {
+                        "size": {
+                            "value": "{space.2.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space"
+                            }
+                        },
+                        "indicator": {
+                            "background": {
+                                "value": "none",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        }
+                    }
+                },
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {},
+                        "vertical": {
+                            "heading": {
+                                "width": {
+                                    "value": "200px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "height": {
+                                    "value": "350px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "border": {
+                                    "radius": {
+                                        "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "radius"
+                                        }
+                                    }
+                                },
+                                "padding": {
+                                    "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                }
+                            },
+                            "step": {
+                                "container": {
+                                    "padding": {
+                                        "value": "{space.3.value} {space.2.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space"
+                                        }
+                                    }
+                                },
+                                "connector": {
+                                    "placement": {
+                                        "value": "16px",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Placement of the line indicators in the wizard"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "classic": {
+                "mapping": {
+                    "heading": {
+                        "padding": {
+                            "value": "{space.8.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space"
+                            }
+                        }
+                    },
+                    "step": {
+                        "display": {
+                            "value": "table-cell",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "display"
+                            }
+                        },
+                        "gap": {
+                            "value": "{space.0.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space"
+                            }
+                        },
+                        "title": {
+                            "height": {
+                                "value": "46px",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space"
+                                }
+                            },
+                            "color": {
+                                "value": "{color.on-surface.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            },
+                            "background": {
+                                "value": "{color.white.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color"
+                                }
+                            }
+                        },
+                        "container": {
+                            "gap": {
+                                "value": "{space.5.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space"
+                                }
+                            }
+                        }
+                    },
+                    "states": {
+                        "active": {
+                            "step": {
+                                "title": {
+                                    "color": {
+                                        "value": "{color.on-info.@.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color"
+                                        }
+                                    },
+                                    "background": {
+                                        "value": "{color.info.@.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "finished": {
+                            "step": {
+                                "title": {
+                                    "color": {
+                                        "value": "{color.success.@.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {}
+                    }
+                }
+            },
+            "tabstepper": {
+                "mapping": {
+                    "heading": {
+                        "background": {
+                            "value": "{color.white.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Background behind the tab-style step bar. A calm surface helps users treat steps like familiar tabs.<br>CSS variable: --wm-wizard-tabstepper-heading-background"
+                            }
+                        },
+                        "display": {
+                            "value": "flex",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "display",
+                                "description": "Layout mode for the tabstepper's heading row—typically flex so tabs distribute evenly or scroll as a row.<br>CSS variable: --wm-wizard-tabstepper-heading-display"
+                            }
+                        },
+                        "justify-content": {
+                            "value": "space-around",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "How tabs sit in the bar: space-around for even gaps, or space-between / flex-start / center / flex-end to anchor the strip for your content width.<br>CSS variable: --wm-wizard-tabstepper-heading-justify-content"
+                            }
+                        },
+                        "padding": {
+                            "value": "{space.2.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Padding around the tab row. Extra space keeps pill-shaped tabs from touching the wizard edge on small screens.<br>CSS variable: --wm-wizard-tabstepper-heading-padding"
+                            }
+                        },
+                        "border": {
+                            "radius": {
+                                "value": "{radius.none.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "radius",
+                                    "description": "Corner shape of the tab header area. Match step pills so the bar and tabs feel like one control.<br>CSS variable: --wm-wizard-tabstepper-heading-border-radius"
+                                }
+                            },
+                            "style": {
+                                "value": "{border.style.none.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "border-style",
+                                    "description": "Border style for the tab header outline: none, solid, dashed, or dotted.<br>CSS variable: --wm-wizard-tabstepper-heading-border-style"
+                                }
+                            },
+                            "color": {
+                                "value": "{color.transparent.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Border color for the tab header. Subtle lines separate the tab strip from content without looking heavy.<br>CSS variable: --wm-wizard-tabstepper-heading-border-color"
+                                }
+                            },
+                            "width": {
+                                "value": "{border.width.0.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "border-width",
+                                    "description": "Thickness of the tab header border. Thicker edges can anchor the strip when the background is flat.<br>CSS variable: --wm-wizard-tabstepper-heading-border-width"
+                                }
+                            }
+                        }
+                    },
+                    "step": {
+                        "background": {
+                            "value": "{color.white.@.value}",
+                            "type": "color",
+                            "attributes": {
+                                "subtype": "color",
+                                "description": "Fill for each tab-shaped step. Light surfaces read as clickable; match your tab pattern for instant familiarity.<br>CSS variable: --wm-wizard-tabstepper-step-background"
+                            }
+                        },
+                        "border": {
+                            "color": {
+                                "value": "{color.surface.bright.@.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Outline color for each tab pill. Defines edges when steps sit on a similar background to the header.<br>CSS variable: --wm-wizard-tabstepper-step-border-color"
+                                }
+                            },
+                            "width": {
+                                "value": "{border.width.0.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "border-width",
+                                    "description": "Border weight around each tab. Thicker strokes make inactive tabs easier to distinguish.<br>CSS variable: --wm-wizard-tabstepper-step-border-width"
+                                }
+                            },
+                            "style": {
+                                "value": "{border.style.solid.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "border-style",
+                                    "description": "Line style around tab pills: solid for crisp chips, dashed or dotted for softer separation.<br>CSS variable: --wm-wizard-tabstepper-step-border-style"
+                                }
+                            },
+                            "radius": {
+                                "value": "{radius.md.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "radius",
+                                    "description": "Roundness of each tab. Large radii give a pill look; tune so labels fit without clipping.<br>CSS variable: --wm-wizard-tabstepper-step-border-radius"
+                                }
+                            }
+                        },
+                        "padding": {
+                            "value": "{space.2.value}",
+                            "type": "space",
+                            "attributes": {
+                                "subtype": "space",
+                                "description": "Space inside each tab around label and icon. Improves tap targets and keeps text off the pill edge.<br>CSS variable: --wm-wizard-tabstepper-step-padding"
+                            }
+                        },
+                        "box-shadow": {
+                            "value": "{elevation.shadow.none.value}",
+                            "type": "radius",
+                            "attributes": {
+                                "subtype": "elevation",
+                                "description": "Shadow on tab pills. A light lift can show selection; none keeps the bar flat and minimal.<br>CSS variable: --wm-wizard-tabstepper-step-box-shadow"
+                            }
+                        },
+                        "container": {
+                            "border": {
+                                "radius": {
+                                    "value": "{radius.xl.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "radius",
+                                        "description": "Corner rounding for each step row. Pills or chips make tabs and stacked steps feel tappable and friendly.<br>CSS variable: --wm-wizard-step-border-radius"
+                                    }
+                                },
+                                "color": {
+                                    "value": "{color.transparent.value}",
+                                    "type": "color",
+                                    "attributes": {
+                                        "subtype": "color",
+                                        "description": "Border color around each step row in the navigation. Subtle lines separate steps; transparent keeps the rail minimal.<br>CSS variable: --wm-wizard-step-border-color"
+                                    }
+                                },
+                                "width": {
+                                    "value": "{border.width.0.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "border-width",
+                                        "description": "How strong the outline is around each step row. Thicker borders emphasize individual steps.<br>CSS variable: --wm-wizard-step-border-width"
+                                    }
+                                },
+                                "style": {
+                                    "value": "{border.style.solid.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "border-style",
+                                        "description": "Line style for step rows: solid, dashed, dotted, or none, plus other standard CSS border styles.<br>CSS variable: --wm-wizard-step-border-style"
+                                    }
+                                }
+                            },
+                            "box-shadow": {
+                                "value": "{box-shadow.1.value}",
+                                "type": "radius",
+                                "attributes": {
+                                    "subtype": "elevation",
+                                    "description": "Shadow on individual step rows. Use sparingly to lift the active or hovered step without cluttering the rail.<br>CSS variable: --wm-wizard-step-box-shadow"
+                                }
+                            },
+                            "padding": {
+                                "value": "{space.1.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Padding inside each step row so labels and markers aren't flush against the edges.<br>CSS variable: --wm-wizard-step-padding"
+                                }
+                            }
+                        },
+                        "title": {
+                            "padding": {
+                                "value": "{space.0.value}",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Padding around tab labels. Balances text and icons inside each pill-shaped step.<br>CSS variable: --wm-wizard-tabstepper-step-title-padding"
+                                }
+                            }
+                        },
+                        "indicator": {
+                            "border": {
+                                "width": {
+                                    "value": "{border.width.0.value}",
+                                    "type": "radius",
+                                    "attributes": {
+                                        "subtype": "border-width",
+                                        "description": "Ring thickness around the marker inside a tab. Often set to 0 when the whole pill carries the state.<br>CSS variable: --wm-wizard-tabstepper-step-indicator-border-width"
+                                    }
+                                }
+                            },
+                            "background": {
+                                "value": "{color.transparent.value}",
+                                "type": "color",
+                                "attributes": {
+                                    "subtype": "color",
+                                    "description": "Background behind the icon or number inside a tab. Transparent lets the pill color show through.<br>CSS variable: --wm-wizard-tabstepper-step-indicator-background"
+                                }
+                            },
+                            "size": {
+                                "value": "fit-content",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "icon-size",
+                                    "description": "Space for the marker inside each tab pill. fit-content hugs the icon or number; fixed sizes keep every tab visually even. Use px, em, or rem when not using fit-content.<br>CSS variable: --wm-wizard-step-indicator-size"
+                                }
+                            }
+                        },
+                        "connector": {
+                            "placement": {
+                                "value": "0px",
+                                "type": "space",
+                                "attributes": {
+                                    "subtype": "space",
+                                    "description": "Placement of the line indicators in the wizard"
+                                }
+                            }
+                        }
+                    },
+                    "states": {
+                        "finished": {
+                            "step": {
+                                "title": {
+                                    "padding": {
+                                        "value": "{space.0.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Padding around labels on completed tabs. Keeps checkmarks and text aligned when the done state is quieter.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-padding"
+                                        }
+                                    },
+                                    "border": {
+                                        "color": {
+                                            "value": "{color.transparent.value}",
+                                            "type": "color",
+                                            "attributes": {
+                                                "subtype": "color",
+                                                "description": "Border color on completed tab labels. Use transparent to rely on icon or text alone for the done state.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-border-color"
+                                            }
+                                        },
+                                        "width": {
+                                            "value": "{border.width.0.value}",
+                                            "type": "radius",
+                                            "attributes": {
+                                                "subtype": "border-width",
+                                                "description": "Border weight on completed tab labels. Usually minimal so finished steps recede visually.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-border-width"
+                                            }
+                                        },
+                                        "style": {
+                                            "value": "{border.style.none.value}",
+                                            "type": "radius",
+                                            "attributes": {
+                                                "subtype": "border-style",
+                                                "description": "Border style for completed tab labels: typically none or solid for a subtle frame.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-border-style"
+                                            }
+                                        },
+                                        "radius": {
+                                            "value": "{radius.none.value}",
+                                            "type": "radius",
+                                            "attributes": {
+                                                "subtype": "radius",
+                                                "description": "Corner rounding on completed tab labels. Match active tabs or flatten for a simpler done look.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-border-radius"
+                                            }
+                                        }
+                                    },
+                                    "box-shadow": {
+                                        "value": "{elevation.shadow.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "elevation",
+                                            "description": "Shadow on completed tab labels. Usually none so finished steps don't compete with the active tab.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-box-shadow"
+                                        }
+                                    }
+                                },
+                                "indicator": {
+                                    "background": {
+                                        "value": "{color.transparent.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color",
+                                            "description": "Marker background when a tab is complete. Transparent keeps focus on the check or success styling.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-indicator-background"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "active": {
+                            "step": {
+                                "background": {
+                                    "value": "{color.info.container.@.value}",
+                                    "type": "color",
+                                    "attributes": {
+                                        "subtype": "color",
+                                        "description": "Background of the active step row in the navigation. Use fills or tints to show hover, focus, or grouping without changing the global track color.<br>CSS variable: --wm-wizard-step-background"
+                                    }
+                                },
+                                "title": {
+                                    "padding": {
+                                        "value": "{space.0.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Padding around labels on completed tabs. Keeps checkmarks and text aligned when the done state is quieter.<br>CSS variable: --wm-wizard-tabstepper-states-finished-step-title-padding"
+                                        }
+                                    },
+                                    "color": {
+                                        "value": "{color.surface.tint.@.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color",
+                                            "description": "Label color on the selected tab. High contrast here tells users which step they are on.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-title-color"
+                                        }
+                                    },
+                                    "border": {
+                                        "color": {
+                                            "value": "{color.surface.bright.@.value}",
+                                            "type": "color",
+                                            "attributes": {
+                                                "subtype": "color",
+                                                "description": "Outline color for the selected tab. Often matches the brand accent so the active step pops.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-title-border-color"
+                                            }
+                                        },
+                                        "width": {
+                                            "value": "{border.width.1.value}",
+                                            "type": "radius",
+                                            "attributes": {
+                                                "subtype": "border-width",
+                                                "description": "Border weight on the selected tab. A thicker ring reinforces focus without replacing focus-visible styles.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-title-border-width"
+                                            }
+                                        },
+                                        "style": {
+                                            "value": "{border.style.solid.value}",
+                                            "type": "radius",
+                                            "attributes": {
+                                                "subtype": "border-style",
+                                                "description": "Border style for the selected tab—usually solid for a crisp selected chip.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-title-border-style"
+                                            }
+                                        },
+                                        "radius": {
+                                            "value": "{radius.md.value}",
+                                            "type": "radius",
+                                            "attributes": {
+                                                "subtype": "radius",
+                                                "description": "Corner rounding for the selected tab pill. Align with inactive tabs so only color and border change on selection.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-title-border-radius"
+                                            }
+                                        }
+                                    }
+                                },
+                                "indicator": {
+                                    "background": {
+                                        "value": "{color.transparent.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color",
+                                            "description": "Marker background on the selected tab. Transparent is common when the whole pill shows the active state.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-indicator-background"
+                                        }
+                                    }
+                                },
+                                "icon": {
+                                    "color": {
+                                        "value": "{color.surface.tint.@.value}",
+                                        "type": "color",
+                                        "attributes": {
+                                            "subtype": "color",
+                                            "description": "Icon tint on the selected tab. Match label color so icon and text read as one affordance.<br>CSS variable: --wm-wizard-tabstepper-states-active-step-icon-color"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "variantGroups": {
+                    "orientation": {
+                        "horizontal": {},
+                        "vertical": {
+                            "heading": {
+                                "width": {
+                                    "value": "158px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "height": {
+                                    "value": "350px",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                },
+                                "border": {
+                                    "radius": {
+                                        "value": "{radius.none.value} {radius.none.value} {radius.none.value} {radius.none.value}",
+                                        "type": "radius",
+                                        "attributes": {
+                                            "subtype": "radius"
+                                        }
+                                    }
+                                },
+                                "padding": {
+                                    "value": "{space.7.value} {space.7.value} {space.0.value}  {space.7.value}",
+                                    "type": "space",
+                                    "attributes": {
+                                        "subtype": "space"
+                                    }
+                                }
+                            },
+                            "step": {
+                                "container": {
+                                    "padding": {
+                                        "value": "{space.2.value} {space.3.value}",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space"
+                                        }
+                                    }
+                                },
+                                "connector": {
+                                    "placement": {
+                                        "value": "16px",
+                                        "type": "space",
+                                        "attributes": {
+                                            "subtype": "space",
+                                            "description": "Placement of the line indicators in the wizard"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

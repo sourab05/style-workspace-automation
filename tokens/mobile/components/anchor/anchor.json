@@ -77,6 +77,14 @@
                             "description": "Controls the text decoration (underline, overline, line-through) for anchor links. 'none' removes all decorations, 'underline' adds an underline, 'overline' adds a line above, and 'line-through' adds a line through the text.<br>CSS variable: --wm-anchor-text-decoration"
                         }
                     }
+                },
+                "padding": {
+                    "value": "{space.0.value} {space.2.value}",
+                    "type": "space",
+                    "attributes": {
+                        "subtype": "space",
+                        "description": "Controls the padding (top/bottom, left/right) inside anchor link text. This creates space around the text, making the anchor text more comfortable to read and click. Acceptable units: px.<br>CSS variable: --wm-anchor-text-padding"
+                    }
                 }
             },
             "gap": {

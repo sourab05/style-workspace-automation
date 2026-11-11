@@ -87,20 +87,22 @@
           }
         }
       },
-      "width":{
-        "value": "150px",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the width of progress circles (circular visual indicators that show the completion status of a task or process). This determines how wide the progress circle appears. Acceptable units: px.<br>CSS variable: --wm-progress-circle-width"
-        }
-      },
-      "height":{
-        "value": "150px",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the height of progress circles (circular visual indicators that show the completion status of a task or process). This determines how tall the progress circle appears. Acceptable units: px.<br>CSS variable: --wm-progress-circle-height"
+      "progress-value": {
+        "width": {
+          "value": "16px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the width of the progress circle value stroke (the active arc that shows completed progress). Matches studio stroke thickness. Acceptable units: px.<br>CSS variable: --wm-progress-circle-progress-value-width"
+          }
+        },
+        "height": {
+          "value": "16px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Controls the height of the progress circle value stroke (the active arc that shows completed progress). Default from runtime progressValue.height (16). Acceptable units: px.<br>CSS variable: --wm-progress-circle-progress-value-height"
+          }
         }
       }
     },

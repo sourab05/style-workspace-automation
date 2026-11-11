@@ -8,12 +8,17 @@
         "states": {
           "hover": {
             "selector": {
-              "web": " .table tbody tr:hover"
+              "web": " .table > tbody > tr:hover"
             }
           },
           "active": {
             "selector": {
-              "web": " .table tbody tr.active"
+              "web": " .table > tbody > tr.active"
+            }
+          },
+          "selected": {
+            "selector": {
+              "web": " .table tbody tr td.selected-column"
             }
           }
         }
@@ -313,6 +318,14 @@
           }
         },
         "cell": {
+          "background": {
+           "value": "{color.transparent.value}",
+           "type": "color",
+           "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of data table body cells. This determines what color the cell background appears in.<br>CSS variable: --wm-data-table-body-cell-background"
+           }
+          },
           "padding": {
             "value": "{space.3.value}",
             "type": "space",
@@ -465,6 +478,26 @@
           }
         },
         "active": {
+          "body": {
+            "row": {
+              "background-even": {
+                "value": "{color.surface.container.lowest.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              },
+              "background-odd": {
+                "value": "{color.surface.container.lowest.@.value}",
+                "type": "color",
+                "attributes": {
+                  "subtype": "color"
+                }
+              }
+            }
+          }
+        },
+        "selected": {
           "body": {
             "row": {
               "background-even": {

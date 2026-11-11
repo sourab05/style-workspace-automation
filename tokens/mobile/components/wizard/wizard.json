@@ -53,36 +53,12 @@
           "description": "Controls the drop shadow effect around wizard components (multi-step forms that guide users through a process). This creates a subtle shadow that makes the wizard appear to float above the background, giving it depth and elevation.<br>CSS variable: --wm-wizard-box-shadow"
         }
       },
-      "padding-top": {
+      "padding": {
         "value": "{space.1.value}",
         "type": "space",
         "attributes": {
           "subtype": "space",
-          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-top"
-        }
-      },
-      "padding-bottom": {
-        "value": "{space.1.value}",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-bottom"
-        }
-      },
-      "padding-left": {
-        "value": "{space.1.value}",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-left"
-        }
-      },
-      "padding-right": {
-        "value": "{space.1.value}",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding-right"
+          "description": "Controls the internal spacing inside wizard components (the space between the wizard content and its borders). This creates breathing room around the entire wizard container.<br>CSS variable: --wm-wizard-padding"
         }
       },
       "gap": {
@@ -99,7 +75,7 @@
           "type": "color",
           "attributes": {
             "subtype": "color",
-            "description": "Sets the background color of wizard headings (the top section that contains the step navigation and progress indicators). This creates a distinct background color for the wizard header area.<br>CSS variable: --wm-wizard-heading-background-color"
+            "description": "Sets the background color of wizard headings (the top section that contains the step navigation and progress indicators). This creates a distinct background color for the wizard stepper area.<br>CSS variable: --wm-wizard-heading-background-color"
           }
         },
         "radius": {
@@ -107,39 +83,15 @@
           "type": "radius",
           "attributes": {
             "subtype": "radius",
-            "description": "Controls the corner rounding of wizard headings (the top section that contains the step navigation). This makes the wizard header corners slightly rounded for a softer appearance.<br>CSS variable: --wm-wizard-heading-radius"
+            "description": "Controls the corner rounding of wizard headings (the top section that contains the step navigation). This makes the wizard stepper corners slightly rounded for a softer appearance.<br>CSS variable: --wm-wizard-heading-radius"
           }
         },
-        "padding-top": {
-          "value": "{space.7.value}",
+        "padding": {
+          "value": "{space.7.value} {space.7.value} {space.0.value} {space.7.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-top"
-          }
-        },
-        "padding-bottom": {
-          "value": "{space.0.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-bottom"
-          }
-        },
-        "padding-left": {
-          "value": "{space.7.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-left"
-          }
-        },
-        "padding-right": {
-          "value": "{space.7.value}",
-          "type": "space",
-          "attributes": {
-            "subtype": "space",
-            "description": "Controls the internal spacing inside wizard headings (the space between the wizard header content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding-right"
+            "description": "Controls the internal spacing inside wizard headings (the space between the wizard stepper content and its borders). This creates breathing room around the step navigation and progress indicators.<br>CSS variable: --wm-wizard-heading-padding"
           }
         }
       },
@@ -152,12 +104,12 @@
             "description": "Controls the minimum height of wizard body content (the main area where users fill out forms and see step content). This ensures the wizard body is always tall enough to display content properly. Acceptable units: px, em, rem, vh.<br>CSS variable: --wm-wizard-body-height"
           }
         },
-        "padding-top": {
-          "value": "{space.3.value}",
+        "padding": {
+          "value": "{space.3.value} {space.0.value} {space.0.value} {space.0.value}",
           "type": "space",
           "attributes": {
             "subtype": "space",
-            "description": "Controls the internal spacing inside wizard body content (the main area where users fill out forms and see step content). This creates breathing room around the wizard body content.<br>CSS variable: --wm-wizard-body-padding-top"
+            "description": "Controls the internal spacing inside wizard body content (the main area where users fill out forms and see step content). This creates breathing room around the wizard body content.<br>CSS variable: --wm-wizard-body-padding"
           }
         }
       },
@@ -372,7 +324,7 @@
             }
           },
           "size": {
-            "value": "{icon.size.sm.value}",
+            "value": "{icon.size.xs.value}",
             "type": "space",
             "attributes": {
               "subtype": "icon-size",

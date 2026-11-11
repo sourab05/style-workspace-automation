@@ -1,0 +1,65 @@
+{
+  "accordion-pane": {
+    "meta": {
+      "mapping": {
+        "selector": {
+          "mobile": ".app-accordionpane"
+        }
+      }
+    },
+    "mapping": {
+      "content": {
+        "background-color": {
+          "value": "{color.surface.@.value}",
+          "type": "color",
+          "attributes": {
+            "subtype": "color",
+            "description": "Sets the background color of the accordion pane content. This is the background color that appears behind the accordion content.<br>CSS variable: --wm-accordion-content-background-color"
+          }
+        },
+        "padding": {
+          "value": "0px",
+          "type": "space",
+          "attributes": {
+            "subtype": "space",
+            "description": "Sets the internal spacing inside the accordion pane content. This creates breathing room around the content.<br>CSS variable: --wm-accordion-content-padding"
+          }
+        },
+        "border": {
+          "radius": {
+            "value": "{radius.sm.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "radius",
+              "description": "Controls the border radius for rounded corners of the accordion pane content. This makes the content appear with rounded corners instead of sharp edges.<br>CSS variable: --wm-accordion-content-border-radius"
+            }
+          },
+          "style": {
+            "value": "{border.style.solid.value}",
+            "type": "radius",
+            "attributes": {
+              "subtype": "border-style",
+              "description": "Sets the border style of the accordion pane content. Acceptable values: solid, dashed, dotted.<br>CSS variable: --wm-accordion-content-border-style"
+            }
+          },
+          "width": {
+            "value": "{border.width.0.value}",
+            "type": "space",
+            "attributes": {
+              "subtype": "border-width",
+              "description": "Controls the border thickness of the accordion pane content. This determines how thick the border around the content appears.<br>CSS variable: --wm-accordion-content-border-width"
+            }
+          },
+          "color": {
+            "value": "{color.outline.@.value}",
+            "type": "color",
+            "attributes": {
+              "subtype": "color",
+              "description": "Sets the border color of the accordion pane content. This determines what color the border around the content appears in.<br>CSS variable: --wm-accordion-content-border-color"
+            }
+          }
+        }
+      }
+    }
+  }
+}

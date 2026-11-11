@@ -10,7 +10,7 @@
     },
     "mapping": {
       "background": {
-        "value": "{color.outline.variant.value}",
+      "value": "{color.transparent.@.value}",
         "type": "color",
         "attributes": {
           "subtype": "color",
@@ -18,19 +18,11 @@
         }
       },
       "padding": {
-        "value": "{space.3.value}",
+      "value": "{space.0.value}",
         "type": "space",
         "attributes": {
           "subtype": "space",
           "description": "Controls the internal spacing inside form wrapper components (the space between the form wrapper content and its borders). This creates breathing room around the entire form wrapper container.<br>CSS variable: --wm-form-padding"
-        }
-      },
-      "margin": {
-        "value": "{space.2.value}",
-        "type": "space",
-        "attributes": {
-          "subtype": "space",
-          "description": "Controls the external spacing around form wrapper components (the space outside the form wrapper borders). This creates visual separation between the form wrapper and other elements on the page.<br>CSS variable: --wm-form-margin"
         }
       },
       "border": {
@@ -67,6 +59,14 @@
               "description": "Sets the color of borders around form wrapper components (containers that wrap form elements). When transparent, borders are not visible. When filled with a color, the border appears with the specified color.<br>CSS variable: --wm-form-border-color"
             }
           }
+        }
+      },
+      "box-shadow": {
+        "value": "{elevation.shadow.none.value}",
+        "type": "radius",
+        "attributes": {
+          "subtype": "elevation",
+          "description": "Controls the box shadow (elevation) of form wrapper components (containers that wrap form elements with header, body, and footer sections). This determines the shadow depth around the form container.<br>CSS variable: --wm-form-box-shadow"
         }
       },
       "header": {
