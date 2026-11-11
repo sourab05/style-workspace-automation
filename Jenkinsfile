@@ -647,6 +647,8 @@ pipeline {
                             def exitCode = sh(
                                 script: """
                                     echo "🤖 Running Android token validation on BrowserStack (maxInstances=${bsMaxInstances})"
+                                    # Own BrowserStack CLI dir per branch: a shared ~/.browserstack/cli raced in #22 (ETXTBSY).
+                                    BROWSERSTACK_FILES_DIR="\$HOME/.browserstack-android" \
                                     MOBILE_PLATFORM=android MOBILE_STRICT_WIDGET_WAIT=true \
                                     BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
                                     ALLURE_RESULTS_DIR=allure-results-android \
@@ -666,6 +668,7 @@ pipeline {
                             def exitCode = sh(
                                 script: """
                                     echo "🍎 Running iOS token validation on BrowserStack (maxInstances=${bsMaxInstances})"
+                                    BROWSERSTACK_FILES_DIR="\$HOME/.browserstack-ios" \
                                     MOBILE_PLATFORM=ios MOBILE_STRICT_WIDGET_WAIT=true \
                                     BROWSERSTACK_MAX_INSTANCES=${bsMaxInstances} \
                                     ALLURE_RESULTS_DIR=allure-results-ios \
