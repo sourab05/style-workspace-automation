@@ -1021,6 +1021,21 @@ export class MobileWidgetPage {
   /**
    * Fetch the complete styles object once per widget instance and cache in memory.
    */
+  /**
+   * modal-dialog tokens are split across two page instances: app-confirmdialog binds only the
+   * buttons, description and footer; app-dialog (dialog1) binds root/overlay/header/close-btn/title/icon.
+   * The CSV names confirmdialog1, so route every other RN path to dialog1 (#24: 26 empty lookups).
+   * shortcut: 'dialog1' is hard-coded, not read from modal-dialog-widget-variants.csv — a rename on the Studio
+   * page silently empties 24 lookups again; move it to a CSV row (e.g. modal-dialog-dialog,dialog1) when the
+   * page instances change or a second widget needs per-path instance routing.
+   */
+  static modalDialogInstanceFor(widget: Widget, mappedPath: string, csvInstance: string): string {
+    if (widget !== 'modal-dialog' || !mappedPath) return csvInstance;
+    return /^(okButton|cancelButton|message|dialogActions|dialogContent|dialog)\b/.test(mappedPath)
+      ? csvInstance
+      : 'dialog1';
+  }
+
   async getCachedStylesObject(
     browser: Browser,
     widget: Widget,
@@ -1407,12 +1422,13 @@ export class MobileWidgetPage {
     }
 
     const usePerPropertyCommands = process.env.MOBILE_STYLE_PER_PROPERTY === '1';
+    const lookupWidgetName = MobileWidgetPage.modalDialogInstanceFor(widget, mappedPath, studioWidgetName);
 
     if (!usePerPropertyCommands) {
       const cacheEntry = await this.getCachedStylesObject(
         browser,
         widget,
-        studioWidgetName,
+        lookupWidgetName,
         variantName,
         resolvedPlatform,
       );
@@ -1436,8 +1452,8 @@ export class MobileWidgetPage {
     } else {
       // Legacy: one RN command per property (slow; opt-in via MOBILE_STYLE_PER_PROPERTY=1)
       let command = mappedPath && effectivePropertyPath
-        ? MobileMapper.getExtractionCommand(widget, effectivePropertyPath, studioWidgetName, resolvedPlatform)
-        : this.buildFullStylesCommand(widget, studioWidgetName, variantName);
+        ? MobileMapper.getExtractionCommand(widget, effectivePropertyPath, lookupWidgetName, resolvedPlatform)
+        : this.buildFullStylesCommand(widget, lookupWidgetName, variantName);
       fullCommand = command;
       console.log(`   🧾 Executing RN Command (legacy): ${command}`);
       actualValue = await this.executeRnCommand(browser, command);

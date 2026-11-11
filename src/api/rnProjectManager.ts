@@ -244,7 +244,24 @@ export class RnProjectManager {
             if (job.failure === true) {
               console.error(`[RN] ❌ Build ${buildId} failed. Full job details logged to .test-cache/last-build-status.json`);
               console.error(`[RN] ❌ Failure summary:`, JSON.stringify(job, null, 2));
-              throw new Error(`Build ${buildId} failed: ${job.error || 'Unknown error'}`);
+              // Studio only says "Internal Server Error"; the real cause (e.g. #20's Node version mismatch) is in the build log.
+              let logTail = '';
+              if (job.logFile) {
+                try {
+                  const logResp = await axios.get(`${baseUrl}${job.logFile}`, {
+                    headers: { Cookie: `auth_cookie=${cookieValue}` },
+                    responseType: 'text',
+                  });
+                  logTail = String(logResp.data).split('\n')
+                    .filter((l: string) => /ERROR|BUILD FAILURE|Please install|exec\]/.test(l))
+                    .slice(-15).join('\n');
+                  console.error(`[RN] ❌ Studio build log (${job.logFile}), error lines:\n${logTail}`);
+                } catch (e: any) {
+                  console.error(`[RN] ⚠️ Could not fetch Studio build log ${job.logFile}: ${e.message}`);
+                }
+              }
+              const reason = job.error || job.errorMessage || 'Unknown error';
+              throw new Error(`Build ${buildId} failed: ${reason}${job.logFile ? ` (log ${job.logFile})` : ''}`);
             }
             if (job.outputObject?.value) {
               const downloadUrl = this.resolveDownloadUrl(job.outputObject.value);

@@ -514,6 +514,8 @@ export class AppChefClient {
       const iosDone     = !needIos    || iStatus === 'SUCCESS' || iosFailed;
 
       if (androidDone && iosDone) {
+        if (androidFailed) await this.printBuildLog('Android', latest.android);
+        if (iosFailed) await this.printBuildLog('iOS', latest.ios);
         const result: any = {};
         // Every requested platform failed: nothing to test, so abort the build.
         if ((!needAndroid || androidFailed) && (!needIos || iosFailed)) {
@@ -559,6 +561,30 @@ export class AppChefClient {
       }
     }
     throw new Error(`[AppChef] Build timed out after ${BUILD_TIMEOUT_MS / 60000} minutes`);
+  }
+
+  /** fileByLog.url is a private S3 path (always 403); the AppChef UI's "Download build log" uses /buildLog. */
+  private async printBuildLog(platform: string, task: any): Promise<void> {
+    const buildTaskId = this.taskId(task);
+    if (!buildTaskId) return;
+    try {
+      const resp = await this.http.get('/buildLog', {
+        params: { buildTaskId },
+        headers: this.authHeaders(),
+        responseType: 'text',
+        timeout: 30000,
+      });
+      // Xcode/Gradle print the real `error:` lines well above the closing BUILD FAILED, so grep the whole log.
+      const lines = String(resp.data).trimEnd().split('\n');
+      const errors = lines.filter(l => /\berror\b|BUILD FAILED|FAILURE:|exception|fatal|code sign|provisioning/i.test(l)).slice(-40);
+      console.error(
+        `[AppChef] ── ${platform} build.log (${lines.length} lines, buildTaskId=${buildTaskId}) ──\n` +
+        `-- error lines (last ${errors.length}) --\n${errors.join('\n') || '(none matched)'}\n` +
+        `-- last 20 lines --\n${lines.slice(-20).join('\n')}\n[AppChef] ── end ${platform} build.log ──`,
+      );
+    } catch (e: any) {
+      console.error(`[AppChef] ⚠️ Could not fetch ${platform} build.log (buildTaskId=${buildTaskId}): ${e.message}`);
+    }
   }
 
   /** Returns the API status name or PENDING if no task yet. */
