@@ -52,8 +52,8 @@
     "jenkinsCredentialsId": "WM_DEV_CREDS"
   },
   "wmo": {
-    "label": "WMO — https://www.wavemakeronline.com/ (jeevan.inaparti@wavemaker.com)",
-    "studioBaseUrl": "https://www.wavemakeronline.com/",
+    "label": "WMO — https://platform.wavemaker.ai/ (jeevan.inaparti@wavemaker.com)",
+    "studioBaseUrl": "https://platform.wavemaker.ai/",
     "projectId": "WMPRJ2c9180889ad75b5a019b01f3c0120213",
     "studioProjectId": "proj-2e5115b7-5d6b-43ac-ad7e-db748032a15f",
     "studioUsername": "jeevan.inaparti@wavemaker.com",

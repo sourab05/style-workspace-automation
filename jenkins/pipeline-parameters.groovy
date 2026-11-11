@@ -13,6 +13,36 @@ def pipelineParameters() {
   preprod         -> WM_PREPROD_CREDS'''
         ],
         [
+            $class: 'StringParameterDefinition',
+            name: 'STUDIO_BASE_URL',
+            defaultValue: '',
+            description: 'Optional Studio environment URL. Empty = selected WM_ENV profile.'
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'PROJECT_ID',
+            defaultValue: '',
+            description: 'Optional WMPRJ project ID. Empty = selected WM_ENV profile.'
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'STUDIO_PROJECT_ID',
+            defaultValue: '',
+            description: 'Optional Studio project ID (proj-...). Empty = selected WM_ENV profile.'
+        ],
+        [
+            $class: 'StringParameterDefinition',
+            name: 'STUDIO_USERNAME',
+            defaultValue: '',
+            description: 'Optional Studio username. Empty = existing Jenkins credentials.'
+        ],
+        [
+            $class: 'PasswordParameterDefinition',
+            name: 'STUDIO_PASSWORD',
+            defaultValue: '',
+            description: 'Optional Studio password. Empty = existing Jenkins credentials.'
+        ],
+        [
             $class: 'ChoiceParameterDefinition',
             name: 'RUN_TARGET',
             choices: [

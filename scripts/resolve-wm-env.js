@@ -14,13 +14,27 @@ if (!p) {
   process.exit(1);
 }
 
-const pid = p.projectId;
-const interp = (s) => (s || '').replace(/\$\{PROJECT_ID\}/g, pid);
+// Jenkins passes only non-secret overrides under a dedicated prefix.
+const override = (key, fallback) => {
+  const value = process.env[`SWS_${key}`] || '';
+  if (/[\r\n]/.test(value)) {
+    throw new Error(`${key} must be a single line`);
+  }
+  return value.trim() || fallback;
+};
+const baseUrl = override('STUDIO_BASE_URL', p.studioBaseUrl);
+const parsedUrl = new URL(baseUrl);
+if (!['http:', 'https:'].includes(parsedUrl.protocol) || parsedUrl.username || parsedUrl.password) {
+  throw new Error('STUDIO_BASE_URL must be an HTTP(S) URL without embedded credentials');
+}
+const pid = override('PROJECT_ID', p.projectId);
+const studioProjectId = override('STUDIO_PROJECT_ID', p.studioProjectId);
+const interp = (s) => (s || '').replace(/\$\{PROJECT_ID\}/g, () => pid);
 
 const lines = [
-  `STUDIO_BASE_URL=${p.studioBaseUrl}`,
+  `STUDIO_BASE_URL=${baseUrl}`,
   `PROJECT_ID=${pid}`,
-  `STUDIO_PROJECT_ID=${p.studioProjectId}`,
+  `STUDIO_PROJECT_ID=${studioProjectId}`,
   `STUDIO_USERNAME=${p.studioUsername}`,
   `AUTH_METHOD=${p.authMethod && p.authMethod !== 'auto' ? p.authMethod : ''}`,
   `STUDIO_LOGIN_PATH=${p.studioLoginPath || '/login/authenticate'}`,
