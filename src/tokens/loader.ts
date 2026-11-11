@@ -22,6 +22,14 @@ export function loadTokens(tokenPath: string): TokenFile {
 }
 
 /**
+ * foundation-css ships color.dark.json / color.light.json theme variants. Studio resolves overrides against the
+ * base theme only, so dark-only paths ({color.secondary.fixed.dim.@.value}) made it drop ALL overrides (build #23).
+ */
+export function isThemeVariantFile(fileName: string): boolean {
+  return /\.(dark|light)\.json$/i.test(fileName);
+}
+
+/**
  * Loads all token files from GLOBAL directory only
  * Hardcoded path: tokens/mobile/global/
  */
@@ -37,7 +45,7 @@ export function loadGlobalTokensOnly(): Array<{ file: string; data: any }> {
 
       if (entry.isDirectory()) {
         scanDirectory(fullPath);
-      } else if (entry.isFile() && entry.name.endsWith('.json')) {
+      } else if (entry.isFile() && entry.name.endsWith('.json') && !isThemeVariantFile(entry.name)) {
         try {
           const data = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
           tokenFiles.push({ file: fullPath, data });

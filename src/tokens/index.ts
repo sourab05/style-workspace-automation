@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { loadTokens } from './loader';
+import { loadTokens, isThemeVariantFile } from './loader';
 import { ENV } from '../utils/env';
 
 export function discoverTokenFiles(dir: string = ENV.tokensDir): string[] {
@@ -9,7 +9,7 @@ export function discoverTokenFiles(dir: string = ENV.tokensDir): string[] {
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) files.push(...discoverTokenFiles(full));
-    else if (entry.isFile() && entry.name.endsWith('.json')) files.push(full);
+    else if (entry.isFile() && entry.name.endsWith('.json') && !isThemeVariantFile(entry.name)) files.push(full);
   }
   return files;
 }
