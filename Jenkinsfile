@@ -509,6 +509,8 @@ pipeline {
             steps {
                 sh 'node --version && npm --version'
                 sh 'npm install -g pnpm@9.15.9'
+                // wm-reactnative-cli shells out to yarn for the CLI (Build from Studio) mobile build
+                sh 'command -v yarn || npm install -g yarn@1.22.22'
                 sh 'pnpm install --frozen-lockfile'
             }
         }
